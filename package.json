@@ -1,0 +1,78 @@
+{
+  "name": "lenabot",
+  "version": "0.1.0",
+  "description": "A music bot with a natural language interface",
+  "homepage": "https://github.com/rtomrud/lenabot#readme",
+  "bugs": {
+    "url": "https://github.com/rtomrud/lenabot/issues"
+  },
+  "license": "UNLICENSED",
+  "author": "Artem Rudenko <rtomrud@gmail.com>",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rtomrud/lenabot.git"
+  },
+  "scripts": {
+    "build": "rimraf dist && rollup -c",
+    "lint": "eslint .",
+    "start": "node -r dotenv/config src/index.js",
+    "test": "nyc --reporter html tape -r dotenv/config \"test/**/*.js\" && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100"
+  },
+  "dependencies": {
+    "@discordjs/opus": "0.3.3",
+    "bufferutil": "4.0.3",
+    "discord-player": "3.2.1",
+    "discord.js": "12.5.1",
+    "dotenv": "8.2.0",
+    "erlpack": "0.1.3",
+    "ffmpeg-static": "4.2.7",
+    "getopts": "2.2.5",
+    "libsodium-wrappers": "0.7.8",
+    "utf-8-validate": "5.0.4"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "17.0.0",
+    "@rollup/plugin-json": "4.1.0",
+    "@rollup/plugin-node-resolve": "11.1.0",
+    "eslint": "7.18.0",
+    "eslint-config-pretty-strict": "8.0.0",
+    "eslint-plugin-prettier": "3.3.1",
+    "husky": "4.3.8",
+    "nyc": "15.1.0",
+    "prettier": "2.2.1",
+    "rimraf": "3.0.2",
+    "rollup": "2.32.1",
+    "rollup-plugin-terser": "7.0.2",
+    "tape": "5.1.1"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "private": true,
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "extends": [
+      "./node_modules/eslint-config-pretty-strict/index.js"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    },
+    "root": true
+  },
+  "eslintIgnore": [
+    "coverage",
+    "dist"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test && npm run lint"
+    }
+  }
+}

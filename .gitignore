@@ -1,0 +1,6 @@
+.env
+.nyc_output
+.terraform
+coverage
+dist
+node_modules
