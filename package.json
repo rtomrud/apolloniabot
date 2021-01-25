@@ -18,8 +18,10 @@
   "scripts": {
     "build": "rimraf dist && rollup -c",
     "lint": "eslint .",
-    "start": "node -r dotenv/config src/index.js",
-    "test": "nyc --reporter html tape -r dotenv/config \"test/**/*.js\" && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100"
+    "start": "pm2 start src/index.js",
+    "stop": "pm2 stop src/index.js",
+    "test": "nyc --reporter html tape \"test/**/*.js\" && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
+    "watch": "pm2 start src/index.js --watch"
   },
   "dependencies": {
     "@discordjs/opus": "0.3.3",
@@ -42,6 +44,7 @@
     "eslint-plugin-prettier": "3.3.1",
     "husky": "4.3.8",
     "nyc": "15.1.0",
+    "pm2": "4.5.1",
     "prettier": "2.2.1",
     "rimraf": "3.0.2",
     "rollup": "2.32.1",
