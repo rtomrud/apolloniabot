@@ -101,7 +101,7 @@ client
       return;
     }
 
-    const [, command, ...args] = message.content.split(separatorRegExp);
+    const [, command = "", ...args] = message.content.split(separatorRegExp);
     switch (aliases[command.toLowerCase()]) {
       case "play": {
         const query = args.join(" ");
