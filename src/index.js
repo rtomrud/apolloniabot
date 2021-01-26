@@ -10,6 +10,12 @@ const version = new Date().toISOString().slice(0, -5);
 const client = new Client();
 const player = new Player(client);
 
+const toHmss = (ms) =>
+  new Date(ms)
+    .toISOString()
+    .slice(11, -5)
+    .replace(/^0(0:)?0?/, "");
+
 player
   .on("botDisconnect", (message) =>
     message.channel.send({ embed: { description: "Disconnected" } })
@@ -46,29 +52,29 @@ player
         title: "Found these tracks:",
         fields: tracks
           .slice(0, tracks.length < 10 ? tracks.length : 10)
-          .map(({ author, duration, title, url }, i) => ({
+          .map(({ author, durationMS, title, url }, i) => ({
             name: `${i + 1}. ${author}`,
-            value: `[${title}](${url}) [${duration}]`,
+            value: `[${title}](${url}) [${toHmss(durationMS)}]`,
           })),
       },
     });
   })
   .on(
     "trackAdd",
-    (message, { tracks: { length } }, { duration, title, url }) => {
+    (message, { tracks: { length } }, { durationMS, title, url }) => {
       if (length > 0) {
         message.channel.send({
           embed: {
-            description: `Queued [${title}](${url}) [${duration}]`,
+            description: `Queued [${title}](${url}) [${toHmss(durationMS)}]`,
           },
         });
       }
     }
   )
-  .on("trackStart", (message, { duration, title, url }) =>
+  .on("trackStart", (message, { durationMS, title, url }) =>
     message.channel.send({
       embed: {
-        description: `Playing [${title}](${url}) [${duration}]`,
+        description: `Playing [${title}](${url}) [${toHmss(durationMS)}]`,
       },
     })
   )
@@ -129,10 +135,12 @@ client
           return;
         }
 
-        const { duration, title, url } = player.nowPlaying(message);
+        const { durationMS, title, url } = player.nowPlaying(message);
         player.pause(message);
         message.channel.send({
-          embed: { description: `Paused [${title}](${url}) [${duration}]` },
+          embed: {
+            description: `Paused [${title}](${url}) [${toHmss(durationMS)}]`,
+          },
         });
         return;
       }
@@ -143,10 +151,12 @@ client
           return;
         }
 
-        const { duration, title, url } = player.nowPlaying(message);
+        const { durationMS, title, url } = player.nowPlaying(message);
         player.resume(message);
         message.channel.send({
-          embed: { description: `Resumed [${title}](${url}) [${duration}]` },
+          embed: {
+            description: `Resumed [${title}](${url}) [${toHmss(durationMS)}]`,
+          },
         });
         return;
       }
@@ -159,10 +169,12 @@ client
           return;
         }
 
-        const { duration, title, url } = player.nowPlaying(message);
+        const { durationMS, title, url } = player.nowPlaying(message);
         player.stop(message);
         message.channel.send({
-          embed: { description: `Stopped [${title}](${url}) [${duration}]` },
+          embed: {
+            description: `Stopped [${title}](${url}) [${toHmss(durationMS)}]`,
+          },
         });
         return;
       }
@@ -258,15 +270,12 @@ client
             dispatcher: { streamTime },
           },
         } = player.getQueue(message);
-        const { duration, title, url } = player.nowPlaying(message);
+        const { durationMS, title, url } = player.nowPlaying(message);
         message.channel.send({
           embed: {
-            description: `Playing [${title}](${url}) [${new Date(
+            description: `Playing [${title}](${url}) [${toHmss(
               streamTime + additionalStreamTime
-            )
-              .toISOString()
-              .slice(11, -5)
-              .replace(/^0(0:)?0?/, "")}/${duration}]`,
+            )}/${toHmss(durationMS)}]`,
           },
         });
         return;
@@ -291,9 +300,9 @@ client
             title: "Queue:",
             fields: tracks
               .slice(start, end)
-              .map(({ duration, title, url }, i) => ({
+              .map(({ durationMS, title, url }, i) => ({
                 name: `${i + 1 + start}${i === 0 ? " 🕪" : ""}`,
-                value: `[${title}](${url}) [${duration}]`,
+                value: `[${title}](${url}) [${toHmss(durationMS)}]`,
               })),
             footer: {
               text:
@@ -347,13 +356,13 @@ client
           return;
         }
 
-        const { duration, title, url } = tracks[position];
+        const { durationMS, title, url } = tracks[position];
         player.remove(message, position);
         message.channel.send({
           embed: {
             description: `Dropped track ${
               position + 1
-            }: [${title}](${url}) [${duration}]`,
+            }: [${title}](${url}) [${toHmss(durationMS)}]`,
           },
         });
         return;
@@ -370,11 +379,11 @@ client
 
         const { tracks } = queue;
         const track = tracks[tracks.length - 1];
-        const { duration, title, url } = track;
+        const { durationMS, title, url } = track;
         queue.tracks = [tracks[0], track, ...tracks.slice(1, -1)];
         message.channel.send({
           embed: {
-            description: `Next up [${title}](${url}) [${duration}]`,
+            description: `Next up [${title}](${url}) [${toHmss(durationMS)}]`,
             footer: { text: "Cutting in line is not ok" },
           },
         });
