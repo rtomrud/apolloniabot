@@ -239,7 +239,7 @@ client
 
         player.setVolume(message, 100);
         message.channel.send({
-          embed: { description: `Increased volume to 100%` },
+          embed: { description: "Increased volume to 100%" },
         });
         return;
       }
@@ -363,7 +363,7 @@ client
         const queue = player.getQueue(message);
         if (!queue || queue.tracks.length < 2) {
           message.channel.send({
-            embed: { description: `Nothing waiting in queue` },
+            embed: { description: "Nothing waiting in queue" },
           });
           return;
         }
@@ -375,9 +375,7 @@ client
         message.channel.send({
           embed: {
             description: `Next up [${title}](${url}) [${duration}]`,
-            footer: {
-              text: "Cutting in line is not ok",
-            },
+            footer: { text: "Cutting in line is not ok" },
           },
         });
         return;
@@ -503,7 +501,7 @@ client
               },
               {
                 name: "SYNOPSIS",
-                value: `lena COMMAND [ARG...]`,
+                value: "lena COMMAND [ARG...]",
               },
               {
                 name: "COMMANDS",
@@ -552,7 +550,7 @@ do not repeat the current track
               },
               {
                 name: "EXAMPLES",
-                value: `\`lena play Bohemian Rapsody\``,
+                value: "`lena play Bohemian Rapsody`",
               },
             ],
           },
