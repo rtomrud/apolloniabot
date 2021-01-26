@@ -18,8 +18,22 @@ module.exports = {
   shut: "stop",
   unplay: "stop",
 
-  volume: "volume",
-  v: "volume",
+  quieter: "quieter",
+  quietly: "quieter",
+  softer: "quieter",
+  softly: "quieter",
+  lower: "quieter",
+  decrease: "quieter",
+
+  louder: "louder",
+  loudly: "louder",
+  raise: "louder",
+  increase: "louder",
+
+  loudest: "loudest",
+  l: "loudest",
+  full: "loudest",
+  eleven: "loudest",
 
   what: "what",
   w: "what",

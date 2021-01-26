@@ -167,19 +167,79 @@ client
         return;
       }
 
-      case "volume": {
-        if (!player.isPlaying(message)) {
+      case "quieter": {
+        const queue = player.getQueue(message);
+        if (!queue) {
           message.channel.send({
-            embed: { description: "Nothing to set volume to" },
+            embed: { description: "Nothing to decrease volume to" },
           });
           return;
         }
 
-        const arg = Number(args.find((arg) => /^\d+/.test(arg)));
-        const percent = !arg || arg > 100 ? 100 : arg;
+        const percent = queue.volume - 10;
+        if (percent < 10) {
+          message.channel.send({
+            embed: { description: "Volume already at minimum of 10%" },
+          });
+          return;
+        }
+
         player.setVolume(message, percent);
         message.channel.send({
-          embed: { description: `Set volume to ${percent}%` },
+          embed: { description: `Decreased volume to ${percent}%` },
+        });
+        return;
+      }
+
+      case "louder": {
+        const queue = player.getQueue(message);
+        if (!queue) {
+          message.channel.send({
+            embed: { description: "Nothing to increase volume to" },
+          });
+          return;
+        }
+
+        const percent = queue.volume + 10;
+        if (percent > 100) {
+          message.channel.send({
+            embed: {
+              description:
+                "Volume already at [11](https://youtu.be/4xgx4k83zzc)",
+            },
+          });
+          return;
+        }
+
+        player.setVolume(message, percent);
+        message.channel.send({
+          embed: { description: `Increased volume to ${percent}%` },
+        });
+        return;
+      }
+
+      case "loudest": {
+        const queue = player.getQueue(message);
+        if (!queue) {
+          message.channel.send({
+            embed: { description: "Nothing to increase volume to" },
+          });
+          return;
+        }
+
+        if (queue.volume === 100) {
+          message.channel.send({
+            embed: {
+              description:
+                "Volume already at [11](https://youtu.be/4xgx4k83zzc)",
+            },
+          });
+          return;
+        }
+
+        player.setVolume(message, 100);
+        message.channel.send({
+          embed: { description: `Increased volume to 100%` },
         });
         return;
       }
@@ -421,13 +481,13 @@ client
               },
               {
                 name: "SYNOPSIS",
-                value: `lena COMMAND [ARGS]...`,
+                value: `lena COMMAND [ARG...]`,
               },
               {
                 name: "COMMANDS",
                 value: `
-**play**, **p** URL
-play a track or playlist at URL, or search it and play it
+**play**, **p** (URL|TERM...)
+play the track or playlist at URL, or search for a track and play it
 **find**, **f** TERM...
 search TERMS on YouTube and show the results
 **pause**
@@ -436,12 +496,16 @@ pause playback
 resume playback
 **stop**
 stop playback
-**volume**, **v** [PERCENT]
-set the volume to VALUE [1-100] (default: 100)
+**quieter**
+decrease the volume by 10%
+**louder**
+increase the volume by 10%
+**loudest**, **l**
+set the volume to 100%
 **what**, **w**
 show what is currently playing
 **queue**, **q** [PAGE]
-show the queue, may be queried by PAGE (default: 1)
+show the queue, which may be queried by PAGE (default: 1)
 **shuffle**, **s**
 shuffle the queue
 **next**, **n**
@@ -451,7 +515,7 @@ play the previous track
 **drop**, **d** [TRACK]
 delete the TRACK from the queue (default: last track)
 **cut**, **c**
-move track from the end of the queue to the start
+move the track from the end of the queue to the start
 **clear**
 empty the queue
 **loop**
@@ -466,10 +530,7 @@ do not repeat the current track
               },
               {
                 name: "EXAMPLES",
-                value: `\`\`\`
-lena play Bohemian Rapsody
-lena play https://www.youtube.com/watch?v=fdixQDPA2h0
-\`\`\``,
+                value: `\`lena play Bohemian Rapsody\``,
               },
             ],
           },
