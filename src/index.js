@@ -331,9 +331,10 @@ client
         if (arg === 1) {
           message.channel.send({
             embed: {
-              descriptio: "I can't drop that track because it's playing now",
+              description: "I can't drop that track because it's playing now",
             },
           });
+          return;
         }
 
         const { tracks } = queue;
