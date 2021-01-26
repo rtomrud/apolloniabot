@@ -567,5 +567,8 @@ do not repeat the current track
     }
   })
   .on("error", ({ message }) => console.error(message))
-  .once("ready", () => console.log("ready"))
+  .once("ready", () => {
+    client.user.setActivity("lena", { type: "LISTENING" });
+    console.log("ready");
+  })
   .login(process.env.TOKEN);
