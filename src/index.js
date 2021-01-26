@@ -570,7 +570,7 @@ do not repeat the current track
       default:
         message.channel.send({
           embed: {
-            description: "I don't know what you want, maybe ask me for help",
+            description: "I don't know what you want, try `lena help`",
           },
         });
     }
