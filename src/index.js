@@ -319,6 +319,14 @@ client
       }
 
       case "drop": {
+        const queue = player.getQueue(message);
+        if (!queue) {
+          message.channel.send({
+            embed: { description: "Nothing to drop from the queue" },
+          });
+          return;
+        }
+
         const arg = Number(args.find((arg) => /-?\d+/.test(arg)));
         if (arg === 1) {
           message.channel.send({
@@ -328,7 +336,7 @@ client
           });
         }
 
-        const { tracks } = player.getQueue(message);
+        const { tracks } = queue;
         const { length } = tracks;
         const position =
           Number.isNaN(arg) || arg >= length
