@@ -327,28 +327,34 @@ client
           return;
         }
 
-        const arg = Number(args.find((arg) => /-?\d+/.test(arg)));
-        if (arg === 1) {
+        const arg = Number(args.find((arg) => /^-?\d+/.test(arg)));
+        const { tracks } = queue;
+        const { length } = tracks;
+        if (arg < 1 || arg > length) {
+          message.channel.send({
+            embed: { description: "No such track in the queue" },
+          });
+          return;
+        }
+
+        const position = (arg || length) - 1;
+        if (position === 0) {
           message.channel.send({
             embed: {
-              description: "I can't drop that track because it's playing now",
+              description: "I can't drop track 1 because it's playing now",
             },
           });
           return;
         }
 
-        const { tracks } = queue;
-        const { length } = tracks;
-        const position =
-          Number.isNaN(arg) || arg >= length
-            ? length - 1
-            : arg < 0
-            ? length - arg
-            : arg;
-        const { duration, title, url } = tracks[position - 1];
+        const { duration, title, url } = tracks[position];
         player.remove(message, position);
         message.channel.send({
-          embed: { description: `Dropped [${title}](${url}) [${duration}]` },
+          embed: {
+            description: `Dropped track ${
+              position + 1
+            }: [${title}](${url}) [${duration}]`,
+          },
         });
         return;
       }
