@@ -84,9 +84,12 @@ module.exports = {
   noloop: "unloop",
 
   vaporwave: "vaporwave",
+  daycore: "vaporwave",
 
   unvaporwave: "unvaporwave",
   novaporwave: "unvaporwave",
+  undaycore: "unvaporwave",
+  nodaycore: "unvaporwave",
 
   version: "version",
 
