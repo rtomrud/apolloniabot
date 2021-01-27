@@ -57,7 +57,7 @@ do not repeat the current track
         },
         {
           name: "EXAMPLES",
-          value: "`lena play Bohemian Rapsody`",
+          value: "`lena play Bohemian Rhapsody`",
         },
       ],
     },
