@@ -1,4 +1,4 @@
 module.exports = function () {
   this.user.setActivity("lena", { type: "LISTENING" });
-  console.log("ready");
+  console.log(this.readyAt, this.user.tag);
 };
