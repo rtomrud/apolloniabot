@@ -18,7 +18,7 @@ module.exports = function (message, { player }) {
     embed: {
       description: "Queue:",
       fields: tracks.slice(start, end).map(({ durationMS, title, url }, i) => ({
-        name: `${i + 1 + start}${i === 0 ? " 🕪" : ""}`,
+        name: `${i + 1 + start}${i === 0 ? " playing now:" : ""}`,
         value: `[${title}](${url}) [${formatDuration(durationMS)}]`,
       })),
       footer: {
