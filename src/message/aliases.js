@@ -51,6 +51,8 @@ module.exports = {
   "--help": help,
   "-h": help,
   "-help": help,
+  man: help,
+  manual: help,
 
   loop,
 
