@@ -7,7 +7,7 @@ module.exports = function (message, { player }) {
     return;
   }
 
-  const arg = Number(message.args.find((arg) => /^-?\d+/.test(arg)));
+  const arg = Number(message.argv.slice(2).find((arg) => /^-?\d+/.test(arg)));
   const { tracks } = queue;
   const { length } = tracks;
   if (arg < 1 || arg > length) {

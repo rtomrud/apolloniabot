@@ -1,7 +1,7 @@
 const formatDuration = require("../format-duration.js");
 
 module.exports = function (message, { player }) {
-  const arg = Number(message.args.find((arg) => /^\d+/.test(arg))) || 1;
+  const arg = Number(message.argv.slice(2).find((arg) => /^\d+/.test(arg)));
   const queue = player.getQueue(message);
   if (!queue) {
     message.channel.send({ embed: { description: "Nothing in queue" } });
@@ -11,7 +11,7 @@ module.exports = function (message, { player }) {
   const { tracks } = queue;
   const { length } = tracks;
   const pages = Math.ceil(length / 10);
-  const page = arg * 10 > length ? pages : arg;
+  const page = arg * 10 > length ? pages : arg || 1;
   const start = (page - 1) * 10;
   const end = page * 10 < length ? page * 10 : length;
   message.channel.send({
