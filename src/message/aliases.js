@@ -22,6 +22,7 @@ const unvaporwave = require("./unvaporwave.js");
 const vaporwave = require("./vaporwave.js");
 const version = require("./version.js");
 const what = require("./what.js");
+const who = require("./who.js");
 
 module.exports = {
   back,
@@ -124,4 +125,6 @@ module.exports = {
   song: what,
   track: what,
   playing: what,
+
+  who,
 };
