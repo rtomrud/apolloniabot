@@ -16,7 +16,10 @@ const error = require("./error.js");
 
 const client = new Client();
 
-client.player = new Player(client, { leaveOnEndCooldown: 5 })
+client.player = new Player(client, {
+  autoSelfDeaf: false,
+  leaveOnEndCooldown: 5,
+})
   .on("botDisconnect", botDisconnect)
   .on("channelEmpty", channelEmpty)
   .on("noResults", noResults)
