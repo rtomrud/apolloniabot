@@ -1,9 +1,9 @@
-module.exports = function (message, { player }) {
-  if (!player.isPlaying(message)) {
+module.exports = function (message) {
+  if (!this.player.isPlaying(message)) {
     message.channel.send({ embed: { description: "Nothing to unloop" } });
     return;
   }
 
-  player.setLoopMode(message, false);
+  this.player.setLoopMode(message, false);
   message.channel.send({ embed: { description: "Disabled loop" } });
 };

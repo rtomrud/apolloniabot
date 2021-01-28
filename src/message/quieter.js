@@ -1,5 +1,5 @@
-module.exports = function (message, { player }) {
-  const queue = player.getQueue(message);
+module.exports = function (message) {
+  const queue = this.player.getQueue(message);
   if (!queue) {
     message.channel.send({
       embed: { description: "Nothing to decrease volume to" },
@@ -15,7 +15,7 @@ module.exports = function (message, { player }) {
     return;
   }
 
-  player.setVolume(message, percent);
+  this.player.setVolume(message, percent);
   message.channel.send({
     embed: { description: `Decreased volume to ${percent}%` },
   });

@@ -1,7 +1,7 @@
 const formatDuration = require("../format-duration.js");
 
-module.exports = function (message, { player }) {
-  const queue = player.getQueue(message);
+module.exports = function (message) {
+  const queue = this.player.getQueue(message);
   if (!queue || queue.tracks.length < 2) {
     message.channel.send({
       embed: { description: "Nothing waiting in queue" },

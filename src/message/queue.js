@@ -1,8 +1,8 @@
 const formatDuration = require("../format-duration.js");
 
-module.exports = function (message, { player }) {
+module.exports = function (message) {
   const arg = Number(message.argv.slice(2).find((arg) => /^\d+/.test(arg)));
-  const queue = player.getQueue(message);
+  const queue = this.player.getQueue(message);
   if (!queue) {
     message.channel.send({ embed: { description: "Nothing in queue" } });
     return;

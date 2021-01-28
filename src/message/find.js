@@ -1,4 +1,4 @@
-module.exports = function (message, { player }) {
+module.exports = function (message) {
   const query = message.argv.slice(2).join(" ");
   if (!query) {
     message.channel.send({
@@ -7,5 +7,5 @@ module.exports = function (message, { player }) {
     return;
   }
 
-  player.play(message, query);
+  this.player.play(message, query);
 };

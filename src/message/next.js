@@ -1,8 +1,8 @@
-module.exports = function (message, { player }) {
-  if (!player.isPlaying(message)) {
+module.exports = function (message) {
+  if (!this.player.isPlaying(message)) {
     message.channel.send({ embed: { description: "Nothing to skip" } });
     return;
   }
 
-  player.skip(message);
+  this.player.skip(message);
 };

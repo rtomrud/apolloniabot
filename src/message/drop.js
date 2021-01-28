@@ -1,7 +1,7 @@
 const formatDuration = require("../format-duration.js");
 
-module.exports = function (message, { player }) {
-  const queue = player.getQueue(message);
+module.exports = function (message) {
+  const queue = this.player.getQueue(message);
   if (!queue) {
     message.channel.send({ embed: { description: "Nothing to drop" } });
     return;
@@ -28,7 +28,7 @@ module.exports = function (message, { player }) {
   }
 
   const { durationMS, title, url } = tracks[position];
-  player.remove(message, position);
+  this.player.remove(message, position);
   message.channel.send({
     embed: {
       description: `Dropped track ${

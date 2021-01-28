@@ -1,10 +1,10 @@
-module.exports = function (message, { player }) {
-  const queue = player.getQueue(message);
+module.exports = function (message) {
+  const queue = this.player.getQueue(message);
   if (!queue || queue.tracks.length < 2) {
     message.channel.send({ embed: { description: "Nothing to shuffle" } });
     return;
   }
 
-  player.shuffle(message);
+  this.player.shuffle(message);
   message.channel.send({ embed: { description: "Shuffled queue" } });
 };
