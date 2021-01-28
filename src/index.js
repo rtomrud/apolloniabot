@@ -14,7 +14,9 @@ const trackAdd = require("./track-add.js");
 const trackStart = require("./track-start.js");
 const error = require("./error.js");
 
-const client = new Client();
+const client = new Client({
+  presence: { activity: { name: "lena", type: "LISTENING" } },
+});
 
 client.player = new Player(client, {
   autoSelfDeaf: false,
