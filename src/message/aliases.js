@@ -2,6 +2,7 @@ const back = require("./back.js");
 const clear = require("./clear.js");
 const cut = require("./cut.js");
 const drop = require("./drop.js");
+const echo = require("./echo.js");
 const find = require("./find.js");
 const help = require("./help.js");
 const loop = require("./loop.js");
@@ -42,6 +43,9 @@ module.exports = {
   delete: drop,
   remove: drop,
   rm: drop,
+
+  echo,
+  listen: echo,
 
   find,
   f: find,
