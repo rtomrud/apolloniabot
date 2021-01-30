@@ -15,12 +15,14 @@ const play = require("./play.js");
 const queue = require("./queue.js");
 const quieter = require("./quieter.js");
 const repeat = require("./repeat.js");
+const reverse = require("./reverse.js");
 const shuffle = require("./shuffle.js");
 const stop = require("./stop.js");
 const unloop = require("./unloop.js");
 const unnightcore = require("./unnightcore.js");
 const unpause = require("./unpause.js");
 const unrepeat = require("./unrepeat.js");
+const unreverse = require("./unreverse.js");
 const unvaporwave = require("./unvaporwave.js");
 const vaporwave = require("./vaporwave.js");
 const version = require("./version.js");
@@ -98,6 +100,9 @@ module.exports = {
 
   repeat,
 
+  reverse,
+  backward: reverse,
+
   shuffle,
   s: shuffle,
   rand: shuffle,
@@ -122,6 +127,11 @@ module.exports = {
 
   unrepeat,
   norepeat: unrepeat,
+
+  unreverse,
+  noreverse: unreverse,
+  unbackward: unreverse,
+  nobackward: unreverse,
 
   unvaporwave,
   novaporwave: unvaporwave,
