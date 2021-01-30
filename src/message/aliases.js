@@ -9,6 +9,7 @@ const loop = require("./loop.js");
 const louder = require("./louder.js");
 const loudest = require("./loudest.js");
 const next = require("./next.js");
+const nightcore = require("./nightcore.js");
 const pause = require("./pause.js");
 const play = require("./play.js");
 const queue = require("./queue.js");
@@ -17,6 +18,7 @@ const repeat = require("./repeat.js");
 const shuffle = require("./shuffle.js");
 const stop = require("./stop.js");
 const unloop = require("./unloop.js");
+const unnightcore = require("./unnightcore.js");
 const unpause = require("./unpause.js");
 const unrepeat = require("./unrepeat.js");
 const unvaporwave = require("./unvaporwave.js");
@@ -76,6 +78,9 @@ module.exports = {
   skip: next,
   forward: next,
 
+  nightcore,
+  nxc: nightcore,
+
   pause,
 
   play,
@@ -105,6 +110,11 @@ module.exports = {
 
   unloop,
   noloop: unloop,
+
+  unnightcore,
+  nonightcore: unnightcore,
+  unnxc: unnightcore,
+  nonxc: unnightcore,
 
   unpause,
   resume: unpause,
