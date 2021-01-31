@@ -24,7 +24,7 @@
     "watch": "pm2 start src/index.js --watch"
   },
   "dependencies": {
-    "@discordjs/opus": "0.3.3",
+    "@discordjs/opus": "0.4.0",
     "bufferutil": "4.0.3",
     "discord-player": "3.2.1",
     "discord.js": "12.5.1",
