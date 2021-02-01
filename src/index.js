@@ -8,7 +8,6 @@ const noResults = require("./no-results.js");
 const playlistAdd = require("./playlist-add.js");
 const queueEnd = require("./queue-end.js");
 const ready = require("./ready.js");
-const searchInvalidResponse = require("./search-invalid-response.js");
 const searchResults = require("./search-results.js");
 const trackAdd = require("./track-add.js");
 const trackStart = require("./track-start.js");
@@ -27,7 +26,6 @@ client.player = new Player(client, {
   .on("noResults", noResults)
   .on("playlistAdd", playlistAdd)
   .on("queueEnd", queueEnd)
-  .on("searchInvalidResponse", searchInvalidResponse)
   .on("searchResults", searchResults)
   .on("trackAdd", trackAdd)
   .on("trackStart", trackStart)
