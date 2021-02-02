@@ -1,6 +1,6 @@
 const aliases = require("./aliases.js");
 
-const prefixRegExp = /^lena/i;
+const prefixRegExp = RegExp(`^(?:lena|<@!?${process.env.CLIENT_ID}>)`, "i");
 const separatorRegExp = /\s+/;
 
 const handleDefault = function (message) {
