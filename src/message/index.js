@@ -15,7 +15,8 @@ module.exports = function (message) {
   }
 
   const argv = message.content.split(separatorRegExp);
-  const handle = aliases[argv[1].toLowerCase()] || handleDefault;
+  const command = argv.length > 1 ? argv[1] : "";
+  const handle = aliases[command.toLowerCase()] || handleDefault;
   message.argv = argv;
   handle.bind(this)(message);
 };
