@@ -1,6 +1,6 @@
 const ytdl = require("ytdl-core");
-const ytpl = require("ytpl");
-const ytsr = require("ytsr");
+const ytpl = require("@distube/ytpl");
+const ytsr = require("@distube/ytsr");
 const formatDuration = require("./format-duration.js");
 
 const track = ({
