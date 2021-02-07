@@ -1,6 +1,6 @@
 module.exports = function (message) {
   const queue = this.player.getQueue(message);
-  if (!queue) {
+  if (!queue || queue.songs.length === 0) {
     message.channel.send({ embed: { description: "Nothing to clear" } });
     return;
   }

@@ -5,7 +5,7 @@ const songsPerPage = 10;
 module.exports = function (message) {
   const arg = Number(message.argv.slice(2).find((arg) => /^\d+/.test(arg)));
   const queue = this.player.getQueue(message);
-  if (!queue) {
+  if (!queue || queue.songs.length === 0) {
     message.channel.send({ embed: { description: "Nothing in queue" } });
     return;
   }
