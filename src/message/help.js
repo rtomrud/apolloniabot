@@ -51,6 +51,10 @@ do not loop the queue
 repeat the current track
 **unrepeat**
 do not repeat the current track
+**autoplay**
+play a related song when the queue ends
+**unautoplay**
+do not play a related song when the queue ends
 `,
         },
         {

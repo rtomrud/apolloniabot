@@ -1,3 +1,4 @@
+const autoplay = require("./autoplay.js");
 const clear = require("./clear.js");
 const cut = require("./cut.js");
 const drop = require("./drop.js");
@@ -17,6 +18,7 @@ const repeat = require("./repeat.js");
 const reverse = require("./reverse.js");
 const shuffle = require("./shuffle.js");
 const stop = require("./stop.js");
+const unautoplay = require("./unautoplay.js");
 const unloop = require("./unloop.js");
 const unnightcore = require("./unnightcore.js");
 const unpause = require("./unpause.js");
@@ -29,6 +31,9 @@ const what = require("./what.js");
 const who = require("./who.js");
 
 module.exports = {
+  autoplay,
+  related: autoplay,
+
   clear,
   empty: clear,
   clean: clear,
@@ -106,6 +111,11 @@ module.exports = {
   stfu: stop,
   shut: stop,
   unplay: stop,
+
+  unautoplay,
+  noautoplay: unautoplay,
+  unrelated: unautoplay,
+  norelated: unautoplay,
 
   unloop,
   noloop: unloop,

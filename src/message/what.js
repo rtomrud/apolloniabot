@@ -5,13 +5,13 @@ module.exports = function (message) {
     return;
   }
 
-  const { filter, formattedCurrentTime, repeatMode, volume } = queue;
+  const { autoplay, filter, formattedCurrentTime, repeatMode, volume } = queue;
   const [{ formattedDuration, name, url }] = queue.songs;
   message.channel.send({
     embed: {
       description: `Playing [${name}](${url}) [${formattedCurrentTime}/${formattedDuration}]
 
-volume: ${volume}%${
+volume: ${volume}%${autoplay ? "\nautoplay: ON" : ""}${
         repeatMode
           ? `\n${repeatMode === 1 ? "repeat track" : "repeat queue"}: ON`
           : ""
