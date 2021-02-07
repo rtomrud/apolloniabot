@@ -18,6 +18,7 @@ const reverse = require("./reverse.js");
 const shuffle = require("./shuffle.js");
 const stop = require("./stop.js");
 const unautoplay = require("./unautoplay.js");
+const unfilter = require("./unfilter.js");
 const unloop = require("./unloop.js");
 const unnightcore = require("./unnightcore.js");
 const unpause = require("./unpause.js");
@@ -113,6 +114,10 @@ module.exports = {
   noautoplay: unautoplay,
   unrelated: unautoplay,
   norelated: unautoplay,
+
+  unfilter,
+  nofilter: unfilter,
+  reset: unfilter,
 
   unloop,
   noloop: unloop,
