@@ -1,3 +1,5 @@
+const ytsr = require("@distube/ytsr");
+
 module.exports = function (message) {
   const query = message.argv.slice(2).join(" ");
   if (!query) {
@@ -7,5 +9,19 @@ module.exports = function (message) {
     return;
   }
 
-  this.player.play(message, query);
+  ytsr(query, { limit: 10 }).then(({ items }) =>
+    message.channel.send({
+      embed: {
+        description: "Found tracks:",
+        fields: items
+          .slice(0, items.length < 10 ? items.length : 10)
+          .map(
+            ({ author: { name: channel } = {}, duration, name, url }, i) => ({
+              name: `${i + 1} ${channel || ""}`,
+              value: `[${name}](${url}) [${duration}]`,
+            })
+          ),
+      },
+    })
+  );
 };

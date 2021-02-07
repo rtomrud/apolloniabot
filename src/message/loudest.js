@@ -1,3 +1,5 @@
+const max = 100;
+
 module.exports = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue) {
@@ -7,7 +9,7 @@ module.exports = function (message) {
     return;
   }
 
-  if (queue.volume > 100) {
+  if (queue.volume > max) {
     message.channel.send({
       embed: {
         description: "Volume already [at 11](https://youtu.be/4xgx4k83zzc)",
@@ -16,6 +18,8 @@ module.exports = function (message) {
     return;
   }
 
-  this.player.setVolume(message, 100);
-  message.channel.send({ embed: { description: "Increased volume to 100%" } });
+  this.player.setVolume(message, max);
+  message.channel.send({
+    embed: { description: `Increased volume to ${max}%` },
+  });
 };

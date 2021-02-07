@@ -1,6 +1,6 @@
 module.exports = function (message) {
   const queue = this.player.getQueue(message);
-  if (!queue || queue.tracks.length < 2) {
+  if (!queue || queue.songs.length <= 1) {
     message.channel.send({ embed: { description: "Nothing to shuffle" } });
     return;
   }

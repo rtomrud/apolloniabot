@@ -1,16 +1,30 @@
-module.exports = function (error, message) {
-  message.channel.send({
-    embed: {
-      description:
-        error === "LiveVideo"
-          ? "I don't know how to play YouTube live streams yet"
-          : error === "NotConnected"
-          ? "I can't join you because you're not in a voice channel"
-          : error === "NotPlaying"
-          ? "I can't do that because nothing is playing"
-          : error === "UnableToJoin"
-          ? "I can't join your voice channel because I don't have permission"
-          : error,
-    },
-  });
+module.exports = function (message, error) {
+  const { message: err } = error;
+  if (err.endsWith("User is not in the voice channel.")) {
+    message.channel.send({
+      embed: {
+        description: "I can't join you because you're not in a voice channel",
+      },
+    });
+    return;
+  }
+
+  if (err.endsWith("You do not have permission to join this voice channel.")) {
+    message.channel.send({
+      embed: {
+        description: "I can't join you because you're not in a voice channel",
+      },
+    });
+    return;
+  }
+
+  if (err.includes("[youtube-dl] ERROR: Unsupported URL")) {
+    message.channel.send({
+      embed: { description: "I can't play that URL, sorry" },
+    });
+    return;
+  }
+
+  console.error(err);
+  message.channel.send({ embed: { description: "Ops, something went wrong" } });
 };

@@ -1,9 +1,10 @@
 module.exports = function (message) {
-  if (!this.player.isPlaying(message)) {
+  const queue = this.player.getQueue(message);
+  if (!queue) {
     message.channel.send({ embed: { description: "Nothing to vaporwave" } });
     return;
   }
 
-  this.player.setFilters(message, { vaporwave: true });
+  this.player.setFilter(message, "vaporwave");
   message.channel.send({ embed: { description: "Enabled vaporwave" } });
 };

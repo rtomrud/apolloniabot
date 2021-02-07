@@ -1,9 +1,10 @@
 module.exports = function (message) {
-  if (!this.player.getQueue(message)) {
+  const queue = this.player.getQueue(message);
+  if (!queue) {
     message.channel.send({ embed: { description: "Nothing to clear" } });
     return;
   }
 
-  this.player.clearQueue(message);
+  queue.songs = [];
   message.channel.send({ embed: { description: "Cleared queue" } });
 };

@@ -1,3 +1,6 @@
+const increment = 10;
+const min = 10;
+
 module.exports = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue) {
@@ -7,10 +10,10 @@ module.exports = function (message) {
     return;
   }
 
-  const percent = queue.volume - 10;
-  if (percent < 10) {
+  const percent = queue.volume - increment;
+  if (percent < min) {
     message.channel.send({
-      embed: { description: "Volume already at minimum of 10%" },
+      embed: { description: `Volume already at minimum of ${min}%` },
     });
     return;
   }

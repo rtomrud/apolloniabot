@@ -26,15 +26,13 @@
   "dependencies": {
     "@discordjs/opus": "0.4.0",
     "bufferutil": "4.0.3",
-    "discord-player": "3.2.1",
     "discord.js": "12.5.1",
     "distube": "2.8.8",
     "dotenv": "8.2.0",
     "erlpack": "0.1.3",
     "ffmpeg-static": "4.2.7",
     "libsodium-wrappers": "0.7.9",
-    "utf-8-validate": "5.0.4",
-    "ytdl-core": "4.4.5"
+    "utf-8-validate": "5.0.4"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "17.1.0",

@@ -1,23 +1,21 @@
-const formatDuration = require("../format-duration.js");
-
 module.exports = function (message) {
-  if (!this.player.isPlaying(message)) {
+  const queue = this.player.getQueue(message);
+  if (!queue || !queue.playing) {
     message.channel.send({ embed: { description: "Nothing is playing" } });
     return;
   }
 
-  const {
-    additionalStreamTime,
-    voiceConnection: {
-      dispatcher: { streamTime },
-    },
-  } = this.player.getQueue(message);
-  const { durationMS, title, url } = this.player.nowPlaying(message);
+  const { filter, formattedCurrentTime, repeatMode, volume } = queue;
+  const [{ formattedDuration, name, url }] = queue.songs;
   message.channel.send({
     embed: {
-      description: `Playing [${title}](${url}) [${formatDuration(
-        streamTime + additionalStreamTime
-      )}/${formatDuration(durationMS)}]`,
+      description: `Playing [${name}](${url}) [${formattedCurrentTime}/${formattedDuration}]
+
+volume: ${volume}%${
+        repeatMode
+          ? `\n${repeatMode === 1 ? "repeat track" : "repeat queue"}: ON`
+          : ""
+      }${filter ? `\n${filter}: ON` : ""}`,
     },
   });
 };

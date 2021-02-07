@@ -1,9 +1,10 @@
 module.exports = function (message) {
-  if (!this.player.isPlaying(message)) {
+  const queue = this.player.getQueue(message);
+  if (!queue) {
     message.channel.send({ embed: { description: "Nothing to nightcore" } });
     return;
   }
 
-  this.player.setFilters(message, { nightcore: true });
+  this.player.setFilter(message, "nightcore");
   message.channel.send({ embed: { description: "Enabled nightcore" } });
 };

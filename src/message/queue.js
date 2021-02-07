@@ -1,4 +1,6 @@
-const formatDuration = require("../format-duration.js");
+const formatSong = require("../format-song.js");
+
+const songsPerPage = 10;
 
 module.exports = function (message) {
   const arg = Number(message.argv.slice(2).find((arg) => /^\d+/.test(arg)));
@@ -8,18 +10,22 @@ module.exports = function (message) {
     return;
   }
 
-  const { tracks } = queue;
-  const { length } = tracks;
-  const pages = Math.ceil(length / 10);
-  const page = arg * 10 > length ? pages : arg || 1;
-  const start = (page - 1) * 10;
-  const end = page * 10 < length ? page * 10 : length;
+  const { songs } = queue;
+  const { length } = songs;
+  const [first] = songs;
+  const pages = Math.ceil(length / songsPerPage);
+  const page = arg * songsPerPage > length ? pages : arg || 1;
+  const start = (page - 1) * songsPerPage;
+  const end = page * songsPerPage < length ? page * songsPerPage : length;
   message.channel.send({
     embed: {
       description: "Queue:",
-      fields: tracks.slice(start, end).map(({ durationMS, title, url }, i) => ({
-        name: `${i + 1 + start}${i === 0 ? " playing now:" : ""}`,
-        value: `[${title}](${url}) [${formatDuration(durationMS)}]`,
+      fields: songs.slice(start, end).map((song, i) => ({
+        name: i + 1 + start,
+        value:
+          song === first
+            ? `[${song.name}](${song.url}) [${queue.formattedCurrentTime}/${song.formattedDuration}]`
+            : formatSong(song),
       })),
       footer: {
         text: pages > 1 ? `Page ${page} of ${pages} (${length} tracks)` : "",

@@ -1,4 +1,3 @@
-const back = require("./back.js");
 const clear = require("./clear.js");
 const cut = require("./cut.js");
 const drop = require("./drop.js");
@@ -30,11 +29,6 @@ const what = require("./what.js");
 const who = require("./who.js");
 
 module.exports = {
-  back,
-  b: back,
-  prev: back,
-  previous: back,
-
   clear,
   empty: clear,
   clean: clear,

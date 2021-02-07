@@ -1,3 +1,6 @@
+const increment = 10;
+const max = 100;
+
 module.exports = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue) {
@@ -7,8 +10,8 @@ module.exports = function (message) {
     return;
   }
 
-  const percent = queue.volume + 10;
-  if (percent > 100) {
+  const percent = queue.volume + increment;
+  if (percent > max) {
     message.channel.send({
       embed: {
         description: "Volume already [at 11](https://youtu.be/4xgx4k83zzc)",

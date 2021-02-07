@@ -37,8 +37,6 @@ show the queue, which may be queried by PAGE (default: 1)
 shuffle the queue
 **next**, **n**
 play the next track in the queue
-**back**, **b**
-play the previous track
 **drop**, **d** [TRACK]
 delete the TRACK from the queue (default: last track)
 **cut**, **c**

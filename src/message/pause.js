@@ -1,16 +1,14 @@
-const formatDuration = require("../format-duration.js");
+const formatSong = require("../format-song.js");
 
 module.exports = function (message) {
-  if (!this.player.isPlaying(message)) {
+  const queue = this.player.getQueue(message);
+  if (!queue || !queue.playing) {
     message.channel.send({ embed: { description: "Nothing to pause" } });
     return;
   }
 
-  const { durationMS, title, url } = this.player.nowPlaying(message);
   this.player.pause(message);
   message.channel.send({
-    embed: {
-      description: `Paused [${title}](${url}) [${formatDuration(durationMS)}]`,
-    },
+    embed: { description: `Paused ${formatSong(queue.songs[0])}` },
   });
 };

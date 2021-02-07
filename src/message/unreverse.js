@@ -1,9 +1,10 @@
 module.exports = function (message) {
-  if (!this.player.isPlaying(message)) {
+  const queue = this.player.getQueue(message);
+  if (!queue || queue.filter !== "reverse") {
     message.channel.send({ embed: { description: "Nothing to unreverse" } });
     return;
   }
 
-  this.player.setFilters(message, { reverse: false });
+  this.player.setFilter(message, "reverse");
   message.channel.send({ embed: { description: "Disabled reverse" } });
 };

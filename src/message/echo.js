@@ -1,3 +1,5 @@
+// const Song = require("distube/src/Song.js");
+
 const idRegExp = /\b\d{7,20}\b/;
 
 module.exports = function (message) {
@@ -37,6 +39,17 @@ module.exports = function (message) {
         });
         return;
       }
+
+      // WIP
+      // const queue = this.player.getQueue(message);
+      // if (queue) {
+      //   const song = new Song({
+      //     name: `<@${userId}>`,
+      //     url: `https://discordapp.com/channels/${source.channel.guild.id}/${source.channel.id}`,
+      //     isLive: true,
+      //   });
+      //   queue.songs.unshift(song);
+      // }
 
       connection.play(source.receiver.createStream(userId, { end: "manual" }), {
         type: "opus",

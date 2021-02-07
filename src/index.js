@@ -1,35 +1,31 @@
 require("dotenv").config();
-const { Player } = require("discord-player");
 const { Client } = require("discord.js");
+const DisTube = require("distube");
 const message = require("./message/index.js");
-const botDisconnect = require("./bot-disconnect.js");
-const channelEmpty = require("./channel-empty.js");
-const noResults = require("./no-results.js");
-const playlistAdd = require("./playlist-add.js");
-const queueEnd = require("./queue-end.js");
-const ready = require("./ready.js");
-const searchResults = require("./search-results.js");
-const trackAdd = require("./track-add.js");
-const trackStart = require("./track-start.js");
+const addList = require("./add-list.js");
+const addSong = require("./add-song.js");
+const empty = require("./empty.js");
 const error = require("./error.js");
+const finish = require("./finish.js");
+const playSong = require("./play-song.js");
+const playList = require("./play-list.js");
+const ready = require("./ready.js");
 
 const client = new Client({
   presence: { activity: { name: "lena", type: "LISTENING" } },
 });
 
-client.player = new Player(client, {
+client.player = new DisTube(client, {
   autoSelfDeaf: false,
-  leaveOnEndCooldown: 5,
+  leaveOnFinish: true,
 })
-  .on("botDisconnect", botDisconnect)
-  .on("channelEmpty", channelEmpty)
-  .on("noResults", noResults)
-  .on("playlistAdd", playlistAdd)
-  .on("queueEnd", queueEnd)
-  .on("searchResults", searchResults)
-  .on("trackAdd", trackAdd)
-  .on("trackStart", trackStart)
-  .on("error", error);
+  .on("addList", addList)
+  .on("addSong", addSong)
+  .on("empty", empty)
+  .on("error", error)
+  .on("finish", finish)
+  .on("playList", playList)
+  .on("playSong", playSong);
 
 client
   .on("message", message)

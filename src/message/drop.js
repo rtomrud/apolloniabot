@@ -1,4 +1,4 @@
-const formatDuration = require("../format-duration.js");
+const formatSong = require("../format-song.js");
 
 module.exports = function (message) {
   const queue = this.player.getQueue(message);
@@ -8,8 +8,8 @@ module.exports = function (message) {
   }
 
   const arg = Number(message.argv.slice(2).find((arg) => /^-?\d+/.test(arg)));
-  const { tracks } = queue;
-  const { length } = tracks;
+  const { songs } = queue;
+  const { length } = songs;
   if (arg < 1 || arg > length) {
     message.channel.send({
       embed: {
@@ -19,21 +19,18 @@ module.exports = function (message) {
     return;
   }
 
-  const position = (arg || length) - 1;
-  if (position === 0) {
+  const index = (arg || length) - 1;
+  if (index === 0 && queue.playing) {
     message.channel.send({
       embed: { description: "I can't drop track 1 because it's playing now" },
     });
     return;
   }
 
-  const { durationMS, title, url } = tracks[position];
-  this.player.remove(message, position);
+  queue.songs = queue.songs.filter((song, i) => i !== index);
   message.channel.send({
     embed: {
-      description: `Dropped track ${
-        position + 1
-      }: [${title}](${url}) [${formatDuration(durationMS)}]`,
+      description: `Dropped track ${index + 1}: ${formatSong(songs[index])}`,
     },
   });
 };
