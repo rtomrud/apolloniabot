@@ -1,9 +1,36 @@
-// const Song = require("distube/src/Song.js");
+const ytdl = require("@distube/ytdl");
+const Song = require("distube/src/Song.js");
 
 const idRegExp = /\b\d{7,20}\b/;
 
-module.exports = function (message) {
-  const channel = message.member.voice && message.member.voice.channel;
+const hasId = (userId) => ({ user: { id } }) => id === userId;
+
+const _createStream = function (queue) {
+  const [song] = queue.songs;
+  const encoderArgs = queue.filter ? ["-af", this.filters[queue.filter]] : null;
+  const streamOptions = {
+    opusEncoded: true,
+    filter: song.isLive ? "audioandvideo" : "audioonly",
+    quality: "highestaudio",
+    highWaterMark: this.options.highWaterMark,
+    requestOptions: this.requestOptions,
+    encoderArgs,
+    seek: queue.beginTime / 1000,
+  };
+  if (song.youtube) {
+    return ytdl.downloadFromInfo(song.info, streamOptions);
+  }
+
+  // Patch DisTube's _createStream to work with a Readable streamURL
+  if (Object.getPrototypeOf(song.streamURL).constructor.name === "Readable") {
+    return song.streamURL;
+  }
+
+  return ytdl.arbitraryStream(song.streamURL, streamOptions);
+};
+
+module.exports = async function (message) {
+  const { channel } = message.member.voice;
   if (!channel) {
     message.channel.send({
       embed: {
@@ -13,11 +40,8 @@ module.exports = function (message) {
     return;
   }
 
-  const member = message.mentions.members.first();
-  const userId = member
-    ? member.user.id
-    : (idRegExp.exec(message.content) || [])[0];
-  if (!userId) {
+  const [id] = idRegExp.exec(message.content) || [];
+  if (!id) {
     message.channel.send({
       embed: {
         description: "I don't know who to echo (try mentioning someone with @)",
@@ -26,43 +50,30 @@ module.exports = function (message) {
     return;
   }
 
-  channel.join().then(
-    (connection) => {
-      const source = this.voice.connections.find((connection) =>
-        connection.channel.members.some(({ user: { id } }) => id === userId)
+  const connection = channel.members.some(hasId(id))
+    ? await channel.join()
+    : this.voice.connections.find(({ channel: { members } }) =>
+        members.some(hasId(id))
       );
-      if (!source) {
-        message.channel.send({
-          embed: {
-            description: `I can't echo <@${userId}> because they're not in a voice channel`,
-          },
-        });
-        return;
-      }
+  if (!connection) {
+    message.channel.send({
+      embed: {
+        description: `I can't echo <@${id}> because they're not in a voice channel`,
+      },
+    });
+    return;
+  }
 
-      // WIP
-      // const queue = this.player.getQueue(message);
-      // if (queue) {
-      //   const song = new Song({
-      //     name: `<@${userId}>`,
-      //     url: `https://discordapp.com/channels/${source.channel.guild.id}/${source.channel.id}`,
-      //     isLive: true,
-      //   });
-      //   queue.songs.unshift(song);
-      // }
-
-      connection.play(source.receiver.createStream(userId, { end: "manual" }), {
-        type: "opus",
-        bitrate: "auto",
-      });
-      message.channel.send({ embed: { description: `Echoing <@${userId}>` } });
+  const { username } = await this.users.fetch(id);
+  const song = new Song(
+    {
+      title: `@${username}`,
+      webpage_url: `https://discordapp.com/channels/${message.guild.id}/`,
+      isLive: true,
     },
-    () =>
-      message.channel.send({
-        embed: {
-          description:
-            "I can't join your voice channel because I don't have permission",
-        },
-      })
+    message.author
   );
+  song.streamURL = connection.receiver.createStream(id, { end: "manual" });
+  this.player._createStream = _createStream.bind(this.player);
+  this.player.play(message, song);
 };
