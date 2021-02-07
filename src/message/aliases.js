@@ -20,11 +20,8 @@ const stop = require("./stop.js");
 const unautoplay = require("./unautoplay.js");
 const unfilter = require("./unfilter.js");
 const unloop = require("./unloop.js");
-const unnightcore = require("./unnightcore.js");
 const unpause = require("./unpause.js");
 const unrepeat = require("./unrepeat.js");
-const unreverse = require("./unreverse.js");
-const unvaporwave = require("./unvaporwave.js");
 const vaporwave = require("./vaporwave.js");
 const version = require("./version.js");
 const what = require("./what.js");
@@ -122,27 +119,12 @@ module.exports = {
   unloop,
   noloop: unloop,
 
-  unnightcore,
-  nonightcore: unnightcore,
-  unnxc: unnightcore,
-  nonxc: unnightcore,
-
   unpause,
   resume: unpause,
   r: unpause,
 
   unrepeat,
   norepeat: unrepeat,
-
-  unreverse,
-  noreverse: unreverse,
-  unbackward: unreverse,
-  nobackward: unreverse,
-
-  unvaporwave,
-  novaporwave: unvaporwave,
-  undaycore: unvaporwave,
-  nodaycore: unvaporwave,
 
   vaporwave,
   daycore: vaporwave,
