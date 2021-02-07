@@ -24,29 +24,29 @@ resume playback
 **stop**
 stop playback
 **quieter**
-decrease the volume by 10%
+decrease the volume
 **louder**
-increase the volume by 10%
+increase the volume
 **loudest**, **l**
 set the volume to 100%
 **what**, **w**
-show what is currently playing
+show what's playing
 **queue**, **q** [PAGE]
-show the queue, which may be queried by PAGE (default: 1)
+show the queue, may be queried by PAGE (default: 1)
 **shuffle**, **s**
 shuffle the queue
 **next**, **n**
-play the next track in the queue
+play the next track
 **drop**, **d** [TRACK]
-delete the TRACK from the queue (default: last track)
+delete TRACK from the queue (default: last track)
 **cut**, **c**
-move the track from the end of the queue to the start
+move the last track to the start of the queue
 **clear**
 empty the queue
 **loop**
-loop the queue once it ends
+loop the queue
 **unloop**
-do not loop the queue once it ends
+do not loop the queue
 **repeat**
 repeat the current track
 **unrepeat**
