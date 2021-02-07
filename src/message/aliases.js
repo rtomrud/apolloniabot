@@ -24,6 +24,7 @@ const unpause = require("./unpause.js");
 const unrepeat = require("./unrepeat.js");
 const vaporwave = require("./vaporwave.js");
 const version = require("./version.js");
+const volume = require("./volume.js");
 const what = require("./what.js");
 const who = require("./who.js");
 
@@ -130,6 +131,10 @@ module.exports = {
   daycore: vaporwave,
 
   version,
+
+  volume,
+  v: volume,
+  loudness: volume,
 
   what,
   w: what,

@@ -41,6 +41,8 @@ play the next track
 delete TRACK from the queue (default: last track)
 **cut**, **c**
 move the last track to the start of the queue
+**volume**, **v** [PERCENT]
+set volume to PERCENT (from 1 to 100)
 **loop**
 loop the queue
 **unloop**
