@@ -22,7 +22,7 @@ pause playback
 **resume**, **r**
 resume playback
 **stop**
-stop playback
+stop playback and empty the queue
 **quieter**
 decrease the volume
 **louder**
@@ -41,8 +41,6 @@ play the next track
 delete TRACK from the queue (default: last track)
 **cut**, **c**
 move the last track to the start of the queue
-**clear**
-empty the queue
 **loop**
 loop the queue
 **unloop**

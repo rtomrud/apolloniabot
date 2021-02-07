@@ -1,5 +1,4 @@
 const autoplay = require("./autoplay.js");
-const clear = require("./clear.js");
 const cut = require("./cut.js");
 const drop = require("./drop.js");
 const echo = require("./echo.js");
@@ -33,10 +32,6 @@ const who = require("./who.js");
 module.exports = {
   autoplay,
   related: autoplay,
-
-  clear,
-  empty: clear,
-  clean: clear,
 
   cut,
   c: cut,
@@ -83,6 +78,8 @@ module.exports = {
   nxc: nightcore,
 
   pause,
+  stfu: pause,
+  shut: pause,
 
   play,
   p: play,
@@ -108,9 +105,9 @@ module.exports = {
   randomize: shuffle,
 
   stop,
-  stfu: stop,
-  shut: stop,
-  unplay: stop,
+  clean: stop,
+  clear: stop,
+  empty: stop,
 
   unautoplay,
   noautoplay: unautoplay,
