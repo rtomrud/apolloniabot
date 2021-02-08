@@ -44,13 +44,13 @@ repeat the current track
 **unloop**
 do not repeat the queue or current track
 **autoplay**
-play a related song when the queue ends
+play a related song once the queue ends
 **unautoplay**
-do not play a related song when the queue ends
+do not play a related song once the queue ends
 **nightcore|reverse|vaporwave**
-apply the specified filter to the audio stream
+apply the specified filter to the audio
 **unfilter**
-do not apply any filter to the audio stream
+do not filter the audio
 `,
         },
         {
