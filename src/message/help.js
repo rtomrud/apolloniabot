@@ -14,7 +14,7 @@ module.exports = function (message) {
           name: "COMMANDS",
           value: `
 **play**, **p** (URL|TERM...)
-play the track or playlist at URL, or search for a track and play it
+play the track or playlist at URL, or search for TERM and play it
 **find**, **f** TERM...
 search TERMS on YouTube and show the results
 **pause**
