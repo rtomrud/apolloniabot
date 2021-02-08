@@ -14,9 +14,11 @@ module.exports = function (message) {
     return;
   }
 
+  message.channel.startTyping();
   const argv = message.content.split(separatorRegExp);
   const command = argv.length > 1 ? argv[1] : "";
   const handle = aliases[command.toLowerCase()] || handleDefault;
   message.argv = argv;
   handle.bind(this)(message);
+  message.channel.stopTyping();
 };
