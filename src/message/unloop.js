@@ -6,5 +6,5 @@ module.exports = function (message) {
   }
 
   this.player.setRepeatMode(message, 0);
-  message.channel.send({ embed: { description: "Disabled loop" } });
+  message.channel.send({ embed: { description: "Looping disabled" } });
 };

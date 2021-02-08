@@ -10,7 +10,6 @@ const nightcore = require("./nightcore.js");
 const pause = require("./pause.js");
 const play = require("./play.js");
 const queue = require("./queue.js");
-const repeat = require("./repeat.js");
 const reverse = require("./reverse.js");
 const shuffle = require("./shuffle.js");
 const stop = require("./stop.js");
@@ -18,7 +17,6 @@ const unautoplay = require("./unautoplay.js");
 const unfilter = require("./unfilter.js");
 const unloop = require("./unloop.js");
 const unpause = require("./unpause.js");
-const unrepeat = require("./unrepeat.js");
 const vaporwave = require("./vaporwave.js");
 const version = require("./version.js");
 const volume = require("./volume.js");
@@ -54,6 +52,7 @@ module.exports = {
   manual: help,
 
   loop,
+  repeat: loop,
 
   next,
   n: next,
@@ -72,8 +71,6 @@ module.exports = {
 
   queue,
   q: queue,
-
-  repeat,
 
   reverse,
   backward: reverse,
@@ -99,13 +96,12 @@ module.exports = {
 
   unloop,
   noloop: unloop,
+  unrepeat: unloop,
+  norepeat: unloop,
 
   unpause,
   resume: unpause,
   r: unpause,
-
-  unrepeat,
-  norepeat: unrepeat,
 
   vaporwave,
   daycore: vaporwave,

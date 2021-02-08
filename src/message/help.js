@@ -38,13 +38,11 @@ move the last track to the start of the queue
 **volume**, **v** [PERCENT]
 set volume to PERCENT (from 1 to 100)
 **loop**
-loop the queue
-**unloop**
-do not loop the queue
-**repeat**
+repeat the queue
+**loop 1**
 repeat the current track
-**unrepeat**
-do not repeat the current track
+**unloop**
+do not repeat the queue or current track
 **autoplay**
 play a related song when the queue ends
 **unautoplay**
