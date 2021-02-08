@@ -47,6 +47,10 @@ do not repeat the queue or current track
 play a related song when the queue ends
 **unautoplay**
 do not play a related song when the queue ends
+**nightcore|reverse|vaporwave**
+apply the specified filter to the audio stream
+**unfilter**
+do not apply any filter to the audio stream
 `,
         },
         {
