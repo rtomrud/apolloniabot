@@ -25,6 +25,7 @@ const who = require("./who.js");
 
 module.exports = {
   autoplay,
+  a: autoplay,
   related: autoplay,
 
   cut,

@@ -41,7 +41,7 @@ set volume to PERCENT (from 1 to 100)
 repeat the queue, or the current track if 1 is given
 **unloop**
 do not repeat the queue or current track
-**autoplay**
+**autoplay**, **a**
 play a related song once the queue ends
 **unautoplay**
 do not play a related song once the queue ends
