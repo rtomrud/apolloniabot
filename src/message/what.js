@@ -1,5 +1,11 @@
 const formatPlayback = require("../format-playback.js");
 
+const formatStatus = ({ autoplay, filter, repeatMode, volume }) => {
+  return `volume: ${volume}%${autoplay ? ", autoplay: on" : ""}${
+    repeatMode ? `, loop: ${repeatMode === 2 ? "queue" : "track"}` : ""
+  }${filter ? `, ${filter}: on` : ""}`;
+};
+
 module.exports = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || !queue.playing) {
@@ -7,16 +13,9 @@ module.exports = function (message) {
     return;
   }
 
-  const { autoplay, filter, repeatMode, volume } = queue;
   message.channel.send({
     embed: {
-      description: `Playing ${formatPlayback(queue)}
-
-volume: ${volume}%${autoplay ? "\nautoplay: ON" : ""}${
-        repeatMode
-          ? `\n${repeatMode === 1 ? "repeat track" : "repeat queue"}: ON`
-          : ""
-      }${filter ? `\n${filter}: ON` : ""}`,
+      description: `Playing ${formatPlayback(queue)}\n\n${formatStatus(queue)}`,
     },
   });
 };
