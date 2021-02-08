@@ -1,3 +1,4 @@
+const formatPlayback = require("../format-playback.js");
 const formatSong = require("../format-song.js");
 
 const songsPerPage = 10;
@@ -22,10 +23,7 @@ module.exports = function (message) {
       description: "Queue:",
       fields: songs.slice(start, end).map((song, i) => ({
         name: i + 1 + start,
-        value:
-          song === first
-            ? `[${song.name}](${song.url}) [${queue.formattedCurrentTime}/${song.formattedDuration}]`
-            : formatSong(song),
+        value: song === first ? formatPlayback(queue) : formatSong(song),
       })),
       footer: {
         text: pages > 1 ? `Page ${page} of ${pages} (${length} tracks)` : "",

@@ -1,3 +1,5 @@
+const formatPlayback = require("../format-playback.js");
+
 module.exports = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || !queue.playing) {
@@ -5,11 +7,10 @@ module.exports = function (message) {
     return;
   }
 
-  const { autoplay, filter, formattedCurrentTime, repeatMode, volume } = queue;
-  const [{ formattedDuration, name, url }] = queue.songs;
+  const { autoplay, filter, repeatMode, volume } = queue;
   message.channel.send({
     embed: {
-      description: `Playing [${name}](${url}) [${formattedCurrentTime}/${formattedDuration}]
+      description: `Playing ${formatPlayback(queue)}
 
 volume: ${volume}%${autoplay ? "\nautoplay: ON" : ""}${
         repeatMode
