@@ -52,6 +52,7 @@ module.exports = {
   manual: help,
 
   loop,
+  l: loop,
   repeat: loop,
 
   next,
