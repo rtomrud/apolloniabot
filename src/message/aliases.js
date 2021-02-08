@@ -11,6 +11,7 @@ const pause = require("./pause.js");
 const play = require("./play.js");
 const queue = require("./queue.js");
 const reverse = require("./reverse.js");
+const seek = require("./seek.js");
 const shuffle = require("./shuffle.js");
 const stop = require("./stop.js");
 const unautoplay = require("./unautoplay.js");
@@ -76,6 +77,10 @@ module.exports = {
 
   reverse,
   backward: reverse,
+
+  seek,
+  goto: seek,
+  jump: seek,
 
   shuffle,
   s: shuffle,
