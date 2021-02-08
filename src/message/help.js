@@ -37,10 +37,8 @@ delete TRACK from the queue (default: last track)
 move the last track to the start of the queue
 **volume**, **v** PERCENT
 set volume to PERCENT (from 1 to 100)
-**loop**
-repeat the queue
-**loop** 1
-repeat the current track
+**loop** [1]
+repeat the queue, or the current track if 1 is given
 **unloop**
 do not repeat the queue or current track
 **autoplay**
