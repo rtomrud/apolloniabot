@@ -2,7 +2,7 @@ const min = 1;
 const max = 100;
 const percentRegExp = /^\d+(\.\d+)?%?/;
 
-module.exports = function (message) {
+module.exports = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
     message.channel.send({
@@ -11,7 +11,7 @@ module.exports = function (message) {
     return;
   }
 
-  const arg = message.argv.slice(2).find((arg) => percentRegExp.test(arg));
+  const arg = argv.slice(2).find((arg) => percentRegExp.test(arg));
   if (!arg) {
     message.channel.send({
       embed: { description: "I don't know what volume you want" },

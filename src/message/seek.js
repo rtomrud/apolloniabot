@@ -7,14 +7,14 @@ const timeToMs = (time) => {
   return Number(h) * 3600000 + Number(m) * 60000 + Number(s) * 1000;
 };
 
-module.exports = function (message) {
+module.exports = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
     message.channel.send({ embed: { description: "Nothing to seek on" } });
     return;
   }
 
-  const arg = message.argv.slice(2).find((arg) => timeRegExp.test(arg));
+  const arg = argv.slice(2).find((arg) => timeRegExp.test(arg));
   if (!arg) {
     message.channel.send({
       embed: { description: "I don't know to what time you want to seek" },

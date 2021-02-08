@@ -1,13 +1,13 @@
 const oneRegExp = /1|1st|one|first|track|song|current/i;
 
-module.exports = function (message) {
+module.exports = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
     message.channel.send({ embed: { description: "Nothing to loop" } });
     return;
   }
 
-  const arg = message.argv.slice(2).find((arg) => oneRegExp.test(arg));
+  const arg = argv.slice(2).find((arg) => oneRegExp.test(arg));
   if (arg) {
     this.player.setRepeatMode(message, 1);
     message.channel.send({

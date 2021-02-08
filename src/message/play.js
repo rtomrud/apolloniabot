@@ -4,8 +4,8 @@ const { getTracks } = require("spotify-url-info");
 const spotifyListMaxSongs = 1000;
 const spotifyListRegExp = /^https:\/\/open\.spotify\.com\/(?:playlist\/|artist|album\/)(\w|-){22}.*/;
 
-module.exports = async function (message) {
-  const args = message.argv.slice(2);
+module.exports = async function (message, argv) {
+  const args = argv.slice(2);
   if (args.length === 0) {
     message.channel.send({
       embed: { description: "I don't know what you want to play" },

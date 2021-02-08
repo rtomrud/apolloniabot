@@ -3,8 +3,8 @@ const formatSong = require("../format-song.js");
 
 const songsPerPage = 10;
 
-module.exports = function (message) {
-  const arg = Number(message.argv.slice(2).find((arg) => /^\d+/.test(arg)));
+module.exports = function (message, argv) {
+  const arg = Number(argv.slice(2).find((arg) => /^\d+/.test(arg)));
   const queue = this.player.getQueue(message);
   if (!queue || queue.songs.length === 0) {
     message.channel.send({ embed: { description: "Nothing in queue" } });

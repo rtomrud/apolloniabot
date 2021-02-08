@@ -2,14 +2,14 @@ const formatSong = require("../format-song.js");
 
 const integerRegExp = /^-?\d+/;
 
-module.exports = function (message) {
+module.exports = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
     message.channel.send({ embed: { description: "Nothing to drop" } });
     return;
   }
 
-  const arg = message.argv.slice(2).find((arg) => integerRegExp.test(arg));
+  const arg = argv.slice(2).find((arg) => integerRegExp.test(arg));
   const integer = Number(arg);
   const { songs } = queue;
   const { length } = songs;
