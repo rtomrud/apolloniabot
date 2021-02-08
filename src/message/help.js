@@ -39,7 +39,7 @@ move the last track to the start of the queue
 set volume to PERCENT (from 1 to 100)
 **loop**
 repeat the queue
-**loop 1**
+**loop** 1
 repeat the current track
 **unloop**
 do not repeat the queue or current track
