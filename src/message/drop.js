@@ -1,5 +1,7 @@
 const formatSong = require("../format-song.js");
 
+const integerRegExp = /^-?\d+/;
+
 module.exports = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue) {
@@ -7,10 +9,11 @@ module.exports = function (message) {
     return;
   }
 
-  const arg = Number(message.argv.slice(2).find((arg) => /^-?\d+/.test(arg)));
+  const arg = message.argv.slice(2).find((arg) => integerRegExp.test(arg));
+  const integer = Number(arg);
   const { songs } = queue;
   const { length } = songs;
-  if (arg < 1 || arg > length) {
+  if (integer < 1 || integer > length) {
     message.channel.send({
       embed: {
         description: "I can't drop that track because it doesn't exist",
@@ -19,7 +22,7 @@ module.exports = function (message) {
     return;
   }
 
-  const index = (arg || length) - 1;
+  const index = (integer || length) - 1;
   if (index === 0 && queue.playing) {
     message.channel.send({
       embed: { description: "I can't drop track 1 because it's playing now" },
