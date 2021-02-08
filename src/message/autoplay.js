@@ -1,6 +1,6 @@
 module.exports = function (message) {
   const queue = this.player.getQueue(message);
-  if (!queue || queue.autoplay) {
+  if (!queue) {
     message.channel.send({ embed: { description: "Nothing to autoplay" } });
     return;
   }
