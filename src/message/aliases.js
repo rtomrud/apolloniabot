@@ -5,14 +5,11 @@ const echo = require("./echo.js");
 const find = require("./find.js");
 const help = require("./help.js");
 const loop = require("./loop.js");
-const louder = require("./louder.js");
-const loudest = require("./loudest.js");
 const next = require("./next.js");
 const nightcore = require("./nightcore.js");
 const pause = require("./pause.js");
 const play = require("./play.js");
 const queue = require("./queue.js");
-const quieter = require("./quieter.js");
 const repeat = require("./repeat.js");
 const reverse = require("./reverse.js");
 const shuffle = require("./shuffle.js");
@@ -58,16 +55,6 @@ module.exports = {
 
   loop,
 
-  louder,
-  loudly: louder,
-  raise: louder,
-  increase: louder,
-
-  loudest,
-  l: loudest,
-  full: loudest,
-  eleven: loudest,
-
   next,
   n: next,
   skip: next,
@@ -85,13 +72,6 @@ module.exports = {
 
   queue,
   q: queue,
-
-  quieter,
-  quietly: quieter,
-  softer: quieter,
-  softly: quieter,
-  lower: quieter,
-  decrease: quieter,
 
   repeat,
 

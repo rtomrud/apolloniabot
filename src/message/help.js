@@ -23,12 +23,6 @@ pause playback
 resume playback
 **stop**
 stop playback and empty the queue
-**quieter**
-decrease the volume
-**louder**
-increase the volume
-**loudest**, **l**
-set the volume to 100%
 **what**, **w**
 show what's playing
 **queue**, **q** [PAGE]
