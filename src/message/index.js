@@ -14,10 +14,8 @@ module.exports = function (message) {
     return;
   }
 
-  message.channel.startTyping();
   const argv = message.content.split(separatorRegExp);
   const command = argv.length > 1 ? argv[1] : "";
   const handle = aliases[command.toLowerCase()] || handleDefault;
   handle.bind(this)(message, argv);
-  message.channel.stopTyping();
 };
