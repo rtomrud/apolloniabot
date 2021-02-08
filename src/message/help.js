@@ -13,35 +13,35 @@ module.exports = function (message) {
         {
           name: "COMMANDS",
           value: `
-**play**, **p** (URL|TERM...)
+**play, p** (URL|TERM...)
 play the track or playlist at URL, or search for TERM and play it
-**find**, **f** TERM...
+**find, f** TERM...
 search TERMS on YouTube and show the results
 **pause**
 pause playback
-**resume**, **r**
+**resume, r**
 resume playback
 **stop**
 stop playback and empty the queue
-**what**, **w**
+**what, w**
 show what's playing
-**queue**, **q** [PAGE]
+**queue, q** [PAGE]
 show the queue, may be queried by PAGE (default: 1)
-**shuffle**, **s**
+**shuffle, s**
 shuffle the queue
-**next**, **n**
+**next, n**
 play the next track
-**drop**, **d** [TRACK]
+**drop, d** [TRACK]
 delete TRACK from the queue (default: last track)
-**cut**, **c**
+**cut, c**
 move the last track to the start of the queue
-**volume**, **v** PERCENT
+**volume, v** PERCENT
 set volume to PERCENT (from 1 to 100)
-**loop**, **l** [1]
+**loop, l** [1]
 repeat the queue, or the current track if 1 is given
 **unloop**
 do not repeat the queue or current track
-**autoplay**, **a**
+**autoplay, a**
 play a related song once the queue ends
 **unautoplay**
 do not play a related song once the queue ends
