@@ -1,7 +1,7 @@
 module.exports = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || !queue.filter) {
-    message.channel.send({ embed: { description: "Nothing to unfilter" } });
+    message.channel.send({ embed: { description: "No filter" } });
     return;
   }
 
