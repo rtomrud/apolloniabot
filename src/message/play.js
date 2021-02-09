@@ -1,4 +1,3 @@
-const ytsr = require("@distube/ytsr");
 const { getTracks } = require("spotify-url-info");
 
 const spotifyListMaxSongs = 1000;
@@ -13,10 +12,10 @@ module.exports = async function (message, argv) {
     return;
   }
 
-  const spotifyList = args.find((arg) => spotifyListRegExp.test(arg));
-  if (spotifyList) {
-    const songs = await getTracks(spotifyList);
-    if (songs.length > spotifyListMaxSongs) {
+  const spotifyListUrl = args.find((arg) => spotifyListRegExp.test(arg));
+  if (spotifyListUrl) {
+    const spotifyList = await getTracks(spotifyListUrl);
+    if (spotifyList.length > spotifyListMaxSongs) {
       message.channel.send({
         embed: {
           description: `I won't play Spotify playlists with more than ${spotifyListMaxSongs} tracks`,
@@ -25,15 +24,21 @@ module.exports = async function (message, argv) {
       return;
     }
 
-    const results = await Promise.all(
-      songs.map(({ artists: [{ name: author }], name }) =>
-        ytsr(`${author} - ${name}`, { limit: 1 }).catch(() => ({ items: [] }))
-      )
-    );
-    // TODO: Add songs directly to the queue to avoid unnecessary refetches
-    const urls = results.flatMap(({ items }) => items.map(({ url }) => url));
-    this.player.playCustomPlaylist(message, urls);
-    return;
+    try {
+      const urls = await Promise.all(
+        spotifyList.map(({ artists: [{ name: author }], name }) =>
+          this.player.search(`${author} - ${name}`).then(([{ url }]) => url)
+        )
+      );
+      this.player.playCustomPlaylist(message, urls);
+      return;
+    } catch (error) {
+      console.log(error);
+      message.channel.send({
+        embed: { description: "I couldn't fetch the songs from that playlist" },
+      });
+      return;
+    }
   }
 
   this.player.play(message, args.join(" "));
