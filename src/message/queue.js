@@ -7,13 +7,13 @@ const integerRegExp = /^-?\d+/;
 module.exports = function (message, argv) {
   const arg = Number(argv.slice(2).find((arg) => integerRegExp.test(arg)));
   const queue = this.player.getQueue(message);
-  const { formattedDuration, songs } = queue;
-  const { length } = songs;
-  if (!queue || length === 0) {
+  if (!queue || queue.songs.length === 0) {
     message.channel.send({ embed: { description: "Nothing in queue" } });
     return;
   }
 
+  const { formattedDuration, songs } = queue;
+  const { length } = songs;
   const [first] = songs;
   const pages = Math.ceil(length / songsPerPage);
   const page = arg * songsPerPage > length ? pages : arg || 1;
