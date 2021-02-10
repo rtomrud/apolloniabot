@@ -1,5 +1,3 @@
-const formatSong = require("../format-song.js");
-
 const integerRegExp = /^-?\d+/;
 
 module.exports = function (message, argv) {
@@ -9,31 +7,33 @@ module.exports = function (message, argv) {
     return;
   }
 
-  const arg = argv.slice(2).find((arg) => integerRegExp.test(arg));
-  const integer = Number(arg);
-  const { songs } = queue;
-  const { length } = songs;
-  if (integer < 1 || integer > length) {
+  const { length } = queue.songs;
+  const [arg1, arg2] = argv
+    .slice(2)
+    .filter((arg) => integerRegExp.test(arg))
+    .map((arg) => Number(arg));
+  const start = (arg1 != null ? arg1 : length) - 1;
+  const deleteCount = arg2 > arg1 ? arg2 - arg1 + 1 : 1;
+  if (start < 0 || start >= length) {
     message.channel.send({
-      embed: {
-        description: "I can't drop that track because it doesn't exist",
-      },
+      embed: { description: "I can't drop that because it's not in the queue" },
     });
     return;
   }
 
-  const index = (integer || length) - 1;
-  if (index === 0 && queue.playing) {
+  if (start === 0 && queue.playing) {
     message.channel.send({
       embed: { description: "I can't drop track 1 because it's playing now" },
     });
     return;
   }
 
-  queue.songs = queue.songs.filter((song, i) => i !== index);
+  const { length: deletes } = queue.songs.splice(start, deleteCount);
   message.channel.send({
     embed: {
-      description: `Dropped track ${index + 1}: ${formatSong(songs[index])}`,
+      description: `Dropped track${deletes > 1 ? "s" : ""} ${start + 1}${
+        deletes > 1 ? ` to ${start + deletes}` : ""
+      }`,
     },
   });
 };

@@ -31,8 +31,8 @@ show the queue, may be queried by PAGE (default: 1)
 shuffle the queue
 **next, n**
 play the next track
-**drop, d** [TRACK]
-delete TRACK from the queue (default: last track)
+**drop, d** [START] [END]
+delete tracks, from START (default: last track) to END (default: START + 1)
 **cut, c**
 move the last track to the start of the queue
 **seek** TIME
