@@ -41,10 +41,8 @@ go to TIME in the playing track
 set volume to PERCENT (from 1 to 100)
 **loop, l** (queue|track|off)
 repeat the queue, the current track, or turn off looping
-**autoplay, a**
-play a related song once the queue ends
-**unautoplay**
-do not play a related song once the queue ends
+**autoplay, a** (on|off)
+play a related song once the queue ends, or turn off autoplay (default: on)
 **effect, e** (bassboost|nightcore|reverse|vaporwave|off)
 apply the specified effect to the audio, or turn off effects
 `,

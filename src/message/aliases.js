@@ -14,7 +14,6 @@ const resume = require("./resume.js");
 const seek = require("./seek.js");
 const shuffle = require("./shuffle.js");
 const stop = require("./stop.js");
-const unautoplay = require("./unautoplay.js");
 const version = require("./version.js");
 const volume = require("./volume.js");
 const what = require("./what.js");
@@ -90,11 +89,6 @@ module.exports = {
   clean: stop,
   clear: stop,
   empty: stop,
-
-  unautoplay,
-  noautoplay: unautoplay,
-  unrelated: unautoplay,
-  norelated: unautoplay,
 
   version,
 
