@@ -1,4 +1,5 @@
 const autoplay = require("./autoplay.js");
+const bassboost = require("./bassboost.js");
 const cut = require("./cut.js");
 const drop = require("./drop.js");
 const echo = require("./echo.js");
@@ -28,6 +29,9 @@ module.exports = {
   autoplay,
   a: autoplay,
   related: autoplay,
+
+  bassboost,
+  bass: bassboost,
 
   cut,
   c: cut,
