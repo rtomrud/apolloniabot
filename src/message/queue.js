@@ -2,17 +2,18 @@ const formatPlayback = require("../format-playback.js");
 const formatSong = require("../format-song.js");
 
 const songsPerPage = 10;
+const integerRegExp = /^-?\d+/;
 
 module.exports = function (message, argv) {
-  const arg = Number(argv.slice(2).find((arg) => /^\d+/.test(arg)));
+  const arg = Number(argv.slice(2).find((arg) => integerRegExp.test(arg)));
   const queue = this.player.getQueue(message);
-  if (!queue || queue.songs.length === 0) {
+  const { formattedDuration, songs } = queue;
+  const { length } = songs;
+  if (!queue || length === 0) {
     message.channel.send({ embed: { description: "Nothing in queue" } });
     return;
   }
 
-  const { formattedDuration, songs } = queue;
-  const { length } = songs;
   const [first] = songs;
   const pages = Math.ceil(length / songsPerPage);
   const page = arg * songsPerPage > length ? pages : arg || 1;

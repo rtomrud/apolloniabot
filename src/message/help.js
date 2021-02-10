@@ -26,7 +26,7 @@ stop playback and empty the queue
 **what, w**
 show what's playing
 **queue, q** [PAGE]
-show the queue, may be queried by PAGE (default: 1)
+show the queue, at the specified PAGE (default: 1) if there's many pages
 **shuffle, s**
 shuffle the queue
 **next, n**
