@@ -18,6 +18,16 @@ module.exports = function (message, error) {
     return;
   }
 
+  if (err.endsWith("No result!")) {
+    message.channel.send({
+      embed: {
+        description:
+          "I couldn't find anything, check if your URL or query is correct",
+      },
+    });
+    return;
+  }
+
   if (err.includes("[youtube-dl] ERROR: Unsupported URL")) {
     message.channel.send({
       embed: { description: "I can't play that URL, sorry" },
