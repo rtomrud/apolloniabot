@@ -49,7 +49,11 @@ apply the specified effect to the audio, or turn effects off
         },
         {
           name: "EXAMPLES",
-          value: "`lena play Bohemian Rhapsody`",
+          value: `
+\`lena play Bohemian Rhapsody\`
+\`lena play https://youtu.be/fdixQDPA2h0\`
+\`lena p https://youtube.com/playlist?list=OLAK5uy_mHMBxzRe_v1MEyVhqGI8pBdUaqTJGNFKk\`
+`,
         },
       ],
     },
