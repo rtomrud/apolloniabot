@@ -17,7 +17,6 @@ const shuffle = require("./shuffle.js");
 const stop = require("./stop.js");
 const unautoplay = require("./unautoplay.js");
 const unfilter = require("./unfilter.js");
-const unloop = require("./unloop.js");
 const unpause = require("./unpause.js");
 const vaporwave = require("./vaporwave.js");
 const version = require("./version.js");
@@ -103,11 +102,6 @@ module.exports = {
   unfilter,
   nofilter: unfilter,
   reset: unfilter,
-
-  unloop,
-  noloop: unloop,
-  unrepeat: unloop,
-  norepeat: unloop,
 
   unpause,
   resume: unpause,

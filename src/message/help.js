@@ -39,10 +39,8 @@ move the last track to the start of the queue
 go to TIME in the playing track
 **volume, v** PERCENT
 set volume to PERCENT (from 1 to 100)
-**loop, l** [1]
-repeat the queue, or the current track if 1 is given
-**unloop**
-do not repeat the queue or current track
+**loop, l** (queue|track|off)
+repeat the queue, the current track, or turn off looping
 **autoplay, a**
 play a related song once the queue ends
 **unautoplay**
