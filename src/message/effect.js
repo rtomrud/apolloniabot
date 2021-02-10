@@ -1,4 +1,4 @@
-const filterRegExp = /(off|none|no|false|disable)|(bassboost|nightcore|reverse|vaporwave)/i;
+const filterRegExp = /(off|none|no|false|disable)|(3d|bassboost|echo|karaoke|nightcore|vaporwave|flanger|gate|haas|reverse|surround|mcompand|phaser|tremolo|earwax)/i;
 
 module.exports = function (message, argv) {
   const queue = this.player.getQueue(message);
