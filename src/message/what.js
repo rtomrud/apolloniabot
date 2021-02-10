@@ -3,7 +3,7 @@ const formatPlayback = require("../format-playback.js");
 const formatStatus = ({ autoplay, filter, repeatMode, volume }) => {
   return `volume: ${volume}%${autoplay ? ", autoplay: on" : ""}${
     repeatMode ? `, loop: ${repeatMode === 2 ? "queue" : "track"}` : ""
-  }${filter ? `, ${filter}: on` : ""}`;
+  }${filter ? `, effects: ${filter}` : ""}`;
 };
 
 module.exports = function (message) {

@@ -45,10 +45,8 @@ repeat the queue, the current track, or turn off looping
 play a related song once the queue ends
 **unautoplay**
 do not play a related song once the queue ends
-**bassboost | nightcore | reverse | vaporwave**
-apply the specified filter to the audio
-**unfilter**
-do not filter the audio
+**effect, e** (bassboost|nightcore|reverse|vaporwave|off)
+apply the specified effect to the audio, or turn off effects
 `,
         },
         {

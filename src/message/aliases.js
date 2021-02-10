@@ -1,24 +1,20 @@
 const autoplay = require("./autoplay.js");
-const bassboost = require("./bassboost.js");
 const cut = require("./cut.js");
 const drop = require("./drop.js");
 const echo = require("./echo.js");
+const effect = require("./effect.js");
 const find = require("./find.js");
 const help = require("./help.js");
 const loop = require("./loop.js");
 const next = require("./next.js");
-const nightcore = require("./nightcore.js");
 const pause = require("./pause.js");
 const play = require("./play.js");
 const queue = require("./queue.js");
 const resume = require("./resume.js");
-const reverse = require("./reverse.js");
 const seek = require("./seek.js");
 const shuffle = require("./shuffle.js");
 const stop = require("./stop.js");
 const unautoplay = require("./unautoplay.js");
-const unfilter = require("./unfilter.js");
-const vaporwave = require("./vaporwave.js");
 const version = require("./version.js");
 const volume = require("./volume.js");
 const what = require("./what.js");
@@ -28,9 +24,6 @@ module.exports = {
   autoplay,
   a: autoplay,
   related: autoplay,
-
-  bassboost,
-  bass: bassboost,
 
   cut,
   c: cut,
@@ -43,6 +36,12 @@ module.exports = {
 
   echo,
   listen: echo,
+
+  effect,
+  e: effect,
+  fx: effect,
+  mode: effect,
+  filter: effect,
 
   find,
   f: find,
@@ -64,9 +63,6 @@ module.exports = {
   skip: next,
   forward: next,
 
-  nightcore,
-  nxc: nightcore,
-
   pause,
   stfu: pause,
   shut: pause,
@@ -80,9 +76,6 @@ module.exports = {
   resume,
   r: resume,
   unpause: resume,
-
-  reverse,
-  backward: reverse,
 
   seek,
   goto: seek,
@@ -102,13 +95,6 @@ module.exports = {
   noautoplay: unautoplay,
   unrelated: unautoplay,
   norelated: unautoplay,
-
-  unfilter,
-  nofilter: unfilter,
-  reset: unfilter,
-
-  vaporwave,
-  daycore: vaporwave,
 
   version,
 
