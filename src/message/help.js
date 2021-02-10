@@ -24,27 +24,27 @@ resume playback
 **stop**
 stop playback and empty the queue
 **what, w**
-show what's playing
+show what's playing now and the status of the player
 **queue, q** [PAGE]
-show the queue, at the specified PAGE (default: 1) if there's many pages
+show the queue, at the specified PAGE (default: 1)
 **shuffle, s**
 shuffle the queue
 **next, n**
 play the next track
 **drop, d** [START] [END]
-delete tracks, from START (default: last track) to END (default: START + 1)
+delete tracks, from START (default: last) to END (default: START + 1)
 **cut, c**
 move the last track to the start of the queue
 **seek** TIME
 go to TIME in the playing track
 **volume, v** PERCENT
-set volume to PERCENT (from 1 to 100)
+set volume to PERCENT (1-100)
 **loop, l** (queue|track|off)
 repeat the queue, the current track, or turn off looping
 **autoplay, a** (on|off)
-play a related song once the queue ends, or turn off autoplay (default: on)
+play a related song once the queue ends, or turn it off (default: on)
 **effect, e** (bassboost|nightcore|reverse|vaporwave|off)
-apply the specified effect to the audio, or turn off effects
+apply the specified effect to the audio, or turn effects off
 `,
         },
         {
