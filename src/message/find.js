@@ -1,4 +1,4 @@
-const ytsr = require("@distube/ytsr");
+const limit = 10;
 
 module.exports = function (message, argv) {
   const query = argv.slice(2).join(" ");
@@ -9,18 +9,16 @@ module.exports = function (message, argv) {
     return;
   }
 
-  ytsr(query, { limit: 10 }).then(({ items }) =>
+  this.player.search(query).then((searchResults) =>
     message.channel.send({
       embed: {
         description: "Found tracks:",
-        fields: items
-          .slice(0, items.length < 10 ? items.length : 10)
-          .map(
-            ({ author: { name: channel } = {}, duration, name, url }, i) => ({
-              name: `${i + 1} ${channel || ""}`,
-              value: `[${name}](${url}) [${duration}]`,
-            })
-          ),
+        fields: searchResults
+          .slice(0, searchResults.length < limit ? searchResults.length : limit)
+          .map(({ formattedDuration, name, url }, i) => ({
+            name: i + 1,
+            value: `[${name}](${url}) [${formattedDuration}]`,
+          })),
       },
     })
   );
