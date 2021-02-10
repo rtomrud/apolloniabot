@@ -101,6 +101,7 @@ module.exports = {
   now: what,
   song: what,
   track: what,
+  status: what,
   playing: what,
 
   who,
