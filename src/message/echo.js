@@ -22,7 +22,7 @@ const _createStream = function (queue) {
   }
 
   // Patch DisTube's _createStream to work with a Readable streamURL
-  if (Object.getPrototypeOf(song.streamURL).constructor.name === "Readable") {
+  if (song.streamURL.constructor.name === "Readable") {
     return song.streamURL;
   }
 
