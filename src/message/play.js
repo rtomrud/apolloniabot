@@ -33,7 +33,6 @@ module.exports = async function (message, argv) {
       this.player.playCustomPlaylist(message, urls);
       return;
     } catch (error) {
-      console.log(error);
       message.channel.send({
         embed: { description: "I couldn't fetch the songs from that playlist" },
       });
