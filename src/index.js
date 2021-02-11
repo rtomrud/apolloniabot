@@ -7,8 +7,9 @@ const addSong = require("./add-song.js");
 const empty = require("./empty.js");
 const error = require("./error.js");
 const finish = require("./finish.js");
-const playSong = require("./play-song.js");
+const noRelated = require("./no-related.js");
 const playList = require("./play-list.js");
+const playSong = require("./play-song.js");
 const ready = require("./ready.js");
 
 const client = new Client({
@@ -24,6 +25,7 @@ client.player = new DisTube(client, {
   .on("empty", empty)
   .on("error", error)
   .on("finish", finish)
+  .on("noRelated", noRelated)
   .on("playList", playList)
   .on("playSong", playSong);
 
