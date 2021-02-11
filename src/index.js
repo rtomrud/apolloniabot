@@ -16,10 +16,7 @@ const client = new Client({
   presence: { activity: { name: "lena", type: "LISTENING" } },
 });
 
-client.player = new DisTube(client, {
-  autoSelfDeaf: false,
-  leaveOnFinish: true,
-})
+client.player = new DisTube(client, { leaveOnFinish: true })
   .on("addList", addList)
   .on("addSong", addSong)
   .on("empty", empty)
