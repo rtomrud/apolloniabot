@@ -18,7 +18,6 @@ const client = new Client({
 
 client.player = new DisTube(client, {
   emitNewSongOnly: true,
-  leaveOnFinish: true,
   updateYouTubeDL: false,
 })
   .on("addList", addList)
