@@ -5,7 +5,7 @@ const spotifyListRegExp = /^https:\/\/open\.spotify\.com\/(?:playlist\/|artist|a
 
 module.exports = async function (message, argv) {
   const args = argv.slice(2);
-  if (args.length === 0) {
+  if (args.length === 0 && message.attachments.size === 0) {
     message.channel.send({
       embed: { description: "I don't know what you want to play" },
     });
@@ -38,6 +38,22 @@ module.exports = async function (message, argv) {
       });
       return;
     }
+  }
+
+  const { attachments } = message;
+  if (attachments.size > 0) {
+    const { width, url } = attachments.values().next().value;
+    if (width) {
+      message.channel.send({
+        embed: {
+          description: "I can't play that because it's not a valid file format",
+        },
+      });
+      return;
+    }
+
+    this.player.play(message, url);
+    return;
   }
 
   this.player.play(message, args.join(" "));
