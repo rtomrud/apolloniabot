@@ -89,6 +89,9 @@ module.exports = {
   clean: stop,
   clear: stop,
   empty: stop,
+  leave: stop,
+  destroy: stop,
+  disconnect: stop,
 
   version,
 
