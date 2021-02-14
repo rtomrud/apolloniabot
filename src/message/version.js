@@ -1,5 +1,5 @@
-const version = `${new Date().toISOString().slice(0, -5)}Z`;
+const { version } = require("../../package.json");
 
 module.exports = function (message) {
-  message.channel.send({ embed: { description: version } });
+  message.channel.send({ embed: { description: `lena ${version}` } });
 };
