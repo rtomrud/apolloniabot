@@ -12,7 +12,7 @@ module.exports = function (message, error) {
   if (err.endsWith("You do not have permission to join this voice channel.")) {
     message.channel.send({
       embed: {
-        description: "I can't join you because you're not in a voice channel",
+        description: "I don't have permission to join your voice channel",
       },
     });
     return;
