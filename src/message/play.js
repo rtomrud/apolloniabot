@@ -1,6 +1,7 @@
 const { getTracks } = require("spotify-url-info");
 
 const spotifyListRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album)\/(\w|-){22}.*/;
+const spotifySongDescriptionRegExp = / · Song · \d{4}$/;
 
 module.exports = async function (message, argv) {
   const args = argv.slice(2);
@@ -28,6 +29,21 @@ module.exports = async function (message, argv) {
     }
 
     return;
+  }
+
+  const { embeds } = message;
+  if (embeds.length > 0) {
+    const spotifySong = embeds.find(
+      ({ description, provider: { name } }) =>
+        name === "Spotify" && spotifySongDescriptionRegExp.test(description)
+    );
+    if (spotifySong) {
+      const { description, title } = spotifySong;
+      const [author] = description.slice(" · ", 1);
+      const [searchResult] = await this.player.search(`${author} - ${title}`);
+      this.player.play(message, searchResult);
+      return;
+    }
   }
 
   const { attachments } = message;
