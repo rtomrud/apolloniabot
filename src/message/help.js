@@ -43,7 +43,7 @@ set volume to PERCENT (1-100)
 repeat the queue, the current track, or turn off looping
 **autoplay, a** (on|off)
 play a related song once the queue ends, or turn it off (default: on)
-**effect, e** (bassboost|nightcore|reverse|vaporwave|off)
+**effect, e** (bassboost|nightcore|vaporwave|karaoke|off)
 apply the specified effect to the audio, or turn effects off
 `,
         },
