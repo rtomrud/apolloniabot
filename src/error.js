@@ -36,5 +36,7 @@ module.exports = function (message, error) {
   }
 
   console.error(err);
-  message.channel.send({ embed: { description: "Ops, something went wrong" } });
+  message.channel.send({
+    embed: { description: "Oops, something went wrong" },
+  });
 };
