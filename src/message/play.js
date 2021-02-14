@@ -1,6 +1,5 @@
 const { getTracks } = require("spotify-url-info");
 
-const spotifyListMaxSongs = 1000;
 const spotifyListRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album)\/(\w|-){22}.*/;
 
 module.exports = async function (message, argv) {
@@ -14,30 +13,21 @@ module.exports = async function (message, argv) {
 
   const spotifyListUrl = args.find((arg) => spotifyListRegExp.test(arg));
   if (spotifyListUrl) {
-    const spotifyList = await getTracks(spotifyListUrl);
-    if (spotifyList.length > spotifyListMaxSongs) {
-      message.channel.send({
-        embed: {
-          description: `I won't play Spotify playlists with more than ${spotifyListMaxSongs} tracks`,
-        },
-      });
-      return;
-    }
-
     try {
+      const songs = await getTracks(spotifyListUrl);
       const urls = await Promise.all(
-        spotifyList.map(({ artists: [{ name: author }], name }) =>
+        songs.map(({ artists: [{ name: author }], name }) =>
           this.player.search(`${author} - ${name}`).then(([{ url }]) => url)
         )
       );
       this.player.playCustomPlaylist(message, urls);
-      return;
     } catch (error) {
       message.channel.send({
         embed: { description: "I couldn't fetch the songs from that playlist" },
       });
-      return;
     }
+
+    return;
   }
 
   const { attachments } = message;
