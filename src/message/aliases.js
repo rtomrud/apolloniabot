@@ -98,11 +98,13 @@ module.exports = {
 
   what,
   w: what,
+  np: what,
   now: what,
   song: what,
   track: what,
   status: what,
   playing: what,
+  nowplaying: what,
 
   who,
 };
