@@ -110,4 +110,6 @@ module.exports = {
   nowplaying: what,
 
   who,
+  info: who,
+  invite: who,
 };
