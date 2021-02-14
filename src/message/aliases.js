@@ -94,6 +94,7 @@ module.exports = {
   disconnect: stop,
 
   version,
+  "--version": version,
 
   volume,
   v: volume,
