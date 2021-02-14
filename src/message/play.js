@@ -1,7 +1,7 @@
 const { getTracks } = require("spotify-url-info");
 
 const spotifyListMaxSongs = 1000;
-const spotifyListRegExp = /^https:\/\/open\.spotify\.com\/(?:playlist\/|artist|album\/)(\w|-){22}.*/;
+const spotifyListRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album)\/(\w|-){22}.*/;
 
 module.exports = async function (message, argv) {
   const args = argv.slice(2);
