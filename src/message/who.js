@@ -4,7 +4,7 @@ module.exports = function (message) {
       description: `
 Hi, I'm [Lena](https://example.com/)!
 
-I play music. Ask me for help to find out what I can do for you (\`lena help\`).
+I play music. Type \`lena help\` to find out what I can do for you.
 
 I need [permission](https://support.discord.com/hc/en-us/articles/206029707-How-do-I-set-up-Permissions-) to:
 
