@@ -63,6 +63,9 @@ const aliases = {
   forward: next,
 
   pause,
+  sh: pause,
+  shh: pause,
+  shhh: pause,
   stfu: pause,
   shut: pause,
 
