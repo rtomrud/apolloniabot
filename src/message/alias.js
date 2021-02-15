@@ -86,6 +86,7 @@ const aliases = {
   randomize: shuffle,
 
   stop,
+  exit: stop,
   clean: stop,
   clear: stop,
   empty: stop,
