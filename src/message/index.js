@@ -1,4 +1,4 @@
-const aliases = require("./aliases.js");
+const alias = require("./alias.js");
 
 const prefixRegExp = RegExp(`^(?:lena|<@!?${process.env.CLIENT_ID}>)`, "i");
 const permissions = 0x00004800;
@@ -23,7 +23,6 @@ module.exports = function (message) {
   }
 
   const argv = message.content.split(separatorRegExp);
-  const command = argv.length > 1 ? argv[1] : "";
-  const handle = aliases[command.toLowerCase()] || handleDefault;
+  const handle = alias(argv) || handleDefault;
   handle.bind(this)(message, argv);
 };

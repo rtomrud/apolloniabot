@@ -19,7 +19,7 @@ const volume = require("./volume.js");
 const what = require("./what.js");
 const who = require("./who.js");
 
-module.exports = {
+const aliases = {
   autoplay,
   a: autoplay,
   related: autoplay,
@@ -113,4 +113,8 @@ module.exports = {
   who,
   info: who,
   invite: who,
+};
+
+module.exports = function (argv) {
+  return aliases[argv.length > 1 ? argv[1] : ""];
 };
