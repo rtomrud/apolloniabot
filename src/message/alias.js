@@ -111,8 +111,12 @@ const aliases = {
   nowplaying: what,
 
   who,
+  whois: who,
   info: who,
   invite: who,
+  perms: who,
+  permission: who,
+  permissions: who,
 };
 
 module.exports = function (argv) {
