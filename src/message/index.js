@@ -24,5 +24,5 @@ module.exports = function (message) {
 
   const argv = message.content.split(separatorRegExp);
   const handle = alias(argv) || handleDefault;
-  handle.bind(this)(message, argv);
+  handle.bind(this)(message, argv, alias);
 };

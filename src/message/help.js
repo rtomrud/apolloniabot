@@ -1,10 +1,18 @@
-module.exports = function (message) {
+const help = function (message, argv, alias) {
+  if (argv.length > 2) {
+    const command = alias(argv.slice(1));
+    if (command && command.usage) {
+      message.channel.send(command.usage);
+      return;
+    }
+  }
+
   message.channel.send({
     embed: {
       fields: [
         {
           name: "NAME",
-          value: "[Lena](https://example.com) - I play music",
+          value: "[**Lena**](https://example.com) - I play music",
         },
         {
           name: "SYNOPSIS",
@@ -43,19 +51,47 @@ set volume to PERCENT (1-100)
 repeat the queue, the current track, or turn off looping
 **autoplay, a** (on|off)
 play a related song once the queue ends, or turn it off (default: on)
-**effect, e** (bassboost|nightcore|vaporwave|karaoke|off)
+**effect, e** (EFFECT|off)
 apply the specified effect to the audio, or turn effects off
 `,
         },
         {
           name: "EXAMPLES",
-          value: `
-\`lena play Bohemian Rhapsody\`
-\`lena play https://youtu.be/fdixQDPA2h0\`
-\`lena p https://youtube.com/playlist?list=OLAK5uy_mHMBxzRe_v1MEyVhqGI8pBdUaqTJGNFKk\`
-`,
+          value: `\`lena play Bohemian Rhapsody\``,
+        },
+        {
+          name: "SEE ALSO",
+          value: `\`lena help COMMAND\``,
         },
       ],
     },
   });
 };
+
+module.exports = Object.assign(help, {
+  usage: {
+    embed: {
+      fields: [
+        {
+          name: "NAME",
+          value: "**lena help** - Show help",
+        },
+        {
+          name: "SYNOPSIS",
+          value: "lena help COMMAND",
+        },
+        {
+          name: "DESCRIPTION",
+          value: "Shows help about the specified command.",
+        },
+        {
+          name: "EXAMPLES",
+          value: `
+\`lena help play\`
+\`lena help effect\`
+`,
+        },
+      ],
+    },
+  },
+});
