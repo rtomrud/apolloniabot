@@ -55,5 +55,6 @@ const aliases = [
 }, {});
 
 module.exports = function (argv) {
-  return aliases[argv.length > 1 ? argv[1] : ""];
+  const alias = argv.length > 1 ? argv[1].toLowerCase() : "";
+  return aliases[alias];
 };
