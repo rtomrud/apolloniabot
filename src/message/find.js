@@ -12,7 +12,7 @@ const find = function (message, argv) {
   this.player.search(query).then((searchResults) =>
     message.channel.send({
       embed: {
-        description: "Found tracks:",
+        title: "Search results",
         fields: searchResults
           .slice(0, searchResults.length < limit ? searchResults.length : limit)
           .map(({ formattedDuration, name, url }, i) => ({
