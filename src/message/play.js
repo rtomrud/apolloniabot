@@ -17,8 +17,8 @@ const play = async function (message, argv) {
     try {
       const songs = await getTracks(spotifyListUrl);
       const urls = await Promise.all(
-        songs.map(({ artists: [{ name: author }], name }) =>
-          this.player.search(`${author} - ${name}`).then(([{ url }]) => url)
+        songs.map(({ artists: [{ name: artist }], name: title }) =>
+          this.player.search(`${artist} - ${title}`).then(([{ url }]) => url)
         )
       );
       this.player.playCustomPlaylist(message, urls);
