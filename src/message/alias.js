@@ -49,8 +49,6 @@ const aliases = {
 
   help,
   "--help": help,
-  "-h": help,
-  "-help": help,
 
   loop,
   l: loop,
