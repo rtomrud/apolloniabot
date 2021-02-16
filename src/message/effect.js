@@ -2,7 +2,7 @@ const filterRegExp = /(off|none|no|false|disable)|(3d|bassboost|echo|karaoke|nig
 
 const effect = function (message, argv) {
   const queue = this.player.getQueue(message);
-  if (!queue) {
+  if (!queue || !queue.playing) {
     message.channel.send({
       embed: { description: "Nothing to apply effect to" },
     });
