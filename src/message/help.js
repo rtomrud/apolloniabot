@@ -28,7 +28,7 @@ const help = function (message, argv, alias) {
 **what**, **w**
 **queue**, **q** [PAGE]
 **next**, **n**
-**cut**, **c**
+**move**, **m** [FROM] [TO]
 **shuffle**, **s**
 **drop**, **d** [START] [END]
 **stop**
@@ -53,7 +53,7 @@ const help = function (message, argv, alias) {
 \`lena help what\`
 \`lena help queue\`
 \`lena help next\`
-\`lena help cut\`
+\`lena help move\`
 \`lena help shuffle\`
 \`lena help drop\`
 \`lena help stop\`

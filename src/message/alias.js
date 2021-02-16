@@ -1,11 +1,11 @@
 const autoplay = require("./autoplay.js");
-const cut = require("./cut.js");
 const drop = require("./drop.js");
 const echo = require("./echo.js");
 const effect = require("./effect.js");
 const find = require("./find.js");
 const help = require("./help.js");
 const loop = require("./loop.js");
+const move = require("./move.js");
 const next = require("./next.js");
 const pause = require("./pause.js");
 const play = require("./play.js");
@@ -23,9 +23,6 @@ const aliases = {
   autoplay,
   a: autoplay,
   related: autoplay,
-
-  cut,
-  c: cut,
 
   drop,
   d: drop,
@@ -53,6 +50,9 @@ const aliases = {
   loop,
   l: loop,
   repeat: loop,
+
+  move,
+  m: move,
 
   next,
   n: next,

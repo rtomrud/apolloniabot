@@ -63,8 +63,8 @@ module.exports = Object.assign(queue, {
         {
           name: "SEE ALSO",
           value: `
-\`lena help cut\`
 \`lena help drop\`
+\`lena help move\`
 \`lena help next\`
 \`lena help shuffle\`
 \`lena help stop\`
