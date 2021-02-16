@@ -1,11 +1,5 @@
 const formatPlayback = require("../format-playback.js");
 
-const formatStatus = ({ autoplay, filter, repeatMode, volume }) => {
-  return `volume: ${volume}%${autoplay ? ", autoplay: on" : ""}${
-    repeatMode ? `, loop: ${repeatMode === 2 ? "queue" : "track"}` : ""
-  }${filter ? `, effects: ${filter}` : ""}`;
-};
-
 const what = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || !queue.playing) {
@@ -13,9 +7,33 @@ const what = function (message) {
     return;
   }
 
+  const { autoplay, filter, repeatMode, volume } = queue;
   message.channel.send({
     embed: {
-      description: `Playing ${formatPlayback(queue)}\n\n${formatStatus(queue)}`,
+      description: `Playing ${formatPlayback(queue)}`,
+      fields: [
+        {
+          name: "Volume",
+          value: volume,
+          inline: true,
+        },
+        {
+          name: "Autoplay",
+          value: autoplay ? "on" : "off",
+          inline: true,
+        },
+        {
+          name: "Loop",
+          value:
+            repeatMode === 2 ? "queue" : repeatMode === 1 ? "track" : "off",
+          inline: true,
+        },
+        {
+          name: "Effect",
+          value: filter || "off",
+          inline: true,
+        },
+      ],
     },
   });
 };
@@ -35,7 +53,7 @@ module.exports = Object.assign(what, {
         {
           name: "DESCRIPTION",
           value:
-            "Shows the status of the player, that is, what track is playing now, the current time, the duration, the volume, whether autoplay is enabled, and the effects, if any.",
+            "Shows the status of the player, that is, what track is playing now, the current time, the duration, the volume, whether autoplay is enabled, whether loop mode is enabled, and what effects are enabled, if any.",
         },
         {
           name: "EXAMPLES",
