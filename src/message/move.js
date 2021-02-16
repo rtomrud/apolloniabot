@@ -46,7 +46,7 @@ const move = function (message, argv) {
 
   queue.songs.splice(to, 0, queue.songs.splice(from, 1)[0]);
   message.channel.send({
-    embed: { description: `Moved track ${from} to position ${to}` },
+    embed: { description: `Moved track ${from + 1} to position ${to + 1}` },
   });
 };
 
