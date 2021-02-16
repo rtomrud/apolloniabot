@@ -1,6 +1,6 @@
 const integerRegExp = /^-?\d+/;
 
-module.exports = function (message, argv) {
+const drop = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
     message.channel.send({ embed: { description: "Nothing to drop" } });
@@ -37,3 +37,40 @@ module.exports = function (message, argv) {
     },
   });
 };
+
+module.exports = Object.assign(drop, {
+  usage: {
+    embed: {
+      fields: [
+        {
+          name: "NAME",
+          value: "**lena drop** - Drop tracks from the queue",
+        },
+        {
+          name: "SYNOPSIS",
+          value: "lena drop [START] [END]\nalias: d",
+        },
+        {
+          name: "DESCRIPTION",
+          value:
+            "Deletes tracks from the queue, from the START position to the END position (both included). START defaults to the position of the last track. END defaults to START + 1. If START isn't specified, the last track from the queue is deleted. If end isn't specified, only the track specified by START is deleted.",
+        },
+        {
+          name: "EXAMPLES",
+          value: `
+\`lena drop\`
+\`lena drop 2\`
+\`lena drop 2 4\`
+\`lena d\`
+`,
+        },
+        {
+          name: "SEE ALSO",
+          value: `
+\`lena help queue\`
+`,
+        },
+      ],
+    },
+  },
+});

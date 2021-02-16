@@ -2,7 +2,7 @@ const min = 1;
 const max = 100;
 const percentRegExp = /^\d+(\.\d+)?%?/;
 
-module.exports = function (message, argv) {
+const volume = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
     message.channel.send({
@@ -39,3 +39,38 @@ module.exports = function (message, argv) {
   this.player.setVolume(message, percent);
   message.channel.send({ embed: { description: `Set volume to ${percent}%` } });
 };
+
+module.exports = Object.assign(volume, {
+  usage: {
+    embed: {
+      fields: [
+        {
+          name: "NAME",
+          value: "**lena volume** - Set the volume",
+        },
+        {
+          name: "SYNOPSIS",
+          value: "lena volume PERCENT\nalias: v",
+        },
+        {
+          name: "DESCRIPTION",
+          value: "Sets the volume to the specified PERCENT (1-100).",
+        },
+        {
+          name: "EXAMPLES",
+          value: `
+\`lena volume 100\`
+\`lena volume 50\`
+\`lena v 100\`
+`,
+        },
+        {
+          name: "SEE ALSO",
+          value: `
+\`lena help what\`
+`,
+        },
+      ],
+    },
+  },
+});

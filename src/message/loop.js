@@ -1,6 +1,6 @@
 const operandRegExp = /(queue|songs|on|all|yes|true|enable)|(track|song|one|current|playing)|(off|none|no|false|disable)/i;
 
-module.exports = function (message, argv) {
+const loop = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
     message.channel.send({ embed: { description: "Nothing to loop" } });
@@ -42,3 +42,40 @@ module.exports = function (message, argv) {
   this.player.setRepeatMode(message, 0);
   message.channel.send({ embed: { description: "Looping disabled" } });
 };
+
+module.exports = Object.assign(loop, {
+  usage: {
+    embed: {
+      fields: [
+        {
+          name: "NAME",
+          value: "**lena loop** - Loop the queue or current track",
+        },
+        {
+          name: "SYNOPSIS",
+          value: "lena loop (queue|track|off)\nalias: l",
+        },
+        {
+          name: "DESCRIPTION",
+          value:
+            "Loops the queue if **queue** is specified. Loops the current track if **track** is specified. Disables looping if **off** is specified.",
+        },
+        {
+          name: "EXAMPLES",
+          value: `
+\`lena loop queue\`
+\`lena loop track\`
+\`lena loop off\`
+\`lena l off\`
+`,
+        },
+        {
+          name: "SEE ALSO",
+          value: `
+\`lena help what\`
+`,
+        },
+      ],
+    },
+  },
+});

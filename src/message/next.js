@@ -1,4 +1,4 @@
-module.exports = function (message) {
+const next = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || (queue.songs.length <= 1 && !queue.autoplay)) {
     message.channel.send({ embed: { description: "Nothing to skip" } });
@@ -7,3 +7,37 @@ module.exports = function (message) {
 
   this.player.skip(message);
 };
+
+module.exports = Object.assign(next, {
+  usage: {
+    embed: {
+      fields: [
+        {
+          name: "NAME",
+          value: "**lena next** - Play the next track",
+        },
+        {
+          name: "SYNOPSIS",
+          value: "lena next\nalias: n",
+        },
+        {
+          name: "DESCRIPTION",
+          value: "Plays the next track in the queue.",
+        },
+        {
+          name: "EXAMPLES",
+          value: `
+\`lena next\`
+\`lena n\`
+`,
+        },
+        {
+          name: "SEE ALSO",
+          value: `
+\`lena help queue\`
+`,
+        },
+      ],
+    },
+  },
+});

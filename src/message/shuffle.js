@@ -1,4 +1,4 @@
-module.exports = function (message) {
+const shuffle = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || queue.songs.length <= 1) {
     message.channel.send({ embed: { description: "Nothing to shuffle" } });
@@ -8,3 +8,38 @@ module.exports = function (message) {
   this.player.shuffle(message);
   message.channel.send({ embed: { description: "Shuffled queue" } });
 };
+
+module.exports = Object.assign(shuffle, {
+  usage: {
+    embed: {
+      fields: [
+        {
+          name: "NAME",
+          value: "**lena shuffle** - Shuffle the queue",
+        },
+        {
+          name: "SYNOPSIS",
+          value: "lena shuffle\nalias: s",
+        },
+        {
+          name: "DESCRIPTION",
+          value:
+            "Shuffles the queue. If there is a track currently playing, that track isn't shuffled.",
+        },
+        {
+          name: "EXAMPLES",
+          value: `
+\`lena shuffle\`
+\`lena s\`
+`,
+        },
+        {
+          name: "SEE ALSO",
+          value: `
+\`lena help queue\`
+`,
+        },
+      ],
+    },
+  },
+});

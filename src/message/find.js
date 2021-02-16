@@ -1,6 +1,6 @@
 const limit = 10;
 
-module.exports = function (message, argv) {
+const find = function (message, argv) {
   const query = argv.slice(2).join(" ");
   if (!query) {
     message.channel.send({
@@ -23,3 +23,38 @@ module.exports = function (message, argv) {
     })
   );
 };
+
+module.exports = Object.assign(find, {
+  usage: {
+    embed: {
+      fields: [
+        {
+          name: "NAME",
+          value: "**lena find** - Query YouTube",
+        },
+        {
+          name: "SYNOPSIS",
+          value: "lena find QUERY\naliases: f",
+        },
+        {
+          name: "DESCRIPTION",
+          value:
+            "Searches on YouTube with the specified QUERY and shows the search results.",
+        },
+        {
+          name: "EXAMPLES",
+          value: `
+\`lena find Tchaikovsky 1812 Overture\`
+\`lena f The Wreck Of S.S Needle\`
+`,
+        },
+        {
+          name: "SEE ALSO",
+          value: `
+\`lena help play\`
+`,
+        },
+      ],
+    },
+  },
+});

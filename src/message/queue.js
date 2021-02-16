@@ -4,7 +4,7 @@ const formatSong = require("../format-song.js");
 const songsPerPage = 10;
 const integerRegExp = /^-?\d+/;
 
-module.exports = function (message, argv) {
+const queue = function (message, argv) {
   const arg = Number(argv.slice(2).find((arg) => integerRegExp.test(arg)));
   const queue = this.player.getQueue(message);
   if (!queue || queue.songs.length === 0) {
@@ -34,3 +34,43 @@ module.exports = function (message, argv) {
     },
   });
 };
+
+module.exports = Object.assign(queue, {
+  usage: {
+    embed: {
+      fields: [
+        {
+          name: "NAME",
+          value: "**lena queue** - Show the queue",
+        },
+        {
+          name: "SYNOPSIS",
+          value: "lena queue [PAGE]\nalias: q",
+        },
+        {
+          name: "DESCRIPTION",
+          value:
+            "Shows the queue. If PAGE is specified, shows that page of the queue.",
+        },
+        {
+          name: "EXAMPLES",
+          value: `
+\`lena queue\`
+\`lena queue 2\`
+\`lena q\`
+`,
+        },
+        {
+          name: "SEE ALSO",
+          value: `
+\`lena help cut\`
+\`lena help drop\`
+\`lena help next\`
+\`lena help shuffle\`
+\`lena help stop\`
+`,
+        },
+      ],
+    },
+  },
+});

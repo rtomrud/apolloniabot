@@ -2,7 +2,7 @@ const formatPlayback = require("../format-playback.js");
 
 const timeRegExp = /^([+-])?(?:(?:(\d{1,2}):)?(\d{1,2}):)?(\d+(?:\.\d{1,3})?)s?/;
 
-module.exports = function (message, argv) {
+const seek = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue || !queue.playing) {
     message.channel.send({ embed: { description: "Nothing to seek on" } });
@@ -31,3 +31,40 @@ module.exports = function (message, argv) {
     embed: { description: `Playing ${formatPlayback(queue)}` },
   });
 };
+
+module.exports = Object.assign(seek, {
+  usage: {
+    embed: {
+      fields: [
+        {
+          name: "NAME",
+          value: "**lena seek** - Seek to a specified time",
+        },
+        {
+          name: "SYNOPSIS",
+          value: "lena seek TIME\nalias: t",
+        },
+        {
+          name: "DESCRIPTION",
+          value:
+            "Seeks to the specified TIME in the current song. TIME may be a timestamp in seconds or a time string (hh:mm:ss). If TIME starts with a + character, it seeks forward. If time starts with a - character, it seeks backward.",
+        },
+        {
+          name: "EXAMPLES",
+          value: `
+\`lena seek 60\`
+\`lena seek +10\`
+\`lena seek -10\`
+\`lena t 2:00\`
+`,
+        },
+        {
+          name: "SEE ALSO",
+          value: `
+\`lena help what\`
+`,
+        },
+      ],
+    },
+  },
+});

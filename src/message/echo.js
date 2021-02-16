@@ -29,7 +29,7 @@ const _createStream = function (queue) {
   return ytdl.arbitraryStream(song.streamURL, streamOptions);
 };
 
-module.exports = async function (message) {
+const echo = async function (message) {
   const { channel } = message.member.voice;
   if (!channel) {
     message.channel.send({
@@ -77,3 +77,5 @@ module.exports = async function (message) {
   this.player._createStream = _createStream.bind(this.player);
   this.player.play(message, song);
 };
+
+module.exports = echo;

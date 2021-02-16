@@ -2,7 +2,7 @@ module.exports = function (message) {
   message.channel.send({
     embed: {
       description: `
-Hi, I'm [Lena](https://example.com/)!
+Hi, I'm [Lena](https://discord.gg/wp3HWnUDMa)!
 
 I play music. Type \`lena help\` to find out what I can do for you.
 
