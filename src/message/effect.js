@@ -48,7 +48,7 @@ module.exports = Object.assign(effect, {
         {
           name: "DESCRIPTION",
           value:
-            "Filters the audio stream by applying the specified EFFECT. Disables effects if **off** is specified. EFFECT must be **3d**, **bassboost**, **echo**, **karaoke**, **nightcore**, **vaporwave**, **0.25**, **0.5**, **0.75**, **1.25**, **1.5**, **1.75**, **2**",
+            "Filters the audio stream by applying the specified EFFECT. Disables effects if **off** is specified. EFFECT must be **bassboost**, **karaoke**, **nightcore**, **vaporwave**, **0.25**, **0.5**, **0.75**, **1.25**, **1.5**, **1.75**, **2**",
         },
         {
           name: "EXAMPLES",
