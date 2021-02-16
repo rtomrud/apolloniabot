@@ -79,6 +79,7 @@ const aliases = {
   unpause: resume,
 
   seek,
+  t: seek,
   goto: seek,
   jump: seek,
 
