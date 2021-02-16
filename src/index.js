@@ -20,6 +20,15 @@ const client = new Client({
 client.player = new DisTube(client, {
   emitNewSongOnly: true,
   updateYouTubeDL: false,
+  customFilters: {
+    0.25: "atempo=0.25",
+    0.5: "atempo=0.5",
+    0.75: "atempo=0.75",
+    1.25: "atempo=1.25",
+    1.5: "atempo=1.5",
+    1.75: "atempo=1.75",
+    2: "atempo=2.0",
+  },
 })
   .on("addList", addList)
   .on("addSong", addSong)

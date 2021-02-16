@@ -1,4 +1,4 @@
-const filterRegExp = /(off|none|no|false|disable)|(3d|bassboost|echo|karaoke|nightcore|vaporwave|flanger|gate|haas|reverse|surround|mcompand|phaser|tremolo|earwax)/i;
+const filterRegExp = /(off|none|no|false|disable)|(3d|bassboost|echo|karaoke|nightcore|vaporwave|flanger|gate|haas|reverse|surround|mcompand|phaser|tremolo|earwax|0.25|0.5|0.75|1.25|1.5|1.75|2)/i;
 
 const effect = function (message, argv) {
   const queue = this.player.getQueue(message);
@@ -48,13 +48,14 @@ module.exports = Object.assign(effect, {
         {
           name: "DESCRIPTION",
           value:
-            "Filters the audio stream by applying the specified EFFECT. Disables effects if **off** is specified. EFFECT must be **3d**, **bassboost**, **echo**, **karaoke**, **nightcore** or **vaporwave**.",
+            "Filters the audio stream by applying the specified EFFECT. Disables effects if **off** is specified. EFFECT must be **3d**, **bassboost**, **echo**, **karaoke**, **nightcore**, **vaporwave**, **0.25**, **0.5**, **0.75**, **1.25**, **1.5**, **1.75**, **2**",
         },
         {
           name: "EXAMPLES",
           value: `
 \`lena effect bassboost\`
 \`lena effect vaporwave\`
+\`lena effect 1.25\`
 \`lena effect off\`
 \`lena e off\`
 `,
