@@ -12,7 +12,7 @@ const loop = function (message, argv) {
     message.channel.send({
       embed: {
         description:
-          "I don't know whether you want to loop the _queue_, a _track_, or turn looping _off_",
+          "I don't know whether you want to loop the **queue**, a **track**, or turn looping **off**",
       },
     });
     return;
