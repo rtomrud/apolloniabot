@@ -1,4 +1,4 @@
-module.exports = function (message) {
+const who = function (message) {
   message.channel.send({
     embed: {
       description: `
@@ -20,3 +20,7 @@ You may want to [invite me to your server](https://discord.com/oauth2/authorize?
     },
   });
 };
+
+module.exports = Object.assign(who, {
+  aliases: ["whois", "info", "invite", "perms", "permission", "permissions"],
+});

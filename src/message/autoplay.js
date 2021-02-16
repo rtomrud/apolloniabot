@@ -25,6 +25,7 @@ const autoplay = function (message, argv) {
 };
 
 module.exports = Object.assign(autoplay, {
+  aliases: ["a", "related"],
   usage: {
     embed: {
       fields: [

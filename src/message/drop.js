@@ -39,6 +39,7 @@ const drop = function (message, argv) {
 };
 
 module.exports = Object.assign(drop, {
+  aliases: ["d", "delete", "remove", "rm"],
   usage: {
     embed: {
       fields: [

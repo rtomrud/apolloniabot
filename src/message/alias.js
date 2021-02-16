@@ -19,108 +19,38 @@ const volume = require("./volume.js");
 const what = require("./what.js");
 const who = require("./who.js");
 
-const aliases = {
+const aliases = [
   autoplay,
-  a: autoplay,
-  related: autoplay,
-
   drop,
-  d: drop,
-  delete: drop,
-  remove: drop,
-  rm: drop,
-
   echo,
-  listen: echo,
-
   effect,
-  e: effect,
-  fx: effect,
-  mode: effect,
-  filter: effect,
-
   find,
-  f: find,
-  query: find,
-  search: find,
-
   help,
-  "--help": help,
-
   loop,
-  l: loop,
-  repeat: loop,
-
   move,
-  m: move,
-
   next,
-  n: next,
-  skip: next,
-  forward: next,
-
   pause,
-  sh: pause,
-  shh: pause,
-  shhh: pause,
-  stfu: pause,
-  shut: pause,
-
   play,
-  p: play,
-
   queue,
-  q: queue,
-
   resume,
-  r: resume,
-  unpause: resume,
-
   seek,
-  t: seek,
-  goto: seek,
-  jump: seek,
-
   shuffle,
-  s: shuffle,
-  rand: shuffle,
-  random: shuffle,
-  randomize: shuffle,
-
   stop,
-  exit: stop,
-  clean: stop,
-  clear: stop,
-  empty: stop,
-  leave: stop,
-  destroy: stop,
-  disconnect: stop,
-
   version,
-  "--version": version,
-
   volume,
-  v: volume,
-  loudness: volume,
-
   what,
-  w: what,
-  np: what,
-  now: what,
-  song: what,
-  track: what,
-  status: what,
-  playing: what,
-  nowplaying: what,
-
   who,
-  whois: who,
-  info: who,
-  invite: who,
-  perms: who,
-  permission: who,
-  permissions: who,
-};
+].reduce((aliases, command) => {
+  aliases[command.name] = command;
+  command.aliases.forEach((alias) => {
+    if (Object.prototype.hasOwnProperty.call(aliases, alias)) {
+      throw Error(`Duplicate alias "${alias}"`);
+    }
+
+    aliases[alias] = command;
+  });
+  return aliases;
+}, {});
 
 module.exports = function (argv) {
   return aliases[argv.length > 1 ? argv[1] : ""];

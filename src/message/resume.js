@@ -14,6 +14,7 @@ const pause = function (message) {
 };
 
 module.exports = Object.assign(pause, {
+  aliases: ["r", "unpause"],
   usage: {
     embed: {
       fields: [

@@ -44,6 +44,7 @@ const loop = function (message, argv) {
 };
 
 module.exports = Object.assign(loop, {
+  aliases: ["l", "repeat"],
   usage: {
     embed: {
       fields: [

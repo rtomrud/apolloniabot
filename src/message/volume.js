@@ -41,6 +41,7 @@ const volume = function (message, argv) {
 };
 
 module.exports = Object.assign(volume, {
+  aliases: ["v", "loudness"],
   usage: {
     embed: {
       fields: [

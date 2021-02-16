@@ -10,6 +10,7 @@ const shuffle = function (message) {
 };
 
 module.exports = Object.assign(shuffle, {
+  aliases: ["s", "rand", "random", "randomize"],
   usage: {
     embed: {
       fields: [

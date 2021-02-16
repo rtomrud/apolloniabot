@@ -14,6 +14,7 @@ const stop = function (message) {
 };
 
 module.exports = Object.assign(stop, {
+  aliases: ["exit", "clean", "clear", "empty", "leave", "disconnect"],
   usage: {
     embed: {
       fields: [

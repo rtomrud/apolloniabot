@@ -25,6 +25,7 @@ const find = function (message, argv) {
 };
 
 module.exports = Object.assign(find, {
+  aliases: ["f", "query", "search"],
   usage: {
     embed: {
       fields: [

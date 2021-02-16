@@ -66,6 +66,7 @@ const play = async function (message, argv) {
 };
 
 module.exports = Object.assign(play, {
+  aliases: ["p"],
   usage: {
     embed: {
       fields: [

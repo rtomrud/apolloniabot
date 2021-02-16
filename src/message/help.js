@@ -70,6 +70,7 @@ const help = function (message, argv, alias) {
 };
 
 module.exports = Object.assign(help, {
+  aliases: ["--help"],
   usage: {
     embed: {
       fields: [

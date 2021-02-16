@@ -33,6 +33,7 @@ const effect = function (message, argv) {
 };
 
 module.exports = Object.assign(effect, {
+  aliases: ["e", "fx", "effects", "filter", "filters", "mode", "modes"],
   usage: {
     embed: {
       fields: [

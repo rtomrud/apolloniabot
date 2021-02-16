@@ -78,4 +78,4 @@ const echo = async function (message) {
   this.player.play(message, song);
 };
 
-module.exports = echo;
+module.exports = Object.assign(echo, { aliases: ["listen"] });

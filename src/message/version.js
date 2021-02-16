@@ -1,5 +1,7 @@
-const { version } = require("../../package.json");
+const { version: v } = require("../../package.json");
 
-module.exports = function (message) {
-  message.channel.send({ embed: { description: `lena ${version}` } });
+const version = function (message) {
+  message.channel.send({ embed: { description: `lena ${v}` } });
 };
+
+module.exports = Object.assign(version, { aliases: ["--version"] });

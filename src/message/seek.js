@@ -33,6 +33,7 @@ const seek = function (message, argv) {
 };
 
 module.exports = Object.assign(seek, {
+  aliases: ["t", "jump", "goto"],
   usage: {
     embed: {
       fields: [

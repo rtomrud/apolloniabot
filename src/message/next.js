@@ -9,6 +9,7 @@ const next = function (message) {
 };
 
 module.exports = Object.assign(next, {
+  aliases: ["n"],
   usage: {
     embed: {
       fields: [
