@@ -1,6 +1,6 @@
 const formatSong = require("../format-song.js");
 
-const pause = function (message) {
+const resume = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || queue.playing) {
     message.channel.send({ embed: { description: "Nothing to resume" } });
@@ -13,7 +13,7 @@ const pause = function (message) {
   });
 };
 
-module.exports = Object.assign(pause, {
+module.exports = Object.assign(resume, {
   aliases: ["r", "unpause"],
   usage: {
     embed: {

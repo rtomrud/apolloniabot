@@ -1,6 +1,6 @@
 const integerRegExp = /^-?\d+/;
 
-const drop = function (message, argv) {
+const move = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
     message.channel.send({ embed: { description: "Nothing to move" } });
@@ -50,7 +50,7 @@ const drop = function (message, argv) {
   });
 };
 
-module.exports = Object.assign(drop, {
+module.exports = Object.assign(move, {
   aliases: ["m"],
   usage: {
     embed: {

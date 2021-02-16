@@ -39,6 +39,10 @@ const aliases = [
   what,
   who,
 ].reduce((aliases, command) => {
+  if (Object.prototype.hasOwnProperty.call(aliases, command.name)) {
+    throw Error(`Duplicate command "${command.name}"`);
+  }
+
   aliases[command.name] = command;
   command.aliases.forEach((alias) => {
     if (Object.prototype.hasOwnProperty.call(aliases, alias)) {
