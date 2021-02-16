@@ -17,7 +17,7 @@ module.exports = function (message) {
 
   if (!message.channel.permissionsFor(this.user).has(permissions)) {
     message.author.send(
-      "I can't do that because I don't have the Send Messages or Embed Links permissions in that channel"
+      "I can't do that because I don't have the Send Messages and Embed Links permissions in that channel"
     );
     return;
   }
