@@ -7,32 +7,18 @@ const what = function (message) {
     return;
   }
 
-  const { autoplay, filter, repeatMode, volume } = queue;
+  const { autoplay, filter, repeatMode: loop, songs, volume } = queue;
   message.channel.send({
     embed: {
-      description: `Playing ${formatPlayback(queue)}`,
+      title: "Playing",
+      description: formatPlayback(queue),
       fields: [
-        {
-          name: "Volume",
-          value: volume,
-          inline: true,
-        },
-        {
-          name: "Autoplay",
-          value: autoplay ? "on" : "off",
-          inline: true,
-        },
-        {
-          name: "Loop",
-          value:
-            repeatMode === 2 ? "queue" : repeatMode === 1 ? "track" : "off",
-          inline: true,
-        },
-        {
-          name: "Effect",
-          value: filter || "off",
-          inline: true,
-        },
+        { name: "Requester", value: songs[0].user, inline: true },
+        { name: "Volume", value: volume, inline: true },
+        { name: "Autoplay", value: autoplay ? "on" : "off", inline: true },
+        { name: "Loop", value: ["off", "track", "queue"][loop], inline: true },
+        { name: "Effect", value: filter || "off", inline: true },
+        { name: "\u200b", value: "\u200b", inline: true },
       ],
     },
   });
