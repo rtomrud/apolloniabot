@@ -14,7 +14,7 @@ const what = function (message) {
       description: formatPlayback(queue),
       fields: [
         { name: "Requester", value: songs[0].user, inline: true },
-        { name: "Volume", value: volume, inline: true },
+        { name: "Volume", value: `${volume}%`, inline: true },
         { name: "Autoplay", value: autoplay ? "on" : "off", inline: true },
         { name: "Loop", value: ["off", "track", "queue"][loop], inline: true },
         { name: "Effect", value: filter || "off", inline: true },
