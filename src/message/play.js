@@ -19,7 +19,7 @@ const play = async function (message, argv) {
     } else if (urls.length > 1) {
       this.player.playCustomPlaylist(message, urls);
     } else if (urls.length === 0) {
-      message.channel.send({ embed: { description: "I couldn't fetch this" } });
+      message.channel.send({ embed: { description: "I couldn't fetch that" } });
     }
 
     return;
