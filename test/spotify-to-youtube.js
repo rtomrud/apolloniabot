@@ -4,6 +4,13 @@ const spotifyToYoutube = require("../src/spotify-to-youtube.js");
 test("spotify-to-youtube with songs", async (t) => {
   t.deepEquals(
     await spotifyToYoutube(
+      "https://open.spotify.com/track/4UHTXB3cN4jzH5OdkpIUwX?si=jgt6KiwzRJu7IDXFbavCPQ"
+    ),
+    ["https://www.youtube.com/watch?v=cy1N46O6Zio"],
+    "spotify-to-youtube with a song"
+  );
+  t.deepEquals(
+    await spotifyToYoutube(
       "https://open.spotify.com/track/1QxbBB80IuPwhwW1ygGfPh?si=Xm0uPSZcT0i3sNLQMZ7T1Q"
     ),
     ["https://www.youtube.com/watch?v=qI6PKMfkgYk"],
