@@ -1,7 +1,6 @@
-const { getPreview, getTracks } = require("spotify-url-info");
+const spotifyToYoutube = require("../spotify-to-youtube.js");
 
-const spotifyListRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album)\/(\w|-){22}.*/;
-const spotifySongRegExp = /^https:\/\/open\.spotify\.com\/track\/(\w|-){22}.*/;
+const spotifyUrlRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album|track)\/(\w|-){22}.*/;
 
 const play = async function (message, argv) {
   const args = argv.slice(2);
@@ -12,35 +11,15 @@ const play = async function (message, argv) {
     return;
   }
 
-  const spotifyListUrl = args.find((arg) => spotifyListRegExp.test(arg));
-  if (spotifyListUrl) {
-    try {
-      const songs = await getTracks(spotifyListUrl);
-      const urls = await Promise.all(
-        songs.map(({ artists: [{ name: artist }], name: title }) =>
-          this.player.search(`${artist} - ${title}`).then(([{ url }]) => url)
-        )
-      );
+  const spotifyUrl = args.find((arg) => spotifyUrlRegExp.test(arg));
+  if (spotifyUrl) {
+    const urls = await spotifyToYoutube(spotifyUrl).catch(() => []);
+    if (urls.length === 1) {
+      this.player.play(message, urls[0]);
+    } else if (urls.length > 1) {
       this.player.playCustomPlaylist(message, urls);
-    } catch (error) {
-      message.channel.send({
-        embed: { description: "I couldn't fetch the songs from that playlist" },
-      });
-    }
-
-    return;
-  }
-
-  const spotifySongUrl = args.find((arg) => spotifySongRegExp.test(arg));
-  if (spotifySongUrl) {
-    try {
-      const { artist, title } = await getPreview(spotifySongUrl);
-      const [{ url }] = await this.player.search(`${artist} - ${title}`);
-      this.player.play(message, url);
-    } catch (error) {
-      message.channel.send({
-        embed: { description: "I couldn't fetch that song" },
-      });
+    } else if (urls.length === 0) {
+      message.channel.send({ embed: { description: "I couldn't fetch this" } });
     }
 
     return;
