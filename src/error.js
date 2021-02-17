@@ -28,7 +28,7 @@ module.exports = function (message, error) {
     return;
   }
 
-  if (err.includes("[youtube-dl] ERROR:")) {
+  if (err.includes("[youtube-dl] ERROR") || err.includes("youtube-dl: error")) {
     message.channel.send({
       embed: { description: "I can't play that URL, sorry" },
     });
