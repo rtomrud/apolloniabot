@@ -56,7 +56,7 @@ test("spotify-to-youtube with playlists", async (t) => {
   t.end();
 });
 
-test("spotify-to-youtube with invalid URL", async (t) => {
+test("spotify-to-youtube with invalid URLs", async (t) => {
   t.deepEquals(
     await spotifyToYoutube("https://open.spotify.com/"),
     [],
