@@ -15,8 +15,8 @@ const find = function (message, argv) {
     message.channel.send({
       embed: {
         title: "Search results",
-        fields: items.map((item, i) => ({
-          name: `${i + 1}. ${item.author.name}`,
+        fields: items.map((item) => ({
+          name: item.author.name,
           value: formatSong(new SearchResult(item)),
         })),
       },
