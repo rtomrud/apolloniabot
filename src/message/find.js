@@ -1,4 +1,6 @@
-const limit = 10;
+const ytsr = require("@distube/ytsr");
+const SearchResult = require("distube/src/SearchResult.js");
+const formatSong = require("../format-song.js");
 
 const find = function (message, argv) {
   const query = argv.slice(2).join(" ");
@@ -9,16 +11,14 @@ const find = function (message, argv) {
     return;
   }
 
-  this.player.search(query).then((searchResults) =>
+  ytsr(query, { limit: 10 }).then(({ items }) =>
     message.channel.send({
       embed: {
         title: "Search results",
-        fields: searchResults
-          .slice(0, searchResults.length < limit ? searchResults.length : limit)
-          .map(({ formattedDuration, name, url }, i) => ({
-            name: i + 1,
-            value: `[${name}](${url}) [${formattedDuration}]`,
-          })),
+        fields: items.map((item, i) => ({
+          name: `${i + 1}. ${item.author.name}`,
+          value: formatSong(new SearchResult(item)),
+        })),
       },
     })
   );
