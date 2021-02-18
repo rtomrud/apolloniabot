@@ -21,17 +21,12 @@ const queue = function (message, argv) {
   const end = page * songsPerPage < length ? page * songsPerPage : length;
   message.channel.send({
     embed: {
-      title: "Queue",
-      description: `${length} track${
-        length === 1 ? "" : "s"
-      } [${formattedDuration}]`,
+      title: `${length} track${length === 1 ? "" : "s"} [${formattedDuration}]`,
       fields: songs.slice(start, end).map((song, i) => ({
         name: i + 1 + start,
         value: song === first ? formatPlayback(queue) : formatSong(song),
       })),
-      footer: {
-        text: pages > 1 ? `Page ${page} of ${pages}` : "",
-      },
+      footer: { text: pages > 1 ? `Page ${page} of ${pages}` : "" },
     },
   });
 };
