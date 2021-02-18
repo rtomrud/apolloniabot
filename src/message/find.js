@@ -14,7 +14,7 @@ const find = function (message, argv) {
   ytsr(query, { limit: 10 }).then(({ items }) =>
     message.channel.send({
       embed: {
-        title: "Search results",
+        title: "Search results from YouTube",
         fields: items.map((item) => ({
           name: item.author.name,
           value: formatSong(new SearchResult(item)),
