@@ -7,6 +7,7 @@ const addSong = require("./add-song.js");
 const empty = require("./empty.js");
 const error = require("./error.js");
 const finish = require("./finish.js");
+const guildCreate = require("./guild-create.js");
 const initQueue = require("./init-queue.js");
 const noRelated = require("./no-related.js");
 const playList = require("./play-list.js");
@@ -42,6 +43,7 @@ client.player = new DisTube(client, {
 
 client
   .on("message", message)
+  .on("guildCreate", guildCreate)
   .on("error", console.error)
   .once("ready", ready)
   .login(process.env.TOKEN);
