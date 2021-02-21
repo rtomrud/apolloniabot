@@ -1,7 +1,11 @@
+const { Permissions } = require("discord.js");
 const alias = require("./alias.js");
 
 const prefixRegExp = RegExp(`^(?:lena|<@!?${process.env.CLIENT_ID}>)`, "i");
-const permissions = 0x00004800;
+const {
+  FLAGS: { SEND_MESSAGES, EMBED_LINKS },
+} = Permissions;
+const permissions = SEND_MESSAGES + EMBED_LINKS;
 const separatorRegExp = /\s+/;
 
 const handleDefault = function (message) {
