@@ -32,11 +32,16 @@ const ms = (string) => {
   return h * 3600000 + m * 60000 + s * 1000;
 };
 
-const best = ({ title, duration, artist }) => (item) =>
-  !item.isLive &&
-  item.name.toLowerCase().includes(title) &&
-  Math.abs(duration - ms(item.duration)) < 30000 &&
-  item.author.name.toLowerCase().includes(artist);
+const best = ({ title, duration, artist }) => (item) => {
+  const video = item.name.toLowerCase();
+  const channel = item.author.name.toLowerCase();
+  return (
+    !item.isLive &&
+    Math.abs(duration - ms(item.duration)) < 10000 &&
+    ((video === title && channel === `${artist} - topic`) ||
+      (video.includes(title) && channel.includes(artist)))
+  );
+};
 
 const good = ({ title, duration }) => (item) =>
   !item.isLive &&
