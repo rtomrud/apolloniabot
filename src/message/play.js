@@ -1,4 +1,4 @@
-const spotifyToYoutube = require("../spotify-to-youtube.js");
+const spotifyToYoutube = require("../spotify-to-youtube/index.js");
 
 const spotifyUrlRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album|track)\/(\w|-){22}.*/;
 

@@ -1,5 +1,5 @@
 const test = require("tape");
-const spotifyToYoutube = require("../src/spotify-to-youtube.js");
+const spotifyToYoutube = require("../src/spotify-to-youtube/index.js");
 
 test("spotify-to-youtube with songs", async (t) => {
   t.deepEquals(
