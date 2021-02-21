@@ -5,12 +5,13 @@ const message = require("./message/index.js");
 const addList = require("./player/add-list.js");
 const addSong = require("./player/add-song.js");
 const empty = require("./player/empty.js");
-const error = require("./player/error.js");
+const playerError = require("./player/error.js");
 const finish = require("./player/finish.js");
 const initQueue = require("./player/init-queue.js");
 const noRelated = require("./player/no-related.js");
 const playList = require("./player/play-list.js");
 const playSong = require("./player/play-song.js");
+const error = require("./error.js");
 const guildCreate = require("./guild-create.js");
 const guildDelete = require("./guild-delete.js");
 const ready = require("./ready.js");
@@ -35,7 +36,7 @@ client.player = new DisTube(client, {
   .on("addList", addList)
   .on("addSong", addSong)
   .on("empty", empty)
-  .on("error", error)
+  .on("error", playerError)
   .on("finish", finish)
   .on("initQueue", initQueue)
   .on("noRelated", noRelated)
@@ -44,8 +45,8 @@ client.player = new DisTube(client, {
 
 client
   .on("message", message)
+  .on("error", error)
   .on("guildCreate", guildCreate)
   .on("guildDelete", guildDelete)
-  .on("error", console.error)
   .once("ready", ready)
   .login(process.env.TOKEN);
