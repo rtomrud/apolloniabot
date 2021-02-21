@@ -35,7 +35,14 @@ module.exports = function (message, error) {
     return;
   }
 
-  console.error(err);
+  const { author, channel, guild, id } = message;
+  console.error(
+    `<@${author.id}>`,
+    `"${author.tag}"`,
+    "ERROR",
+    `/channels/${guild.id}/${channel.id}/${id}`,
+    `"${err.name}: ${err.message}"`
+  );
   message.channel.send({
     embed: { description: "Oops, something went wrong" },
   });

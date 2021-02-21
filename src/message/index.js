@@ -19,14 +19,24 @@ module.exports = function (message) {
     return;
   }
 
-  if (!message.channel.permissionsFor(this.user).has(permissions)) {
-    message.author.send(
+  const { attachments, author, channel, content, guild, id } = message;
+  console.log(
+    `<@${author.id}>`,
+    `"${author.tag}"`,
+    "MESSAGE_CREATE",
+    `/channels/${guild.id}/${channel.id}/${id}`,
+    `"${content}${
+      attachments.size > 0 ? ` <${attachments.values().next().value.url}>` : ""
+    }"`
+  );
+  if (!channel.permissionsFor(this.user).has(permissions)) {
+    author.send(
       "I can't do that because I don't have the Send Messages and Embed Links permissions in that channel"
     );
     return;
   }
 
-  const argv = message.content.split(separatorRegExp);
+  const argv = content.split(separatorRegExp);
   const handle = alias(argv) || handleDefault;
   handle.bind(this)(message, argv, alias);
 };

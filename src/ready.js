@@ -1,3 +1,4 @@
 module.exports = function () {
-  console.log(this.readyAt, this.user.tag);
+  const { id, tag } = this.user;
+  console.log(`<@${id}>`, `"${tag}"`, "READY", `/`);
 };
