@@ -11,6 +11,13 @@ const fetch = (url) =>
     ? getData(url).then((data) => [data])
     : Promise.resolve([]);
 
+const search = (string, options, retries = 1) =>
+  ytsr(string, options).catch((error) =>
+    error.message === "No result!" && retries > 0
+      ? search(string, options, retries - 1)
+      : Promise.reject(Error("No result after retrying"))
+  );
+
 const query = ({ artists: [{ name: artist }], name: title }) =>
   `${artist} - ${title}`;
 
@@ -43,7 +50,7 @@ module.exports = function (url) {
   return fetch(url).then((songs) =>
     Promise.all(
       songs.map((song) =>
-        ytsr(query(song), { limit: 10 }).then(
+        search(query(song), { limit: 10 }).then(
           (result) => pick(metadata(song), result).url
         )
       )
