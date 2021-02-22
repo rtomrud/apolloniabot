@@ -27,10 +27,10 @@ test("spotify-to-youtube with playlists", async (t) => {
     [
       "https://www.youtube.com/watch?v=NA1_3LG5BrY",
       "https://www.youtube.com/watch?v=grIZq2H9mFU",
-      "https://www.youtube.com/watch?v=YFtrq9vy9UM",
+      "https://www.youtube.com/watch?v=Hybn4xvn5wM",
       "https://www.youtube.com/watch?v=aTSLI_Y0eTc",
       "https://www.youtube.com/watch?v=1kJJH5dCtLQ",
-      "https://www.youtube.com/watch?v=LxCJQ4yHErM",
+      "https://www.youtube.com/watch?v=HVf4_aicuHg",
       "https://www.youtube.com/watch?v=pbqwmxsXT2o",
       "https://www.youtube.com/watch?v=JhIl8uzJt0U",
       "https://www.youtube.com/watch?v=A4wdbibV3IM",
@@ -43,7 +43,7 @@ test("spotify-to-youtube with playlists", async (t) => {
       "https://open.spotify.com/album/0jTjzLGg15C48CJEfZ9pFJ?si=mhHeLMzCTZmgDOjcUNJF5g"
     ),
     [
-      "https://www.youtube.com/watch?v=WwoGhpYdebQ",
+      "https://www.youtube.com/watch?v=7d4reWyrDO4",
       "https://www.youtube.com/watch?v=6gmswmbosYo",
       "https://www.youtube.com/watch?v=fJlDyRbUtxI",
       "https://www.youtube.com/watch?v=qmMm1TwYYns",

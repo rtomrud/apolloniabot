@@ -14,7 +14,7 @@ const fetch = (url) =>
 const retry = (f) => (...args) => f(...args).catch(() => f(...args));
 
 const query = ({ artists: [{ name: artist }], name: title }) =>
-  `${artist} - ${title}`;
+  `${artist} Topic - ${title}`;
 
 const metadata = ({ artists, duration_ms, name }) => ({
   title: name.toLowerCase(),
@@ -34,7 +34,8 @@ const best = ({ title, duration, artist }) => (item) => {
     !item.isLive &&
     Math.abs(duration - ms(item.duration)) < 10000 &&
     ((video === title && channel === `${artist} - topic`) ||
-      (video.includes(title) && channel.includes(artist)))
+      (video.includes(title) && channel === artist) ||
+      (video.includes(`${artist} - ${title}`) && channel.includes(artist)))
   );
 };
 
