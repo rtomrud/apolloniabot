@@ -18,7 +18,7 @@
   "scripts": {
     "build": "rimraf dist && rollup -c",
     "lint": "eslint .",
-    "start": "pm2 start src/index.js",
+    "start": "pm2 start src/index.js -o access.log -e error.log --time",
     "stop": "pm2 stop src/index.js",
     "test": "nyc --reporter html tape \"test/**/*.js\" && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
     "watch": "pm2 start src/index.js --watch"
