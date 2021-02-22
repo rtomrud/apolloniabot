@@ -1,15 +1,15 @@
 const test = require("tape");
-const spotifyToYoutube = require("../src/spotify-to-youtube/index.js");
+const spotifyToYoutube = require("../../src/spotify-to-youtube/index.js");
 
 test("spotify-to-youtube with songs", async (t) => {
-  t.deepEquals(
+  t.deepEqual(
     await spotifyToYoutube(
       "https://open.spotify.com/track/4UHTXB3cN4jzH5OdkpIUwX?si=jgt6KiwzRJu7IDXFbavCPQ"
     ),
     ["https://www.youtube.com/watch?v=cy1N46O6Zio"],
     "spotify-to-youtube with a song"
   );
-  t.deepEquals(
+  t.deepEqual(
     await spotifyToYoutube(
       "https://open.spotify.com/track/1QxbBB80IuPwhwW1ygGfPh?si=Xm0uPSZcT0i3sNLQMZ7T1Q"
     ),
@@ -20,7 +20,7 @@ test("spotify-to-youtube with songs", async (t) => {
 });
 
 test("spotify-to-youtube with playlists", async (t) => {
-  t.deepEquals(
+  t.deepEqual(
     await spotifyToYoutube(
       "https://open.spotify.com/artist/0Zy4ncr8h1jd7Nzr9946fD?si=guz0ubuHTJScOxKvhMid1A"
     ),
@@ -38,7 +38,7 @@ test("spotify-to-youtube with playlists", async (t) => {
     ],
     "spotify-to-youtube with an artist playlist"
   );
-  t.deepEquals(
+  t.deepEqual(
     await spotifyToYoutube(
       "https://open.spotify.com/album/0jTjzLGg15C48CJEfZ9pFJ?si=mhHeLMzCTZmgDOjcUNJF5g"
     ),
@@ -64,12 +64,12 @@ test("spotify-to-youtube with playlists", async (t) => {
 });
 
 test("spotify-to-youtube with invalid URLs", async (t) => {
-  t.deepEquals(
+  t.deepEqual(
     await spotifyToYoutube("https://open.spotify.com/"),
     [],
     "spotify-to-youtube with a Spotify URL with no path"
   );
-  t.deepEquals(
+  t.deepEqual(
     await spotifyToYoutube("https://www.youtube.com/"),
     [],
     "spotify-to-youtube with a non-Spotify URL"
