@@ -23,4 +23,5 @@ You may want to [invite me to your server](https://discord.com/oauth2/authorize?
 
 module.exports = Object.assign(who, {
   aliases: ["whois", "info", "invite", "perms", "permission", "permissions"],
+  safe: true,
 });

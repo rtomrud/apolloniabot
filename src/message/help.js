@@ -71,6 +71,7 @@ const help = function (message, argv, alias) {
 
 module.exports = Object.assign(help, {
   aliases: ["--help"],
+  safe: true,
   usage: {
     embed: {
       fields: [

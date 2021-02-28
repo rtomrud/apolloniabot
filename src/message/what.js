@@ -26,6 +26,7 @@ const what = function (message) {
 
 module.exports = Object.assign(what, {
   aliases: ["w", "np", "now", "song", "track", "status", "playing"],
+  safe: true,
   usage: {
     embed: {
       fields: [
