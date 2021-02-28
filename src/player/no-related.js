@@ -1,7 +1,8 @@
 module.exports = function (message) {
   message.channel.send({
     embed: {
-      description: "I can't autoplay because I could't find any related song",
+      description:
+        "Stopped because the queue is finished and I can't autoplay anything",
     },
   });
 };

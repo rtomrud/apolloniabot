@@ -1,5 +1,5 @@
 module.exports = function (message) {
   message.channel.send({
-    embed: { description: "Reached the end of the queue" },
+    embed: { description: "Stopped because the queue is finished" },
   });
 };

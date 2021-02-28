@@ -1,11 +1,8 @@
 const formatSong = require("../format-song.js");
 
 module.exports = function (message, queue, song) {
+  const verb = this.client.user !== song.user ? "Playing" : "Autoplaying";
   message.channel.send({
-    embed: {
-      description: `${
-        song.user === this.client.user ? "Autoplaying" : "Playing"
-      } ${formatSong(song)}`,
-    },
+    embed: { description: `${verb} ${formatSong(song)}` },
   });
 };

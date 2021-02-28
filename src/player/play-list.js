@@ -1,11 +1,11 @@
+const formatPlaylist = require("../format-playlist.js");
 const formatSong = require("../format-song.js");
 
-module.exports = function (message, queue, { songs: { length } }, song) {
+module.exports = function (message, queue, playlist, song) {
   message.channel.send({
     embed: {
-      description: `Playing ${formatSong(song)}${
-        length > 1 ? `\nQueued ${length} track${length === 1 ? "" : "s"}` : ""
-      }`,
+      description: `Queued ${formatPlaylist(playlist)}
+Playing ${formatSong(song)}`,
     },
   });
 };

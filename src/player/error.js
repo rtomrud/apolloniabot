@@ -22,16 +22,14 @@ module.exports = function (message, error) {
     message.channel.send({
       embed: {
         description:
-          "I couldn't find anything, check if your URL or query is correct",
+          "I can't find anything, check if your URL or query is correct",
       },
     });
     return;
   }
 
   if (err.includes("[youtube-dl] ERROR") || err.includes("youtube-dl: error")) {
-    message.channel.send({
-      embed: { description: "I can't play that URL, sorry" },
-    });
+    message.channel.send({ embed: { description: "I can't play that URL" } });
     return;
   }
 
@@ -43,7 +41,5 @@ module.exports = function (message, error) {
     `/channels/${guild.id}/${channel.id}/${id}`,
     `"${err.name}: ${err.message}"`
   );
-  message.channel.send({
-    embed: { description: "Oops, something went wrong" },
-  });
+  message.channel.send({ embed: { description: "I can't do that, sorry" } });
 };
