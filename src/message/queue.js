@@ -1,7 +1,8 @@
 const formatPlayback = require("../format-playback.js");
+const formatPlaylist = require("../format-playlist.js");
 const formatSong = require("../format-song.js");
 
-const songsPerPage = 10;
+const pageSize = 10;
 const integerRegExp = /^-?\d+/;
 
 const queue = function (message, argv) {
@@ -12,18 +13,18 @@ const queue = function (message, argv) {
     return;
   }
 
-  const { formattedDuration, songs } = queue;
+  const { songs } = queue;
   const { length } = songs;
   const [first] = songs;
-  const pages = Math.ceil(length / songsPerPage);
-  const page = arg * songsPerPage > length ? pages : arg || 1;
-  const start = (page - 1) * songsPerPage;
-  const end = page * songsPerPage < length ? page * songsPerPage : length;
+  const pages = Math.ceil(length / pageSize);
+  const page = arg * pageSize > length ? pages : arg || 1;
+  const start = (page - 1) * pageSize;
+  const end = page * pageSize < length ? page * pageSize : length;
   message.channel.send({
     embed: {
-      title: `${length} track${length === 1 ? "" : "s"} [${formattedDuration}]`,
+      title: formatPlaylist(queue),
       fields: songs.slice(start, end).map((song, i) => ({
-        name: i + 1 + start,
+        name: i + start + 1,
         value: song === first ? formatPlayback(queue) : formatSong(song),
       })),
       footer: { text: pages > 1 ? `Page ${page} of ${pages}` : "" },
