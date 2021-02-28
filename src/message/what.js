@@ -53,11 +53,12 @@ module.exports = Object.assign(what, {
         {
           name: "SEE ALSO",
           value: `
+\`lena help autoplay\`
+\`lena help effect\`
+\`lena help loop\`
 \`lena help pause\`
 \`lena help resume\`
 \`lena help volume\`
-\`lena help autoplay\`
-\`lena help effect\`
 `,
         },
       ],
