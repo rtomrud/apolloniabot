@@ -40,7 +40,7 @@ const loop = function (message, argv) {
   }
 
   this.player.setRepeatMode(message, 0);
-  message.channel.send({ embed: { description: "Looping disabled" } });
+  message.channel.send({ embed: { description: "Disabled looping" } });
 };
 
 module.exports = Object.assign(loop, {

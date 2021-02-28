@@ -6,7 +6,7 @@ const shuffle = function (message) {
   }
 
   this.player.shuffle(message);
-  message.channel.send({ embed: { description: "Shuffled queue" } });
+  message.channel.send({ embed: { description: "Shuffled the queue" } });
 };
 
 module.exports = Object.assign(shuffle, {

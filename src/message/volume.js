@@ -22,7 +22,7 @@ const volume = function (message, argv) {
   const percent = Math.round(arg.replace("%", ""));
   if (percent < min) {
     message.channel.send({
-      embed: { description: "I can't set my volume below 1%" },
+      embed: { description: "I can't set the volume that low" },
     });
     return;
   }
