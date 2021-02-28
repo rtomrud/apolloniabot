@@ -1,4 +1,5 @@
 const autoplay = require("./autoplay.js");
+const dj = require("./dj.js");
 const drop = require("./drop.js");
 const effect = require("./effect.js");
 const find = require("./find.js");
@@ -20,6 +21,7 @@ const who = require("./who.js");
 
 const aliases = [
   autoplay,
+  dj,
   drop,
   effect,
   find,

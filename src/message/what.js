@@ -18,7 +18,7 @@ const what = function (message) {
         { name: "Effect", value: filter || "off", inline: true },
         { name: "Autoplay", value: autoplay ? "on" : "off", inline: true },
         { name: "Loop", value: ["off", "track", "queue"][loop], inline: true },
-        { name: "\u200b", value: "\u200b", inline: true },
+        { name: "DJ", value: queue.dj ? "on" : "off", inline: true },
       ],
     },
   });
@@ -54,6 +54,7 @@ module.exports = Object.assign(what, {
           name: "SEE ALSO",
           value: `
 \`lena help autoplay\`
+\`lena help dj\`
 \`lena help effect\`
 \`lena help loop\`
 \`lena help pause\`

@@ -3,10 +3,16 @@ const alias = require("./alias.js");
 
 const prefixRegExp = RegExp(`^(?:lena|<@!?${process.env.CLIENT_ID}>)`, "i");
 const {
-  FLAGS: { SEND_MESSAGES, EMBED_LINKS },
+  FLAGS: { SEND_MESSAGES, EMBED_LINKS, PRIORITY_SPEAKER },
 } = Permissions;
 const permissions = SEND_MESSAGES + EMBED_LINKS;
 const separatorRegExp = /\s+/;
+
+const isAuthorized = (message, { safe }, player) => {
+  const queue = player.getQueue(message);
+  const { permissions } = message.member;
+  return !queue || !queue.dj || safe || permissions.has(PRIORITY_SPEAKER);
+};
 
 const handleDefault = function (message) {
   message.channel.send({
@@ -38,5 +44,12 @@ module.exports = function (message) {
 
   const argv = content.split(separatorRegExp);
   const handle = alias(argv) || handleDefault;
+  if (!isAuthorized(message, handle, this.player)) {
+    message.channel.send(
+      "I can't do that because **DJ** mode is on and you don't have the Priority Speaker permission"
+    );
+    return;
+  }
+
   handle.bind(this)(message, argv, alias);
 };
