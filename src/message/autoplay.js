@@ -14,14 +14,15 @@ const autoplay = function (message, argv) {
     }
 
     message.channel.send({ embed: { description: "Disabled autoplay" } });
-    return;
+  } else {
+    if (!queue.autoplay) {
+      this.player.toggleAutoplay(message);
+    }
+
+    message.channel.send({ embed: { description: "Enabled autoplay" } });
   }
 
-  if (!queue.autoplay) {
-    this.player.toggleAutoplay(message);
-  }
-
-  message.channel.send({ embed: { description: "Enabled autoplay" } });
+  this.storage.setItem(`${message.guild.id}.autoplay`, queue.autoplay);
 };
 
 module.exports = Object.assign(autoplay, {
