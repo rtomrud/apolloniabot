@@ -1,6 +1,27 @@
-const spotifyToYoutube = require("../spotify-to-youtube/index.js");
+const ytsr = require("@distube/ytsr");
+const { getData, getTracks } = require("spotify-url-info");
+const selectSong = require("../select-song.js");
 
+const spotifyListRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album)\/(\w|-){22}.*/;
+const spotifySongRegExp = /^https:\/\/open\.spotify\.com\/track\/(\w|-){22}.*/;
 const spotifyUrlRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album|track)\/(\w|-){22}.*/;
+
+const retry = (f) => (...args) => f(...args).catch(() => f(...args));
+
+const spotifyToYouTube = async (url) => {
+  const songs = await (spotifyListRegExp.test(url)
+    ? getTracks(url)
+    : spotifySongRegExp.test(url)
+    ? getData(url).then((data) => [data])
+    : []);
+  return Promise.all(
+    songs.map(async (song) => {
+      const query = `${song.artists[0].name} Topic - ${song.name}`;
+      const result = await retry(ytsr)(query, { limit: 10 });
+      return selectSong(result, song).url;
+    })
+  );
+};
 
 const play = async function (message, argv) {
   const args = argv.slice(2);
@@ -13,7 +34,7 @@ const play = async function (message, argv) {
 
   const spotifyUrl = args.find((arg) => spotifyUrlRegExp.test(arg));
   if (spotifyUrl) {
-    const urls = await spotifyToYoutube(spotifyUrl).catch(() => []);
+    const urls = await spotifyToYouTube(spotifyUrl).catch(() => []);
     if (urls.length === 1) {
       this.player.play(message, urls[0]);
     } else if (urls.length > 1) {
