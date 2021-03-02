@@ -19,7 +19,7 @@ test("store", async (t) => {
   const a = JSON.stringify({ a: 1 });
   const b = JSON.stringify({ b: 2 });
   const c = JSON.stringify({ c: 3 });
-  const storage = await store(dir);
+  const storage = store(dir);
   await storage.setItem("a", a);
   await storage.setItem("b", b);
   await storage.setItem("c", c);

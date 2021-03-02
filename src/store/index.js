@@ -1,7 +1,7 @@
 const { promises } = require("fs");
 const { join } = require("path");
 
-const { mkdir, readFile, readdir, unlink, writeFile } = promises;
+const { readFile, readdir, unlink, writeFile } = promises;
 
 const encode = (s) => s.replace("/", ".");
 const decode = (s) => s.replace(".", "/");
@@ -10,8 +10,7 @@ const decode = (s) => s.replace(".", "/");
  * Returns an object with the `Storage` interface but Promise-based.
  * See: https://developer.mozilla.org/en-US/docs/Web/API/Storage,
  */
-module.exports = async function (path) {
-  await mkdir(path, { recursive: true });
+module.exports = function (path) {
   return {
     get length() {
       return readdir(path).then(({ length }) => length);
