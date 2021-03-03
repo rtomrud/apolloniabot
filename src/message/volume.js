@@ -38,6 +38,7 @@ const volume = function (message, argv) {
 
   this.player.setVolume(message, percent);
   message.channel.send({ embed: { description: `Set volume to ${percent}%` } });
+  this.storage.setItem(`${message.guild.id}.volume`, queue.volume);
 };
 
 module.exports = Object.assign(volume, {

@@ -36,11 +36,12 @@ const loop = function (message, argv) {
     message.channel.send({
       embed: { description: "Looping the current track" },
     });
-    return;
+  } else {
+    this.player.setRepeatMode(message, 0);
+    message.channel.send({ embed: { description: "Disabled looping" } });
   }
 
-  this.player.setRepeatMode(message, 0);
-  message.channel.send({ embed: { description: "Disabled looping" } });
+  this.storage.setItem(`${message.guild.id}.loop`, queue.repeatMode);
 };
 
 module.exports = Object.assign(loop, {

@@ -26,11 +26,12 @@ const dj = function (message, argv) {
   if (arg) {
     queue.dj = false;
     message.channel.send({ embed: { description: "Disabled DJ mode" } });
-    return;
+  } else {
+    queue.dj = true;
+    message.channel.send({ embed: { description: "Enabled DJ mode" } });
   }
 
-  queue.dj = true;
-  message.channel.send({ embed: { description: "Enabled DJ mode" } });
+  this.storage.setItem(`${message.guild.id}.dj`, queue.dj);
 };
 
 module.exports = Object.assign(dj, {

@@ -21,15 +21,18 @@ const effect = function (message, argv) {
   if (off) {
     this.player.setFilter(message, queue.filter);
     message.channel.send({ embed: { description: "Disabled effects" } });
-    return;
+  } else {
+    const filter = filterName.toLowerCase();
+    if (filter !== queue.filter) {
+      this.player.setFilter(message, filter);
+    }
+
+    message.channel.send({
+      embed: { description: `Enabled ${filter} effect` },
+    });
   }
 
-  const filter = filterName.toLowerCase();
-  if (filter !== queue.filter) {
-    this.player.setFilter(message, filter);
-  }
-
-  message.channel.send({ embed: { description: `Enabled ${filter} effect` } });
+  this.storage.setItem(`${message.guild.id}.effect`, queue.effect);
 };
 
 module.exports = Object.assign(effect, {
