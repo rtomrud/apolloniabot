@@ -25,25 +25,19 @@ const dj = function (message, argv) {
   }
 
   const arg = argv.slice(2).find((arg) => operandRegExp.test(arg));
-  if (arg) {
-    queue.dj = false;
-    message.channel.send({
-      embed: {
-        title: "Disabled DJ mode",
-        description: "Now everyone can use all commands",
-      },
-    });
-  } else {
-    queue.dj = true;
-    message.channel.send({
-      embed: {
-        title: "Enabled DJ mode",
-        description:
-          "Now only those with the Priority Speaker permission can modify the queue",
-      },
-    });
-  }
-
+  queue.dj = !arg;
+  message.channel.send({
+    embed: queue.dj
+      ? {
+          title: "Enabled DJ mode",
+          description:
+            "Now only those with the Priority Speaker permission can modify the queue",
+        }
+      : {
+          title: "Disabled DJ mode",
+          description: "Now everyone can use all commands",
+        },
+  });
   this.storage.setItem(`${message.guild.id}.dj`, queue.dj);
 };
 

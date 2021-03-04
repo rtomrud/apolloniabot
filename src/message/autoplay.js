@@ -10,20 +10,13 @@ const autoplay = function (message, argv) {
   }
 
   const arg = argv.slice(2).find((arg) => operandRegExp.test(arg));
-  if (arg) {
-    if (queue.autoplay) {
-      this.player.toggleAutoplay(message);
-    }
-
-    message.channel.send({ embed: { title: "Disabled autoplay" } });
-  } else {
-    if (!queue.autoplay) {
-      this.player.toggleAutoplay(message);
-    }
-
-    message.channel.send({ embed: { title: "Enabled autoplay" } });
+  if ((arg && queue.autoplay) || (!arg && !queue.autoplay)) {
+    this.player.toggleAutoplay(message);
   }
 
+  message.channel.send({
+    embed: { title: queue.autoplay ? "Enabled autoplay" : "Disabled autoplay" },
+  });
   this.storage.setItem(`${message.guild.id}.autoplay`, queue.autoplay);
 };
 

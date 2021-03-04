@@ -22,26 +22,16 @@ const loop = function (message, argv) {
   }
 
   const [, all, song] = operandRegExp.exec(arg);
-  if (all) {
-    if (queue.repeatMode !== 2) {
-      this.player.setRepeatMode(message, 2);
-    }
-
-    message.channel.send({ embed: { title: "Looping the queue" } });
-    return;
-  }
-
-  if (song) {
-    if (queue.repeatMode !== 1) {
-      this.player.setRepeatMode(message, 1);
-    }
-
-    message.channel.send({ embed: { title: "Looping the current track" } });
-  } else {
-    this.player.setRepeatMode(message, 0);
-    message.channel.send({ embed: { title: "Disabled looping" } });
-  }
-
+  this.player.setRepeatMode(message, all ? 2 : song ? 1 : 0);
+  message.channel.send({
+    embed: {
+      title: [
+        "Disabled looping",
+        "Looping the current track",
+        "Looping the queue",
+      ][queue.repeatMode],
+    },
+  });
   this.storage.setItem(`${message.guild.id}.loop`, queue.repeatMode);
 };
 

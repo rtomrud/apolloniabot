@@ -20,20 +20,16 @@ const effect = function (message, argv) {
     return;
   }
 
-  const [, off, filterName] = filterRegExp.exec(arg);
-  if (off) {
-    this.player.setFilter(message, queue.filter);
-    message.channel.send({ embed: { title: "Disabled effects" } });
-  } else {
-    const filter = filterName.toLowerCase();
-    if (filter !== queue.filter) {
-      this.player.setFilter(message, filter);
-    }
-
-    message.channel.send({ embed: { title: `Enabled ${filter} effect` } });
-  }
-
-  this.storage.setItem(`${message.guild.id}.effect`, queue.effect);
+  const [, off, filter] = filterRegExp.exec(arg);
+  this.player.setFilter(message, off ? queue.filter : filter.toLowerCase());
+  message.channel.send({
+    embed: {
+      title: queue.filter
+        ? `Enabled ${queue.filter} effect`
+        : "Disabled effecs",
+    },
+  });
+  this.storage.setItem(`${message.guild.id}.effect`, queue.filter);
 };
 
 module.exports = Object.assign(effect, {
