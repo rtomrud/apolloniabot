@@ -5,14 +5,19 @@ const timeRegExp = /^([+-])?(?:(?:(\d{1,2}):)?(\d{1,2}):)?(\d+(?:\.\d{1,3})?)s?/
 const seek = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue || !queue.playing) {
-    message.channel.send({ embed: { description: "Nothing to seek on" } });
+    message.channel.send({
+      embed: { title: "Error", description: "Nothing to seek on" },
+    });
     return;
   }
 
   const arg = argv.slice(2).find((arg) => timeRegExp.test(arg));
   if (!arg) {
     message.channel.send({
-      embed: { description: "I don't know to what time you want to seek" },
+      embed: {
+        title: "Error",
+        description: "I don't know to what time you want to seek",
+      },
     });
     return;
   }
@@ -28,7 +33,7 @@ const seek = function (message, argv) {
       : ms;
   this.player.seek(message, Math.max(0, Math.min(t, duration * 1000)));
   message.channel.send({
-    embed: { description: `Playing ${formatPlayback(queue)}` },
+    embed: { title: "Playing", description: formatPlayback(queue) },
   });
 };
 

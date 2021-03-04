@@ -8,15 +8,17 @@ const operandRegExp = /off|none|no|false|disable/i;
 const dj = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    message.channel.send({ embed: { description: "Nothing playing" } });
+    message.channel.send({
+      embed: { title: "Error", description: "Nothing to set DJ mode to" },
+    });
     return;
   }
 
   if (!message.member.permissions.has(MANAGE_GUILD)) {
     message.channel.send({
       embed: {
-        description:
-          "I can't do that because you don't have the Manage Server permission",
+        title: "Error",
+        description: "You need the Manage Server permission to enable DJ mode",
       },
     });
     return;
@@ -25,10 +27,21 @@ const dj = function (message, argv) {
   const arg = argv.slice(2).find((arg) => operandRegExp.test(arg));
   if (arg) {
     queue.dj = false;
-    message.channel.send({ embed: { description: "Disabled DJ mode" } });
+    message.channel.send({
+      embed: {
+        title: "Disabled DJ mode",
+        description: "Now everyone can use all commands",
+      },
+    });
   } else {
     queue.dj = true;
-    message.channel.send({ embed: { description: "Enabled DJ mode" } });
+    message.channel.send({
+      embed: {
+        title: "Enabled DJ mode",
+        description:
+          "Now only those with the Priority Speaker permission can modify the queue",
+      },
+    });
   }
 
   this.storage.setItem(`${message.guild.id}.dj`, queue.dj);

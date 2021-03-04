@@ -3,13 +3,15 @@ const formatSong = require("../format-song.js");
 const pause = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || !queue.playing) {
-    message.channel.send({ embed: { description: "Nothing to pause" } });
+    message.channel.send({
+      embed: { title: "Error", description: "Nothing to pause" },
+    });
     return;
   }
 
   this.player.pause(message);
   message.channel.send({
-    embed: { description: `Paused ${formatSong(queue.songs[0])}` },
+    embed: { title: "Paused", description: formatSong(queue.songs[0]) },
   });
 };
 

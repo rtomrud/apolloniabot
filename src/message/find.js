@@ -6,7 +6,10 @@ const find = function (message, argv) {
   const query = argv.slice(2).join(" ");
   if (!query) {
     message.channel.send({
-      embed: { description: "I don't know what you want to find" },
+      embed: {
+        title: "Error",
+        description: "I don't know what you want to find",
+      },
     });
     return;
   }
@@ -14,11 +17,12 @@ const find = function (message, argv) {
   ytsr(query, { limit: 10 }).then(({ items }) =>
     message.channel.send({
       embed: {
-        title: "Search results from YouTube",
+        title: "Results",
         fields: items.map((item) => ({
           name: item.author.name,
           value: formatSong(new SearchResult(item)),
         })),
+        footer: { text: "Powered by YouTube" },
       },
     })
   );

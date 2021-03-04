@@ -1,9 +1,14 @@
+const formatSong = require("../format-song.js");
+
 const integerRegExp = /^-?\d+/;
+const pageSize = 10;
 
 const drop = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    message.channel.send({ embed: { description: "Nothing to drop" } });
+    message.channel.send({
+      embed: { title: "Error", description: "Nothing to drop" },
+    });
     return;
   }
 
@@ -16,24 +21,38 @@ const drop = function (message, argv) {
   const deleteCount = arg2 > arg1 ? arg2 - arg1 + 1 : 1;
   if (start < 0 || start >= length) {
     message.channel.send({
-      embed: { description: "I can't drop that because it's not in the queue" },
+      embed: {
+        title: "Error",
+        description: "Nothing to drop at that position",
+      },
     });
     return;
   }
 
   if (start === 0 && queue.playing) {
     message.channel.send({
-      embed: { description: "I can't drop track 1 because it's playing now" },
+      embed: {
+        title: "Error",
+        description: "I can't drop track 1 because it's playing now",
+      },
     });
     return;
   }
 
-  const { length: deletes } = queue.songs.splice(start, deleteCount);
+  const deletes = queue.songs.splice(start, deleteCount);
   message.channel.send({
     embed: {
-      description: `Dropped track${deletes > 1 ? "s" : ""} ${start + 1}${
-        deletes > 1 ? ` to ${start + deletes}` : ""
-      }`,
+      title: "Dropped",
+      fields: deletes.slice(0, pageSize).map((song, i) => ({
+        name: i + start + 1,
+        value: formatSong(song),
+      })),
+      footer: {
+        text:
+          deletes.length > pageSize
+            ? `And ${deletes.length - pageSize} more`
+            : "",
+      },
     },
   });
 };

@@ -1,12 +1,14 @@
 const shuffle = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || queue.songs.length <= 1) {
-    message.channel.send({ embed: { description: "Nothing to shuffle" } });
+    message.channel.send({
+      embed: { title: "Error", description: "Nothing to shuffle" },
+    });
     return;
   }
 
   this.player.shuffle(message);
-  message.channel.send({ embed: { description: "Shuffled the queue" } });
+  message.channel.send({ embed: { title: "Shuffled the queue" } });
 };
 
 module.exports = Object.assign(shuffle, {

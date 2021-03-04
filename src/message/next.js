@@ -1,7 +1,9 @@
 const next = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || (queue.songs.length <= 1 && !queue.autoplay)) {
-    message.channel.send({ embed: { description: "Nothing to skip" } });
+    message.channel.send({
+      embed: { title: "Error", description: "Nothing to skip" },
+    });
     return;
   }
 

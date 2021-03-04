@@ -3,13 +3,15 @@ const formatSong = require("../format-song.js");
 const resume = function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || queue.playing) {
-    message.channel.send({ embed: { description: "Nothing to resume" } });
+    message.channel.send({
+      embed: { title: "Error", description: "Nothing to resume" },
+    });
     return;
   }
 
   this.player.resume(message);
   message.channel.send({
-    embed: { description: `Resumed ${formatSong(queue.songs[0])}` },
+    embed: { title: "Resumed", description: formatSong(queue.songs[0]) },
   });
 };
 

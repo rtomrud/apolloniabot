@@ -6,7 +6,7 @@ const volume = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
     message.channel.send({
-      embed: { description: "Nothing to set volume to" },
+      embed: { title: "Error", description: "Nothing to set volume to" },
     });
     return;
   }
@@ -14,7 +14,10 @@ const volume = function (message, argv) {
   const arg = argv.slice(2).find((arg) => percentRegExp.test(arg));
   if (!arg) {
     message.channel.send({
-      embed: { description: "I don't know what volume you want" },
+      embed: {
+        title: "Error",
+        description: "I don't know what volume you want",
+      },
     });
     return;
   }
@@ -22,7 +25,7 @@ const volume = function (message, argv) {
   const percent = Math.round(arg.replace("%", ""));
   if (percent < min) {
     message.channel.send({
-      embed: { description: "I can't set the volume that low" },
+      embed: { title: "Error", description: "I can't set the volume that low" },
     });
     return;
   }
@@ -30,6 +33,7 @@ const volume = function (message, argv) {
   if (percent > max) {
     message.channel.send({
       embed: {
+        title: "Error",
         description: "I can't [go to 11](https://youtu.be/4xgx4k83zzc)",
       },
     });
@@ -37,7 +41,9 @@ const volume = function (message, argv) {
   }
 
   this.player.setVolume(message, percent);
-  message.channel.send({ embed: { description: `Set volume to ${percent}%` } });
+  message.channel.send({
+    embed: { title: "Volume set", description: `${percent}%` },
+  });
   this.storage.setItem(`${message.guild.id}.volume`, queue.volume);
 };
 

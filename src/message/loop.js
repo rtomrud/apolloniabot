@@ -3,7 +3,9 @@ const operandRegExp = /(queue|songs|on|all|yes|true|enable)|(track|song|one|curr
 const loop = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    message.channel.send({ embed: { description: "Nothing to loop" } });
+    message.channel.send({
+      embed: { title: "Error", description: "Nothing to loop" },
+    });
     return;
   }
 
@@ -11,6 +13,7 @@ const loop = function (message, argv) {
   if (!arg) {
     message.channel.send({
       embed: {
+        title: "Error",
         description:
           "I don't know whether you want to loop the **queue**, a **track**, or turn looping **off**",
       },
@@ -24,7 +27,7 @@ const loop = function (message, argv) {
       this.player.setRepeatMode(message, 2);
     }
 
-    message.channel.send({ embed: { description: "Looping the queue" } });
+    message.channel.send({ embed: { title: "Looping the queue" } });
     return;
   }
 
@@ -33,12 +36,10 @@ const loop = function (message, argv) {
       this.player.setRepeatMode(message, 1);
     }
 
-    message.channel.send({
-      embed: { description: "Looping the current track" },
-    });
+    message.channel.send({ embed: { title: "Looping the current track" } });
   } else {
     this.player.setRepeatMode(message, 0);
-    message.channel.send({ embed: { description: "Disabled looping" } });
+    message.channel.send({ embed: { title: "Disabled looping" } });
   }
 
   this.storage.setItem(`${message.guild.id}.loop`, queue.repeatMode);

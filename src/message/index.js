@@ -16,7 +16,10 @@ const isAuthorized = (message, { safe }, player) => {
 
 const handleDefault = function (message) {
   message.channel.send({
-    embed: { description: "I don't know what you want, try `lena help`" },
+    embed: {
+      title: "Error",
+      description: "I don't know what you want, try `lena help`",
+    },
   });
 };
 
@@ -37,7 +40,7 @@ module.exports = function (message) {
   );
   if (!channel.permissionsFor(this.user).has(permissions)) {
     author.send(
-      "I can't do that because I don't have the Send Messages and Embed Links permissions in that channel"
+      "Error: I can't do that because I don't have the Send Messages and Embed Links permissions in that channel"
     );
     return;
   }
@@ -46,7 +49,7 @@ module.exports = function (message) {
   const handle = alias(argv) || handleDefault;
   if (!isAuthorized(message, handle, this.player)) {
     message.channel.send(
-      "I can't do that because **DJ** mode is on and you don't have the Priority Speaker permission"
+      "Error: I can't do that because **DJ** mode is on and you don't have the Priority Speaker permission"
     );
     return;
   }

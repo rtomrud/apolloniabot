@@ -27,7 +27,10 @@ const play = async function (message, argv) {
   const args = argv.slice(2);
   if (args.length === 0 && message.attachments.size === 0) {
     message.channel.send({
-      embed: { description: "I don't know what you want to play" },
+      embed: {
+        title: "Error",
+        description: "I don't know what you want to play",
+      },
     });
     return;
   }
@@ -40,7 +43,9 @@ const play = async function (message, argv) {
     } else if (urls.length > 1) {
       this.player.playCustomPlaylist(message, urls);
     } else if (urls.length === 0) {
-      message.channel.send({ embed: { description: "I can't fetch that" } });
+      message.channel.send({
+        embed: { title: "Error", description: "I can't fetch that" },
+      });
     }
 
     return;
@@ -52,6 +57,7 @@ const play = async function (message, argv) {
     if (width) {
       message.channel.send({
         embed: {
+          title: "Error",
           description: "I can't play that because it's not a valid file format",
         },
       });

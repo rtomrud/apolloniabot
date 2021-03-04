@@ -3,7 +3,9 @@ const operandRegExp = /off|none|no|false|disable/i;
 const autoplay = function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    message.channel.send({ embed: { description: "Nothing to autoplay" } });
+    message.channel.send({
+      embed: { title: "Error", description: "Nothing to autoplay" },
+    });
     return;
   }
 
@@ -13,13 +15,13 @@ const autoplay = function (message, argv) {
       this.player.toggleAutoplay(message);
     }
 
-    message.channel.send({ embed: { description: "Disabled autoplay" } });
+    message.channel.send({ embed: { title: "Disabled autoplay" } });
   } else {
     if (!queue.autoplay) {
       this.player.toggleAutoplay(message);
     }
 
-    message.channel.send({ embed: { description: "Enabled autoplay" } });
+    message.channel.send({ embed: { title: "Enabled autoplay" } });
   }
 
   this.storage.setItem(`${message.guild.id}.autoplay`, queue.autoplay);

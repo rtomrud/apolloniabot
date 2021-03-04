@@ -9,7 +9,9 @@ const queue = function (message, argv) {
   const arg = Number(argv.slice(2).find((arg) => integerRegExp.test(arg)));
   const queue = this.player.getQueue(message);
   if (!queue || queue.songs.length === 0) {
-    message.channel.send({ embed: { description: "Nothing in queue" } });
+    message.channel.send({
+      embed: { title: "Error", description: "Nothing in queue" },
+    });
     return;
   }
 
