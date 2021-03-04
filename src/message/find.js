@@ -14,17 +14,25 @@ const find = function (message, argv) {
     return;
   }
 
-  ytsr(query, { limit: 10 }).then(({ items }) =>
-    message.channel.send({
-      embed: {
-        title: "Results",
-        fields: items.map((item) => ({
-          name: item.author.name,
-          value: formatSong(new SearchResult(item)),
-        })),
-        footer: { text: "Powered by YouTube" },
-      },
-    })
+  ytsr(query, { limit: 10 }).then(
+    ({ items }) =>
+      message.channel.send({
+        embed: {
+          title: "Results",
+          fields: items.map((item) => ({
+            name: item.author.name,
+            value: formatSong(new SearchResult(item)),
+          })),
+          footer: { text: "Powered by YouTube" },
+        },
+      }),
+    () =>
+      message.channel.send({
+        embed: {
+          title: "Error",
+          description: "I couldn't find anything, try again",
+        },
+      })
   );
 };
 
