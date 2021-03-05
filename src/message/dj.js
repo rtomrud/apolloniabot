@@ -1,7 +1,7 @@
 const { Permissions } = require("discord.js");
 
 const {
-  FLAGS: { MANAGE_GUILD },
+  FLAGS: { PRIORITY_SPEAKER },
 } = Permissions;
 const operandRegExp = /off|none|no|false|disable/i;
 
@@ -14,11 +14,12 @@ const dj = function (message, argv) {
     return;
   }
 
-  if (!message.member.permissions.has(MANAGE_GUILD)) {
+  if (!message.member.permissions.has(PRIORITY_SPEAKER)) {
     message.channel.send({
       embed: {
         title: "Error",
-        description: "You need the Manage Server permission to enable DJ mode",
+        description:
+          "You need the Priority Speaker permission to enable DJ mode",
       },
     });
     return;
