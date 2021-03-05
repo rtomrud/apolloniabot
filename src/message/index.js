@@ -48,9 +48,11 @@ module.exports = function (message) {
   const argv = content.split(separatorRegExp);
   const handle = alias(argv) || handleDefault;
   if (!isAuthorized(message, handle, this.player)) {
-    message.channel.send(
-      "Error: I can't do that because **DJ** mode is on and you don't have the Priority Speaker permission"
-    );
+    message.channel.send({
+      title: "Error",
+      description:
+        "You can't do that because **DJ** mode is on and you don't have the Priority Speaker permission",
+    });
     return;
   }
 
