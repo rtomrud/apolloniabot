@@ -32,7 +32,6 @@ const loop = function (message, argv) {
       ][queue.repeatMode],
     },
   });
-  this.storage.setItem(`${message.guild.id}.loop`, queue.repeatMode);
 };
 
 module.exports = Object.assign(loop, {

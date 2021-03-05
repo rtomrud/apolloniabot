@@ -29,7 +29,6 @@ const effect = function (message, argv) {
         : "Disabled effecs",
     },
   });
-  this.storage.setItem(`${message.guild.id}.effect`, queue.filter);
 };
 
 module.exports = Object.assign(effect, {

@@ -17,7 +17,6 @@ const autoplay = function (message, argv) {
   message.channel.send({
     embed: { title: queue.autoplay ? "Enabled autoplay" : "Disabled autoplay" },
   });
-  this.storage.setItem(`${message.guild.id}.autoplay`, queue.autoplay);
 };
 
 module.exports = Object.assign(autoplay, {

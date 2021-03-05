@@ -44,7 +44,6 @@ const volume = function (message, argv) {
   message.channel.send({
     embed: { title: "Volume set", description: `${percent}%` },
   });
-  this.storage.setItem(`${message.guild.id}.volume`, queue.volume);
 };
 
 module.exports = Object.assign(volume, {
