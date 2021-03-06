@@ -31,7 +31,7 @@ module.exports = async function (message) {
   const { author, channel, content } = message;
   const argv = content.split(separatorRegExp);
   const handle = alias(argv) || handleDefault;
-  const response = !channel.permissionsFor(this.user).has(permissions)
+  const response = await (!channel.permissionsFor(this.user).has(permissions)
     ? author.send(
         "Error: I can't do that because I don't have the Send Messages and Embed Links permissions in that channel"
       )
@@ -41,6 +41,6 @@ module.exports = async function (message) {
         description:
           "You can't do that because **DJ** mode is on and you don't have the Priority Speaker permission",
       })
-    : handle.bind(this)(message, argv, alias);
-  return [message, response];
+    : handle.bind(this)(message, argv, alias));
+  return response ? [message, response] : [message];
 };
