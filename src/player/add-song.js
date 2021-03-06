@@ -1,7 +1,7 @@
 const formatSong = require("../format-song.js");
 
-module.exports = function (message, queue, song) {
-  message.channel.send({
+module.exports = async function (message, queue, song) {
+  return message.channel.send({
     embed: { title: "Queued", description: formatSong(song) },
   });
 };

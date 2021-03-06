@@ -1,5 +1,5 @@
-const who = function (message) {
-  message.channel.send({
+const who = async function (message) {
+  return message.channel.send({
     embed: {
       title: "Hi, I'm Lena!",
       description: `

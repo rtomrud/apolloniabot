@@ -1,13 +1,12 @@
-const help = function (message, argv, alias) {
+const help = async function (message, argv, alias) {
   if (argv.length > 2) {
     const command = alias(argv.slice(1));
     if (command && command.usage) {
-      message.channel.send(command.usage);
-      return;
+      return message.channel.send(command.usage);
     }
   }
 
-  message.channel.send({
+  return message.channel.send({
     embed: {
       fields: [
         {

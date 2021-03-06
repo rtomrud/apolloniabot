@@ -2,46 +2,42 @@ const min = 1;
 const max = 100;
 const percentRegExp = /^\d+(\.\d+)?%?/;
 
-const volume = function (message, argv) {
+const volume = async function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    message.channel.send({
+    return message.channel.send({
       embed: { title: "Error", description: "Nothing to set volume to" },
     });
-    return;
   }
 
   const arg = argv.slice(2).find((arg) => percentRegExp.test(arg));
   if (!arg) {
-    message.channel.send({
+    return message.channel.send({
       embed: {
         title: "Error",
         description: "I don't know what volume you want",
       },
     });
-    return;
   }
 
   const percent = Math.round(arg.replace("%", ""));
   if (percent < min) {
-    message.channel.send({
+    return message.channel.send({
       embed: { title: "Error", description: "I can't set the volume that low" },
     });
-    return;
   }
 
   if (percent > max) {
-    message.channel.send({
+    return message.channel.send({
       embed: {
         title: "Error",
         description: "I can't [go to 11](https://youtu.be/4xgx4k83zzc)",
       },
     });
-    return;
   }
 
   this.player.setVolume(message, percent);
-  message.channel.send({
+  return message.channel.send({
     embed: { title: "Volume set", description: `${percent}%` },
   });
 };

@@ -1,13 +1,13 @@
-const next = function (message) {
+const next = async function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || (queue.songs.length <= 1 && !queue.autoplay)) {
-    message.channel.send({
+    return message.channel.send({
       embed: { title: "Error", description: "Nothing to skip" },
     });
-    return;
   }
 
   this.player.skip(message);
+  return null;
 };
 
 module.exports = Object.assign(next, {

@@ -3,13 +3,12 @@ const formatSong = require("../format-song.js");
 const integerRegExp = /^-?\d+/;
 const pageSize = 10;
 
-const drop = function (message, argv) {
+const drop = async function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    message.channel.send({
+    return message.channel.send({
       embed: { title: "Error", description: "Nothing to drop" },
     });
-    return;
   }
 
   const { length } = queue.songs;
@@ -20,27 +19,25 @@ const drop = function (message, argv) {
   const start = (arg1 != null ? arg1 : length) - 1;
   const deleteCount = arg2 > arg1 ? arg2 - arg1 + 1 : 1;
   if (start < 0 || start >= length) {
-    message.channel.send({
+    return message.channel.send({
       embed: {
         title: "Error",
         description: "Nothing to drop at that position",
       },
     });
-    return;
   }
 
   if (start === 0 && queue.playing) {
-    message.channel.send({
+    return message.channel.send({
       embed: {
         title: "Error",
         description: "I can't drop track 1 because it's playing now",
       },
     });
-    return;
   }
 
   const deletes = queue.songs.splice(start, deleteCount);
-  message.channel.send({
+  return message.channel.send({
     embed: {
       title: "Dropped",
       fields: deletes.slice(0, pageSize).map((song, i) => ({

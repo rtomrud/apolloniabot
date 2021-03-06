@@ -1,14 +1,13 @@
 const formatPlayback = require("../format-playback.js");
 
-const what = function (message) {
+const what = async function (message) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    message.channel.send({ embed: { description: "Nothing in queue" } });
-    return;
+    return message.channel.send({ embed: { description: "Nothing in queue" } });
   }
 
   const { autoplay, filter, repeatMode: loop, songs, volume } = queue;
-  message.channel.send({
+  return message.channel.send({
     embed: {
       title: queue.playing ? "Playing" : "Paused",
       description: formatPlayback(queue),

@@ -26,49 +26,50 @@ const spotifyToYouTube = async (url) => {
 const play = async function (message, argv) {
   const args = argv.slice(2);
   if (args.length === 0 && message.attachments.size === 0) {
-    message.channel.send({
+    return message.channel.send({
       embed: {
         title: "Error",
         description: "I don't know what you want to play",
       },
     });
-    return;
   }
 
   const spotifyUrl = args.find((arg) => spotifyUrlRegExp.test(arg));
   if (spotifyUrl) {
     const urls = await spotifyToYouTube(spotifyUrl).catch(() => []);
-    if (urls.length === 1) {
-      this.player.play(message, urls[0]);
-    } else if (urls.length > 1) {
-      this.player.playCustomPlaylist(message, urls);
-    } else if (urls.length === 0) {
-      message.channel.send({
+    if (urls.length === 0) {
+      return message.channel.send({
         embed: { title: "Error", description: "I can't fetch that" },
       });
     }
 
-    return;
+    if (urls.length === 1) {
+      this.player.play(message, urls[0]);
+      return null;
+    }
+
+    this.player.playCustomPlaylist(message, urls);
+    return null;
   }
 
   const { attachments } = message;
   if (attachments.size > 0) {
     const { width, url } = attachments.values().next().value;
     if (width) {
-      message.channel.send({
+      return message.channel.send({
         embed: {
           title: "Error",
           description: "I can't play that because it's not a valid file format",
         },
       });
-      return;
     }
 
     this.player.play(message, url);
-    return;
+    return null;
   }
 
   this.player.play(message, args.join(" "));
+  return null;
 };
 
 module.exports = Object.assign(play, {

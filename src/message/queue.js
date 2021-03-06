@@ -5,14 +5,13 @@ const formatSong = require("../format-song.js");
 const pageSize = 10;
 const integerRegExp = /^-?\d+/;
 
-const queue = function (message, argv) {
+const queue = async function (message, argv) {
   const arg = Number(argv.slice(2).find((arg) => integerRegExp.test(arg)));
   const queue = this.player.getQueue(message);
   if (!queue || queue.songs.length === 0) {
-    message.channel.send({
+    return message.channel.send({
       embed: { title: "Error", description: "Nothing in queue" },
     });
-    return;
   }
 
   const { songs } = queue;
@@ -22,7 +21,7 @@ const queue = function (message, argv) {
   const page = arg * pageSize > length ? pages : arg || 1;
   const start = (page - 1) * pageSize;
   const end = page * pageSize < length ? page * pageSize : length;
-  message.channel.send({
+  return message.channel.send({
     embed: {
       title: formatPlaylist(queue),
       fields: songs.slice(start, end).map((song, i) => ({

@@ -2,19 +2,18 @@ const ytsr = require("@distube/ytsr");
 const SearchResult = require("distube/src/SearchResult.js");
 const formatSong = require("../format-song.js");
 
-const find = function (message, argv) {
+const find = async function (message, argv) {
   const query = argv.slice(2).join(" ");
   if (!query) {
-    message.channel.send({
+    return message.channel.send({
       embed: {
         title: "Error",
         description: "I don't know what you want to find",
       },
     });
-    return;
   }
 
-  ytsr(query, { limit: 10 }).then(
+  return ytsr(query, { limit: 10 }).then(
     ({ items }) =>
       message.channel.send({
         embed: {

@@ -5,29 +5,27 @@ const {
 } = Permissions;
 const operandRegExp = /off|none|no|false|disable/i;
 
-const dj = function (message, argv) {
+const dj = async function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    message.channel.send({
+    return message.channel.send({
       embed: { title: "Error", description: "Nothing to set DJ mode to" },
     });
-    return;
   }
 
   if (!message.member.permissions.has(PRIORITY_SPEAKER)) {
-    message.channel.send({
+    return message.channel.send({
       embed: {
         title: "Error",
         description:
           "You need the Priority Speaker permission to enable DJ mode",
       },
     });
-    return;
   }
 
   const arg = argv.slice(2).find((arg) => operandRegExp.test(arg));
   queue.dj = !arg;
-  message.channel.send({
+  return message.channel.send({
     embed: { title: queue.dj ? "Enabled DJ mode" : "Disabled DJ mode" },
   });
 };

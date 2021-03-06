@@ -1,16 +1,15 @@
 const formatSong = require("../format-song.js");
 
-const pause = function (message) {
+const pause = async function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || !queue.playing) {
-    message.channel.send({
+    return message.channel.send({
       embed: { title: "Error", description: "Nothing to pause" },
     });
-    return;
   }
 
   this.player.pause(message);
-  message.channel.send({
+  return message.channel.send({
     embed: { title: "Paused", description: formatSong(queue.songs[0]) },
   });
 };
