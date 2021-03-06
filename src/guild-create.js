@@ -1,13 +1,23 @@
+const { Permissions } = require("discord.js");
 const who = require("./message/who.js");
 
-module.exports = async function (guild) {
-  const { id, tag } = this.user;
-  console.log(`<@${id}>`, `"${tag}"`, "GUILD_CREATE", `/guilds/${guild.id}`);
+const {
+  FLAGS: { SEND_MESSAGES, EMBED_LINKS },
+} = Permissions;
+const permissions = SEND_MESSAGES + EMBED_LINKS;
 
-  const { available, systemChannel } = guild;
-  if (!available || !systemChannel) {
-    return null;
+module.exports = async function ({ available, id, name, systemChannel }) {
+  if (available && systemChannel) {
+    who({ channel: systemChannel });
   }
 
-  return who({ channel: systemChannel });
+  const channel = await this.channels.fetch(process.env.CHANNEL_ID);
+  return channel.permissionsFor(this.user).has(permissions)
+    ? channel.send({
+        embed: {
+          title: "Joined",
+          description: `[${name}](https://discord.com/channels/${id})`,
+        },
+      })
+    : null;
 };

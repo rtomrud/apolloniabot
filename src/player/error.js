@@ -1,3 +1,10 @@
+const { Permissions } = require("discord.js");
+
+const {
+  FLAGS: { SEND_MESSAGES, EMBED_LINKS },
+} = Permissions;
+const permissions = SEND_MESSAGES + EMBED_LINKS;
+
 module.exports = async function (message, error) {
   const { message: err } = error;
   if (err.endsWith("User is not in the voice channel.")) {
@@ -33,15 +40,16 @@ module.exports = async function (message, error) {
     });
   }
 
-  const { author, channel, guild, id } = message;
-  console.error(
-    `<@${author.id}>`,
-    `"${author.tag}"`,
-    "ERROR",
-    `/channels/${guild.id}/${channel.id}/${id}`,
-    `"${err.name}: ${err.message}"`
-  );
-  return message.channel.send({
+  const response = message.channel.send({
     embed: { title: "Error", description: "I can't do that, sorry" },
   });
+  const channel = await this.channels.fetch(process.env.CHANNEL_ID);
+  return channel.permissionsFor(this.user).has(permissions)
+    ? Promise.all([
+        response,
+        channel.send({
+          embed: { title: "Error", description: `${err.name}: ${err.message}` },
+        }),
+      ])
+    : response;
 };

@@ -28,31 +28,19 @@ module.exports = async function (message) {
     return null;
   }
 
-  const { attachments, author, channel, content, guild, id } = message;
-  console.log(
-    `<@${author.id}>`,
-    `"${author.tag}"`,
-    "MESSAGE_CREATE",
-    `/channels/${guild.id}/${channel.id}/${id}`,
-    `"${content}${
-      attachments.size > 0 ? ` <${attachments.values().next().value.url}>` : ""
-    }"`
-  );
-  if (!channel.permissionsFor(this.user).has(permissions)) {
-    return author.send(
-      "Error: I can't do that because I don't have the Send Messages and Embed Links permissions in that channel"
-    );
-  }
-
+  const { author, channel, content } = message;
   const argv = content.split(separatorRegExp);
   const handle = alias(argv) || handleDefault;
-  if (!isAuthorized(message, handle, this.player)) {
-    return message.channel.send({
-      title: "Error",
-      description:
-        "You can't do that because **DJ** mode is on and you don't have the Priority Speaker permission",
-    });
-  }
-
-  return handle.bind(this)(message, argv, alias);
+  const response = !channel.permissionsFor(this.user).has(permissions)
+    ? author.send(
+        "Error: I can't do that because I don't have the Send Messages and Embed Links permissions in that channel"
+      )
+    : !isAuthorized(message, handle, this.player)
+    ? channel.send({
+        title: "Error",
+        description:
+          "You can't do that because **DJ** mode is on and you don't have the Priority Speaker permission",
+      })
+    : handle.bind(this)(message, argv, alias);
+  return [message, response];
 };
