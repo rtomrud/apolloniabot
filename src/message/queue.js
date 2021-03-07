@@ -23,7 +23,8 @@ const queue = async function (message, argv) {
   const end = page * pageSize < length ? page * pageSize : length;
   return message.channel.send({
     embed: {
-      title: formatPlaylist(queue),
+      title: "Queue",
+      description: formatPlaylist(queue),
       fields: songs.slice(start, end).map((song, i) => ({
         name: i + start + 1,
         value: song === first ? formatPlayback(queue) : formatSong(song),
