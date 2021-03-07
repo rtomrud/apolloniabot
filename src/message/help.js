@@ -36,6 +36,7 @@ const help = async function (message, argv, alias) {
 **autoplay**, **a** (on|off)
 **loop**, **l** (queue|track|off)
 **effect**, **e** (EFFECT|off)
+**dj** (on|off)
 `,
         },
         {
@@ -61,6 +62,7 @@ const help = async function (message, argv, alias) {
 \`lena help autoplay\`
 \`lena help loop\`
 \`lena help effect\`
+\`lena help dj\`
 `,
         },
       ],
