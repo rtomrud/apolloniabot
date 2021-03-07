@@ -11,7 +11,7 @@ const next = async function (message) {
 };
 
 module.exports = Object.assign(next, {
-  aliases: ["n"],
+  aliases: ["n", "skip"],
   usage: {
     embed: {
       fields: [
