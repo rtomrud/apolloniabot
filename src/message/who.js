@@ -15,14 +15,12 @@ I need [permission](https://support.discord.com/hc/en-us/articles/206029707-How-
 - Speak, so that I can play music for you
 
 Need help? Join my [Discord server](https://discord.gg/wp3HWnUDMa)!
-
-You may want to [invite me to your server](https://discord.com/oauth2/authorize?client_id=${process.env.CLIENT_ID}&permissions=3165248&scope=bot).
 `,
     },
   });
 };
 
 module.exports = Object.assign(who, {
-  aliases: ["whois", "info", "invite", "perms", "permission", "permissions"],
+  aliases: ["whois", "info", "perms", "permission", "permissions"],
   safe: true,
 });
