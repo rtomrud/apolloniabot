@@ -29,7 +29,7 @@ const help = async function (message, argv, alias) {
 **next**, **n**
 **move**, **m** [FROM] [TO]
 **shuffle**, **s**
-**drop**, **d** [START] [END]
+**drop**, **d** [POSITION]
 **stop**
 **seek**, **t** TIME
 **volume**, **v** PERCENT

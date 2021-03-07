@@ -1,7 +1,6 @@
 const formatSong = require("../format-song.js");
 
 const integerRegExp = /^-?\d+/;
-const pageSize = 10;
 
 const drop = async function (message, argv) {
   const queue = this.player.getQueue(message);
@@ -12,12 +11,11 @@ const drop = async function (message, argv) {
   }
 
   const { length } = queue.songs;
-  const [arg1, arg2] = argv
+  const [arg] = argv
     .slice(2)
     .filter((arg) => integerRegExp.test(arg))
     .map((arg) => Number(arg));
-  const start = (arg1 != null ? arg1 : length) - 1;
-  const deleteCount = arg2 > arg1 ? arg2 - arg1 + 1 : 1;
+  const start = (arg != null ? arg : length) - 1;
   if (start < 0 || start >= length) {
     return message.channel.send({
       embed: {
@@ -36,20 +34,11 @@ const drop = async function (message, argv) {
     });
   }
 
-  const deletes = queue.songs.splice(start, deleteCount);
+  const [song] = queue.songs.splice(start, 1);
   return message.channel.send({
     embed: {
-      title: "Dropped",
-      fields: deletes.slice(0, pageSize).map((song, i) => ({
-        name: i + start + 1,
-        value: formatSong(song),
-      })),
-      footer: {
-        text:
-          deletes.length > pageSize
-            ? `And ${deletes.length - pageSize} more`
-            : "",
-      },
+      title: "Dropped track",
+      fields: [{ name: start + 1, value: formatSong(song) }],
     },
   });
 };
@@ -61,23 +50,22 @@ module.exports = Object.assign(drop, {
       fields: [
         {
           name: "NAME",
-          value: "lena drop - Drop tracks from the queue",
+          value: "lena drop - Drop a track from the queue",
         },
         {
           name: "SYNOPSIS",
-          value: "**lena drop** [START] [END]\nalias: d",
+          value: "**lena drop** [POSITION]\nalias: d",
         },
         {
           name: "DESCRIPTION",
           value:
-            "Deletes tracks from the queue, from the START position to the END position (both included). START defaults to the position of the last track. END defaults to START + 1. If START isn't specified, the last track from the queue is deleted. If end isn't specified, only the track specified by START is deleted.",
+            "Deletes the track at POSITION from the queue. Defaults to the position of the last track.",
         },
         {
           name: "EXAMPLES",
           value: `
 \`lena drop\`
 \`lena drop 2\`
-\`lena drop 2 4\`
 \`lena d\`
 `,
         },
