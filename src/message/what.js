@@ -9,7 +9,7 @@ const what = async function (message) {
   const { autoplay, filter, repeatMode: loop, songs, volume } = queue;
   return message.channel.send({
     embed: {
-      title: queue.playing ? "Playing" : "Paused",
+      title: queue.playing ? "Now playing" : "Now paused",
       description: formatPlayback(queue),
       fields: [
         { name: "Requester", value: songs[0].user, inline: true },
