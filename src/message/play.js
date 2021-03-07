@@ -79,11 +79,11 @@ module.exports = Object.assign(play, {
       fields: [
         {
           name: "NAME",
-          value: "**lena play** - Play music",
+          value: "lena play - Play music",
         },
         {
           name: "SYNOPSIS",
-          value: "lena play (URL|QUERY|FILE)\nalias: p",
+          value: "**lena play** (URL|QUERY|FILE)\nalias: p",
         },
         {
           name: "DESCRIPTION",

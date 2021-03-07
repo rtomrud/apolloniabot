@@ -25,11 +25,11 @@ module.exports = Object.assign(autoplay, {
       fields: [
         {
           name: "NAME",
-          value: "**lena autoplay** - Autoplay music",
+          value: "lena autoplay - Autoplay music",
         },
         {
           name: "SYNOPSIS",
-          value: "lena autoplay (on|off)\nalias: a",
+          value: "**lena autoplay** (on|off)\nalias: a",
         },
         {
           name: "DESCRIPTION",

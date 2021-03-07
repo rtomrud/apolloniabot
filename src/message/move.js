@@ -64,11 +64,11 @@ module.exports = Object.assign(move, {
       fields: [
         {
           name: "NAME",
-          value: "**lena move** - Move a track",
+          value: "lena move - Move a track",
         },
         {
           name: "SYNOPSIS",
-          value: "lena move [FROM] [TO]\nalias: m",
+          value: "**lena move** [FROM] [TO]\nalias: m",
         },
         {
           name: "DESCRIPTION",

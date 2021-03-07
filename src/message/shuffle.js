@@ -17,11 +17,11 @@ module.exports = Object.assign(shuffle, {
       fields: [
         {
           name: "NAME",
-          value: "**lena shuffle** - Shuffle the queue",
+          value: "lena shuffle - Shuffle the queue",
         },
         {
           name: "SYNOPSIS",
-          value: "lena shuffle\nalias: s",
+          value: "**lena shuffle**\nalias: s",
         },
         {
           name: "DESCRIPTION",

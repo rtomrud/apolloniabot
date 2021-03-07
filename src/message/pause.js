@@ -21,11 +21,11 @@ module.exports = Object.assign(pause, {
       fields: [
         {
           name: "NAME",
-          value: "**lena pause** - Pause the playback",
+          value: "lena pause - Pause the playback",
         },
         {
           name: "SYNOPSIS",
-          value: "lena pause\nalias: sh",
+          value: "**lena pause**\nalias: sh",
         },
         {
           name: "DESCRIPTION",

@@ -42,11 +42,11 @@ module.exports = Object.assign(seek, {
       fields: [
         {
           name: "NAME",
-          value: "**lena seek** - Seek to a specified time",
+          value: "lena seek - Seek to a specified time",
         },
         {
           name: "SYNOPSIS",
-          value: "lena seek TIME\nalias: t",
+          value: "**lena seek** TIME\nalias: t",
         },
         {
           name: "DESCRIPTION",

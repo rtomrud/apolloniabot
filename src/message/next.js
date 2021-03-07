@@ -17,11 +17,11 @@ module.exports = Object.assign(next, {
       fields: [
         {
           name: "NAME",
-          value: "**lena next** - Play the next track",
+          value: "lena next - Play the next track",
         },
         {
           name: "SYNOPSIS",
-          value: "lena next\nalias: n",
+          value: "**lena next**\nalias: n",
         },
         {
           name: "DESCRIPTION",

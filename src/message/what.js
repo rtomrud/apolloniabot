@@ -31,11 +31,11 @@ module.exports = Object.assign(what, {
       fields: [
         {
           name: "NAME",
-          value: "**lena what** - Show what's playing now",
+          value: "lena what - Show what's playing now",
         },
         {
           name: "SYNOPSIS",
-          value: "lena what\nalias: w",
+          value: "**lena what**\nalias: w",
         },
         {
           name: "DESCRIPTION",

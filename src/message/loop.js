@@ -39,11 +39,11 @@ module.exports = Object.assign(loop, {
       fields: [
         {
           name: "NAME",
-          value: "**lena loop** - Loop the queue or current track",
+          value: "lena loop - Loop the queue or current track",
         },
         {
           name: "SYNOPSIS",
-          value: "lena loop (queue|track|off)\nalias: l",
+          value: "**lena loop** (queue|track|off)\nalias: l",
         },
         {
           name: "DESCRIPTION",

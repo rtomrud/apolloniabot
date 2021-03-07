@@ -49,11 +49,11 @@ module.exports = Object.assign(volume, {
       fields: [
         {
           name: "NAME",
-          value: "**lena volume** - Set the volume",
+          value: "lena volume - Set the volume",
         },
         {
           name: "SYNOPSIS",
-          value: "lena volume PERCENT\nalias: v",
+          value: "**lena volume** PERCENT\nalias: v",
         },
         {
           name: "DESCRIPTION",

@@ -41,11 +41,11 @@ module.exports = Object.assign(queue, {
       fields: [
         {
           name: "NAME",
-          value: "**lena queue** - Show the queue",
+          value: "lena queue - Show the queue",
         },
         {
           name: "SYNOPSIS",
-          value: "lena queue [PAGE]\nalias: q",
+          value: "**lena queue** [PAGE]\nalias: q",
         },
         {
           name: "DESCRIPTION",

@@ -11,11 +11,11 @@ const help = async function (message, argv, alias) {
       fields: [
         {
           name: "NAME",
-          value: "[**Lena**](https://discord.gg/wp3HWnUDMa) - I play music",
+          value: "[Lena](https://discord.gg/wp3HWnUDMa) - I play music",
         },
         {
           name: "SYNOPSIS",
-          value: "lena COMMAND [ARGS]",
+          value: "**lena** COMMAND [ARGS]",
         },
         {
           name: "COMMANDS",

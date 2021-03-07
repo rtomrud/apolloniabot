@@ -21,11 +21,11 @@ module.exports = Object.assign(resume, {
       fields: [
         {
           name: "NAME",
-          value: "**lena resume** - Resume the playback",
+          value: "lena resume - Resume the playback",
         },
         {
           name: "SYNOPSIS",
-          value: "lena resume\nalias: r",
+          value: "**lena resume**\nalias: r",
         },
         {
           name: "DESCRIPTION",

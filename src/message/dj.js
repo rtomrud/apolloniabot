@@ -37,11 +37,11 @@ module.exports = Object.assign(dj, {
       fields: [
         {
           name: "NAME",
-          value: "**lena dj** - DJ mode",
+          value: "lena dj - DJ mode",
         },
         {
           name: "SYNOPSIS",
-          value: "lena dj (on|off)",
+          value: "**lena dj** (on|off)",
         },
         {
           name: "DESCRIPTION",

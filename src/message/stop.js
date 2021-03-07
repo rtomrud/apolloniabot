@@ -21,11 +21,11 @@ module.exports = Object.assign(stop, {
       fields: [
         {
           name: "NAME",
-          value: "**lena stop** - Stop the playback",
+          value: "lena stop - Stop the playback",
         },
         {
           name: "SYNOPSIS",
-          value: "lena stop",
+          value: "**lena stop**",
         },
         {
           name: "DESCRIPTION",

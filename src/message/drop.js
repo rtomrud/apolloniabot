@@ -61,11 +61,11 @@ module.exports = Object.assign(drop, {
       fields: [
         {
           name: "NAME",
-          value: "**lena drop** - Drop tracks from the queue",
+          value: "lena drop - Drop tracks from the queue",
         },
         {
           name: "SYNOPSIS",
-          value: "lena drop [START] [END]\nalias: d",
+          value: "**lena drop** [START] [END]\nalias: d",
         },
         {
           name: "DESCRIPTION",

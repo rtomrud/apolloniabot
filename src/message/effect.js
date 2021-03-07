@@ -36,11 +36,11 @@ module.exports = Object.assign(effect, {
       fields: [
         {
           name: "NAME",
-          value: "**lena effect** - Apply an effect to the audio stream",
+          value: "lena effect - Apply an effect to the audio stream",
         },
         {
           name: "SYNOPSIS",
-          value: "lena effect (EFFECT|off)\naliases: e, fx",
+          value: "**lena effect** (EFFECT|off)\naliases: e, fx",
         },
         {
           name: "DESCRIPTION",

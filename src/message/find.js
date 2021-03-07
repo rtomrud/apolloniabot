@@ -42,11 +42,11 @@ module.exports = Object.assign(find, {
       fields: [
         {
           name: "NAME",
-          value: "**lena find** - Query YouTube",
+          value: "lena find - Query YouTube",
         },
         {
           name: "SYNOPSIS",
-          value: "lena find QUERY\naliases: f",
+          value: "**lena find** QUERY\naliases: f",
         },
         {
           name: "DESCRIPTION",
