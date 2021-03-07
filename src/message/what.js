@@ -40,7 +40,7 @@ module.exports = Object.assign(what, {
         {
           name: "DESCRIPTION",
           value:
-            "Shows the status of the player, that is, what track is playing now, the current time, the duration, the volume, whether autoplay is enabled, whether loop mode is enabled, and what effects are enabled, if any.",
+            "Shows the status of the player, that is, what track is playing now, the current time, the duration, the volume, whether autoplay is enabled, whether loop mode is enabled, what effects are enabled, if any, and whether DJ mode is enabled.",
         },
         {
           name: "EXAMPLES",
