@@ -21,7 +21,7 @@ const formatMessage = ({
           embed.title,
           embed.description,
           embed.fields.map(({ name, value }) => `${name}\n${value}`).join("\n"),
-          embed.footer && embed.text,
+          embed.footer && embed.footer.text,
         ]
           .filter((s) => s != null)
           .join("\n")
