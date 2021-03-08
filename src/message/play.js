@@ -1,26 +1,15 @@
 const ytsr = require("@distube/ytsr");
-const { getData, getTracks } = require("spotify-url-info");
+const { getData } = require("spotify-url-info");
 const selectSong = require("../select-song.js");
 
-const spotifyListRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album)\/(\w|-){22}.*/;
-const spotifySongRegExp = /^https:\/\/open\.spotify\.com\/track\/(\w|-){22}.*/;
 const spotifyUrlRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album|track)\/(\w|-){22}.*/;
 
 const retry = (f) => (...args) => f(...args).catch(() => f(...args));
 
-const spotifyToYouTube = async (url) => {
-  const songs = await (spotifyListRegExp.test(url)
-    ? getTracks(url)
-    : spotifySongRegExp.test(url)
-    ? getData(url).then((data) => [data])
-    : []);
-  return Promise.all(
-    songs.map(async (song) => {
-      const query = `${song.artists[0].name} Topic - ${song.name}`;
-      const result = await retry(ytsr)(query, { limit: 10 });
-      return selectSong(result, song).url;
-    })
-  );
+const findOnYouTube = async (song) => {
+  const query = `${song.artists[0].name} Topic - ${song.name}`;
+  const result = await retry(ytsr)(query, { limit: 10 });
+  return selectSong(result, song).url;
 };
 
 const play = async function (message, argv) {
@@ -36,20 +25,31 @@ const play = async function (message, argv) {
 
   const spotifyUrl = args.find((arg) => spotifyUrlRegExp.test(arg));
   if (spotifyUrl) {
-    const urls = await spotifyToYouTube(spotifyUrl).catch(() => []);
-    if (urls.length === 0) {
+    try {
+      const data = await getData(spotifyUrl);
+      const { name, tracks } = data;
+      if (!tracks) {
+        const url = await findOnYouTube(data);
+        this.player.play(message, url);
+      } else {
+        const songs = !tracks.items
+          ? tracks // artist
+          : !tracks.items[0].track
+          ? tracks.items // album
+          : tracks.items.map(({ track }) => track); // playlist
+        const urls = await Promise.all(songs.map(findOnYouTube));
+        this.player.playCustomPlaylist(message, urls, {
+          name,
+          url: spotifyUrl,
+        });
+      }
+
+      return null;
+    } catch {
       return message.channel.send({
         embed: { title: "Error", description: "I can't fetch that" },
       });
     }
-
-    if (urls.length === 1) {
-      this.player.play(message, urls[0]);
-      return null;
-    }
-
-    this.player.playCustomPlaylist(message, urls);
-    return null;
   }
 
   const { attachments } = message;
