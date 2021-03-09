@@ -48,7 +48,10 @@ module.exports = async function (message, error) {
     ? Promise.all([
         response,
         channel.send({
-          embed: { title: "Error", description: `${err.name}: ${err.message}` },
+          embed: {
+            title: "Error",
+            description: `${error.name}: ${error.message}`,
+          },
         }),
       ])
     : response;
