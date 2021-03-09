@@ -43,7 +43,7 @@ module.exports = async function (message, error) {
   const response = message.channel.send({
     embed: { title: "Error", description: "I can't do that, sorry" },
   });
-  const channel = await this.channels.fetch(process.env.CHANNEL_ID);
+  const channel = await this.client.channels.fetch(process.env.CHANNEL_ID);
   return channel.permissionsFor(this.user).has(permissions)
     ? Promise.all([
         response,
