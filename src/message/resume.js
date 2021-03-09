@@ -1,4 +1,4 @@
-const formatSong = require("../format-song.js");
+const formatPlayback = require("../format-playback.js");
 
 const resume = async function (message) {
   const queue = this.player.getQueue(message);
@@ -10,7 +10,7 @@ const resume = async function (message) {
 
   this.player.resume(message);
   return message.channel.send({
-    embed: { title: "Resumed", description: formatSong(queue.songs[0]) },
+    embed: { title: "Resumed", description: formatPlayback(queue) },
   });
 };
 
