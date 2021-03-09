@@ -23,11 +23,9 @@ const loop = async function (message, argv) {
   this.player.setRepeatMode(message, all ? 2 : song ? 1 : 0);
   return message.channel.send({
     embed: {
-      title: [
-        "Disabled looping",
-        "Looping the current track",
-        "Looping the queue",
-      ][queue.repeatMode],
+      title: ["Disabled looping", "Looping track", "Looping queue"][
+        queue.repeatMode
+      ],
     },
   });
 };
