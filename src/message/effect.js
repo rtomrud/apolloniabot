@@ -20,13 +20,11 @@ const effect = async function (message, argv) {
 
   const [, off, filter] = filterRegExp.exec(arg);
   this.player.setFilter(message, off ? queue.filter : filter.toLowerCase());
-  return message.channel.send({
-    embed: {
-      title: queue.filter
-        ? `Enabled ${queue.filter} effect`
-        : "Disabled effecs",
-    },
-  });
+  return message.channel.send(
+    queue.filter
+      ? { embed: { title: "Enabled effect", description: queue.filter } }
+      : { embed: { title: "Disabled effects" } }
+  );
 };
 
 module.exports = Object.assign(effect, {
