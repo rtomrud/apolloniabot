@@ -7,28 +7,26 @@ const formatMessage = ({
   embeds: [embed],
   guild: { id: guildId },
   id,
+  member: { nickname },
 }) =>
   [
-    createdAt.toISOString().slice(0, 10),
-    createdAt.toISOString().slice(11, 19),
+    createdAt.toISOString(),
     authorId,
     `/${guildId}/${channelId}/${id}`,
+    JSON.stringify(nickname || username),
     JSON.stringify(
-      `${username}: ${
-        content ||
+      content ||
         [
-          embed.author && embed.author.name,
           embed.title,
           embed.description,
-          embed.fields.map(({ name, value }) => `${name}\n${value}`).join("\n"),
+          ...embed.fields.map(({ name, value }) => `${name}\n${value}`),
           embed.footer && embed.footer.text,
         ]
           .filter((s) => s != null)
           .join("\n")
-      }`
     ),
     attachments.size > 0 ? attachments.values().next().url : "-",
-  ].join("\t");
+  ].join(" ");
 
 module.exports = function (f) {
   return async function (...args) {
