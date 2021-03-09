@@ -31,7 +31,7 @@ const seek = async function (message, argv) {
       : ms;
   this.player.seek(message, Math.max(0, Math.min(t, duration * 1000)));
   return message.channel.send({
-    embed: { title: "Playing", description: formatPlayback(queue) },
+    embed: { title: "Seeked", description: formatPlayback(queue) },
   });
 };
 
