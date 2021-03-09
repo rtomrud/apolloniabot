@@ -10,5 +10,7 @@ const getFormattedCurrentTime = (queue) => {
 module.exports = function (queue) {
   const formattedCurrentTime = getFormattedCurrentTime(queue);
   const [{ formattedDuration, name, url }] = queue.songs;
-  return `[${name}](${url}) [${formattedCurrentTime}/${formattedDuration}]`;
+  return `[${name}](${url}) [${formattedCurrentTime}/${
+    formattedDuration === "00:00" ? "?" : formattedDuration
+  }]`;
 };
