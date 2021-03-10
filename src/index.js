@@ -23,7 +23,6 @@ const client = new Client({
 
 client.player = new DisTube(client, {
   emitNewSongOnly: true,
-  updateYouTubeDL: false,
   customFilters: {
     0.25: "atempo=0.25",
     0.5: "atempo=0.5",
