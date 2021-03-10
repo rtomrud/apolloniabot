@@ -1,7 +1,7 @@
 {
   "name": "lenabot",
   "version": "0.1.0",
-  "description": "A music bot with a natural language interface",
+  "description": "A music bot for Discord",
   "homepage": "https://github.com/rtomrud/lenabot#readme",
   "bugs": {
     "url": "https://github.com/rtomrud/lenabot/issues"
