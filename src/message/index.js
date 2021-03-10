@@ -32,9 +32,12 @@ module.exports = async function (message) {
   const argv = content.split(separatorRegExp);
   const handle = alias(argv) || handleDefault;
   const response = await (!channel.permissionsFor(this.user).has(permissions)
-    ? author.send(
-        "Error: I can't do that because I don't have the Send Messages and Embed Links permissions in that channel"
-      )
+    ? author.send({
+        embed: {
+          title: "Error",
+          description: `I don't have the Send Messages and Embed Links permissions in <#${channel.id}>`,
+        },
+      })
     : !isAuthorized(message, handle, this.player)
     ? channel.send({
         title: "Error",
