@@ -2,7 +2,7 @@ const formatPlayback = require("../format-playback.js");
 
 const stop = async function (message) {
   const queue = this.player.getQueue(message);
-  if (!queue || !queue.playing) {
+  if (!queue) {
     return message.channel.send({
       embed: { title: "Error", description: "Nothing to stop" },
     });
@@ -10,7 +10,10 @@ const stop = async function (message) {
 
   this.player.stop(message);
   return message.channel.send({
-    embed: { title: "Stopped", description: formatPlayback(queue) },
+    embed: {
+      title: "Stopped",
+      description: queue.playing ? formatPlayback(queue) : "",
+    },
   });
 };
 
