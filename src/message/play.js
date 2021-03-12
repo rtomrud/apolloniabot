@@ -6,12 +6,6 @@ const spotifyUrlRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album|
 
 const retry = (f) => (...args) => f(...args).catch(() => f(...args));
 
-const findOnYouTube = async (song) => {
-  const query = `${song.artists[0].name} Topic - ${song.name}`;
-  const result = await retry(ytsr)(query, { limit: 10 });
-  return selectSong(result, song).url;
-};
-
 const collectAttachmentUrls = async (message) =>
   new Promise((resolve) => {
     const collector = message.channel
@@ -46,26 +40,30 @@ const play = async function (message, argv) {
     try {
       const data = await getData(spotifyUrl);
       const { name, tracks } = data;
+      const songs = !tracks
+        ? [data] // song
+        : !tracks.items
+        ? tracks // artist
+        : !tracks.items[0].track
+        ? tracks.items // album
+        : tracks.items.map(({ track }) => track); // playlist
+      const urls = await Promise.all(
+        songs.map(async (song) => {
+          const query = `${song.artists[0].name} Topic - ${song.name}`;
+          const result = await retry(ytsr)(query, { limit: 10 });
+          return selectSong(result, song).url;
+        })
+      );
       if (!tracks) {
-        const url = await findOnYouTube(data);
-        this.player.play(message, url);
-      } else {
-        const songs = !tracks.items
-          ? tracks // artist
-          : !tracks.items[0].track
-          ? tracks.items // album
-          : tracks.items.map(({ track }) => track); // playlist
-        const urls = await Promise.all(songs.map(findOnYouTube));
-        this.player.playCustomPlaylist(message, urls, {
-          name,
-          url: spotifyUrl,
-        });
+        this.player.play(message, urls[0]);
+        return null;
       }
 
+      this.player.playCustomPlaylist(message, urls, { name, url: spotifyUrl });
       return null;
     } catch {
       return message.channel.send({
-        embed: { title: "Error", description: "I can't fetch that" },
+        embed: { title: "Error", description: "I could't fetch that" },
       });
     }
   }
