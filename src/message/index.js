@@ -45,5 +45,9 @@ module.exports = async function (message) {
           "You can't do that because **DJ** mode is on and you don't have the Priority Speaker permission",
       })
     : handle.bind(this)(message, argv, alias));
-  return response ? [message, response] : [message];
+  return !response
+    ? message
+    : Array.isArray(response)
+    ? [message, response]
+    : [message, ...response];
 };
