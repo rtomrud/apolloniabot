@@ -28,7 +28,7 @@ module.exports = function ({
     guild ? `/${guild.id}/${channel.id}/${id}` : `/${channel.id}/${id}`,
     JSON.stringify((member && member.nickname) || author.username),
     JSON.stringify(
-      `${content || formatEmbeds(embeds)}${
+      `${content || (embeds.length > 0 ? formatEmbeds(embeds) : "")}${
         attachments.size > 0 ? formatAttachments(attachments) : ""
       }`
     )
