@@ -12,6 +12,24 @@ const findOnYouTube = async (song) => {
   return selectSong(result, song).url;
 };
 
+const collectAttachmentUrls = async (message) =>
+  new Promise((resolve) => {
+    const collector = message.channel
+      .createMessageCollector(
+        ({ attachments }) =>
+          attachments.size > 0 && !attachments.values().next().value.width,
+        { time: 3000 }
+      )
+      .on("collect", () => collector.resetTimer())
+      .on("end", (collected) =>
+        resolve(
+          collected.map(
+            ({ attachments }) => attachments.values().next().value.url
+          )
+        )
+      );
+  });
+
 const play = async function (message, argv) {
   const args = argv.slice(2);
   if (args.length === 0 && message.attachments.size === 0) {
@@ -64,7 +82,13 @@ const play = async function (message, argv) {
       });
     }
 
-    this.player.play(message, url);
+    const urls = await collectAttachmentUrls(message);
+    if (urls.length > 0) {
+      this.player.playCustomPlaylist(message, [url, ...urls]);
+    } else {
+      this.player.play(message, url);
+    }
+
     return null;
   }
 
