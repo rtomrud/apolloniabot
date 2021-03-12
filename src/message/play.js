@@ -62,27 +62,22 @@ const play = async function (message, argv) {
       });
     }
 
-    const collected = await new Promise((resolve) => {
-      const collector = message.channel
+    this.player.play(message, url);
+    return new Promise((resolve) => {
+      message.channel
         .createMessageCollector(
           ({ attachments }) =>
             attachments.size > 0 && !attachments.values().next().value.width,
           { time: 3000 }
         )
-        .on("collect", () => collector.resetTimer())
-        .on("end", (collected) => resolve(collected));
+        .on("collect", (message) =>
+          this.player.play(
+            message,
+            message.attachments.values().next().value.url
+          )
+        )
+        .on("end", (collected) => resolve([...collected.values()]));
     });
-    if (collected.size > 0) {
-      const urls = [url];
-      collected.forEach(({ attachments }) =>
-        urls.push(attachments.values().next().value.url)
-      );
-      this.player.playCustomPlaylist(message, urls);
-      return null;
-    }
-
-    this.player.play(message, url);
-    return null;
   }
 
   this.player.play(message, args.join(" "));
