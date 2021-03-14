@@ -47,7 +47,7 @@ module.exports = async function (message) {
     : handle.bind(this)(message, argv, alias));
   return !response
     ? message
-    : Array.isArray(response)
+    : !Array.isArray(response)
     ? [message, response]
     : [message, ...response];
 };
