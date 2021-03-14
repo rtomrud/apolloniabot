@@ -19,7 +19,7 @@ const find = async function (message, argv) {
         embed: {
           title: "Results",
           fields: items.map((item) => ({
-            name: item.author.name,
+            name: item.author ? item.author.name : "Unknown channel",
             value: formatSong(new SearchResult(item)),
           })),
           footer: { text: "Powered by YouTube" },
