@@ -12,6 +12,7 @@ const pause = require("./pause.js");
 const play = require("./play.js");
 const queue = require("./queue.js");
 const resume = require("./resume.js");
+const rickroll = require("./rickroll.js");
 const seek = require("./seek.js");
 const shuffle = require("./shuffle.js");
 const stop = require("./stop.js");
@@ -35,6 +36,7 @@ const aliases = [
   play,
   queue,
   resume,
+  rickroll,
   seek,
   shuffle,
   stop,
