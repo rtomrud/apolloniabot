@@ -22,10 +22,11 @@ const good = ({ title, duration }) => (item) =>
   Math.abs(duration - ms(item.duration)) < 30000;
 
 module.exports = function ({ items }, { artists, duration_ms, name }) {
+  const songs = items.filter(({ type }) => type === "video");
   const metadata = {
     title: name.toLowerCase(),
     artist: artists.map(({ name }) => name.toLowerCase()).join(" "),
     duration: duration_ms,
   };
-  return items.find(best(metadata)) || items.find(good(metadata)) || items[0];
+  return songs.find(best(metadata)) || songs.find(good(metadata)) || songs[0];
 };
