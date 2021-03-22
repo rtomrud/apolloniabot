@@ -1,7 +1,10 @@
 const { Permissions } = require("discord.js");
 const alias = require("./alias.js");
 
-const prefixRegExp = RegExp(`^(?:lena|<@!?${process.env.CLIENT_ID}>)`, "i");
+const prefixRegExp = RegExp(
+  `^(?:${process.env.PREFIX || "lena"}|<@!?${process.env.CLIENT_ID}>)`,
+  "i"
+);
 const {
   FLAGS: { SEND_MESSAGES, EMBED_LINKS, PRIORITY_SPEAKER },
 } = Permissions;
