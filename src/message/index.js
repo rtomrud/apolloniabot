@@ -33,7 +33,8 @@ module.exports = async function (message) {
   const { author, channel, content } = message;
   const argv = content.split(separatorRegExp);
   const handle = alias(argv) || handleDefault;
-  const response = await (!channel.permissionsFor(this.user).has(permissions)
+  const response = await (!channel.permissionsFor ||
+  !channel.permissionsFor(this.user).has(permissions)
     ? author.send({
         embed: {
           title: "Error",
