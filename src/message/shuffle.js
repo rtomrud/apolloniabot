@@ -1,3 +1,5 @@
+const seedrandom = require("seedrandom");
+
 const shuffle = async function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || queue.songs.length <= 1) {
@@ -6,7 +8,15 @@ const shuffle = async function (message) {
     });
   }
 
-  this.player.shuffle(message);
+  const { songs } = queue;
+  const random = seedrandom(message.id);
+  const playing = songs.shift();
+  for (let i = songs.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(random() * (i + 1));
+    [songs[i], songs[j]] = [songs[j], songs[i]];
+  }
+
+  songs.unshift(playing);
   return message.channel.send({ embed: { title: "Shuffled the queue" } });
 };
 
