@@ -33,23 +33,25 @@ module.exports = async function (message) {
   const { author, channel, content } = message;
   const argv = content.split(separatorRegExp);
   const handle = alias(argv) || handleDefault;
-  const response = await (!channel.permissionsFor ||
-  !channel.permissionsFor(this.user).has(permissions)
-    ? author.send({
-        embed: {
+  const createResponse =
+    !channel.permissionsFor ||
+    !channel.permissionsFor(this.user).has(permissions)
+      ? author.send({
+          embed: {
+            title: "Error",
+            description: `I don't have the Send Messages and Embed Links permissions in <#${channel.id}>`,
+          },
+        })
+      : !isAuthorized(message, handle, this.player)
+      ? channel.send({
           title: "Error",
-          description: `I don't have the Send Messages and Embed Links permissions in <#${channel.id}>`,
-        },
-      })
-    : !isAuthorized(message, handle, this.player)
-    ? channel.send({
-        title: "Error",
-        description:
-          "You can't do that because **DJ** mode is on and you don't have the Priority Speaker permission",
-      })
-    : handle.bind(this)(message, argv, alias));
+          description:
+            "You can't do that because **DJ** mode is on and you don't have the Priority Speaker permission",
+        })
+      : handle.bind(this)(message, argv, alias);
+  const response = await createResponse;
   return !response
-    ? message
+    ? [message]
     : !Array.isArray(response)
     ? [message, response]
     : [message, ...response];
