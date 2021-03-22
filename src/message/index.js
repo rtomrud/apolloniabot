@@ -20,7 +20,7 @@ const handleDefault = async function (message) {
   return message.channel.send({
     embed: {
       title: "Error",
-      description: "I don't know what you want, try `lena help`",
+      description: `I don't know what you want, try \`${prefix} help\``,
     },
   });
 };
