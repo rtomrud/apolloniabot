@@ -1,7 +1,4 @@
-const ms = (string) => {
-  const [s, m, h = 0] = string.split(":").reverse();
-  return h * 3600000 + m * 60000 + s * 1000;
-};
+const ms = require("ms");
 
 const best = ({ title, duration, artist }) => (item) => {
   const video = item.name.toLowerCase();
