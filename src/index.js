@@ -13,9 +13,9 @@ const playList = require("./player/play-list.js");
 const playSong = require("./player/play-song.js");
 const guildCreate = require("./guild-create.js");
 const guildDelete = require("./guild-delete.js");
+const logMessages = require("./log-messages.js");
 const logger = require("./logger.js");
 const ready = require("./ready.js");
-const withLog = require("./with-log.js");
 
 const client = new Client({
   presence: { activity: { name: "lena", type: "LISTENING" } },
@@ -36,20 +36,20 @@ client.player = new DisTube(client, {
     2: "atempo=2.0",
   },
 })
-  .on("addList", withLog(addList))
-  .on("addSong", withLog(addSong))
-  .on("empty", withLog(empty))
-  .on("error", withLog(error))
-  .on("finish", withLog(finish))
-  .on("initQueue", withLog(initQueue))
-  .on("noRelated", withLog(noRelated))
-  .on("playList", withLog(playList))
-  .on("playSong", withLog(playSong));
+  .on("addList", logMessages(addList))
+  .on("addSong", logMessages(addSong))
+  .on("empty", logMessages(empty))
+  .on("error", logMessages(error))
+  .on("finish", logMessages(finish))
+  .on("initQueue", logMessages(initQueue))
+  .on("noRelated", logMessages(noRelated))
+  .on("playList", logMessages(playList))
+  .on("playSong", logMessages(playSong));
 
 client
-  .on("message", withLog(message))
+  .on("message", logMessages(message))
   .on("error", logger.error)
-  .on("guildCreate", withLog(guildCreate))
-  .on("guildDelete", withLog(guildDelete))
-  .once("ready", withLog(ready))
+  .on("guildCreate", logMessages(guildCreate))
+  .on("guildDelete", logMessages(guildDelete))
+  .once("ready", logMessages(ready))
   .login(process.env.TOKEN);
