@@ -7,8 +7,10 @@ const {
 const permissions = SEND_MESSAGES + EMBED_LINKS;
 
 module.exports = async function () {
-  const channel = await this.channels.fetch(process.env.CHANNEL_ID);
-  return channel.permissionsFor(this.user).has(permissions)
+  const channel = await this.channels
+    .fetch(process.env.CHANNEL_ID)
+    .catch(() => null);
+  return channel && channel.permissionsFor(this.user).has(permissions)
     ? channel.send({ embed: { title: "Ready", description: `v${version}` } })
     : null;
 };
