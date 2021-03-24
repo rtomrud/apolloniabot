@@ -1,3 +1,23 @@
+const error = function (
+  error,
+  { author, channel, createdAt, guild, id, member } = {
+    author: this.user,
+    createdAt: new Date(),
+  }
+) {
+  console.error(
+    createdAt.toISOString(),
+    author.id,
+    guild
+      ? `/${guild.id}/${channel.id}/${id}`
+      : channel
+      ? `/${channel.id}/${id}`
+      : `/`,
+    JSON.stringify((member && member.nickname) || author.username),
+    JSON.stringify(`${error.name}: ${error.message}`)
+  );
+};
+
 const formatEmbeds = ([embed]) =>
   [
     embed.title,
@@ -11,7 +31,7 @@ const formatEmbeds = ([embed]) =>
 const formatAttachments = (attachments) =>
   `\n${attachments.values().next().value.url}`;
 
-module.exports = function ({
+const log = function ({
   attachments,
   author,
   channel,
@@ -34,3 +54,5 @@ module.exports = function ({
     )
   );
 };
+
+module.exports = { error, log };

@@ -13,7 +13,7 @@ const playList = require("./player/play-list.js");
 const playSong = require("./player/play-song.js");
 const guildCreate = require("./guild-create.js");
 const guildDelete = require("./guild-delete.js");
-const logError = require("./log-error.js");
+const logger = require("./logger.js");
 const ready = require("./ready.js");
 const withLog = require("./with-log.js");
 
@@ -48,7 +48,7 @@ client.player = new DisTube(client, {
 
 client
   .on("message", withLog(message))
-  .on("error", logError)
+  .on("error", logger.error)
   .on("guildCreate", withLog(guildCreate))
   .on("guildDelete", withLog(guildDelete))
   .once("ready", withLog(ready))

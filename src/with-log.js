@@ -1,4 +1,4 @@
-const log = require("./log.js");
+const { log } = require("./logger.js");
 
 module.exports = function (f) {
   return async function (...args) {
