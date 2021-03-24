@@ -1,7 +1,7 @@
 const ytsr = require("@distube/ytsr");
+const ms = require("ms");
 const { getData } = require("spotify-url-info");
 const logError = require("../log-error.js");
-const selectSong = require("../select-song.js");
 
 const spotifyUrlRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album|track)\/(\w|-){22}.*/;
 
@@ -31,10 +31,39 @@ const play = async function (message, argv) {
         ? tracks.items // album
         : tracks.items.map(({ track }) => track); // playlist
       const urls = await Promise.all(
-        songs.map(async (song) => {
-          const query = `${song.artists[0].name} Topic - ${song.name}`;
-          const result = await retry(ytsr)(query, { limit: 10 });
-          return selectSong(result, song).url;
+        songs.map(async ({ artists, duration_ms, name }) => {
+          const query = `${artists[0].name} Topic - ${name}`;
+          const { items } = await retry(ytsr)(query, { limit: 10 });
+          const songs = items.filter(({ type }) => type === "video");
+          const title = name.toLowerCase();
+          const artist = artists
+            .map(({ name }) => name.toLowerCase())
+            .join(" ");
+          const song =
+            songs.find(({ author, duration, isLive, name }) => {
+              const video = name.toLowerCase();
+              const channel = author.name.toLowerCase();
+              return (
+                !isLive &&
+                Math.abs(duration_ms - ms(duration)) < 10000 &&
+                ((video === title && channel === `${artist} - topic`) ||
+                  (video.includes(title) &&
+                    (channel === artist ||
+                      author.ownerBadges.includes(
+                        "Official Artist Channel"
+                      ))) ||
+                  (video.includes(`${artist} - ${title}`) &&
+                    channel.includes(artist)))
+              );
+            }) ||
+            songs.find(
+              ({ duration, isLive, name }) =>
+                !isLive &&
+                name.toLowerCase().includes(title) &&
+                Math.abs(duration_ms - ms(duration)) < 30000
+            ) ||
+            songs[0];
+          return song.url;
         })
       );
       if (!tracks) {
