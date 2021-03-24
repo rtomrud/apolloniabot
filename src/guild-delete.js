@@ -13,7 +13,7 @@ module.exports = async function ({ id, name }) {
     ? channel.send({
         embed: {
           title: "Left",
-          description: `[${name}](https://discord.com/${id})`,
+          description: `[${name}](https://discord.com/channels/${id})`,
         },
       })
     : null;
