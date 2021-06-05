@@ -1,7 +1,7 @@
 terraform {
   required_version = "~> 0.15"
   required_providers {
-    aws = "~> 3.27"
+    aws = "~> 3.42"
   }
   backend "s3" {
     key     = "terraform.tfstate"
