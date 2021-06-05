@@ -24,26 +24,26 @@
   },
   "dependencies": {
     "@discordjs/opus": "0.5.0",
-    "@distube/ytsr": "1.0.8",
+    "@distube/ytsr": "1.1.0",
     "bufferutil": "4.0.3",
-    "discord.js": "12.5.1",
-    "distube": "2.8.12",
-    "dotenv": "8.2.0",
+    "discord.js": "12.5.3",
+    "distube": "2.8.14",
+    "dotenv": "10.0.0",
     "erlpack": "0.1.3",
     "libsodium-wrappers": "0.7.9",
     "ms": "2.1.3",
     "seedrandom": "3.0.5",
-    "spotify-url-info": "2.2.0",
-    "utf-8-validate": "5.0.4"
+    "spotify-url-info": "2.2.3",
+    "utf-8-validate": "5.0.5"
   },
   "devDependencies": {
-    "eslint": "7.22.0",
+    "eslint": "7.28.0",
     "eslint-config-pretty-strict": "8.0.1",
-    "eslint-plugin-prettier": "3.3.1",
-    "husky": "5.2.0",
+    "eslint-plugin-prettier": "3.4.0",
+    "husky": "6.0.0",
     "nyc": "15.1.0",
-    "pm2": "4.5.5",
-    "prettier": "2.2.1",
+    "pm2": "4.5.6",
+    "prettier": "2.3.1",
     "tape": "5.2.2"
   },
   "engines": {
