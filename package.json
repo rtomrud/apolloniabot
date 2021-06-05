@@ -32,7 +32,6 @@
     "erlpack": "0.1.3",
     "libsodium-wrappers": "0.7.9",
     "ms": "2.1.3",
-    "seedrandom": "3.0.5",
     "spotify-url-info": "2.2.3",
     "utf-8-validate": "5.0.5"
   },
