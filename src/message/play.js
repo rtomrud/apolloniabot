@@ -3,9 +3,13 @@ const ms = require("ms");
 const { getData } = require("spotify-url-info");
 const logger = require("../logger.js");
 
-const spotifyUrlRegExp = /^https:\/\/open\.spotify\.com\/(playlist|artist|album|track)\/(\w|-){22}.*/;
+const spotifyUrlRegExp =
+  /^https:\/\/open\.spotify\.com\/(playlist|artist|album|track)\/(\w|-){22}.*/;
 
-const retry = (f) => (...args) => f(...args).catch(() => f(...args));
+const retry =
+  (f) =>
+  (...args) =>
+    f(...args).catch(() => f(...args));
 
 const play = async function (message, argv) {
   const args = argv.slice(2);

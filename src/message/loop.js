@@ -1,4 +1,5 @@
-const operandRegExp = /(queue|songs|on|all|yes|true|enable)|(track|song|one|current|playing)|(off|none|no|false|disable)/i;
+const operandRegExp =
+  /(queue|songs|on|all|yes|true|enable)|(track|song|one|current|playing)|(off|none|no|false|disable)/i;
 
 const loop = async function (message, argv) {
   const queue = this.player.getQueue(message);

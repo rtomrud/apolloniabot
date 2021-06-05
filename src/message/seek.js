@@ -1,6 +1,7 @@
 const formatPlayback = require("../format-playback.js");
 
-const timeRegExp = /^([+-])?(?:(?:(\d{1,2}):)?(\d{1,2}):)?(\d+(?:\.\d{1,3})?)s?/;
+const timeRegExp =
+  /^([+-])?(?:(?:(\d{1,2}):)?(\d{1,2}):)?(\d+(?:\.\d{1,3})?)s?/;
 
 const seek = async function (message, argv) {
   const queue = this.player.getQueue(message);
