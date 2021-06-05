@@ -80,6 +80,16 @@ resource "aws_instance" "this" {
   instance_type          = "t4g.micro"
   key_name               = aws_key_pair.this.id
   subnet_id              = aws_subnet.this.id
+  user_data              = <<EOF
+#!/bin/bash
+apt install -y ffmpeg
+apt install -y build-essential
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+nvm install --lts
+EOF
   vpc_security_group_ids = [aws_security_group.this.id]
   tags                   = var.tags
 }
