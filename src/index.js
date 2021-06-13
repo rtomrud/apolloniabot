@@ -1,23 +1,25 @@
 require("dotenv").config();
-const { Client } = require("discord.js");
+const { Client, Permissions } = require("discord.js");
 const DisTube = require("distube");
-const message = require("./message/index.js");
+const alias = require("./message/alias.js");
 const formatPlaylist = require("./format-playlist.js");
 const formatSong = require("./format-song.js");
-const guildCreate = require("./guild-create.js");
-const guildDelete = require("./guild-delete.js");
-const logMessages = require("./log-messages.js");
-const logger = require("./logger.js");
-const ready = require("./ready.js");
+const logMessage = require("./log-message.js");
+
+const prefix = process.env.PREFIX || "lena";
+const id = process.env.CLIENT_ID;
+const prefixRegExp = RegExp(`^(?:${prefix}|<@!?${id}>)`, "i");
+const {
+  FLAGS: { SEND_MESSAGES, EMBED_LINKS, PRIORITY_SPEAKER },
+} = Permissions;
+const permissions = SEND_MESSAGES + EMBED_LINKS;
+const separatorRegExp = /\s+/;
 
 const client = new Client({
   presence: { activity: { name: "lena", type: "LISTENING" } },
 });
 
-const logMessage = (messages) =>
-  Array.isArray(messages) ? messages.forEach(logger.log) : logger.log(messages);
-
-client.player = new DisTube(client, {
+const player = new DisTube(client, {
   emitNewSongOnly: true,
   leaveOnEmpty: true,
   leaveOnFinish: true,
@@ -118,10 +120,70 @@ client.player = new DisTube(client, {
       .then(logMessage)
   );
 
+client.player = player;
+
 client
-  .on("message", logMessages(message))
-  .on("error", logger.error)
-  .on("guildCreate", guildCreate)
-  .on("guildDelete", guildDelete)
-  .once("ready", ready)
+  .on("guildCreate", ({ available, systemChannel }) => {
+    if (available && systemChannel) {
+      systemChannel
+        .send({
+          embed: {
+            title: "Hi!",
+            description: `I play music. Type \`${prefix} help\` to find out what I can do for you.`,
+          },
+        })
+        .then(logMessage);
+    }
+  })
+  .on("error", console.error)
+  .on("message", (message) => {
+    const { author, channel, content, member } = message;
+    if (!prefixRegExp.test(content)) {
+      return null;
+    }
+
+    logMessage(message);
+    if (!channel.permissionsFor(client.user).has(permissions)) {
+      return author
+        .send({
+          embed: {
+            title: "Error",
+            description: `I don't have the Send Messages and Embed Links permissions in <#${channel.id}>`,
+          },
+        })
+        .then(logMessage);
+    }
+
+    const argv = content.split(separatorRegExp);
+    const handle = alias(argv);
+    if (!handle) {
+      return channel
+        .send({
+          embed: {
+            title: "Error",
+            description: `I don't know what you want, try \`${prefix} help\``,
+          },
+        })
+        .then(logMessage);
+    }
+
+    const queue = player.getQueue(message);
+    const isUnauthroized =
+      queue &&
+      queue.dj &&
+      !handle.safe &&
+      !member.permissions.has(PRIORITY_SPEAKER);
+    if (isUnauthroized) {
+      return channel
+        .send({
+          title: "Error",
+          description:
+            "You can't do that because **DJ** mode is on and you don't have the Priority Speaker permission",
+        })
+        .then(logMessage);
+    }
+
+    return handle.bind(client)(message, argv, alias).then(logMessage);
+  })
+  .once("ready", () => console.log(client.readyAt.toISOString(), "READY"))
   .login(process.env.TOKEN);

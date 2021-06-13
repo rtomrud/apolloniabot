@@ -1,7 +1,6 @@
 const ytsr = require("@distube/ytsr");
 const ms = require("ms");
 const { getData } = require("spotify-url-info");
-const logger = require("../logger.js");
 
 const spotifyUrlRegExp =
   /^https:\/\/open\.spotify\.com\/(playlist|artist|album|track)\/(\w|-){22}.*/;
@@ -78,7 +77,7 @@ const play = async function (message, argv) {
       this.player.playCustomPlaylist(message, urls, { name, url: spotifyUrl });
       return null;
     } catch (error) {
-      logger.error(error, message);
+      console.error(error);
       return message.channel.send({
         embed: { title: "Error", description: "I could't fetch that" },
       });
