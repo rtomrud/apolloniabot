@@ -46,7 +46,7 @@ module.exports = Object.assign(dj, {
         {
           name: "DESCRIPTION",
           value:
-            "Denies permission to use all commands that modify the player's state to users without the Priority Speaker permission if **on** is specified. Disables DJ mode if **off** is specified. Defaults to **on**. You need the Priority Speaker permission to use this command.",
+            "Denies access to commands that modify the queue or the playback's settings to members without the Priority Speaker permission if **on** is specified. Disables DJ mode if **off** is specified. Defaults to **on**. You need the Priority Speaker permission to use this command.",
         },
         {
           name: "EXAMPLES",
