@@ -49,7 +49,7 @@ client.player = new DisTube(client, {
 client
   .on("message", logMessages(message))
   .on("error", logger.error)
-  .on("guildCreate", logMessages(guildCreate))
-  .on("guildDelete", logMessages(guildDelete))
-  .once("ready", logMessages(ready))
+  .on("guildCreate", guildCreate)
+  .on("guildDelete", guildDelete)
+  .once("ready", ready)
   .login(process.env.TOKEN);
