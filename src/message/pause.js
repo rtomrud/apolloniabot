@@ -3,13 +3,13 @@ const formatPlayback = require("../format-playback.js");
 const pause = async function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || !queue.playing) {
-    return message.channel.send({
+    return message.reply({
       embed: { title: "Error", description: "Nothing to pause" },
     });
   }
 
   this.player.pause(message);
-  return message.channel.send({
+  return message.reply({
     embed: { title: "Paused", description: formatPlayback(queue) },
   });
 };

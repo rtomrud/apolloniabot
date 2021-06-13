@@ -8,13 +8,13 @@ const operandRegExp = /off|none|no|false|disable/i;
 const dj = async function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    return message.channel.send({
+    return message.reply({
       embed: { title: "Error", description: "Nothing to set DJ mode to" },
     });
   }
 
   if (!message.member.permissions.has(PRIORITY_SPEAKER)) {
-    return message.channel.send({
+    return message.reply({
       embed: {
         title: "Error",
         description:
@@ -25,7 +25,7 @@ const dj = async function (message, argv) {
 
   const arg = argv.slice(2).find((arg) => operandRegExp.test(arg));
   queue.dj = !arg;
-  return message.channel.send({
+  return message.reply({
     embed: { title: queue.dj ? "Enabled DJ mode" : "Disabled DJ mode" },
   });
 };

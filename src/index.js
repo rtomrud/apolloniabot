@@ -157,8 +157,8 @@ client
     const argv = content.split(separatorRegExp);
     const handle = alias(argv);
     if (!handle) {
-      return channel
-        .send({
+      return message
+        .reply({
           embed: {
             title: "Error",
             description: `I don't know what you want, try \`${prefix} help\``,
@@ -174,8 +174,8 @@ client
       !handle.safe &&
       !member.permissions.has(PRIORITY_SPEAKER);
     if (isUnauthroized) {
-      return channel
-        .send({
+      return message
+        .reply({
           title: "Error",
           description:
             "You can't do that because **DJ** mode is on and you don't have the Priority Speaker permission",

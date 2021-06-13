@@ -4,14 +4,14 @@ const operandRegExp =
 const loop = async function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    return message.channel.send({
+    return message.reply({
       embed: { title: "Error", description: "Nothing to loop" },
     });
   }
 
   const arg = argv.slice(2).find((arg) => operandRegExp.test(arg));
   if (!arg) {
-    return message.channel.send({
+    return message.reply({
       embed: {
         title: "Error",
         description:
@@ -22,7 +22,7 @@ const loop = async function (message, argv) {
 
   const [, all, song] = operandRegExp.exec(arg);
   this.player.setRepeatMode(message, all ? 2 : song ? 1 : 0);
-  return message.channel.send({
+  return message.reply({
     embed: {
       title: ["Disabled looping", "Looping track", "Looping queue"][
         queue.repeatMode

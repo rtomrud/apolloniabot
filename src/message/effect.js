@@ -4,14 +4,14 @@ const filterRegExp =
 const effect = async function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue || !queue.playing) {
-    return message.channel.send({
+    return message.reply({
       embed: { title: "Error", description: "Nothing to apply effect to" },
     });
   }
 
   const arg = argv.slice(2).find((arg) => filterRegExp.test(arg));
   if (!arg) {
-    return message.channel.send({
+    return message.reply({
       embed: {
         title: "Error",
         description: "I don't know what effect you want to apply",
@@ -21,7 +21,7 @@ const effect = async function (message, argv) {
 
   const [, off, filter] = filterRegExp.exec(arg);
   this.player.setFilter(message, off ? queue.filter : filter.toLowerCase());
-  return message.channel.send(
+  return message.reply(
     queue.filter
       ? { embed: { title: "Enabled effect", description: queue.filter } }
       : { embed: { title: "Disabled effects" } }

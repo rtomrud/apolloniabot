@@ -3,13 +3,13 @@ const formatPlayback = require("../format-playback.js");
 const resume = async function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || queue.playing) {
-    return message.channel.send({
+    return message.reply({
       embed: { title: "Error", description: "Nothing to resume" },
     });
   }
 
   this.player.resume(message);
-  return message.channel.send({
+  return message.reply({
     embed: { title: "Resumed", description: formatPlayback(queue) },
   });
 };

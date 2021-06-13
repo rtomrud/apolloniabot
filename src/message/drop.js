@@ -5,7 +5,7 @@ const integerRegExp = /^-?\d+/;
 const drop = async function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    return message.channel.send({
+    return message.reply({
       embed: { title: "Error", description: "Nothing to drop" },
     });
   }
@@ -17,7 +17,7 @@ const drop = async function (message, argv) {
     .map((arg) => Number(arg));
   const start = (arg != null ? arg : length) - 1;
   if (start < 0 || start >= length) {
-    return message.channel.send({
+    return message.reply({
       embed: {
         title: "Error",
         description: "Nothing to drop at that position",
@@ -26,7 +26,7 @@ const drop = async function (message, argv) {
   }
 
   if (start === 0 && queue.playing) {
-    return message.channel.send({
+    return message.reply({
       embed: {
         title: "Error",
         description: "I can't drop track 1 because it's playing now",
@@ -35,7 +35,7 @@ const drop = async function (message, argv) {
   }
 
   const [song] = queue.songs.splice(start, 1);
-  return message.channel.send({
+  return message.reply({
     embed: {
       title: "Dropped track",
       fields: [{ name: start + 1, value: formatSong(song) }],

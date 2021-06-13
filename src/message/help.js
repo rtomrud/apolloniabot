@@ -2,11 +2,11 @@ const help = async function (message, argv, alias) {
   if (argv.length > 2) {
     const command = alias(argv.slice(1));
     if (command && command.usage) {
-      return message.channel.send(command.usage);
+      return message.reply(command.usage);
     }
   }
 
-  return message.channel.send({
+  return message.reply({
     embed: {
       fields: [
         {

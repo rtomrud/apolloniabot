@@ -5,7 +5,7 @@ const formatSong = require("../format-song.js");
 const find = async function (message, argv) {
   const query = argv.slice(2).join(" ");
   if (!query) {
-    return message.channel.send({
+    return message.reply({
       embed: {
         title: "Error",
         description: "I don't know what you want to find",
@@ -15,7 +15,7 @@ const find = async function (message, argv) {
 
   return ytsr(query, { limit: 10 }).then(
     ({ items }) =>
-      message.channel.send({
+      message.reply({
         embed: {
           title: "Results",
           fields: items.map((item) => ({
@@ -26,7 +26,7 @@ const find = async function (message, argv) {
         },
       }),
     () =>
-      message.channel.send({
+      message.reply({
         embed: {
           title: "Error",
           description: "I couldn't find anything, try again",

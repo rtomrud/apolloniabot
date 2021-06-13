@@ -13,7 +13,7 @@ const retry =
 const play = async function (message, argv) {
   const args = argv.slice(2);
   if (args.length === 0 && message.attachments.size === 0) {
-    return message.channel.send({
+    return message.reply({
       embed: {
         title: "Error",
         description: "I don't know what you want to play",
@@ -78,7 +78,7 @@ const play = async function (message, argv) {
       return null;
     } catch (error) {
       console.error(error);
-      return message.channel.send({
+      return message.reply({
         embed: { title: "Error", description: "I could't fetch that" },
       });
     }
@@ -88,7 +88,7 @@ const play = async function (message, argv) {
   if (attachments.size > 0) {
     const { width, url } = attachments.values().next().value;
     if (width) {
-      return message.channel.send({
+      return message.reply({
         embed: {
           title: "Error",
           description: "I can't play that because it's not a valid file format",

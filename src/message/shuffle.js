@@ -1,13 +1,13 @@
 const shuffle = async function (message) {
   const queue = this.player.getQueue(message);
   if (!queue || queue.songs.length <= 1) {
-    return message.channel.send({
+    return message.reply({
       embed: { title: "Error", description: "Nothing to shuffle" },
     });
   }
 
   this.player.shuffle(message);
-  return message.channel.send({ embed: { title: "Shuffled the queue" } });
+  return message.reply({ embed: { title: "Shuffled the queue" } });
 };
 
 module.exports = Object.assign(shuffle, {

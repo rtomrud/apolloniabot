@@ -3,7 +3,7 @@ const operandRegExp = /off|none|no|false|disable/i;
 const autoplay = async function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    return message.channel.send({
+    return message.reply({
       embed: { title: "Error", description: "Nothing to autoplay" },
     });
   }
@@ -13,7 +13,7 @@ const autoplay = async function (message, argv) {
     this.player.toggleAutoplay(message);
   }
 
-  return message.channel.send({
+  return message.reply({
     embed: { title: queue.autoplay ? "Enabled autoplay" : "Disabled autoplay" },
   });
 };

@@ -9,7 +9,7 @@ const queue = async function (message, argv) {
   const arg = Number(argv.slice(2).find((arg) => integerRegExp.test(arg)));
   const queue = this.player.getQueue(message);
   if (!queue || queue.songs.length === 0) {
-    return message.channel.send({
+    return message.reply({
       embed: { title: "Error", description: "Nothing in queue" },
     });
   }
@@ -21,7 +21,7 @@ const queue = async function (message, argv) {
   const page = arg * pageSize > length ? pages : arg || 1;
   const start = (page - 1) * pageSize;
   const end = page * pageSize < length ? page * pageSize : length;
-  return message.channel.send({
+  return message.reply({
     embed: {
       title: "Queue",
       description: formatPlaylist(queue),

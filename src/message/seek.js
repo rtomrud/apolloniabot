@@ -6,14 +6,14 @@ const timeRegExp =
 const seek = async function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue || !queue.playing) {
-    return message.channel.send({
+    return message.reply({
       embed: { title: "Error", description: "Nothing to seek on" },
     });
   }
 
   const arg = argv.slice(2).find((arg) => timeRegExp.test(arg));
   if (!arg) {
-    return message.channel.send({
+    return message.reply({
       embed: {
         title: "Error",
         description: "I don't know to what time you want to seek",
@@ -31,7 +31,7 @@ const seek = async function (message, argv) {
       ? queue.currentTime - ms
       : ms;
   this.player.seek(message, Math.max(0, Math.min(t, duration * 1000)));
-  return message.channel.send({
+  return message.reply({
     embed: { title: "Seeked", description: formatPlayback(queue) },
   });
 };

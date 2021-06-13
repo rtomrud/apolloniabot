@@ -3,14 +3,14 @@ const integerRegExp = /^-?\d+/;
 const move = async function (message, argv) {
   const queue = this.player.getQueue(message);
   if (!queue) {
-    return message.channel.send({
+    return message.reply({
       embed: { title: "Error", description: "Nothing to move" },
     });
   }
 
   const { length } = queue.songs;
   if (length < 2) {
-    return message.channel.send({
+    return message.reply({
       embed: { title: "Error", description: "Nowhere to move" },
     });
   }
@@ -22,7 +22,7 @@ const move = async function (message, argv) {
   const from = (arg1 != null ? arg1 : length) - 1;
   const to = (arg2 != null ? arg2 : 2) - 1;
   if (from < 0 || from >= length) {
-    return message.channel.send({
+    return message.reply({
       embed: {
         title: "Error",
         description: "I can't move from a position outside the queue",
@@ -31,7 +31,7 @@ const move = async function (message, argv) {
   }
 
   if (to < 0 || to >= length) {
-    return message.channel.send({
+    return message.reply({
       embed: {
         title: "Error",
         description: "I can't move to a position outside the queue",
@@ -40,7 +40,7 @@ const move = async function (message, argv) {
   }
 
   if ((from === 0 || to === 0) && queue.playing) {
-    return message.channel.send({
+    return message.reply({
       embed: {
         title: "Error",
         description: "I can't move track 1 because it's currently playing",
@@ -49,7 +49,7 @@ const move = async function (message, argv) {
   }
 
   queue.songs.splice(to, 0, queue.songs.splice(from, 1)[0]);
-  return message.channel.send({
+  return message.reply({
     embed: {
       title: "Moved track",
       description: `${from + 1} to position ${to + 1}`,
