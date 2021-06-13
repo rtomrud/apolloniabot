@@ -19,7 +19,6 @@ const stop = require("./stop.js");
 const version = require("./version.js");
 const volume = require("./volume.js");
 const what = require("./what.js");
-const who = require("./who.js");
 
 const aliases = [
   autoplay,
@@ -43,7 +42,6 @@ const aliases = [
   version,
   volume,
   what,
-  who,
 ].reduce((aliases, command) => {
   if (Object.prototype.hasOwnProperty.call(aliases, command.name)) {
     throw Error(`Duplicate command "${command.name}"`);
