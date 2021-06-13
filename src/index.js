@@ -2,15 +2,8 @@ require("dotenv").config();
 const { Client } = require("discord.js");
 const DisTube = require("distube");
 const message = require("./message/index.js");
-const addList = require("./player/add-list.js");
-const addSong = require("./player/add-song.js");
-const empty = require("./player/empty.js");
-const error = require("./player/error.js");
-const finish = require("./player/finish.js");
-const initQueue = require("./player/init-queue.js");
-const noRelated = require("./player/no-related.js");
-const playList = require("./player/play-list.js");
-const playSong = require("./player/play-song.js");
+const formatPlaylist = require("./format-playlist.js");
+const formatSong = require("./format-song.js");
 const guildCreate = require("./guild-create.js");
 const guildDelete = require("./guild-delete.js");
 const logMessages = require("./log-messages.js");
@@ -20,6 +13,9 @@ const ready = require("./ready.js");
 const client = new Client({
   presence: { activity: { name: "lena", type: "LISTENING" } },
 });
+
+const logMessage = (messages) =>
+  Array.isArray(messages) ? messages.forEach(logger.log) : logger.log(messages);
 
 client.player = new DisTube(client, {
   emitNewSongOnly: true,
@@ -36,15 +32,91 @@ client.player = new DisTube(client, {
     2: "atempo=2.0",
   },
 })
-  .on("addList", logMessages(addList))
-  .on("addSong", logMessages(addSong))
-  .on("empty", logMessages(empty))
-  .on("error", logMessages(error))
-  .on("finish", logMessages(finish))
-  .on("initQueue", logMessages(initQueue))
-  .on("noRelated", logMessages(noRelated))
-  .on("playList", logMessages(playList))
-  .on("playSong", logMessages(playSong));
+  .on("addList", (message, queue, playlist) =>
+    message.channel
+      .send({
+        embed: { title: "Queued", description: formatPlaylist(playlist) },
+      })
+      .then(logMessage)
+  )
+  .on("addSong", (message, queue, song) =>
+    message.channel
+      .send({
+        embed: { title: "Queued", description: formatSong(song) },
+      })
+      .then(logMessage)
+  )
+  .on("empty", (message) =>
+    message.channel
+      .send({
+        embed: { title: "Stopped", description: "The voice channel is empty" },
+      })
+      .then(logMessage)
+  )
+  .on("error", (message, err) => {
+    const description = err.message.endsWith(
+      "User is not in the voice channel."
+    )
+      ? "I can't join you because you're not in a voice channel"
+      : err.message.endsWith(
+          "You do not have permission to join this voice channel."
+        )
+      ? "I don't have permission to join your voice channel"
+      : err.message.endsWith("No result!")
+      ? "I can't find anything, check your URL or query"
+      : err.message.includes("youtube-dl")
+      ? "I can't play that URL"
+      : "";
+    if (!description) {
+      client.emit("error", err);
+    }
+
+    message.channel
+      .send({
+        embed: {
+          title: "Error",
+          description: description || "I can't do that, sorry",
+        },
+      })
+      .then(logMessage);
+  })
+  .on("finish", (message) =>
+    message.channel
+      .send({
+        embed: { title: "Stopped", description: "The queue is finished" },
+      })
+      .then(logMessage)
+  )
+  .on("initQueue", (queue) => {
+    queue.autoplay = false;
+  })
+  .on("noRelated", (message) =>
+    message.channel
+      .send({
+        embed: {
+          title: "Stopped",
+          description: "The queue is finished and I can't autoplay anything",
+        },
+      })
+      .then(logMessage)
+  )
+  .on("playList", (message, queue, playlist) =>
+    message.channel
+      .send({
+        embed: { title: "Playing", description: formatPlaylist(playlist) },
+      })
+      .then(logMessage)
+  )
+  .on("playSong", (message, queue, song) =>
+    message.channel
+      .send({
+        embed: {
+          title: client.user === song.user ? "Autoplaying" : "Playing",
+          description: formatSong(song),
+        },
+      })
+      .then(logMessage)
+  );
 
 client
   .on("message", logMessages(message))
