@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { Client, Permissions } = require("discord.js");
 const DisTube = require("distube");
-const alias = require("./message/alias.js");
+const commands = require("./commands/index.js");
 const formatPlaylist = require("./format-playlist.js");
 const formatSong = require("./format-song.js");
 const logMessage = require("./log-message.js");
@@ -148,8 +148,8 @@ client
     }
 
     const argv = content.split(separatorRegExp);
-    const handle = alias(argv);
-    if (!handle) {
+    const command = commands(argv);
+    if (!command) {
       return message
         .reply({
           embed: {
@@ -164,7 +164,7 @@ client
     const isUnauthroized =
       queue &&
       queue.dj &&
-      !handle.safe &&
+      !command.safe &&
       !member.permissions.has(PRIORITY_SPEAKER);
     if (isUnauthroized) {
       return message
@@ -176,7 +176,7 @@ client
         .then(logMessage);
     }
 
-    return handle.bind(client)(message, argv, alias).then(logMessage);
+    return command.bind(client)(message, argv, commands).then(logMessage);
   })
   .once("ready", () => console.log(client.readyAt.toISOString(), "READY"))
   .login(process.env.TOKEN);
