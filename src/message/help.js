@@ -35,7 +35,7 @@ const help = async function (message, argv, alias) {
 **volume**, **v** PERCENT
 **autoplay**, **a** (on|off)
 **loop**, **l** (queue|track|off)
-**effect**, **e** (EFFECT|off)
+**effect**, **e** EFFECT (on|off)
 **dj** (on|off)
 `,
         },
