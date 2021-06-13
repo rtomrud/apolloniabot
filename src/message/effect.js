@@ -1,5 +1,6 @@
 const filterRegExp =
-  /(off|none|no|false|disable)|(3d|bassboost|echo|karaoke|nightcore|vaporwave|flanger|gate|haas|reverse|surround|mcompand|phaser|tremolo|earwax|0.25|0.5|0.75|1.25|1.5|1.75|2)/i;
+  /(clear|3d|bassboost|echo|karaoke|nightcore|vaporwave|flanger|gate|haas|reverse|surround|mcompand|phaser|tremolo|earwax|0.25|0.5|0.75|1.25|1.5|1.75|2)/i;
+const operandRegExp = /off|none|no|false|disable/i;
 
 const effect = async function (message, argv) {
   const queue = this.player.getQueue(message);
@@ -19,11 +20,23 @@ const effect = async function (message, argv) {
     });
   }
 
-  const [, off, filter] = filterRegExp.exec(arg);
-  this.player.setFilter(message, off ? queue.filter : filter.toLowerCase());
+  const filter = arg.toLowerCase();
+  const shouldBeOff = argv.slice(2).find((arg) => operandRegExp.test(arg));
+  const isOn = queue.filters.includes(filter);
+  if (filter === "clear") {
+    queue.setFilter(false);
+  } else if ((isOn && shouldBeOff) || (!isOn && !shouldBeOff)) {
+    queue.setFilter(filter);
+  }
+
   return message.reply(
-    queue.filter
-      ? { embed: { title: "Enabled effect", description: queue.filter } }
+    queue.filters.length > 0
+      ? {
+          embed: {
+            title: "Enabled effects",
+            description: queue.filters.join(", "),
+          },
+        }
       : { embed: { title: "Disabled effects" } }
   );
 };
@@ -39,21 +52,21 @@ module.exports = Object.assign(effect, {
         },
         {
           name: "SYNOPSIS",
-          value: "**lena effect** (EFFECT|off)\naliases: e, fx",
+          value: "**lena effect** EFFECT (on|off)\naliases: e, fx",
         },
         {
           name: "DESCRIPTION",
           value:
-            "Filters the audio stream by applying the specified EFFECT. Disables effects if **off** is specified. EFFECT must be **bassboost**, **karaoke**, **nightcore**, **vaporwave**, **0.25**, **0.5**, **0.75**, **1.25**, **1.5**, **1.75**, **2**",
+            "Filters the audio stream by applying the specified EFFECT if **on** is specified. Disables EFFECT if **off** is specified. EFFECT must be **bassboost**, **karaoke**, **nightcore**, **vaporwave**, **0.25**, **0.5**, **0.75**, **1.25**, **1.5**, **1.75**, **2**. Disables all effects if EFFECT is **clear**.",
         },
         {
           name: "EXAMPLES",
           value: `
-\`lena effect bassboost\`
-\`lena effect vaporwave\`
-\`lena effect 1.25\`
-\`lena effect off\`
-\`lena e off\`
+\`lena effect bassboost on\`
+\`lena effect vaporwave off\`
+\`lena effect 1.25 on\`
+\`lena effect clear\`
+\`lena e clear\`
 `,
         },
         {

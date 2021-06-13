@@ -6,7 +6,7 @@ const what = async function (message) {
     return message.reply({ embed: { description: "Nothing in queue" } });
   }
 
-  const { autoplay, filter, repeatMode: loop, songs, volume } = queue;
+  const { autoplay, filters, repeatMode: loop, songs, volume } = queue;
   return message.reply({
     embed: {
       title: queue.playing ? "Now playing" : "Now paused",
@@ -14,7 +14,7 @@ const what = async function (message) {
       fields: [
         { name: "Requester", value: songs[0].user, inline: true },
         { name: "Volume", value: `${volume}%`, inline: true },
-        { name: "Effect", value: filter || "off", inline: true },
+        { name: "Effects", value: filters.join(", ") || "off", inline: true },
         { name: "Autoplay", value: autoplay ? "on" : "off", inline: true },
         { name: "Loop", value: ["off", "track", "queue"][loop], inline: true },
         { name: "DJ", value: queue.dj ? "on" : "off", inline: true },

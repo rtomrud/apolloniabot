@@ -1,5 +1,5 @@
 const ytsr = require("@distube/ytsr");
-const SearchResult = require("distube/src/SearchResult.js");
+const SearchResult = require("distube/src/struct/SearchResult.js");
 const formatSong = require("../format-song.js");
 
 const find = async function (message, argv) {

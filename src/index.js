@@ -34,46 +34,46 @@ const player = new DisTube(client, {
     2: "atempo=2.0",
   },
 })
-  .on("addList", (message, queue, playlist) =>
-    message.channel
+  .on("addList", (queue, playlist) =>
+    queue.textChannel
       .send({
         embed: { title: "Queued", description: formatPlaylist(playlist) },
       })
       .then(logMessage)
   )
-  .on("addSong", (message, queue, song) =>
-    message.channel
+  .on("addSong", (queue, song) =>
+    queue.textChannel
       .send({
         embed: { title: "Queued", description: formatSong(song) },
       })
       .then(logMessage)
   )
-  .on("empty", (message) =>
-    message.channel
+  .on("empty", (queue) =>
+    queue.textChannel
       .send({
         embed: { title: "Stopped", description: "The voice channel is empty" },
       })
       .then(logMessage)
   )
-  .on("error", (message, err) => {
-    const description = err.message.endsWith(
+  .on("error", (channel, error) => {
+    const description = error.message.endsWith(
       "User is not in the voice channel."
     )
       ? "I can't join you because you're not in a voice channel"
-      : err.message.endsWith(
+      : error.message.endsWith(
           "You do not have permission to join this voice channel."
         )
       ? "I don't have permission to join your voice channel"
-      : err.message.endsWith("No result!")
+      : error.message.endsWith("No result!")
       ? "I can't find anything, check your URL or query"
-      : err.message.includes("youtube-dl")
+      : error.message.includes("youtube-dl")
       ? "I can't play that URL"
       : "";
     if (!description) {
-      client.emit("error", err);
+      client.emit("error", error);
     }
 
-    message.channel
+    channel
       .send({
         embed: {
           title: "Error",
@@ -82,8 +82,8 @@ const player = new DisTube(client, {
       })
       .then(logMessage);
   })
-  .on("finish", (message) =>
-    message.channel
+  .on("finish", (queue) =>
+    queue.textChannel
       .send({
         embed: { title: "Stopped", description: "The queue is finished" },
       })
@@ -92,8 +92,8 @@ const player = new DisTube(client, {
   .on("initQueue", (queue) => {
     queue.autoplay = false;
   })
-  .on("noRelated", (message) =>
-    message.channel
+  .on("noRelated", (queue) =>
+    queue.textChannel
       .send({
         embed: {
           title: "Stopped",
@@ -102,15 +102,8 @@ const player = new DisTube(client, {
       })
       .then(logMessage)
   )
-  .on("playList", (message, queue, playlist) =>
-    message.channel
-      .send({
-        embed: { title: "Playing", description: formatPlaylist(playlist) },
-      })
-      .then(logMessage)
-  )
-  .on("playSong", (message, queue, song) =>
-    message.channel
+  .on("playSong", (queue, song) =>
+    queue.textChannel
       .send({
         embed: {
           title: client.user === song.user ? "Autoplaying" : "Playing",
