@@ -1,4 +1,4 @@
-const filterRegExp =
+const subcommandRegExp =
   /(clear|3d|bassboost|echo|karaoke|nightcore|vaporwave|flanger|gate|haas|reverse|surround|mcompand|phaser|tremolo|earwax|0.25|0.5|0.75|1.25|1.5|1.75|2)/i;
 const operandRegExp = /off|none|no|false|disable/i;
 
@@ -10,8 +10,8 @@ const effect = async function (message, argv) {
     });
   }
 
-  const arg = argv.slice(2).find((arg) => filterRegExp.test(arg));
-  if (!arg) {
+  const subcommand = argv.slice(2).find((arg) => subcommandRegExp.test(arg));
+  if (!subcommand) {
     return message.reply({
       embed: {
         title: "Error",
@@ -20,12 +20,12 @@ const effect = async function (message, argv) {
     });
   }
 
-  const filter = arg.toLowerCase();
-  const shouldBeOff = argv.slice(2).find((arg) => operandRegExp.test(arg));
-  const isOn = queue.filters.includes(filter);
+  const filter = subcommand.toLowerCase();
+  const isFilterEnabled = queue.filters.includes(filter);
+  const arg = argv.slice(2).find((arg) => operandRegExp.test(arg));
   if (filter === "clear") {
     queue.setFilter(false);
-  } else if ((isOn && shouldBeOff) || (!isOn && !shouldBeOff)) {
+  } else if ((isFilterEnabled && arg) || (!isFilterEnabled && !arg)) {
     queue.setFilter(filter);
   }
 
