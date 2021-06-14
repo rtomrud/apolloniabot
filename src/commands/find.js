@@ -1,7 +1,3 @@
-const ytsr = require("@distube/ytsr");
-const SearchResult = require("distube/src/struct/SearchResult.js");
-const formatSong = require("../format-song.js");
-
 const find = async function (message, argv) {
   const query = argv.slice(2).join(" ");
   if (!query) {
@@ -13,15 +9,23 @@ const find = async function (message, argv) {
     });
   }
 
-  return ytsr(query, { limit: 10 }).then(
-    ({ items }) =>
+  return this.player.search(query, { limit: 10 }).then(
+    (searchResults) =>
       message.reply({
         embed: {
           title: "Results",
-          fields: items.map((item) => ({
-            name: item.author ? item.author.name : "Unknown channel",
-            value: formatSong(new SearchResult(item)),
-          })),
+          fields: searchResults.map(
+            ({ formattedDuration, isLive, name, type, uploader, url }) => ({
+              name: uploader.name || "[Unknown]",
+              value: `[${name}](${url}) [${
+                type === "playlist"
+                  ? "Playlist"
+                  : isLive
+                  ? "Live"
+                  : formattedDuration
+              }]`,
+            })
+          ),
           footer: { text: "Powered by YouTube" },
         },
       }),
