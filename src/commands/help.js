@@ -8,10 +8,12 @@ const help = async function (message, argv, commands) {
 
   return message.reply({
     embed: {
+      title: "Lena Bot",
+      url: "https://discord.gg/wp3HWnUDMa",
       fields: [
         {
           name: "NAME",
-          value: "[Lena](https://discord.gg/wp3HWnUDMa) - I play music",
+          value: `[Lena](https://discord.com/oauth2/authorize?client_id=${process.env.CLIENT_ID}&permissions=3165248&scope=bot) - I play music`,
         },
         {
           name: "SYNOPSIS",

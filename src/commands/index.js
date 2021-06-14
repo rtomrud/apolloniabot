@@ -4,7 +4,6 @@ const drop = require("./drop.js");
 const effect = require("./effect.js");
 const find = require("./find.js");
 const help = require("./help.js");
-const invite = require("./invite.js");
 const loop = require("./loop.js");
 const move = require("./move.js");
 const next = require("./next.js");
@@ -27,7 +26,6 @@ const aliases = [
   effect,
   find,
   help,
-  invite,
   loop,
   move,
   next,
