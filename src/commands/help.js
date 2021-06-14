@@ -1,6 +1,6 @@
-const help = async function (message, argv, alias) {
+const help = async function (message, argv, commands) {
   if (argv.length > 2) {
-    const command = alias(argv.slice(1));
+    const command = commands(argv.slice(1));
     if (command && command.usage) {
       return message.reply(command.usage);
     }
