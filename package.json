@@ -41,7 +41,7 @@
     "eslint-plugin-prettier": "3.4.0",
     "husky": "6.0.0",
     "nyc": "15.1.0",
-    "pm2": "4.5.6",
+    "pm2": "5.1.0",
     "prettier": "2.3.1",
     "tape": "5.2.2"
   },
