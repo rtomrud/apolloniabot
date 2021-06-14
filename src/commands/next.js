@@ -6,7 +6,7 @@ const next = async function (message) {
     });
   }
 
-  this.player.skip(message);
+  queue.skip();
   return null;
 };
 

@@ -36,7 +36,7 @@ const volume = async function (message, argv) {
     });
   }
 
-  this.player.setVolume(message, percent);
+  queue.setVolume(percent);
   return message.reply({
     embed: { title: "Volume set", description: `${percent}%` },
   });

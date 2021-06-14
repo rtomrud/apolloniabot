@@ -21,7 +21,7 @@ const loop = async function (message, argv) {
   }
 
   const [, all, song] = operandRegExp.exec(arg);
-  this.player.setRepeatMode(message, all ? 2 : song ? 1 : 0);
+  queue.setRepeatMode(all ? 2 : song ? 1 : 0);
   return message.reply({
     embed: {
       title: ["Disabled looping", "Looping track", "Looping queue"][

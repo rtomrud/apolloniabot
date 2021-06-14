@@ -8,7 +8,7 @@ const resume = async function (message) {
     });
   }
 
-  this.player.resume(message);
+  queue.resume();
   return message.reply({
     embed: { title: "Resumed", description: formatPlayback(queue) },
   });

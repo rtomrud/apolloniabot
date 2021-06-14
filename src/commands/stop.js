@@ -8,7 +8,7 @@ const stop = async function (message) {
     });
   }
 
-  this.player.stop(message);
+  queue.stop();
   return message.reply({
     embed: {
       title: "Stopped",

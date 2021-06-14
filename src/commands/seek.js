@@ -30,7 +30,7 @@ const seek = async function (message, argv) {
       : sign === "-"
       ? queue.currentTime - ms
       : ms;
-  this.player.seek(message, Math.max(0, Math.min(t, duration * 1000)));
+  queue.seek(Math.max(0, Math.min(t, duration * 1000)));
   return message.reply({
     embed: { title: "Seeked", description: formatPlayback(queue) },
   });

@@ -6,7 +6,7 @@ const shuffle = async function (message) {
     });
   }
 
-  this.player.shuffle(message);
+  queue.shuffle();
   return message.reply({ embed: { title: "Shuffled the queue" } });
 };
 

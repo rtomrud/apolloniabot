@@ -10,7 +10,7 @@ const autoplay = async function (message, argv) {
 
   const arg = argv.slice(2).find((arg) => operandRegExp.test(arg));
   if ((arg && queue.autoplay) || (!arg && !queue.autoplay)) {
-    this.player.toggleAutoplay(message);
+    queue.toggleAutoplay();
   }
 
   return message.reply({

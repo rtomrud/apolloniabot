@@ -8,7 +8,7 @@ const pause = async function (message) {
     });
   }
 
-  this.player.pause(message);
+  queue.pause();
   return message.reply({
     embed: { title: "Paused", description: formatPlayback(queue) },
   });
