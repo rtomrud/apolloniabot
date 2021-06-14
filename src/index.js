@@ -16,6 +16,7 @@ const permissions = SEND_MESSAGES + EMBED_LINKS;
 const separatorRegExp = /\s+/;
 
 const client = new Client({
+  intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"],
   presence: { activity: { name: "lena", type: "LISTENING" } },
 });
 
