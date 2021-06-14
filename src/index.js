@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { Client, Permissions } = require("discord.js");
 const DisTube = require("distube");
+const SpotifyPlugin = require("@distube/spotify");
 const commands = require("./commands/index.js");
 const formatPlaylist = require("./format-playlist.js");
 const formatSong = require("./format-song.js");
@@ -34,6 +35,7 @@ const player = new DisTube(client, {
     1.75: "atempo=1.75",
     2: "atempo=2.0",
   },
+  plugins: [new SpotifyPlugin({ parallel: true })],
 })
   .on("addList", (queue, playlist) =>
     queue.textChannel

@@ -1,15 +1,3 @@
-const ytsr = require("@distube/ytsr");
-const ms = require("ms");
-const { getData } = require("spotify-url-info");
-
-const spotifyUrlRegExp =
-  /^https:\/\/open\.spotify\.com\/(playlist|artist|album|track)\/(\w|-){22}.*/;
-
-const retry =
-  (f) =>
-  (...args) =>
-    f(...args).catch(() => f(...args));
-
 const play = async function (message, argv) {
   const args = argv.slice(2);
   if (args.length === 0 && message.attachments.size === 0) {
@@ -19,69 +7,6 @@ const play = async function (message, argv) {
         description: "I don't know what you want to play",
       },
     });
-  }
-
-  const spotifyUrl = args.find((arg) => spotifyUrlRegExp.test(arg));
-  if (spotifyUrl) {
-    try {
-      const data = await getData(spotifyUrl);
-      const { name, tracks } = data;
-      const songs = !tracks
-        ? [data] // song
-        : !tracks.items
-        ? tracks // artist
-        : !tracks.items[0].track
-        ? tracks.items // album
-        : tracks.items.map(({ track }) => track); // playlist
-      const urls = await Promise.all(
-        songs.map(async ({ artists, duration_ms, name }) => {
-          const query = `${artists[0].name} Topic - ${name}`;
-          const { items } = await retry(ytsr)(query, { limit: 10 });
-          const songs = items.filter(({ type }) => type === "video");
-          const title = name.toLowerCase();
-          const artist = artists
-            .map(({ name }) => name.toLowerCase())
-            .join(" ");
-          const song =
-            songs.find(({ author, duration, isLive, name }) => {
-              const video = name.toLowerCase();
-              const channel = author.name.toLowerCase();
-              return (
-                !isLive &&
-                Math.abs(duration_ms - ms(duration)) < 10000 &&
-                ((video === title && channel === `${artist} - topic`) ||
-                  (video.includes(title) &&
-                    (channel === artist ||
-                      author.ownerBadges.includes(
-                        "Official Artist Channel"
-                      ))) ||
-                  (video.includes(`${artist} - ${title}`) &&
-                    channel.includes(artist)))
-              );
-            }) ||
-            songs.find(
-              ({ duration, isLive, name }) =>
-                !isLive &&
-                name.toLowerCase().includes(title) &&
-                Math.abs(duration_ms - ms(duration)) < 30000
-            ) ||
-            songs[0];
-          return song.url;
-        })
-      );
-      if (!tracks) {
-        this.player.play(message, urls[0]);
-        return null;
-      }
-
-      this.player.playCustomPlaylist(message, urls, { name, url: spotifyUrl });
-      return null;
-    } catch (error) {
-      console.error(error);
-      return message.reply({
-        embed: { title: "Error", description: "I could't fetch that" },
-      });
-    }
   }
 
   const { attachments } = message;
