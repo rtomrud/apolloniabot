@@ -15,7 +15,6 @@ const rickroll = require("./rickroll.js");
 const seek = require("./seek.js");
 const shuffle = require("./shuffle.js");
 const stop = require("./stop.js");
-const version = require("./version.js");
 const volume = require("./volume.js");
 const what = require("./what.js");
 
@@ -37,7 +36,6 @@ const aliases = [
   seek,
   shuffle,
   stop,
-  version,
   volume,
   what,
 ].reduce((aliases, command) => {
