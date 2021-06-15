@@ -1,4 +1,6 @@
-module.exports = function (queue) {
-  const [{ formattedDuration, name, url }] = queue.songs;
-  return `[${name}](${url}) [${queue.formattedCurrentTime}/${formattedDuration}]`;
+module.exports = function ({
+  formattedCurrentTime,
+  songs: [{ formattedDuration, name, url }],
+}) {
+  return `[${name}](${url}) [${formattedCurrentTime}/${formattedDuration}]`;
 };
