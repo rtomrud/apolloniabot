@@ -10,7 +10,7 @@ const prefix = process.env.PREFIX || "lena";
 const id = process.env.CLIENT_ID;
 const prefixRegExp = RegExp(`^(?:${prefix}|<@!?${id}>)`, "i");
 const {
-  FLAGS: { SEND_MESSAGES, EMBED_LINKS, PRIORITY_SPEAKER },
+  FLAGS: { SEND_MESSAGES, EMBED_LINKS },
 } = Permissions;
 const permissions = SEND_MESSAGES + EMBED_LINKS;
 const separatorRegExp = /\s+/;
@@ -138,7 +138,7 @@ client
   })
   .on("error", console.error)
   .on("message", (message) => {
-    const { author, channel, content, member } = message;
+    const { author, channel, content } = message;
     if (!prefixRegExp.test(content)) {
       return null;
     }
@@ -164,22 +164,6 @@ client
             title: "Error",
             description: `I don't know what you want, try \`${prefix} help\``,
           },
-        })
-        .then(logMessage);
-    }
-
-    const queue = player.getQueue(message);
-    const isUnauthroized =
-      queue &&
-      queue.dj &&
-      !command.safe &&
-      !member.permissions.has(PRIORITY_SPEAKER);
-    if (isUnauthroized) {
-      return message
-        .reply({
-          title: "Error",
-          description:
-            "You can't do that because **DJ** mode is on and you don't have the Priority Speaker permission",
         })
         .then(logMessage);
     }

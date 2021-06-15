@@ -17,7 +17,6 @@ const what = async function (message) {
         { name: "Effects", value: filters.join(", ") || "off", inline: true },
         { name: "Autoplay", value: autoplay ? "on" : "off", inline: true },
         { name: "Loop", value: ["off", "track", "queue"][loop], inline: true },
-        { name: "DJ", value: queue.dj ? "on" : "off", inline: true },
       ],
     },
   });
@@ -25,7 +24,6 @@ const what = async function (message) {
 
 module.exports = Object.assign(what, {
   aliases: ["w", "np", "now", "song", "track", "status", "playing"],
-  safe: true,
   usage: {
     embed: {
       fields: [
@@ -40,7 +38,7 @@ module.exports = Object.assign(what, {
         {
           name: "DESCRIPTION",
           value:
-            "Shows the status of the player, that is, what track is playing now, the current time, the duration, the volume, whether autoplay is enabled, whether loop mode is enabled, what effects are enabled, if any, and whether DJ mode is enabled.",
+            "Shows the status of the player, that is, what track is playing now, the current time, the duration, the volume, whether autoplay is enabled, whether loop mode is enabled, and what effects are enabled, if any.",
         },
         {
           name: "EXAMPLES",
@@ -53,7 +51,6 @@ module.exports = Object.assign(what, {
           name: "SEE ALSO",
           value: `
 \`lena help autoplay\`
-\`lena help dj\`
 \`lena help effect\`
 \`lena help loop\`
 \`lena help pause\`

@@ -37,7 +37,6 @@ const queue = async function (message, argv) {
 
 module.exports = Object.assign(queue, {
   aliases: ["q"],
-  safe: true,
   usage: {
     embed: {
       fields: [

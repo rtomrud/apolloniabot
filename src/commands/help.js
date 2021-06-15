@@ -38,7 +38,6 @@ const help = async function (message, argv, commands) {
 **autoplay**, **a** (on|off)
 **loop**, **l** (queue|track|off)
 **effect**, **e** EFFECT (on|off)
-**dj** (on|off)
 `,
         },
         {
@@ -64,7 +63,6 @@ const help = async function (message, argv, commands) {
 \`lena help autoplay\`
 \`lena help loop\`
 \`lena help effect\`
-\`lena help dj\`
 `,
         },
       ],
@@ -74,7 +72,6 @@ const help = async function (message, argv, commands) {
 
 module.exports = Object.assign(help, {
   aliases: ["--help"],
-  safe: true,
   usage: {
     embed: {
       fields: [
