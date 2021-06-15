@@ -3,7 +3,6 @@ const { Client, Permissions } = require("discord.js");
 const DisTube = require("distube");
 const SpotifyPlugin = require("@distube/spotify");
 const commands = require("./commands/index.js");
-const formatPlaylist = require("./format-playlist.js");
 const formatSong = require("./format-song.js");
 const logMessage = require("./log-message.js");
 
@@ -37,10 +36,15 @@ const player = new DisTube(client, {
   },
   plugins: [new SpotifyPlugin({ parallel: true })],
 })
-  .on("addList", (queue, playlist) =>
+  .on("addList", (queue, { formattedDuration, name, songs: { length }, url }) =>
     queue.textChannel
       .send({
-        embed: { title: "Queued", description: formatPlaylist(playlist) },
+        embed: {
+          title: "Queued",
+          description: `[${name}](${url}) (${length} track${
+            length === 1 ? "" : "s"
+          }) [${formattedDuration}]`,
+        },
       })
       .then(logMessage)
   )
