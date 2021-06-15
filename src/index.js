@@ -4,7 +4,6 @@ const DisTube = require("distube");
 const SpotifyPlugin = require("@distube/spotify");
 const commands = require("./commands/index.js");
 const formatSong = require("./format-song.js");
-const logMessage = require("./log-message.js");
 
 const prefix = process.env.PREFIX || "lena";
 const id = process.env.CLIENT_ID;
@@ -38,30 +37,24 @@ const player = new DisTube(client, {
   },
 })
   .on("addList", (queue, { formattedDuration, name, songs: { length }, url }) =>
-    queue.textChannel
-      .send({
-        embed: {
-          title: "Queued",
-          description: `[${name}](${url}) (${length} track${
-            length === 1 ? "" : "s"
-          }) [${formattedDuration}]`,
-        },
-      })
-      .then(logMessage)
+    queue.textChannel.send({
+      embed: {
+        title: "Queued",
+        description: `[${name}](${url}) (${length} track${
+          length === 1 ? "" : "s"
+        }) [${formattedDuration}]`,
+      },
+    })
   )
   .on("addSong", (queue, song) =>
-    queue.textChannel
-      .send({
-        embed: { title: "Queued", description: formatSong(song) },
-      })
-      .then(logMessage)
+    queue.textChannel.send({
+      embed: { title: "Queued", description: formatSong(song) },
+    })
   )
   .on("empty", (queue) =>
-    queue.textChannel
-      .send({
-        embed: { title: "Stopped", description: "The voice channel is empty" },
-      })
-      .then(logMessage)
+    queue.textChannel.send({
+      embed: { title: "Stopped", description: "The voice channel is empty" },
+    })
   )
   .on("error", (channel, error) => {
     const description = error.message.endsWith(
@@ -81,44 +74,36 @@ const player = new DisTube(client, {
       client.emit("error", error);
     }
 
-    channel
-      .send({
-        embed: {
-          title: "Error",
-          description: description || "I can't do that, sorry",
-        },
-      })
-      .then(logMessage);
+    channel.send({
+      embed: {
+        title: "Error",
+        description: description || "I can't do that, sorry",
+      },
+    });
   })
   .on("finish", (queue) =>
-    queue.textChannel
-      .send({
-        embed: { title: "Stopped", description: "The queue is finished" },
-      })
-      .then(logMessage)
+    queue.textChannel.send({
+      embed: { title: "Stopped", description: "The queue is finished" },
+    })
   )
   .on("initQueue", (queue) => {
     queue.autoplay = false;
   })
   .on("noRelated", (queue) =>
-    queue.textChannel
-      .send({
-        embed: {
-          title: "Stopped",
-          description: "The queue is finished and I can't autoplay anything",
-        },
-      })
-      .then(logMessage)
+    queue.textChannel.send({
+      embed: {
+        title: "Stopped",
+        description: "The queue is finished and I can't autoplay anything",
+      },
+    })
   )
   .on("playSong", (queue, song) =>
-    queue.textChannel
-      .send({
-        embed: {
-          title: client.user === song.user ? "Autoplaying" : "Playing",
-          description: formatSong(song),
-        },
-      })
-      .then(logMessage)
+    queue.textChannel.send({
+      embed: {
+        title: client.user === song.user ? "Autoplaying" : "Playing",
+        description: formatSong(song),
+      },
+    })
   );
 
 client.player = player;
@@ -126,49 +111,65 @@ client.player = player;
 client
   .on("guildCreate", ({ available, systemChannel }) => {
     if (available && systemChannel) {
-      systemChannel
-        .send({
-          embed: {
-            title: "Hi!",
-            description: `I play music. Type \`${prefix} help\` to find out what I can do for you.`,
-          },
-        })
-        .then(logMessage);
+      systemChannel.send({
+        embed: {
+          title: "Hi!",
+          description: `I play music. Type \`${prefix} help\` to find out what I can do for you.`,
+        },
+      });
     }
   })
   .on("error", console.error)
   .on("message", (message) => {
-    const { author, channel, content } = message;
-    if (!prefixRegExp.test(content)) {
+    if (!prefixRegExp.test(message.content)) {
       return null;
     }
 
-    logMessage(message);
+    const {
+      attachments,
+      author,
+      channel,
+      content,
+      createdAt,
+      guild,
+      id,
+      member,
+    } = message;
+    console.log(
+      createdAt.toISOString(),
+      author.id,
+      guild ? `/${guild.id}/${channel.id}/${id}` : `/${channel.id}/${id}`,
+      JSON.stringify((member && member.nickname) || author.username),
+      JSON.stringify(
+        `${content}${
+          attachments.size > 0
+            ? `\n${attachments.values().next().value.url}\n`
+            : ""
+        }`
+      )
+    );
+
     if (!channel.permissionsFor(client.user).has(permissions)) {
-      return author
-        .send({
-          embed: {
-            title: "Error",
-            description: `I don't have the Send Messages and Embed Links permissions in <#${channel.id}>`,
-          },
-        })
-        .then(logMessage);
+      return author.send({
+        embed: {
+          title: "Error",
+          description: `I don't have the Send Messages and Embed Links permissions in <#${channel.id}>`,
+        },
+      });
     }
 
     const argv = content.split(separatorRegExp);
     const command = commands(argv);
     if (!command) {
-      return message
-        .reply({
-          embed: {
-            title: "Error",
-            description: `I don't know what you want, try \`${prefix} help\``,
-          },
-        })
-        .then(logMessage);
+      return message.reply({
+        embed: {
+          title: "Error",
+          description: `I don't know what you want, try \`${prefix} help\``,
+        },
+      });
     }
 
-    return command.bind(client)(message, argv, commands).then(logMessage);
+    return command.bind(client)(message, argv, commands);
   })
   .once("ready", () => console.log(client.readyAt.toISOString(), "READY"))
   .login(process.env.TOKEN);
