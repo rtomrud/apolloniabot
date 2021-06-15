@@ -65,7 +65,7 @@ const player = new DisTube(client, {
   )
   .on("error", (channel, error) => {
     const description = error.message.endsWith(
-      "User is not in the voice channel."
+      "User is not in any voice channel."
     )
       ? "I can't join you because you're not in a voice channel"
       : error.message.endsWith(
