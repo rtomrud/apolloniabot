@@ -1,5 +1,5 @@
-const shuffle = async function (message) {
-  const queue = this.player.getQueue(message);
+const shuffle = async function (player, message) {
+  const queue = player.getQueue(message);
   if (!queue || queue.songs.length <= 1) {
     return message.reply({
       embed: { title: "Error", description: "Nothing to shuffle" },

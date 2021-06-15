@@ -1,7 +1,7 @@
 const operandRegExp = /off|none|no|false|disable/i;
 
-const autoplay = async function (message, argv) {
-  const queue = this.player.getQueue(message);
+const autoplay = async function (player, message, argv) {
+  const queue = player.getQueue(message);
   if (!queue) {
     return message.reply({
       embed: { title: "Error", description: "Nothing to autoplay" },

@@ -1,7 +1,7 @@
 const integerRegExp = /^-?\d+/;
 
-const move = async function (message, argv) {
-  const queue = this.player.getQueue(message);
+const move = async function (player, message, argv) {
+  const queue = player.getQueue(message);
   if (!queue) {
     return message.reply({
       embed: { title: "Error", description: "Nothing to move" },

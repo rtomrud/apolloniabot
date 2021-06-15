@@ -1,8 +1,8 @@
 const operandRegExp =
   /(queue|songs|on|all|yes|true|enable)|(track|song|one|current|playing)|(off|none|no|false|disable)/i;
 
-const loop = async function (message, argv) {
-  const queue = this.player.getQueue(message);
+const loop = async function (player, message, argv) {
+  const queue = player.getQueue(message);
   if (!queue) {
     return message.reply({
       embed: { title: "Error", description: "Nothing to loop" },

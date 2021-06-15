@@ -1,5 +1,5 @@
-const next = async function (message) {
-  const queue = this.player.getQueue(message);
+const next = async function (player, message) {
+  const queue = player.getQueue(message);
   if (!queue || (queue.songs.length <= 1 && !queue.autoplay)) {
     return message.reply({
       embed: { title: "Error", description: "Nothing to skip" },

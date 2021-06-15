@@ -1,7 +1,7 @@
 const formatPlayback = require("../format-playback.js");
 
-const stop = async function (message) {
-  const queue = this.player.getQueue(message);
+const stop = async function (player, message) {
+  const queue = player.getQueue(message);
   if (!queue) {
     return message.reply({
       embed: { title: "Error", description: "Nothing to stop" },

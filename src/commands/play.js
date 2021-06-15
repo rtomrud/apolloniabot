@@ -1,4 +1,4 @@
-const play = async function (message, argv) {
+const play = async function (player, message, argv) {
   const args = argv.slice(2);
   if (args.length === 0 && message.attachments.size === 0) {
     return message.reply({
@@ -21,7 +21,7 @@ const play = async function (message, argv) {
       });
     }
 
-    this.player.play(message, url);
+    player.play(message, url);
     return new Promise((resolve) => {
       message.channel
         .createMessageCollector(
@@ -30,16 +30,13 @@ const play = async function (message, argv) {
           { time: 3000 }
         )
         .on("collect", (message) =>
-          this.player.play(
-            message,
-            message.attachments.values().next().value.url
-          )
+          player.play(message, message.attachments.values().next().value.url)
         )
         .on("end", (collected) => resolve([...collected.values()]));
     });
   }
 
-  this.player.play(message, args.join(" "));
+  player.play(message, args.join(" "));
   return null;
 };
 

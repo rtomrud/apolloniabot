@@ -2,8 +2,8 @@ const formatSong = require("../format-song.js");
 
 const integerRegExp = /^-?\d+/;
 
-const drop = async function (message, argv) {
-  const queue = this.player.getQueue(message);
+const drop = async function (player, message, argv) {
+  const queue = player.getQueue(message);
   if (!queue) {
     return message.reply({
       embed: { title: "Error", description: "Nothing to drop" },

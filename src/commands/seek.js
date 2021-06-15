@@ -3,8 +3,8 @@ const formatPlayback = require("../format-playback.js");
 const timeRegExp =
   /^([+-])?(?:(?:(\d{1,2}):)?(\d{1,2}):)?(\d+(?:\.\d{1,3})?)s?/;
 
-const seek = async function (message, argv) {
-  const queue = this.player.getQueue(message);
+const seek = async function (player, message, argv) {
+  const queue = player.getQueue(message);
   if (!queue || !queue.playing) {
     return message.reply({
       embed: { title: "Error", description: "Nothing to seek on" },

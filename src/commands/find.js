@@ -1,4 +1,4 @@
-const find = async function (message, argv) {
+const find = async function (player, message, argv) {
   const query = argv.slice(2).join(" ");
   if (!query) {
     return message.reply({
@@ -9,7 +9,7 @@ const find = async function (message, argv) {
     });
   }
 
-  return this.player.search(query, { limit: 10 }).then(
+  return player.search(query, { limit: 10 }).then(
     (searchResults) =>
       message.reply({
         embed: {

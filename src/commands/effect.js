@@ -2,8 +2,8 @@ const subcommandRegExp =
   /(clear|3d|bassboost|echo|karaoke|nightcore|vaporwave|flanger|gate|haas|reverse|surround|mcompand|phaser|tremolo|earwax|0.25|0.5|0.75|1.25|1.5|1.75|2)/i;
 const operandRegExp = /off|none|no|false|disable/i;
 
-const effect = async function (message, argv) {
-  const queue = this.player.getQueue(message);
+const effect = async function (player, message, argv) {
+  const queue = player.getQueue(message);
   if (!queue || !queue.playing) {
     return message.reply({
       embed: { title: "Error", description: "Nothing to apply effect to" },

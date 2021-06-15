@@ -1,7 +1,7 @@
 const formatPlayback = require("../format-playback.js");
 
-const what = async function (message) {
-  const queue = this.player.getQueue(message);
+const what = async function (player, message) {
+  const queue = player.getQueue(message);
   if (!queue) {
     return message.reply({ embed: { description: "Nothing in queue" } });
   }

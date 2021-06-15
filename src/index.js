@@ -106,8 +106,6 @@ const player = new DisTube(client, {
     })
   );
 
-client.player = player;
-
 client
   .on("guildCreate", ({ available, systemChannel }) => {
     if (available && systemChannel) {
@@ -171,7 +169,7 @@ client
       return;
     }
 
-    command.bind(client)(message, argv, commands);
+    command(player, message, argv, commands);
   })
   .once("ready", () => console.log(client.readyAt.toISOString(), "READY"))
   .login(process.env.TOKEN);

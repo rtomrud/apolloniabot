@@ -1,7 +1,7 @@
 const neverGonnaGiveYouUp = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
 
-const rickroll = async function (message) {
-  this.player.play(message, neverGonnaGiveYouUp);
+const rickroll = async function (player, message) {
+  player.play(message, neverGonnaGiveYouUp);
   return null;
 };
 

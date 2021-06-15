@@ -1,7 +1,7 @@
 const formatPlayback = require("../format-playback.js");
 
-const resume = async function (message) {
-  const queue = this.player.getQueue(message);
+const resume = async function (player, message) {
+  const queue = player.getQueue(message);
   if (!queue || queue.playing) {
     return message.reply({
       embed: { title: "Error", description: "Nothing to resume" },

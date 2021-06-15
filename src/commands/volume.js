@@ -2,8 +2,8 @@ const min = 1;
 const max = 100;
 const percentRegExp = /^\d+(\.\d+)?%?/;
 
-const volume = async function (message, argv) {
-  const queue = this.player.getQueue(message);
+const volume = async function (player, message, argv) {
+  const queue = player.getQueue(message);
   if (!queue) {
     return message.reply({
       embed: { title: "Error", description: "Nothing to set volume to" },

@@ -4,9 +4,9 @@ const formatSong = require("../format-song.js");
 const pageSize = 10;
 const integerRegExp = /^-?\d+/;
 
-const queue = async function (message, argv) {
+const queue = async function (player, message, argv) {
   const arg = Number(argv.slice(2).find((arg) => integerRegExp.test(arg)));
-  const queue = this.player.getQueue(message);
+  const queue = player.getQueue(message);
   if (!queue || queue.songs.length === 0) {
     return message.reply({
       embed: { title: "Error", description: "Nothing in queue" },
