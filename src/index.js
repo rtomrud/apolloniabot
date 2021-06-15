@@ -21,6 +21,7 @@ const client = new Client({
 });
 
 const player = new DisTube(client, {
+  plugins: [new SpotifyPlugin({ parallel: true })],
   emitNewSongOnly: true,
   leaveOnEmpty: true,
   leaveOnFinish: true,
@@ -35,7 +36,6 @@ const player = new DisTube(client, {
     1.75: "atempo=1.75",
     2: "atempo=2.0",
   },
-  plugins: [new SpotifyPlugin({ parallel: true })],
 })
   .on("addList", (queue, { formattedDuration, name, songs: { length }, url }) =>
     queue.textChannel
