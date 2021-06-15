@@ -15,14 +15,10 @@ const find = async function (message, argv) {
         embed: {
           title: "Results",
           fields: searchResults.map(
-            ({ formattedDuration, isLive, name, type, uploader, url }) => ({
+            ({ formattedDuration, name, type, uploader, url }) => ({
               name: uploader.name || "[Unknown]",
               value: `[${name}](${url}) [${
-                type === "playlist"
-                  ? "Playlist"
-                  : isLive
-                  ? "Live"
-                  : formattedDuration
+                type === "video" ? formattedDuration : "Playlist"
               }]`,
             })
           ),
