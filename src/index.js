@@ -122,7 +122,7 @@ client
   .on("error", console.error)
   .on("message", (message) => {
     if (!prefixRegExp.test(message.content)) {
-      return null;
+      return;
     }
 
     const {
@@ -150,26 +150,28 @@ client
     );
 
     if (!channel.permissionsFor(client.user).has(permissions)) {
-      return author.send({
+      author.send({
         embed: {
           title: "Error",
           description: `I don't have the Send Messages and Embed Links permissions in <#${channel.id}>`,
         },
       });
+      return;
     }
 
     const argv = content.split(separatorRegExp);
     const command = commands(argv);
     if (!command) {
-      return message.reply({
+      message.reply({
         embed: {
           title: "Error",
           description: `I don't know what you want, try \`${prefix} help\``,
         },
       });
+      return;
     }
 
-    return command.bind(client)(message, argv, commands);
+    command.bind(client)(message, argv, commands);
   })
   .once("ready", () => console.log(client.readyAt.toISOString(), "READY"))
   .login(process.env.TOKEN);
