@@ -4,9 +4,7 @@ module.exports = function ({
   songs: { length },
   url,
 }) {
-  const count = `${length} track${length === 1 ? "" : "s"}`;
-  const duration = `[${formattedDuration}]`;
-  return name && url
-    ? `[${name}](${url}) (${count}) ${duration}`
-    : `${count} ${duration}`;
+  return `[${name}](${url}) (${length} track${
+    length === 1 ? "" : "s"
+  }) [${formattedDuration}]`;
 };

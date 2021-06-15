@@ -1,5 +1,4 @@
 const formatPlayback = require("../format-playback.js");
-const formatPlaylist = require("../format-playlist.js");
 const formatSong = require("../format-song.js");
 
 const pageSize = 10;
@@ -14,7 +13,7 @@ const queue = async function (message, argv) {
     });
   }
 
-  const { songs } = queue;
+  const { formattedDuration, songs } = queue;
   const { length } = songs;
   const [first] = songs;
   const pages = Math.ceil(length / pageSize);
@@ -24,7 +23,9 @@ const queue = async function (message, argv) {
   return message.reply({
     embed: {
       title: "Queue",
-      description: formatPlaylist(queue),
+      description: `${length} track${
+        length === 1 ? "" : "s"
+      } [${formattedDuration}]`,
       fields: songs.slice(start, end).map((song, i) => ({
         name: i + start + 1,
         value: song === first ? formatPlayback(queue) : formatSong(song),
