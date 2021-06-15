@@ -25,6 +25,7 @@ const player = new DisTube(client, {
   leaveOnEmpty: true,
   leaveOnFinish: true,
   leaveOnStop: true,
+  savePreviousSongs: false,
   customFilters: {
     0.25: "atempo=0.25",
     0.5: "atempo=0.5",
