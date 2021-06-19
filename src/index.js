@@ -118,76 +118,79 @@ distube.on("playSong", ({ textChannel }, song) =>
   })
 );
 
-client
-  .on("guildCreate", ({ available, systemChannel }) => {
-    if (available && systemChannel) {
-      systemChannel.send({
-        embeds: [
-          {
-            title: "Hi!",
-            description: `I play music. Type \`${prefix} help\` to find out what I can do for you.`,
-          },
-        ],
-      });
-    }
-  })
-  .on("error", console.error)
-  .on("message", (message) => {
-    if (!prefixRegExp.test(message.content)) {
-      return;
-    }
+client.on("guildCreate", ({ available, systemChannel }) => {
+  if (available && systemChannel) {
+    systemChannel.send({
+      embeds: [
+        {
+          title: "Hi!",
+          description: `I play music. Type \`${prefix} help\` to find out what I can do for you.`,
+        },
+      ],
+    });
+  }
+});
 
-    const {
-      attachments,
-      author,
-      channel,
-      content,
-      createdAt,
-      guild,
-      id,
-      member,
-    } = message;
-    console.log(
-      createdAt.toISOString(),
-      author.id,
-      guild ? `/${guild.id}/${channel.id}/${id}` : `/${channel.id}/${id}`,
-      JSON.stringify((member && member.nickname) || author.username),
-      JSON.stringify(
-        `${content}${
-          attachments.size > 0
-            ? `\n${attachments.values().next().value.url}\n`
-            : ""
-        }`
-      )
-    );
+client.on("error", console.error);
 
-    if (!channel.permissionsFor(client.user).has(permissions)) {
-      author.send({
-        embeds: [
-          {
-            title: "Error",
-            description: `I don't have the Send Messages and Embed Links permissions in <#${channel.id}>`,
-          },
-        ],
-      });
-      return;
-    }
+client.on("message", (message) => {
+  if (!prefixRegExp.test(message.content)) {
+    return;
+  }
 
-    const argv = content.split(separatorRegExp);
-    const command = commands(argv);
-    if (!command) {
-      message.reply({
-        embeds: [
-          {
-            title: "Error",
-            description: `I don't know what you want, try \`${prefix} help\``,
-          },
-        ],
-      });
-      return;
-    }
+  const {
+    attachments,
+    author,
+    channel,
+    content,
+    createdAt,
+    guild,
+    id,
+    member,
+  } = message;
+  console.log(
+    createdAt.toISOString(),
+    author.id,
+    guild ? `/${guild.id}/${channel.id}/${id}` : `/${channel.id}/${id}`,
+    JSON.stringify((member && member.nickname) || author.username),
+    JSON.stringify(
+      `${content}${
+        attachments.size > 0
+          ? `\n${attachments.values().next().value.url}\n`
+          : ""
+      }`
+    )
+  );
 
-    command(distube, message, argv, commands);
-  })
-  .once("ready", () => console.log(client.readyAt.toISOString(), "READY"))
-  .login(process.env.TOKEN);
+  if (!channel.permissionsFor(client.user).has(permissions)) {
+    author.send({
+      embeds: [
+        {
+          title: "Error",
+          description: `I don't have the Send Messages and Embed Links permissions in <#${channel.id}>`,
+        },
+      ],
+    });
+    return;
+  }
+
+  const argv = content.split(separatorRegExp);
+  const command = commands(argv);
+  if (!command) {
+    message.reply({
+      embeds: [
+        {
+          title: "Error",
+          description: `I don't know what you want, try \`${prefix} help\``,
+        },
+      ],
+    });
+    return;
+  }
+
+  command(distube, message, argv, commands);
+});
+
+client.once("ready", () => console.log(client.readyAt.toISOString(), "READY"));
+
+client.login(process.env.TOKEN);
