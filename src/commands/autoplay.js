@@ -4,7 +4,7 @@ const autoplay = async function (player, message, argv) {
   const queue = player.getQueue(message);
   if (!queue) {
     return message.reply({
-      embed: { title: "Error", description: "Nothing to autoplay" },
+      embeds: [{ title: "Error", description: "Nothing to autoplay" }],
     });
   }
 
@@ -14,43 +14,47 @@ const autoplay = async function (player, message, argv) {
   }
 
   return message.reply({
-    embed: { title: queue.autoplay ? "Enabled autoplay" : "Disabled autoplay" },
+    embeds: [
+      { title: queue.autoplay ? "Enabled autoplay" : "Disabled autoplay" },
+    ],
   });
 };
 
 module.exports = Object.assign(autoplay, {
   aliases: ["a", "related"],
   usage: {
-    embed: {
-      fields: [
-        {
-          name: "NAME",
-          value: "lena autoplay - Autoplay music",
-        },
-        {
-          name: "SYNOPSIS",
-          value: "**lena autoplay** (on|off)\nalias: a",
-        },
-        {
-          name: "DESCRIPTION",
-          value:
-            "Autoplays a related track once the queue reaches the end if **on** is specified. Disables autoplay if **off** is specified. Defaults to **on**.",
-        },
-        {
-          name: "EXAMPLES",
-          value: `
+    embeds: [
+      {
+        fields: [
+          {
+            name: "NAME",
+            value: "lena autoplay - Autoplay music",
+          },
+          {
+            name: "SYNOPSIS",
+            value: "**lena autoplay** (on|off)\nalias: a",
+          },
+          {
+            name: "DESCRIPTION",
+            value:
+              "Autoplays a related track once the queue reaches the end if **on** is specified. Disables autoplay if **off** is specified. Defaults to **on**.",
+          },
+          {
+            name: "EXAMPLES",
+            value: `
 \`lena autoplay on\`
 \`lena autoplay off\`
 \`lena a off\`
 `,
-        },
-        {
-          name: "SEE ALSO",
-          value: `
+          },
+          {
+            name: "SEE ALSO",
+            value: `
 \`lena help what\`
 `,
-        },
-      ],
-    },
+          },
+        ],
+      },
+    ],
   },
 });

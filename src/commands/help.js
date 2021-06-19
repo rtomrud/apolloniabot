@@ -7,21 +7,22 @@ const help = async function (player, message, argv, commands) {
   }
 
   return message.reply({
-    embed: {
-      title: "Lena Bot",
-      url: "https://discord.gg/wp3HWnUDMa",
-      fields: [
-        {
-          name: "NAME",
-          value: `[Lena](https://discord.com/oauth2/authorize?client_id=${process.env.CLIENT_ID}&permissions=3165248&scope=bot%20applications.commands) - I play music`,
-        },
-        {
-          name: "SYNOPSIS",
-          value: "**lena** COMMAND [ARGS]",
-        },
-        {
-          name: "COMMANDS",
-          value: `
+    embeds: [
+      {
+        title: "Lena Bot",
+        url: "https://discord.gg/wp3HWnUDMa",
+        fields: [
+          {
+            name: "NAME",
+            value: `[Lena](https://discord.com/oauth2/authorize?client_id=${process.env.CLIENT_ID}&permissions=3165248&scope=bot%20applications.commands) - I play music`,
+          },
+          {
+            name: "SYNOPSIS",
+            value: "**lena** COMMAND [ARGS]",
+          },
+          {
+            name: "COMMANDS",
+            value: `
 **play**, **p** (URL|QUERY|FILE)
 **find**, **f** QUERY
 **pause**, **sh**
@@ -39,14 +40,14 @@ const help = async function (player, message, argv, commands) {
 **loop**, **l** (queue|track|off)
 **effect**, **e** EFFECT (on|off)
 `,
-        },
-        {
-          name: "EXAMPLES",
-          value: `\`lena play Bohemian Rhapsody\``,
-        },
-        {
-          name: "SEE ALSO",
-          value: `
+          },
+          {
+            name: "EXAMPLES",
+            value: `\`lena play Bohemian Rhapsody\``,
+          },
+          {
+            name: "SEE ALSO",
+            value: `
 \`lena help play\`
 \`lena help find\`
 \`lena help pause\`
@@ -64,44 +65,47 @@ const help = async function (player, message, argv, commands) {
 \`lena help loop\`
 \`lena help effect\`
 `,
-        },
-      ],
-    },
+          },
+        ],
+      },
+    ],
   });
 };
 
 module.exports = Object.assign(help, {
   aliases: ["--help"],
   usage: {
-    embed: {
-      fields: [
-        {
-          name: "NAME",
-          value: "**lena help** - Show help",
-        },
-        {
-          name: "SYNOPSIS",
-          value: "lena help [COMMAND]",
-        },
-        {
-          name: "DESCRIPTION",
-          value:
-            "Shows help. If a COMMAND is specified, it shows help about that command.",
-        },
-        {
-          name: "EXAMPLES",
-          value: `
+    embeds: [
+      {
+        fields: [
+          {
+            name: "NAME",
+            value: "**lena help** - Show help",
+          },
+          {
+            name: "SYNOPSIS",
+            value: "lena help [COMMAND]",
+          },
+          {
+            name: "DESCRIPTION",
+            value:
+              "Shows help. If a COMMAND is specified, it shows help about that command.",
+          },
+          {
+            name: "EXAMPLES",
+            value: `
 \`lena help play\`
 \`lena help effect\`
 `,
-        },
-        {
-          name: "SEE ALSO",
-          value: `
+          },
+          {
+            name: "SEE ALSO",
+            value: `
 \`lena who\`
 `,
-        },
-      ],
-    },
+          },
+        ],
+      },
+    ],
   },
 });

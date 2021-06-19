@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { Client, Permissions } = require("discord.js");
-const DisTube = require("distube");
+const { DisTube } = require("distube");
 const SpotifyPlugin = require("@distube/spotify");
 const commands = require("./commands/index.js");
 const formatSong = require("./format-song.js");
@@ -15,6 +15,7 @@ const permissions = SEND_MESSAGES + EMBED_LINKS;
 const separatorRegExp = /\s+/;
 
 const client = new Client({
+  allowedMentions: { parse: ["users"] },
   intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"],
   presence: { activity: { name: "lena", type: "LISTENING" } },
 });
@@ -38,32 +39,30 @@ const player = new DisTube(client, {
 })
   .on("addList", (queue, { formattedDuration, name, songs: { length }, url }) =>
     queue.textChannel.send({
-      embed: {
-        title: "Queued",
-        description: `[${name}](${url}) (${length} track${
-          length === 1 ? "" : "s"
-        }) [${formattedDuration}]`,
-      },
+      embeds: [
+        {
+          title: "Queued",
+          description: `[${name}](${url}) (${length} track${
+            length === 1 ? "" : "s"
+          }) [${formattedDuration}]`,
+        },
+      ],
     })
   )
   .on("addSong", (queue, song) =>
     queue.textChannel.send({
-      embed: { title: "Queued", description: formatSong(song) },
+      embeds: [{ title: "Queued", description: formatSong(song) }],
     })
   )
   .on("empty", (queue) =>
     queue.textChannel.send({
-      embed: { title: "Stopped", description: "The voice channel is empty" },
+      embeds: [{ title: "Stopped", description: "The voice channel is empty" }],
     })
   )
   .on("error", (channel, error) => {
     const description = error.message.endsWith(
-      "User is not in any voice channel."
+      "You do not have permission to join this voice channel."
     )
-      ? "I can't join you because you're not in a voice channel"
-      : error.message.endsWith(
-          "You do not have permission to join this voice channel."
-        )
       ? "I don't have permission to join your voice channel"
       : error.message.endsWith("No result!")
       ? "I can't find anything, check your URL or query"
@@ -75,15 +74,17 @@ const player = new DisTube(client, {
     }
 
     channel.send({
-      embed: {
-        title: "Error",
-        description: description || "I can't do that, sorry",
-      },
+      embeds: [
+        {
+          title: "Error",
+          description: description || "I can't do that, sorry",
+        },
+      ],
     });
   })
   .on("finish", (queue) =>
     queue.textChannel.send({
-      embed: { title: "Stopped", description: "The queue is finished" },
+      embeds: [{ title: "Stopped", description: "The queue is finished" }],
     })
   )
   .on("initQueue", (queue) => {
@@ -91,18 +92,22 @@ const player = new DisTube(client, {
   })
   .on("noRelated", (queue) =>
     queue.textChannel.send({
-      embed: {
-        title: "Stopped",
-        description: "The queue is finished and I can't autoplay anything",
-      },
+      embeds: [
+        {
+          title: "Stopped",
+          description: "The queue is finished and I can't autoplay anything",
+        },
+      ],
     })
   )
   .on("playSong", (queue, song) =>
     queue.textChannel.send({
-      embed: {
-        title: client.user === song.user ? "Autoplaying" : "Playing",
-        description: formatSong(song),
-      },
+      embeds: [
+        {
+          title: client.user === song.user ? "Autoplaying" : "Playing",
+          description: formatSong(song),
+        },
+      ],
     })
   );
 
@@ -110,10 +115,12 @@ client
   .on("guildCreate", ({ available, systemChannel }) => {
     if (available && systemChannel) {
       systemChannel.send({
-        embed: {
-          title: "Hi!",
-          description: `I play music. Type \`${prefix} help\` to find out what I can do for you.`,
-        },
+        embeds: [
+          {
+            title: "Hi!",
+            description: `I play music. Type \`${prefix} help\` to find out what I can do for you.`,
+          },
+        ],
       });
     }
   })
@@ -149,10 +156,12 @@ client
 
     if (!channel.permissionsFor(client.user).has(permissions)) {
       author.send({
-        embed: {
-          title: "Error",
-          description: `I don't have the Send Messages and Embed Links permissions in <#${channel.id}>`,
-        },
+        embeds: [
+          {
+            title: "Error",
+            description: `I don't have the Send Messages and Embed Links permissions in <#${channel.id}>`,
+          },
+        ],
       });
       return;
     }
@@ -161,10 +170,12 @@ client
     const command = commands(argv);
     if (!command) {
       message.reply({
-        embed: {
-          title: "Error",
-          description: `I don't know what you want, try \`${prefix} help\``,
-        },
+        embeds: [
+          {
+            title: "Error",
+            description: `I don't know what you want, try \`${prefix} help\``,
+          },
+        ],
       });
       return;
     }
