@@ -20,7 +20,7 @@ const client = new Client({
   presence: { activity: { name: "lena", type: "LISTENING" } },
 });
 
-const player = new DisTube(client, {
+const distube = new DisTube(client, {
   plugins: [new SpotifyPlugin({ parallel: true })],
   emitNewSongOnly: true,
   leaveOnEmpty: true,
@@ -36,9 +36,12 @@ const player = new DisTube(client, {
     1.75: "atempo=1.75",
     2: "atempo=2.0",
   },
-})
-  .on("addList", (queue, { formattedDuration, name, songs: { length }, url }) =>
-    queue.textChannel.send({
+});
+
+distube.on(
+  "addList",
+  ({ textChannel }, { formattedDuration, name, songs: { length }, url }) =>
+    textChannel.send({
       embeds: [
         {
           title: "Queued",
@@ -48,68 +51,72 @@ const player = new DisTube(client, {
         },
       ],
     })
-  )
-  .on("addSong", (queue, song) =>
-    queue.textChannel.send({
-      embeds: [{ title: "Queued", description: formatSong(song) }],
-    })
-  )
-  .on("empty", (queue) =>
-    queue.textChannel.send({
-      embeds: [{ title: "Stopped", description: "The voice channel is empty" }],
-    })
-  )
-  .on("error", (channel, error) => {
-    const description = error.message.endsWith(
-      "You do not have permission to join this voice channel."
-    )
-      ? "I don't have permission to join your voice channel"
-      : error.message.endsWith("No result!")
-      ? "I can't find anything, check your URL or query"
-      : error.message.includes("youtube-dl")
-      ? "I can't play that URL"
-      : "";
-    if (!description) {
-      client.emit("error", error);
-    }
+);
 
-    channel.send({
-      embeds: [
-        {
-          title: "Error",
-          description: description || "I can't do that, sorry",
-        },
-      ],
-    });
+distube.on("addSong", ({ textChannel }, song) =>
+  textChannel.send({
+    embeds: [{ title: "Queued", description: formatSong(song) }],
   })
-  .on("finish", (queue) =>
-    queue.textChannel.send({
-      embeds: [{ title: "Stopped", description: "The queue is finished" }],
-    })
-  )
-  .on("initQueue", (queue) => {
-    queue.autoplay = false;
+);
+
+distube.on("empty", ({ textChannel }) =>
+  textChannel.send({
+    embeds: [{ title: "Stopped", description: "The voice channel is empty" }],
   })
-  .on("noRelated", (queue) =>
-    queue.textChannel.send({
-      embeds: [
-        {
-          title: "Stopped",
-          description: "The queue is finished and I can't autoplay anything",
-        },
-      ],
-    })
+);
+
+distube.on("error", (channel, error) => {
+  const description = error.message.endsWith(
+    "You do not have permission to join this voice channel."
   )
-  .on("playSong", (queue, song) =>
-    queue.textChannel.send({
-      embeds: [
-        {
-          title: client.user === song.user ? "Autoplaying" : "Playing",
-          description: formatSong(song),
-        },
-      ],
-    })
-  );
+    ? "I don't have permission to join your voice channel"
+    : error.message.endsWith("No result!")
+    ? "I can't find anything, check your URL or query"
+    : error.message.includes("youtube-dl")
+    ? "I can't play that URL"
+    : "";
+  if (!description) {
+    client.emit("error", error);
+  }
+
+  channel.send({
+    embeds: [
+      { title: "Error", description: description || "I can't do that, sorry" },
+    ],
+  });
+});
+
+distube.on("finish", ({ textChannel }) =>
+  textChannel.send({
+    embeds: [{ title: "Stopped", description: "The queue is finished" }],
+  })
+);
+
+distube.on("initQueue", (queue) => {
+  queue.autoplay = false;
+});
+
+distube.on("noRelated", ({ textChannel }) =>
+  textChannel.send({
+    embeds: [
+      {
+        title: "Stopped",
+        description: "The queue is finished and I can't autoplay anything",
+      },
+    ],
+  })
+);
+
+distube.on("playSong", ({ textChannel }, song) =>
+  textChannel.send({
+    embeds: [
+      {
+        title: client.user === song.user ? "Autoplaying" : "Playing",
+        description: formatSong(song),
+      },
+    ],
+  })
+);
 
 client
   .on("guildCreate", ({ available, systemChannel }) => {
@@ -180,7 +187,7 @@ client
       return;
     }
 
-    command(player, message, argv, commands);
+    command(distube, message, argv, commands);
   })
   .once("ready", () => console.log(client.readyAt.toISOString(), "READY"))
   .login(process.env.TOKEN);
