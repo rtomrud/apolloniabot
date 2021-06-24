@@ -2,7 +2,6 @@ require("dotenv").config();
 const SpotifyPlugin = require("@distube/spotify");
 const { Client } = require("discord.js");
 const { DisTube } = require("distube");
-const sec = require("sec");
 const formatPlayback = require("./format-playback.js");
 const formatSong = require("./format-song.js");
 
@@ -493,17 +492,24 @@ client.on("interaction", async (interaction) => {
     }
 
     const { currentTime, songs } = queue;
-    const seconds = sec(interaction.options.get("time").value);
+    const time = interaction.options.get("time").value;
+    const seconds = time
+      .split(":")
+      .reduce(
+        (seconds, component, i, { length }) =>
+          seconds + Number(component) * 60 ** (length - i - 1),
+        0
+      );
     const mode = interaction.options.has("mode")
       ? interaction.options.get("mode").value
       : "";
-    const time =
+    const newTime =
       mode === "+"
         ? currentTime + seconds
         : mode === "-"
         ? currentTime - seconds
         : seconds;
-    queue.seek(Math.max(0, Math.min(time, songs[0].duration)));
+    queue.seek(Math.max(0, Math.min(newTime, songs[0].duration)));
     return interaction.reply({
       embeds: [{ title: "Seeked", description: formatPlayback(queue) }],
     });
