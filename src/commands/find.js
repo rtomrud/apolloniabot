@@ -1,0 +1,46 @@
+const { Interaction } = require("discord.js");
+const { default: DisTube } = require("distube");
+
+exports.data = {
+  name: "find",
+  description: "Search on YouTube and show the search results",
+  options: [
+    {
+      name: "query",
+      description: "The search query",
+      type: "STRING",
+      required: true,
+    },
+  ],
+};
+
+exports.handler = async function (
+  interaction = new Interaction(),
+  distube = new DisTube()
+) {
+  const query = interaction.options.get("query").value;
+  interaction.reply({ embeds: [{ title: "Searching", description: query }] });
+  return distube.search(query, { limit: 10 }).then(
+    (searchResults) =>
+      interaction.followUp({
+        embeds: [
+          {
+            title: "Results",
+            fields: searchResults.map(
+              ({ formattedDuration, name, type, uploader, url }) => ({
+                name: uploader.name || "[Unknown]",
+                value: `[${name}](${url}) [${
+                  type === "video" ? formattedDuration : "Playlist"
+                }]`,
+              })
+            ),
+            footer: { text: "Powered by YouTube" },
+          },
+        ],
+      }),
+    () =>
+      interaction.followUp({
+        embeds: [{ title: "Error", description: "I couldn't find anything" }],
+      })
+  );
+};
