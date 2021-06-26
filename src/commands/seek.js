@@ -17,8 +17,8 @@ exports.data = {
       description: "Whether to seek forward or back by the specified time",
       type: "STRING",
       choices: [
-        { name: "back", value: "-" },
-        { name: "forward", value: "+" },
+        { name: "back", value: "back" },
+        { name: "forward", value: "forward" },
       ],
     },
   ],
@@ -47,9 +47,9 @@ exports.handler = async function (
     ? interaction.options.get("mode").value
     : "";
   const newTime =
-    mode === "+"
+    mode === "forward"
       ? queue.currentTime + seconds
-      : mode === "-"
+      : mode === "back"
       ? queue.currentTime - seconds
       : seconds;
   queue.seek(Math.max(0, Math.min(newTime, queue.songs[0].duration)));

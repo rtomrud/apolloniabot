@@ -11,9 +11,9 @@ exports.data = {
       type: "STRING",
       required: true,
       choices: [
-        { name: "off", value: "0" },
-        { name: "queue", value: "2" },
-        { name: "track", value: "1" },
+        { name: "off", value: "off" },
+        { name: "queue", value: "queue" },
+        { name: "track", value: "track" },
       ],
     },
   ],
@@ -30,9 +30,7 @@ exports.handler = async function (
     });
   }
 
-  const mode = Number(interaction.options.values().next().value.value);
-  const repeatMode = queue.setRepeatMode(mode);
-  return interaction.reply({
-    embeds: [{ description: `Loop: ${["off", "track", "queue"][repeatMode]}` }],
-  });
+  const mode = interaction.options.values().next().value.value;
+  queue.setRepeatMode(mode === "off" ? 0 : mode === "track" ? 1 : 2);
+  return interaction.reply({ embeds: [{ description: `Loop: ${mode}` }] });
 };
