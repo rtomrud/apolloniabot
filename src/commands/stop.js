@@ -14,11 +14,13 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing to stop" }],
+      embeds: [{ description: "Error: Nothing to stop" }],
     });
   }
 
-  const description = queue.playing ? formatPlayback(queue) : "";
+  const playback = queue.playing ? formatPlayback(queue) : "";
   queue.stop();
-  return interaction.reply({ embeds: [{ title: "Stopped", description }] });
+  return interaction.reply({
+    embeds: [{ description: `Stopped ${playback}` }],
+  });
 };

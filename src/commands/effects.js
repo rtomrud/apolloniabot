@@ -29,13 +29,13 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue || !queue.playing) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing to apply effects to" }],
+      embeds: [{ description: "Error: Nothing to apply effects to" }],
     });
   }
 
   const filter = interaction.options.get("effect").value;
   const filters = queue.setFilter(filter);
   return interaction.reply({
-    embeds: [{ title: "Effects", description: filters.join(", ") || "off" }],
+    embeds: [{ description: `Effects: ${filters.join(", ") || "off"}` }],
   });
 };

@@ -13,10 +13,10 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue || queue.songs.length <= 1) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing to shuffle" }],
+      embeds: [{ description: "Error: Nothing to shuffle" }],
     });
   }
 
   queue.shuffle();
-  return interaction.reply({ embeds: [{ title: "Shuffled the queue" }] });
+  return interaction.reply({ embeds: [{ description: "Shuffled the queue" }] });
 };

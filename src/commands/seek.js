@@ -31,7 +31,7 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue || !queue.playing) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing to seek on" }],
+      embeds: [{ description: "Error: Nothing to seek on" }],
     });
   }
 
@@ -54,6 +54,6 @@ exports.handler = async function (
       : seconds;
   queue.seek(Math.max(0, Math.min(newTime, queue.songs[0].duration)));
   return interaction.reply({
-    embeds: [{ title: "Seeked", description: formatPlayback(queue) }],
+    embeds: [{ description: `Seeked ${formatPlayback(queue)}` }],
   });
 };

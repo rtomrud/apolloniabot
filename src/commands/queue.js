@@ -22,7 +22,7 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing in queue" }],
+      embeds: [{ description: "Error: Nothing in queue" }],
     });
   }
 
@@ -33,7 +33,7 @@ exports.handler = async function (
   const pageCount = Math.ceil(queue.songs.length / pageSize);
   if (page === 0 || page > pageCount) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "No such page in the queue" }],
+      embeds: [{ description: "Error: No such page in the queue" }],
     });
   }
 

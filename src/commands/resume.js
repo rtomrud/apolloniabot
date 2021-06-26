@@ -14,12 +14,12 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue || queue.playing) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing to resume" }],
+      embeds: [{ description: "Error: Nothing to resume" }],
     });
   }
 
   queue.resume();
   return interaction.reply({
-    embeds: [{ title: "Resumed", description: formatPlayback(queue) }],
+    embeds: [{ description: `Resumed ${formatPlayback(queue)}` }],
   });
 };

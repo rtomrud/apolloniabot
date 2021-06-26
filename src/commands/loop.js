@@ -26,15 +26,13 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing to loop" }],
+      embeds: [{ description: "Error: Nothing to loop" }],
     });
   }
 
   const mode = Number(interaction.options.values().next().value.value);
   const repeatMode = queue.setRepeatMode(mode);
   return interaction.reply({
-    embeds: [
-      { title: "Loop", description: ["off", "track", "queue"][repeatMode] },
-    ],
+    embeds: [{ description: `Loop: ${["off", "track", "queue"][repeatMode]}` }],
   });
 };

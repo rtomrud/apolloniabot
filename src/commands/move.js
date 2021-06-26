@@ -27,7 +27,7 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue || queue.songs.length <= 1) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing to move" }],
+      embeds: [{ description: "Error: Nothing to move" }],
     });
   }
 
@@ -35,13 +35,13 @@ exports.handler = async function (
   const position = interaction.options.get("position").value;
   if (track === 0 || track > queue.songs.length) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "No such track" }],
+      embeds: [{ description: "Error: No such track" }],
     });
   }
 
   if (position === 0 || position > queue.songs.length) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "No such position" }],
+      embeds: [{ description: "Error: No such position" }],
     });
   }
 
@@ -56,11 +56,6 @@ exports.handler = async function (
   }
 
   return interaction.reply({
-    embeds: [
-      {
-        title: "Moved",
-        description: `track ${from + 1} to position ${to + 1}`,
-      },
-    ],
+    embeds: [{ description: `Moved track ${from + 1} to position ${to + 1}` }],
   });
 };

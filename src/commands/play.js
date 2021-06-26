@@ -31,8 +31,8 @@ exports.handler = async function (
     return interaction.reply({
       embeds: [
         {
-          title: "Error",
-          description: "I can't join you because you're not in a voice channel",
+          description:
+            "Error: I can't join you because you're not in a voice channel",
         },
       ],
     });
@@ -45,6 +45,6 @@ exports.handler = async function (
   const textChannel = await distube.client.channels.fetch(channelID);
   distube.playVoiceChannel(voiceChannel, query, { skip, member, textChannel });
   return interaction.reply({
-    embeds: [{ title: "Searching", description: query }],
+    embeds: [{ description: `Searching "${query}"` }],
   });
 };

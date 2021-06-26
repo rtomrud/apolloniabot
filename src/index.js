@@ -24,8 +24,7 @@ distube.on("addList", (queue, playlist) =>
   queue.textChannel.send({
     embeds: [
       {
-        title: "Queued",
-        description: `[${playlist.name}](${playlist.url}) (${
+        description: `Queued [${playlist.name}](${playlist.url}) (${
           playlist.songs.length
         } track${playlist.songs.length === 1 ? "" : "s"}) [${
           playlist.formattedDuration
@@ -37,13 +36,13 @@ distube.on("addList", (queue, playlist) =>
 
 distube.on("addSong", (queue, song) =>
   queue.textChannel.send({
-    embeds: [{ title: "Queued", description: formatSong(song) }],
+    embeds: [{ description: `Queued ${formatSong(song)}` }],
   })
 );
 
 distube.on("empty", (queue) =>
   queue.textChannel.send({
-    embeds: [{ title: "Stopped", description: "The voice channel is empty" }],
+    embeds: [{ description: "Stopped because the voice channel is empty" }],
   })
 );
 
@@ -51,26 +50,24 @@ distube.on("error", (channel, error) => {
   const description = error.message.endsWith(
     "You do not have permission to join this voice channel."
   )
-    ? "I don't have permission to join your voice channel"
+    ? "Error: I don't have permission to join your voice channel"
     : error.message.endsWith("No result!")
-    ? "I can't find anything, check your URL or query"
+    ? "Error: I can't find anything, check your URL or query"
     : error.message.includes("youtube-dl")
-    ? "I can't play that URL"
+    ? "Error: I can't play that URL"
     : "";
   if (!description) {
     client.emit("error", error);
   }
 
   channel.send({
-    embeds: [
-      { title: "Error", description: description || "I can't do that, sorry" },
-    ],
+    embeds: [{ description: description || "Error: I can't do that, sorry" }],
   });
 });
 
 distube.on("finish", (queue) =>
   queue.textChannel.send({
-    embeds: [{ title: "Stopped", description: "The queue is finished" }],
+    embeds: [{ description: "Stopped because the queue is finished" }],
   })
 );
 
@@ -82,8 +79,8 @@ distube.on("noRelated", (queue) =>
   queue.textChannel.send({
     embeds: [
       {
-        title: "Stopped",
-        description: "The queue is finished and I can't autoplay anything",
+        description:
+          "Stopped because the queue is finished and I can't autoplay anything",
       },
     ],
   })
@@ -93,8 +90,9 @@ distube.on("playSong", (queue, song) =>
   queue.textChannel.send({
     embeds: [
       {
-        title: client.user === song.user ? "Autoplaying" : "Playing",
-        description: formatSong(song),
+        description: `${
+          client.user === song.user ? "Autoplaying" : "Playing"
+        } ${formatSong(song)}`,
       },
     ],
   })
@@ -105,9 +103,8 @@ client.on("guildCreate", (guild) => {
     guild.systemChannel.send({
       embeds: [
         {
-          title: "Hi!",
           description:
-            "I play music. Type `/help` to find out what I can do for you.",
+            "Hi! I play music. Type `/help` to find out what I can do for you.",
         },
       ],
     });
@@ -137,7 +134,7 @@ client.on("interaction", (interaction) => {
   const command = commands[interaction.commandName];
   if (!command) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "I can't do that yet, sorry" }],
+      embeds: [{ description: "Error: I can't do that yet, sorry" }],
     });
   }
 

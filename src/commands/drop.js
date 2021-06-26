@@ -22,14 +22,14 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing to drop" }],
+      embeds: [{ description: "Error: Nothing to drop" }],
     });
   }
 
   const track = interaction.options.get("track").value;
   if (track === 0 || track > queue.songs.length) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "No such track" }],
+      embeds: [{ description: "Error: No such track" }],
     });
   }
 
@@ -48,10 +48,7 @@ exports.handler = async function (
 
   return interaction.reply({
     embeds: [
-      {
-        title: "Dropped",
-        fields: [{ name: String(start + 1), value: formatSong(song) }],
-      },
+      { description: `Dropped track ${start + 1}: ${formatSong(song)}` },
     ],
   });
 };

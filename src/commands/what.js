@@ -14,7 +14,7 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Nothing in queue" }],
+      embeds: [{ description: "Error: Nothing in queue" }],
     });
   }
 

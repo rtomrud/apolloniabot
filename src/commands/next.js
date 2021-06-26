@@ -14,13 +14,13 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue || (queue.songs.length <= 1 && !queue.autoplay)) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing to skip" }],
+      embeds: [{ description: "Error: Nothing to skip" }],
     });
   }
 
   const [song] = queue.songs;
   queue.skip();
   return interaction.reply({
-    embeds: [{ title: "Skipped", description: formatSong(song) }],
+    embeds: [{ description: `Skipped ${formatSong(song)}` }],
   });
 };

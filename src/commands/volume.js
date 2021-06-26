@@ -21,16 +21,14 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing to set volume to" }],
+      embeds: [{ description: "Error: Nothing to set volume to" }],
     });
   }
 
   const percent = interaction.options.get("percent").value;
   if (percent <= 0) {
     return interaction.reply({
-      embeds: [
-        { title: "Error", description: "I can't set the volume that low" },
-      ],
+      embeds: [{ description: "Error: I can't set the volume that low" }],
     });
   }
 
@@ -38,15 +36,13 @@ exports.handler = async function (
     return interaction.reply({
       embeds: [
         {
-          title: "Error",
-          description: "I can't [go to 11](https://youtu.be/4xgx4k83zzc)",
+          description:
+            "Error: I can't [go to 11](https://youtu.be/4xgx4k83zzc)",
         },
       ],
     });
   }
 
   queue.setVolume(percent);
-  return interaction.reply({
-    embeds: [{ title: "Volume", description: percent }],
-  });
+  return interaction.reply({ embeds: [{ description: `Volume: ${percent}` }] });
 };

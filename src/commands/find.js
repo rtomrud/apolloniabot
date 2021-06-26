@@ -19,7 +19,7 @@ exports.handler = async function (
   distube = new DisTube()
 ) {
   const query = interaction.options.get("query").value;
-  interaction.reply({ embeds: [{ title: "Searching", description: query }] });
+  interaction.reply({ embeds: [{ description: `Searching "${query}"` }] });
   return distube.search(query, { limit: 10 }).then(
     (searchResults) =>
       interaction.followUp({
@@ -40,7 +40,7 @@ exports.handler = async function (
       }),
     () =>
       interaction.followUp({
-        embeds: [{ title: "Error", description: "I couldn't find anything" }],
+        embeds: [{ description: "Error: I couldn't find anything" }],
       })
   );
 };

@@ -13,12 +13,12 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing to autoplay" }],
+      embeds: [{ description: "Error: Nothing to autoplay" }],
     });
   }
 
   const autoplay = queue.toggleAutoplay();
   return interaction.reply({
-    embeds: [{ title: "Autoplay", description: autoplay ? "on" : "off" }],
+    embeds: [{ description: `Autoplay: **${autoplay ? "on" : "off"}**` }],
   });
 };
