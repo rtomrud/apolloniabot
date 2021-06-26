@@ -1,4 +1,4 @@
-const { Interaction } = require("discord.js");
+const { CommandInteraction } = require("discord.js");
 const { default: DisTube } = require("distube");
 const formatPlayback = require("../format-playback.js");
 const formatSong = require("../format-song.js");
@@ -16,7 +16,7 @@ exports.data = {
 };
 
 exports.handler = async function (
-  interaction = new Interaction(),
+  interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {
   const queue = distube.queues.get(interaction.guildID);

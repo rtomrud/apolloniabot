@@ -1,4 +1,4 @@
-const { Interaction } = require("discord.js");
+const { CommandInteraction } = require("discord.js");
 const { default: DisTube } = require("distube");
 
 exports.data = {
@@ -22,7 +22,7 @@ exports.data = {
 };
 
 exports.handler = async function (
-  interaction = new Interaction(),
+  interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {
   const { channelID, member } = interaction;
