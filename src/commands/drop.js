@@ -30,9 +30,7 @@ exports.handler = async function (
   const track = interaction.options.get("track").value;
   if (track === 0 || track > length) {
     return interaction.reply({
-      embeds: [
-        { title: "Error", description: "Nothing to drop at that position" },
-      ],
+      embeds: [{ title: "Error", description: "No such track" }],
     });
   }
 
