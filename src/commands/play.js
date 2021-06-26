@@ -12,6 +12,12 @@ exports.data = {
       type: "STRING",
       required: true,
     },
+    {
+      name: "skip",
+      description:
+        "Whether to skip the current track (if any) and play it immediately (instead of queueing it up)",
+      type: "BOOLEAN",
+    },
   ],
 };
 
@@ -33,8 +39,11 @@ exports.handler = async function (
   }
 
   const query = interaction.options.get("query").value;
+  const skip = interaction.options.has("skip")
+    ? interaction.options.get("skip").value
+    : false;
   const textChannel = await distube.client.channels.fetch(channelID);
-  distube.playVoiceChannel(voiceChannel, query, { member, textChannel });
+  distube.playVoiceChannel(voiceChannel, query, { skip, member, textChannel });
   return interaction.reply({
     embeds: [{ title: "Searching", description: query }],
   });
