@@ -23,6 +23,7 @@ exports.handler = async function (
   if (!queue) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing in queue" }],
+      ephemeral: true,
     });
   }
 
@@ -34,6 +35,7 @@ exports.handler = async function (
   if (page === 0 || page > pageCount) {
     return interaction.reply({
       embeds: [{ description: "Error: No such page in the queue" }],
+      ephemeral: true,
     });
   }
 
@@ -55,5 +57,6 @@ exports.handler = async function (
         footer: { text: `Page ${pageIndex + 1} of ${pageCount}` },
       },
     ],
+    ephemeral: true,
   });
 };

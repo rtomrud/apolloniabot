@@ -37,10 +37,12 @@ exports.handler = async function (
             footer: { text: "Powered by YouTube" },
           },
         ],
+        ephemeral: true,
       }),
     () =>
       interaction.followUp({
         embeds: [{ description: "Error: I couldn't find anything" }],
+        ephemeral: true,
       })
   );
 };

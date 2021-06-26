@@ -15,6 +15,7 @@ exports.handler = async function (
   if (!queue) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing in queue" }],
+      ephemeral: true,
     });
   }
 
@@ -59,5 +60,6 @@ exports.handler = async function (
         ],
       },
     ],
+    ephemeral: true,
   });
 };
