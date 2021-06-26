@@ -30,11 +30,6 @@ exports.handler = async function (
             inline: true,
           },
           {
-            name: "Volume",
-            value: String(queue.volume),
-            inline: true,
-          },
-          {
             name: "Queue",
             value: `${queue.songs.length} track${
               queue.songs.length === 1 ? "" : "s"
@@ -42,8 +37,13 @@ exports.handler = async function (
             inline: true,
           },
           {
-            name: "Effects",
-            value: queue.filters.join(", ") || "off",
+            name: "Volume",
+            value: String(queue.volume),
+            inline: true,
+          },
+          {
+            name: "Autoplay",
+            value: queue.autoplay ? "on" : "off",
             inline: true,
           },
           {
@@ -52,8 +52,8 @@ exports.handler = async function (
             inline: true,
           },
           {
-            name: "Autoplay",
-            value: queue.autoplay ? "on" : "off",
+            name: "Effects",
+            value: queue.filters.join(", ") || "off",
             inline: true,
           },
         ],
