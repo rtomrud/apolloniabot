@@ -25,8 +25,7 @@ exports.handler = async function (
   distube = new DisTube()
 ) {
   const queue = distube.queues.get(interaction.guildID);
-  const { length } = queue.songs;
-  if (!queue || length <= 1) {
+  if (!queue || queue.songs.length <= 1) {
     return interaction.reply({
       embeds: [{ title: "Error", description: "Nothing to move" }],
     });
@@ -34,20 +33,21 @@ exports.handler = async function (
 
   const track = interaction.options.get("track").value;
   const position = interaction.options.get("position").value;
-  if (track === 0 || track > length) {
+  if (track === 0 || track > queue.songs.length) {
     return interaction.reply({
       embeds: [{ title: "Error", description: "No such track" }],
     });
   }
 
-  if (position === 0 || position > length) {
+  if (position === 0 || position > queue.songs.length) {
     return interaction.reply({
       embeds: [{ title: "Error", description: "No such position" }],
     });
   }
 
-  const from = track < 0 ? Math.max(0, length + track) : track - 1;
-  const to = position < 0 ? Math.max(0, length + position) : position - 1;
+  const from = track < 0 ? Math.max(0, queue.songs.length + track) : track - 1;
+  const to =
+    position < 0 ? Math.max(0, queue.songs.length + position) : position - 1;
   const [song] = queue.songs;
   queue.songs.splice(to, 0, queue.songs.splice(from, 1)[0]);
   if (from === 0 || to === 0) {

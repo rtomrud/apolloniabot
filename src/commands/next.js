@@ -18,9 +18,9 @@ exports.handler = async function (
     });
   }
 
-  const [previousSong] = queue.songs;
+  const [song] = queue.songs;
   queue.skip();
   return interaction.reply({
-    embeds: [{ title: "Skipped", description: formatSong(previousSong) }],
+    embeds: [{ title: "Skipped", description: formatSong(song) }],
   });
 };

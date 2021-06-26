@@ -26,19 +26,18 @@ exports.handler = async function (
     });
   }
 
-  const { length } = queue.songs;
   const track = interaction.options.get("track").value;
-  if (track === 0 || track > length) {
+  if (track === 0 || track > queue.songs.length) {
     return interaction.reply({
       embeds: [{ title: "Error", description: "No such track" }],
     });
   }
 
-  const start = track < 0 ? Math.max(0, length + track) : track - 1;
+  const start = track < 0 ? Math.max(0, queue.songs.length + track) : track - 1;
   let song;
   if (start === 0) {
     [song] = queue.songs;
-    if (length <= 1 && !queue.autoplay) {
+    if (queue.songs.length <= 1 && !queue.autoplay) {
       queue.stop();
     } else {
       queue.skip();

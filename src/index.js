@@ -20,29 +20,29 @@ const distube = new DisTube(client, {
   savePreviousSongs: false,
 });
 
-distube.on(
-  "addList",
-  ({ textChannel }, { formattedDuration, name, songs: { length }, url }) =>
-    textChannel.send({
-      embeds: [
-        {
-          title: "Queued",
-          description: `[${name}](${url}) (${length} track${
-            length === 1 ? "" : "s"
-          }) [${formattedDuration}]`,
-        },
-      ],
-    })
+distube.on("addList", (queue, playlist) =>
+  queue.textChannel.send({
+    embeds: [
+      {
+        title: "Queued",
+        description: `[${playlist.name}](${playlist.url}) (${
+          playlist.songs.length
+        } track${playlist.songs.length === 1 ? "" : "s"}) [${
+          playlist.formattedDuration
+        }]`,
+      },
+    ],
+  })
 );
 
-distube.on("addSong", ({ textChannel }, song) =>
-  textChannel.send({
+distube.on("addSong", (queue, song) =>
+  queue.textChannel.send({
     embeds: [{ title: "Queued", description: formatSong(song) }],
   })
 );
 
-distube.on("empty", ({ textChannel }) =>
-  textChannel.send({
+distube.on("empty", (queue) =>
+  queue.textChannel.send({
     embeds: [{ title: "Stopped", description: "The voice channel is empty" }],
   })
 );
@@ -68,8 +68,8 @@ distube.on("error", (channel, error) => {
   });
 });
 
-distube.on("finish", ({ textChannel }) =>
-  textChannel.send({
+distube.on("finish", (queue) =>
+  queue.textChannel.send({
     embeds: [{ title: "Stopped", description: "The queue is finished" }],
   })
 );
@@ -78,8 +78,8 @@ distube.on("initQueue", (queue) => {
   queue.autoplay = false;
 });
 
-distube.on("noRelated", ({ textChannel }) =>
-  textChannel.send({
+distube.on("noRelated", (queue) =>
+  queue.textChannel.send({
     embeds: [
       {
         title: "Stopped",
@@ -89,8 +89,8 @@ distube.on("noRelated", ({ textChannel }) =>
   })
 );
 
-distube.on("playSong", ({ textChannel }, song) =>
-  textChannel.send({
+distube.on("playSong", (queue, song) =>
+  queue.textChannel.send({
     embeds: [
       {
         title: client.user === song.user ? "Autoplaying" : "Playing",
@@ -100,9 +100,9 @@ distube.on("playSong", ({ textChannel }, song) =>
   })
 );
 
-client.on("guildCreate", ({ available, systemChannel }) => {
-  if (available && systemChannel) {
-    systemChannel.send({
+client.on("guildCreate", (guild) => {
+  if (guild.available && guild.systemChannel) {
+    guild.systemChannel.send({
       embeds: [
         {
           title: "Hi!",
@@ -146,12 +146,11 @@ client.on("interaction", (interaction) => {
 
 client.once("ready", async () => {
   console.log(client.readyAt.toISOString(), "READY");
-  const { application } = client;
-  if (!application.owner) {
-    await application.fetch();
+  if (!client.application.owner) {
+    await client.application.fetch();
   }
 
-  await application.commands.set(
+  await client.application.commands.set(
     Object.values(commands).map(({ data }) => data),
     process.env.GUILD_ID
   );

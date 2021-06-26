@@ -18,31 +18,44 @@ exports.handler = async function (
     });
   }
 
-  const { autoplay, filters, formattedDuration, repeatMode, songs, volume } =
-    queue;
-  const { length } = songs;
   return interaction.reply({
     embeds: [
       {
         title: queue.playing ? "Now playing" : "Now paused",
         description: formatPlayback(queue),
         fields: [
-          { name: "Requester", value: songs[0].user.toString(), inline: true },
-          { name: "Volume", value: String(volume), inline: true },
+          {
+            name: "Requester",
+            value: queue.songs[0].user.toString(),
+            inline: true,
+          },
+          {
+            name: "Volume",
+            value: String(queue.volume),
+            inline: true,
+          },
           {
             name: "Queue",
-            value: `${length} track${
-              length === 1 ? "" : "s"
-            } [${formattedDuration}]`,
+            value: `${queue.songs.length} track${
+              queue.songs.length === 1 ? "" : "s"
+            } [${queue.formattedDuration}]`,
             inline: true,
           },
-          { name: "Effects", value: filters.join(", ") || "off", inline: true },
+          {
+            name: "Effects",
+            value: queue.filters.join(", ") || "off",
+            inline: true,
+          },
           {
             name: "Loop",
-            value: ["off", "track", "queue"][repeatMode],
+            value: ["off", "track", "queue"][queue.repeatMode],
             inline: true,
           },
-          { name: "Autoplay", value: autoplay ? "on" : "off", inline: true },
+          {
+            name: "Autoplay",
+            value: queue.autoplay ? "on" : "off",
+            inline: true,
+          },
         ],
       },
     ],

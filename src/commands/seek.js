@@ -35,7 +35,6 @@ exports.handler = async function (
     });
   }
 
-  const { currentTime, songs } = queue;
   const time = interaction.options.get("time").value;
   const seconds = time
     .split(":")
@@ -49,11 +48,11 @@ exports.handler = async function (
     : "";
   const newTime =
     mode === "+"
-      ? currentTime + seconds
+      ? queue.currentTime + seconds
       : mode === "-"
-      ? currentTime - seconds
+      ? queue.currentTime - seconds
       : seconds;
-  queue.seek(Math.max(0, Math.min(newTime, songs[0].duration)));
+  queue.seek(Math.max(0, Math.min(newTime, queue.songs[0].duration)));
   return interaction.reply({
     embeds: [{ title: "Seeked", description: formatPlayback(queue) }],
   });
