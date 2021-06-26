@@ -2,7 +2,7 @@ const { Interaction } = require("discord.js");
 const { default: DisTube } = require("distube");
 
 exports.data = {
-  name: "effect",
+  name: "effects",
   description: "Toggles the specified effect",
   options: [
     {
@@ -29,7 +29,7 @@ exports.handler = async function (
   const queue = distube.queues.get(interaction.guildID);
   if (!queue || !queue.playing) {
     return interaction.reply({
-      embeds: [{ title: "Error", description: "Nothing to apply effect to" }],
+      embeds: [{ title: "Error", description: "Nothing to apply effects to" }],
     });
   }
 

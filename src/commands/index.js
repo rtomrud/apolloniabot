@@ -1,6 +1,6 @@
 const autoplay = require("./autoplay.js");
 const drop = require("./drop.js");
-const effect = require("./effect.js");
+const effects = require("./effects.js");
 const find = require("./find.js");
 const help = require("./help.js");
 const loop = require("./loop.js");
@@ -19,7 +19,7 @@ const what = require("./what.js");
 module.exports = {
   autoplay,
   drop,
-  effect,
+  effects,
   find,
   help,
   loop,
