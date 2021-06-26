@@ -36,19 +36,19 @@ exports.handler = async function (
     });
   }
 
-  if (track === 1 && queue.playing) {
-    return interaction.reply({
-      embeds: [
-        {
-          title: "Error",
-          description: "I can't drop track 1 because it's playing now",
-        },
-      ],
-    });
+  const start = track < 0 ? Math.max(0, length + track) : track - 1;
+  let song;
+  if (start === 0) {
+    [song] = queue.songs;
+    if (length <= 1 && !queue.autoplay) {
+      queue.stop();
+    } else {
+      queue.skip();
+    }
+  } else {
+    [song] = queue.songs.splice(start, 1);
   }
 
-  const start = track < 0 ? Math.max(0, length + track) : track - 1;
-  const [song] = queue.songs.splice(start, 1);
   return interaction.reply({
     embeds: [
       {
