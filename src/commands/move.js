@@ -40,7 +40,7 @@ exports.handler = async function (
     });
   }
 
-  if (position < 1 || position > length) {
+  if (position === 0 || position > length) {
     return interaction.reply({
       embeds: [{ title: "Error", description: "No such position" }],
     });
