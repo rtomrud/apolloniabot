@@ -32,15 +32,16 @@ exports.handler = async function (
   const { formattedDuration, songs } = queue;
   const { length } = songs;
   const pageSize = 10;
-  const pages = Math.ceil(length / pageSize);
-  if (page < 1 || page > pages) {
+  const pageCount = Math.ceil(length / pageSize);
+  if (page === 0 || page > pageCount) {
     return interaction.reply({
       embeds: [{ title: "Error", description: "No such page in the queue" }],
     });
   }
 
-  const start = (page - 1) * pageSize;
-  const end = Math.min(page * pageSize, length);
+  const pageIndex = page < 0 ? Math.max(0, pageCount + page) : page - 1;
+  const start = pageIndex * pageSize;
+  const end = Math.min((pageIndex + 1) * pageSize, length);
   return interaction.reply({
     embeds: [
       {
@@ -52,7 +53,7 @@ exports.handler = async function (
           name: String(i + start + 1),
           value: song === songs[0] ? formatPlayback(queue) : formatSong(song),
         })),
-        footer: { text: `Page ${page} of ${pages}` },
+        footer: { text: `Page ${pageIndex + 1} of ${pageCount}` },
       },
     ],
   });
