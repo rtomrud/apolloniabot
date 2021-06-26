@@ -10,7 +10,7 @@ exports.handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {
-  const commands = await interaction.guild.commands
+  const commands = await distube.client.application.commands
     .fetch()
     .catch(() => new Collection());
   return interaction.reply({
