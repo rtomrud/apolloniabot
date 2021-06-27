@@ -1,7 +1,7 @@
 terraform {
-  required_version = "~> 0.15"
+  required_version = "~> 1.0.0"
   required_providers {
-    aws = "~> 3.42"
+    aws = "~> 3.47"
   }
   backend "s3" {
     key     = "terraform.tfstate"
@@ -18,7 +18,7 @@ data "aws_ami" "this" {
   most_recent = true
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-hirsute-21.04-arm64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-hirsute-21.04-arm64-server-20210602"]
   }
   owners = ["099720109477"] # Canonical
 }
