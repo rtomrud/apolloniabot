@@ -86,7 +86,7 @@ apt update
 apt upgrade -y
 apt install -y ffmpeg
 apt install -y build-essential
-curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 apt install -y nodejs
 EOF
   vpc_security_group_ids = [aws_security_group.this.id]
