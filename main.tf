@@ -82,6 +82,8 @@ resource "aws_instance" "this" {
   subnet_id              = aws_subnet.this.id
   user_data              = <<EOF
 #!/bin/bash
+apt update
+apt upgrade -y
 apt install -y ffmpeg
 apt install -y build-essential
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
