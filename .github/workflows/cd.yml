@@ -20,6 +20,12 @@ jobs:
           ssh-keyscan -H "$HOSTNAME" >> ~/.ssh/known_hosts
           echo "$PRIVATE_KEY" > ~/.ssh/id
           chmod 600 ~/.ssh/id
-      - run: ssh $USER@$HOSTNAME 'mkdir -p ~/lenabot/ && cd ~/lenabot/ && npm stop || true'
+          cat >> ~/.ssh/config <<END
+          Host id
+            HostName $HOSTNAME
+            User $USER
+            IdentityFile ~/.ssh/id
+          END
+      - run: ssh id 'mkdir -p ~/lenabot/ && cd ~/lenabot/ && npm stop || true'
       - run: rsync -avz --exclude '.git' ./ $USER@$HOSTNAME:/home/$USER/lenabot/
-      - run: ssh $USER@$HOSTNAME 'cd ~/lenabot/ && npm install && npm start'
+      - run: ssh id 'cd ~/lenabot/ && npm install && npm start'
