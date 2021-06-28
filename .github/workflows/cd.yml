@@ -13,7 +13,7 @@ jobs:
       USER: ${{ secrets.USER }}
     steps:
       - uses: actions/checkout@v2
-      - run: echo "$TOKEN" > .env
+      - run: echo "TOKEN=$TOKEN" > .env
       - run: |
           mkdir -p ~/.ssh/
           touch ~/.ssh/known_hosts
