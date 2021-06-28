@@ -86,11 +86,8 @@ apt update
 apt upgrade -y
 apt install -y ffmpeg
 apt install -y build-essential
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-nvm install --lts
+curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+apt install -y nodejs
 EOF
   vpc_security_group_ids = [aws_security_group.this.id]
   tags                   = var.tags
