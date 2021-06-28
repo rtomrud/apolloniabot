@@ -1,0 +1,25 @@
+name: cd
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      HOSTNAME: ${{ secrets.HOSTNAME }}
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      TOKEN: ${{ secrets.TOKEN }}
+      USER: ${{ secrets.USER }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo "$TOKEN" > .env
+      - run: |
+          mkdir -p ~/.ssh/
+          touch ~/.ssh/known_hosts
+          ssh-keyscan -H "$HOSTNAME" >> ~/.ssh/known_hosts
+          echo "$PRIVATE_KEY" > ~/.ssh/id
+          chmod 600 ~/.ssh/id
+      - run: ssh $USER@$HOSTNAME 'mkdir -p ~/lenabot/ && cd ~/lenabot/ && npm stop || true'
+      - run: rsync -avz --exclude '.git' ./ $USER@$HOSTNAME:/home/$USER/lenabot/
+      - run: ssh $USER@$HOSTNAME 'cd ~/lenabot/ && npm install && npm start'
