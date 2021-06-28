@@ -18,7 +18,7 @@ data "aws_ami" "this" {
   most_recent = true
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-hirsute-21.04-arm64-server-20210602"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-hirsute-21.04-arm64-server-20210622.1"]
   }
   owners = ["099720109477"] # Canonical
 }
