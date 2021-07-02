@@ -147,10 +147,12 @@ client.once("ready", async () => {
     await client.application.fetch();
   }
 
-  await client.application.commands.set(
-    Object.values(commands).map(({ data }) => data),
-    process.env.GUILD_ID
-  );
+  await client.application.commands
+    .set(
+      Object.values(commands).map(({ data }) => data),
+      process.env.GUILD_ID
+    )
+    .catch(({ message }) => console.error(message));
 });
 
 client.login(process.env.TOKEN);
