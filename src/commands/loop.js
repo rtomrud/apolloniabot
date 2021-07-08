@@ -30,7 +30,7 @@ exports.handler = async function (
     });
   }
 
-  const mode = interaction.options.values().next().value.value;
-  queue.setRepeatMode(mode === "off" ? 0 : mode === "track" ? 1 : 2);
+  const mode = interaction.options.get("mode")?.value;
+  queue.setRepeatMode(mode === "queue" ? 2 : mode === "track" ? 1 : 0);
   return interaction.reply({ embeds: [{ description: `Loop: ${mode}` }] });
 };
