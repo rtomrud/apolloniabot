@@ -20,7 +20,7 @@ exports.handler = async function (
         description: `I play music. [Invite me to your server!](${inviteUrl(
           distube.client.user.id
         )})`,
-        url: "https://discord.gg/wp3HWnUDMa",
+        url: process.env.SERVER_URL,
         fields: Array.from(commands, ([, command]) => ({
           name: `/${command.name}`,
           value: command.description,
