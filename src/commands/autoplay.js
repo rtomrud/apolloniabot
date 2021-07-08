@@ -19,6 +19,6 @@ exports.handler = async function (
 
   queue.toggleAutoplay();
   return interaction.reply({
-    embeds: [{ description: `Autoplay: **${queue.autoplay ? "on" : "off"}**` }],
+    embeds: [{ description: `Autoplay: ${queue.autoplay ? "on" : "off"}` }],
   });
 };
