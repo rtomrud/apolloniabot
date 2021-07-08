@@ -33,9 +33,9 @@ exports.handler = async function (
     });
   }
 
-  const filter = interaction.options.get("effect").value;
-  const filters = queue.setFilter(filter);
+  const filter = interaction.options.get("effect")?.value;
+  queue.setFilter(filter || false);
   return interaction.reply({
-    embeds: [{ description: `Effects: ${filters.join(", ") || "off"}` }],
+    embeds: [{ description: `Effects: ${queue.filters.join(", ") || "off"}` }],
   });
 };
