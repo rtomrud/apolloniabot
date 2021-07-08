@@ -10,9 +10,8 @@ exports.handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {
-  const commands = await distube.client.application.commands
-    .fetch()
-    .catch(() => new Collection());
+  const guild = await distube.client.guilds.fetch(interaction.guildId);
+  const commands = await guild.commands.fetch().catch(() => new Collection());
   return interaction.reply({
     embeds: [
       {
