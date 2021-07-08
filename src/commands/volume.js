@@ -7,7 +7,7 @@ exports.data = {
   options: [
     {
       name: "percent",
-      description: "The volume (1 to 100)",
+      description: "The volume (0 to 100)",
       type: "INTEGER",
       required: true,
     },
@@ -26,7 +26,7 @@ exports.handler = async function (
   }
 
   const percent = interaction.options.get("percent")?.value;
-  if (!(percent > 0 && percent <= 100)) {
+  if (!(percent >= 0 && percent <= 100)) {
     return interaction.reply({
       embeds: [
         {
