@@ -35,7 +35,7 @@ exports.handler = async function (
     });
   }
 
-  const time = interaction.options.get("time").value;
+  const time = interaction.options.get("time")?.value;
   const seconds = time
     .split(":")
     .reduce(
@@ -43,9 +43,7 @@ exports.handler = async function (
         seconds + Number(component) * 60 ** (length - i - 1),
       0
     );
-  const mode = interaction.options.has("mode")
-    ? interaction.options.get("mode").value
-    : "";
+  const mode = interaction.options.get("mode")?.value;
   const newTime =
     mode === "forward"
       ? queue.currentTime + seconds
