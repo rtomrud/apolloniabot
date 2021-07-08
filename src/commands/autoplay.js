@@ -17,8 +17,8 @@ exports.handler = async function (
     });
   }
 
-  const autoplay = queue.toggleAutoplay();
+  queue.toggleAutoplay();
   return interaction.reply({
-    embeds: [{ description: `Autoplay: **${autoplay ? "on" : "off"}**` }],
+    embeds: [{ description: `Autoplay: **${queue.autoplay ? "on" : "off"}**` }],
   });
 };
