@@ -31,15 +31,15 @@ exports.handler = async function (
     });
   }
 
-  const track = interaction.options.get("track").value;
-  const position = interaction.options.get("position").value;
-  if (track === 0 || track > queue.songs.length) {
+  const track = interaction.options.get("track")?.value;
+  const position = interaction.options.get("position")?.value;
+  if (!(track > 0 && track <= queue.songs.length)) {
     return interaction.reply({
       embeds: [{ description: "Error: No such track" }],
     });
   }
 
-  if (position === 0 || position > queue.songs.length) {
+  if (!(position > 0 && position <= queue.songs.length)) {
     return interaction.reply({
       embeds: [{ description: "Error: No such position" }],
     });
