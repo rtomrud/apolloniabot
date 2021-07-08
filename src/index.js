@@ -4,6 +4,7 @@ const { Client } = require("discord.js");
 const { default: DisTube } = require("distube");
 const commands = require("./commands/index.js");
 const formatSong = require("./format-song.js");
+const inviteUrl = require("./invite-url.js");
 
 const client = new Client({
   allowedMentions: { parse: ["users"] },
@@ -142,7 +143,7 @@ client.on("interactionCreate", (interaction) => {
 });
 
 client.once("ready", async () => {
-  console.log(client.readyAt.toISOString(), "READY");
+  console.log(client.readyAt.toISOString(), inviteUrl(client.user.id));
   if (!client.application.owner) {
     await client.application.fetch();
   }

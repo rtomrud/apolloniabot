@@ -1,5 +1,6 @@
 const { CommandInteraction } = require("discord.js");
 const { default: DisTube } = require("distube");
+const inviteUrl = require("../invite-url.js");
 
 exports.data = {
   name: "help",
@@ -16,7 +17,9 @@ exports.handler = async function (
     embeds: [
       {
         title: "Lena Bot",
-        description: `I play music. [Invite me to your server!](https://discord.com/oauth2/authorize?client_id=${distube.client.user.id}&permissions=2150647808&scope=bot%20applications.commands)`,
+        description: `I play music. [Invite me to your server!](${inviteUrl(
+          distube.client.user.id
+        )})`,
         url: "https://discord.gg/wp3HWnUDMa",
         fields: Array.from(commands, ([, command]) => ({
           name: `/${command.name}`,
