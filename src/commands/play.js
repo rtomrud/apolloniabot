@@ -44,6 +44,6 @@ exports.handler = async function (
     textChannel: await distube.client.channels.fetch(interaction.channelId),
   });
   return interaction.reply({
-    embeds: [{ description: `Searching "${query}"` }],
+    embeds: [{ description: `Searching: ${query}` }],
   });
 };
