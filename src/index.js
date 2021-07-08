@@ -113,7 +113,7 @@ client.on("guildCreate", (guild) => {
 
 client.on("error", console.error);
 
-client.on("interaction", (interaction) => {
+client.on("interactionCreate", (interaction) => {
   if (!interaction.isCommand()) {
     return null;
   }
@@ -121,7 +121,7 @@ client.on("interaction", (interaction) => {
   console.log(
     interaction.createdAt.toISOString(),
     interaction.user.id,
-    `/${interaction.guildID}/${interaction.channelID}/${interaction.id}`,
+    `/${interaction.guildId}/${interaction.channelId}/${interaction.id}`,
     JSON.stringify(interaction.member.nickname || interaction.user.username),
     JSON.stringify(
       `/${interaction.commandName}${Array.from(

@@ -10,7 +10,7 @@ exports.handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {
-  const queue = distube.queues.get(interaction.guildID);
+  const queue = distube.queues.get(interaction.guildId);
   if (!queue || queue.songs.length <= 1) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing to shuffle" }],

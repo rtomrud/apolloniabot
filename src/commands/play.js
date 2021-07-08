@@ -25,8 +25,8 @@ exports.handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {
-  const { channelID, member } = interaction;
-  const voiceChannel = member.voice.channel;
+  const { channelId, member } = interaction;
+  const voiceChannel = interaction.member.voice.channel;
   if (!voiceChannel) {
     return interaction.reply({
       embeds: [
@@ -42,7 +42,7 @@ exports.handler = async function (
   const skip = interaction.options.has("skip")
     ? interaction.options.get("skip").value
     : false;
-  const textChannel = await distube.client.channels.fetch(channelID);
+  const textChannel = await distube.client.channels.fetch(channelId);
   distube.playVoiceChannel(voiceChannel, query, { skip, member, textChannel });
   return interaction.reply({
     embeds: [{ description: `Searching "${query}"` }],
