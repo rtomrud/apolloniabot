@@ -26,24 +26,23 @@ exports.handler = async function (
     });
   }
 
-  const track = interaction.options.get("track").value;
-  if (track === 0 || track > queue.songs.length) {
+  const track = interaction.options.get("track")?.value;
+  if (!(track > 0 && track <= queue.songs.length)) {
     return interaction.reply({
       embeds: [{ description: "Error: No such track" }],
     });
   }
 
   const start = track < 0 ? Math.max(0, queue.songs.length + track) : track - 1;
-  let song;
+  const song = queue.songs[start];
   if (start === 0) {
-    [song] = queue.songs;
     if (queue.songs.length <= 1 && !queue.autoplay) {
       queue.stop();
     } else {
       queue.skip();
     }
   } else {
-    [song] = queue.songs.splice(start, 1);
+    queue.songs.splice(start, 1);
   }
 
   return interaction.reply({
