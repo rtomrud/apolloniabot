@@ -25,24 +25,23 @@ exports.handler = async function (
     });
   }
 
-  const percent = interaction.options.get("percent").value;
-  if (percent <= 0) {
-    return interaction.reply({
-      embeds: [{ description: "Error: I can't set the volume that low" }],
-    });
-  }
-
-  if (percent > 100) {
+  const percent = interaction.options.get("percent")?.value;
+  if (!(percent > 0 && percent <= 100)) {
     return interaction.reply({
       embeds: [
         {
-          description:
-            "Error: I can't [go to 11](https://youtu.be/4xgx4k83zzc)",
+          description: `Error: ${
+            percent > 100
+              ? "These don't [go to 11](https://youtu.be/4xgx4k83zzc)"
+              : "No such volume"
+          })`,
         },
       ],
     });
   }
 
   queue.setVolume(percent);
-  return interaction.reply({ embeds: [{ description: `Volume: ${percent}` }] });
+  return interaction.reply({
+    embeds: [{ description: `Volume: ${queue.volume}` }],
+  });
 };
