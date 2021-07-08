@@ -28,11 +28,11 @@ exports.handler = async function (
   }
 
   const page = interaction.options.has("page")
-    ? interaction.options.get("page").value
+    ? interaction.options.get("page")?.value
     : 1;
   const pageSize = 10;
   const pageCount = Math.ceil(queue.songs.length / pageSize);
-  if (page === 0 || page > pageCount) {
+  if (!(page > 0 && page <= pageCount)) {
     return interaction.reply({
       embeds: [{ description: "Error: No such page in the queue" }],
       ephemeral: true,
