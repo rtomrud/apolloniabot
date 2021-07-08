@@ -18,7 +18,7 @@ exports.handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {
-  const query = interaction.options.get("query").value;
+  const query = interaction.options.get("query")?.value;
   interaction.reply({ embeds: [{ description: `Searching "${query}"` }] });
   return distube.search(query, { limit: 10 }).then(
     (searchResults) =>
@@ -26,14 +26,14 @@ exports.handler = async function (
         embeds: [
           {
             title: "Results",
-            fields: searchResults.map(
-              ({ formattedDuration, name, type, uploader, url }) => ({
-                name: uploader.name || "[Unknown]",
-                value: `[${name}](${url}) [${
-                  type === "video" ? formattedDuration : "Playlist"
-                }]`,
-              })
-            ),
+            fields: searchResults.map((searchResult) => ({
+              name: searchResult.uploader.name || "[Unknown]",
+              value: `[${searchResult.name}](${searchResult.url}) [${
+                searchResult.type === "video"
+                  ? searchResult.formattedDuration
+                  : "Playlist"
+              }]`,
+            })),
             footer: { text: "Powered by YouTube" },
           },
         ],
