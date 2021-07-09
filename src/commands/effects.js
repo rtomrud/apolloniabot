@@ -1,5 +1,5 @@
 const { CommandInteraction } = require("discord.js");
-const { default: DisTube } = require("distube");
+const { DisTube } = require("distube");
 
 exports.data = {
   name: "effects",

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const SpotifyPlugin = require("@distube/spotify");
 const { Client } = require("discord.js");
-const { default: DisTube } = require("distube");
+const { DisTube } = require("distube");
 const commands = require("./commands/index.js");
 const formatSong = require("./format-song.js");
 const inviteUrl = require("./invite-url.js");
