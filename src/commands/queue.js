@@ -1,6 +1,7 @@
 const { CommandInteraction } = require("discord.js");
 const { DisTube } = require("distube");
 const formatPlayback = require("../format-playback.js");
+const formatQueue = require("../format-queue.js");
 const formatSong = require("../format-song.js");
 
 exports.data = {
@@ -46,9 +47,7 @@ exports.handler = async function (
     embeds: [
       {
         title: "Queue",
-        description: `${queue.songs.length} track${
-          queue.songs.length === 1 ? "" : "s"
-        } [${queue.formattedDuration}]`,
+        description: formatQueue(queue),
         fields: queue.songs.slice(start, end).map((song, i) => ({
           name: String(i + start + 1),
           value:

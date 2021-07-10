@@ -1,6 +1,7 @@
 const { CommandInteraction } = require("discord.js");
 const { DisTube } = require("distube");
 const formatPlayback = require("../format-playback.js");
+const formatQueue = require("../format-queue.js");
 
 exports.data = {
   name: "what",
@@ -32,9 +33,7 @@ exports.handler = async function (
           },
           {
             name: "Queue",
-            value: `${queue.songs.length} track${
-              queue.songs.length === 1 ? "" : "s"
-            } [${queue.formattedDuration}]`,
+            value: formatQueue(queue),
             inline: true,
           },
           {
