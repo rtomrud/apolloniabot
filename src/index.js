@@ -22,7 +22,7 @@ const distube = new DisTube(client, {
   savePreviousSongs: false,
 });
 
-distube.on("addList", (queue, playlist) =>
+distube.on("addList", (queue, playlist) => {
   queue.textChannel.send({
     embeds: [
       {
@@ -33,20 +33,20 @@ distube.on("addList", (queue, playlist) =>
         }]`,
       },
     ],
-  })
-);
+  });
+});
 
-distube.on("addSong", (queue, song) =>
+distube.on("addSong", (queue, song) => {
   queue.textChannel.send({
     embeds: [{ description: `Queued ${formatSong(song)}` }],
-  })
-);
+  });
+});
 
-distube.on("empty", (queue) =>
+distube.on("empty", (queue) => {
   queue.textChannel.send({
     embeds: [{ description: "Stopped because the voice channel is empty" }],
-  })
-);
+  });
+});
 
 distube.on("error", (channel, error) => {
   const message = formatError(error);
@@ -59,17 +59,17 @@ distube.on("error", (channel, error) => {
   });
 });
 
-distube.on("finish", (queue) =>
+distube.on("finish", (queue) => {
   queue.textChannel.send({
     embeds: [{ description: "Stopped because the queue is finished" }],
-  })
-);
+  });
+});
 
 distube.on("initQueue", (queue) => {
   queue.autoplay = false;
 });
 
-distube.on("noRelated", (queue) =>
+distube.on("noRelated", (queue) => {
   queue.textChannel.send({
     embeds: [
       {
@@ -77,10 +77,10 @@ distube.on("noRelated", (queue) =>
           "Stopped because the queue is finished and I can't autoplay anything",
       },
     ],
-  })
-);
+  });
+});
 
-distube.on("playSong", (queue, song) =>
+distube.on("playSong", (queue, song) => {
   queue.textChannel.send({
     embeds: [
       {
@@ -89,8 +89,8 @@ distube.on("playSong", (queue, song) =>
         } ${formatSong(song)}`,
       },
     ],
-  })
-);
+  });
+});
 
 client.on("guildCreate", (guild) => {
   if (guild.available && guild.systemChannel) {
@@ -109,7 +109,7 @@ client.on("error", console.error);
 
 client.on("interactionCreate", (interaction) => {
   if (!interaction.isCommand()) {
-    return null;
+    return;
   }
 
   console.log(
@@ -127,12 +127,13 @@ client.on("interactionCreate", (interaction) => {
 
   const command = commands[interaction.commandName];
   if (!command) {
-    return interaction.reply({
+    interaction.reply({
       embeds: [{ description: "Error: I can't do that yet, sorry" }],
     });
+    return;
   }
 
-  return command.handler(interaction, distube);
+  command.handler(interaction, distube);
 });
 
 client.once("ready", async () => {
