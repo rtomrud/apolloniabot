@@ -52,13 +52,11 @@ distube.on("error", (channel, error) => {
   const message = formatError(error);
   if (!message) {
     console.error(error);
-    channel.send({
-      embeds: [{ description: "Error: I can't do that, sorry" }],
-    });
-    return;
   }
 
-  channel.send({ embeds: [{ description: message }] });
+  channel.send({
+    embeds: [{ description: message || "Error: Something went wrong, sorry" }],
+  });
 });
 
 distube.on("finish", (queue) =>
