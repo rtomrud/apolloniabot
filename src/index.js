@@ -3,6 +3,7 @@ const { Client } = require("discord.js");
 const { DisTube } = require("distube");
 const commands = require("./commands/index.js");
 const SpotifyPlugin = require("./plugins/spotify.js");
+const formatError = require("./format-error.js");
 const formatSong = require("./format-song.js");
 const inviteUrl = require("./invite-url.js");
 
@@ -48,22 +49,16 @@ distube.on("empty", (queue) =>
 );
 
 distube.on("error", (channel, error) => {
-  const description = error.message.endsWith(
-    "You do not have permission to join this voice channel."
-  )
-    ? "Error: I don't have permission to join your voice channel"
-    : error.message.endsWith("No result!")
-    ? "Error: I can't find anything, check your URL or query"
-    : error.message.includes("youtube-dl")
-    ? "Error: I can't play that URL"
-    : "";
-  if (!description) {
-    client.emit("error", error);
+  const message = formatError(error);
+  if (!message) {
+    console.error(error);
+    channel.send({
+      embeds: [{ description: "Error: I can't do that, sorry" }],
+    });
+    return;
   }
 
-  channel.send({
-    embeds: [{ description: description || "Error: I can't do that, sorry" }],
-  });
+  channel.send({ embeds: [{ description: message }] });
 });
 
 distube.on("finish", (queue) =>
