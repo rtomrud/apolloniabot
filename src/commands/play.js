@@ -25,24 +25,16 @@ exports.handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {
-  if (!interaction.member.voice.channel) {
-    return interaction.reply({
-      embeds: [
-        {
-          description:
-            "Error: I can't join you because you're not in a voice channel",
-        },
-      ],
-    });
-  }
-
   const query = interaction.options.get("query").value;
   const skip = interaction.options.get("skip")?.value;
-  distube.playVoiceChannel(interaction.member.voice.channel, query, {
-    skip,
-    member: interaction.member,
-    textChannel: await distube.client.channels.fetch(interaction.channelId),
-  });
+  const channel = await distube.client.channels.fetch(interaction.channelId);
+  distube
+    .playVoiceChannel(interaction.member.voice.channel, query, {
+      skip,
+      member: interaction.member,
+      textChannel: channel,
+    })
+    .catch((error) => distube.emit("error", channel, error));
   return interaction.reply({
     embeds: [{ description: `Searching: ${query}` }],
   });
