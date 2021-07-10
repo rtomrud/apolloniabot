@@ -41,7 +41,7 @@ exports.handler = async function (
       }),
     () =>
       interaction.followUp({
-        embeds: [{ description: "Error: I couldn't find anything" }],
+        embeds: [{ description: "Error: I cant't find anything" }],
         ephemeral: true,
       })
   );
