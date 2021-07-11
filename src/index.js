@@ -112,17 +112,27 @@ client.on("interactionCreate", (interaction) => {
     return;
   }
 
+  const argv = [`/${interaction.commandName}`];
+  const options = [...interaction.options.values()];
+  while (options.length > 0) {
+    const option = options.shift();
+    if (option.value != null) {
+      argv.push(`${option.name}:`, option.value);
+    } else {
+      argv.push(option.name);
+    }
+
+    if (option.options) {
+      options.push(...option.options.values());
+    }
+  }
+
   console.log(
     interaction.createdAt.toISOString(),
     interaction.user.id,
     `/${interaction.guildId}/${interaction.channelId}/${interaction.id}`,
     JSON.stringify(interaction.member.nickname || interaction.user.username),
-    JSON.stringify(
-      `/${interaction.commandName}${Array.from(
-        interaction.options.entries(),
-        ([, { name, value }]) => ` ${name}: ${value}`
-      ).join("")}`
-    )
+    JSON.stringify(argv.join(" "))
   );
 
   const command = commands[interaction.commandName];
