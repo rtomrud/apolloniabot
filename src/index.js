@@ -147,7 +147,13 @@ client.on("interactionCreate", (interaction) => {
 });
 
 client.once("ready", async () => {
-  console.log(client.readyAt.toISOString(), inviteUrl(client.user.id));
+  console.log(
+    client.readyAt.toISOString(),
+    client.user.id,
+    inviteUrl(client.user.id),
+    JSON.stringify(client.user.username),
+    '"READY"'
+  );
   if (!client.application.owner) {
     await client.application.fetch();
   }
