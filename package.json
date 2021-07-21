@@ -24,10 +24,10 @@
   },
   "dependencies": {
     "@discordjs/opus": "0.5.3",
-    "@discordjs/voice": "0.5.3",
+    "@discordjs/voice": "0.5.4",
     "bufferutil": "4.0.3",
-    "discord.js": "13.0.0-dev.d6c43a5.1625918569",
-    "distube": "3.0.0-alpha.14",
+    "discord.js": "github:discordjs/discord.js#328501bd8ee343edfd3492f8ba81d5c57006d496",
+    "distube": "3.0.0-alpha.16",
     "dotenv": "10.0.0",
     "erlpack": "0.1.3",
     "sodium": "3.0.2",

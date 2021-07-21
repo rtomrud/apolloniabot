@@ -113,7 +113,7 @@ client.on("interactionCreate", (interaction) => {
   }
 
   const argv = [`/${interaction.commandName}`];
-  const options = [...interaction.options.values()];
+  const options = [...interaction.options.data];
   while (options.length > 0) {
     const option = options.shift();
     if (option.value != null) {
