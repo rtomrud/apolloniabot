@@ -12,12 +12,6 @@ exports.data = {
       type: "STRING",
       required: true,
     },
-    {
-      name: "skip",
-      description:
-        "Whether to skip the current track (if any) and play it immediately (instead of queueing it up)",
-      type: "BOOLEAN",
-    },
   ],
 };
 
@@ -26,11 +20,9 @@ exports.handler = async function (
   distube = new DisTube()
 ) {
   const query = interaction.options.get("query").value;
-  const skip = interaction.options.get("skip")?.value;
   const channel = await distube.client.channels.fetch(interaction.channelId);
   distube
     .playVoiceChannel(interaction.member.voice.channel, query, {
-      skip,
       member: interaction.member,
       textChannel: channel,
     })
