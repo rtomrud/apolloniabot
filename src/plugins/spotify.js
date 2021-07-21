@@ -42,12 +42,7 @@ module.exports = class extends CustomPlugin {
         ? data.tracks.items.map(({ track }) => track)
         : [data];
     if (tracks.length > 0) {
-      const searchResults = await (this.parallel
-        ? Promise.all(tracks.map((track) => this.search(track)))
-        : tracks.reduce(
-            (p, track) => p.then(() => this.search(track)),
-            Promise.resolve()
-          ));
+      const searchResults = await this.searchTracks(tracks);
       const songs = searchResults
         .filter(Boolean)
         .map((searchResult) => new Song(searchResult));
@@ -68,5 +63,18 @@ module.exports = class extends CustomPlugin {
     } catch {
       return null;
     }
+  }
+
+  async searchTracks(tracks) {
+    return this.parallel
+      ? Promise.all(tracks.map((track) => this.search(track)))
+      : tracks.reduce(
+          (p, track) =>
+            p.then(async (searchResults) => {
+              searchResults.push(await this.search(track));
+              return searchResults;
+            }),
+          Promise.resolve([])
+        );
   }
 };
