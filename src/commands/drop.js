@@ -27,7 +27,7 @@ exports.handler = async function (
   }
 
   const track = interaction.options.get("track")?.value;
-  if (!(track > 0 && track <= queue.songs.length)) {
+  if (!(track !== 0 && track <= queue.songs.length)) {
     return interaction.reply({
       embeds: [{ description: "Error: No such track" }],
     });
