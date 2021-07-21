@@ -12,18 +12,19 @@ terraform {
 
 provider "aws" {
   region = var.region
+  default_tags {
+    tags = var.tags
+  }
 }
 
 resource "aws_vpc" "this" {
   cidr_block = "172.31.0.0/16"
-  tags       = var.tags
 }
 
 resource "aws_subnet" "this" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = "172.31.0.0/20"
   availability_zone = "${var.region}a"
-  tags              = var.tags
 }
 
 resource "aws_internet_gateway" "this" {
@@ -82,12 +83,10 @@ resource "aws_instance" "this" {
   root_block_device {
     delete_on_termination = false
     encrypted             = false
-    tags                  = var.tags
     volume_size           = 8
     volume_type           = "gp3"
   }
   subnet_id              = aws_subnet.this.id
-  tags                   = var.tags
   user_data              = <<EOF
 #!/bin/bash
 apt update
