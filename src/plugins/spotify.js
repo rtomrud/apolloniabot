@@ -2,6 +2,20 @@ const { CustomPlugin, Song, Playlist } = require("distube");
 const { formatOpenURL, parse } = require("spotify-uri");
 const { getData } = require("spotify-url-info");
 
+const getTracks = (data) => {
+  switch (data.type) {
+    case "album":
+      return data.tracks.items;
+    case "artist":
+      return data.tracks;
+    case "playlist":
+      return data.tracks.items.map(({ track }) => track);
+    case "track":
+    default:
+      return [data];
+  }
+};
+
 module.exports = class extends CustomPlugin {
   constructor({
     parallel = true,
@@ -33,14 +47,7 @@ module.exports = class extends CustomPlugin {
       return;
     }
 
-    const tracks =
-      data.type === "album"
-        ? data.tracks.items
-        : data.type === "artist"
-        ? data.tracks
-        : data.type === "playlist"
-        ? data.tracks.items.map(({ track }) => track)
-        : [data];
+    const tracks = getTracks(data);
     if (tracks.length > 0) {
       const searchResults = await this.searchTracks(tracks);
       const songs = searchResults
