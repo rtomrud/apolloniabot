@@ -14,11 +14,9 @@ const client = new Client({
 });
 
 const distube = new DisTube(client, {
-  plugins: [new SpotifyPlugin({ parallel: true })],
+  plugins: [new SpotifyPlugin()],
   emitNewSongOnly: true,
-  leaveOnEmpty: true,
   leaveOnFinish: true,
-  leaveOnStop: true,
   savePreviousSongs: false,
 });
 
