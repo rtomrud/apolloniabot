@@ -17,9 +17,11 @@
   },
   "scripts": {
     "lint": "eslint .",
+    "prepare": "husky install",
     "start": "pm2 start src/index.js -o out.log -e err.log --time",
     "stop": "pm2 kill",
     "test": "nyc --reporter html tape \"test/**/*.js\" && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
+    "posttest": "npm run lint",
     "watch": "pm2 start src/index.js --watch"
   },
   "dependencies": {
@@ -66,10 +68,5 @@
   "eslintIgnore": [
     "coverage",
     "dist"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
-  }
+  ]
 }
