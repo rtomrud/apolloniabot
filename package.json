@@ -1,20 +1,7 @@
 {
   "name": "lenabot",
   "version": "0.1.0",
-  "description": "A music bot for Discord",
-  "homepage": "https://github.com/rtomrud/lenabot#readme",
-  "bugs": {
-    "url": "https://github.com/rtomrud/lenabot/issues"
-  },
   "license": "UNLICENSED",
-  "author": "Artem Rudenko <rtomrud@gmail.com>",
-  "files": [
-    "dist"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rtomrud/lenabot.git"
-  },
   "scripts": {
     "lint": "eslint .",
     "prepare": "husky install",
