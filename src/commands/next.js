@@ -1,3 +1,5 @@
+"use strict";
+
 const { CommandInteraction } = require("discord.js");
 const { DisTube } = require("distube");
 const formatSong = require("../format-song.js");

@@ -1,3 +1,5 @@
+"use strict";
+
 const autoplay = require("./autoplay.js");
 const drop = require("./drop.js");
 const effects = require("./effects.js");

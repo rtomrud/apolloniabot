@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = function (error) {
   switch (error.errorCode) {
     case "NOT_IN_VOICE":

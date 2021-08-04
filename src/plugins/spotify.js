@@ -1,3 +1,5 @@
+"use strict";
+
 const { CustomPlugin, Song, Playlist } = require("distube");
 const { formatOpenURL, parse } = require("spotify-uri");
 const { getData } = require("spotify-url-info");

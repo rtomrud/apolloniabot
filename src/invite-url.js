@@ -1,3 +1,5 @@
+"use strict";
+
 const { Permissions } = require("discord.js");
 
 const { bitfield } = new Permissions([

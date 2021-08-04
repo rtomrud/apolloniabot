@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = function ({
   formattedCurrentTime,
   songs: [{ formattedDuration, name, url }],

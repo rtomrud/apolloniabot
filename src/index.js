@@ -1,3 +1,5 @@
+"use strict";
+
 require("dotenv").config();
 const { Client } = require("discord.js");
 const { DisTube } = require("distube");
