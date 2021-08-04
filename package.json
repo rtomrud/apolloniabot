@@ -50,22 +50,5 @@
   "engines": {
     "node": ">=14"
   },
-  "private": true,
-  "eslintConfig": {
-    "env": {
-      "es6": true,
-      "node": true
-    },
-    "extends": [
-      "./node_modules/eslint-config-pretty-strict/index.js"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2020
-    },
-    "root": true
-  },
-  "eslintIgnore": [
-    "coverage",
-    "dist"
-  ]
+  "private": true
 }
