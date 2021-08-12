@@ -18,6 +18,7 @@
     "discord.js": "13.0.1",
     "distube": "3.0.0-beta.36",
     "dotenv": "10.0.0",
+    "pm2": "5.1.0",
     "sodium": "3.0.2",
     "spotify-uri": "2.2.0",
     "spotify-url-info": "2.2.3",
@@ -30,7 +31,6 @@
     "eslint-plugin-prettier": "3.4.0",
     "husky": "7.0.1",
     "jest": "27.0.6",
-    "pm2": "5.1.0",
     "prettier": "2.3.2"
   },
   "engines": {
