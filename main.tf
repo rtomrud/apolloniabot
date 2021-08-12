@@ -53,7 +53,6 @@ EOF
   }
 
   root_block_device {
-    delete_on_termination = false
     encrypted             = false
     volume_size           = 8
     volume_type           = "gp3"
