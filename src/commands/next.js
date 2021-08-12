@@ -1,15 +1,13 @@
-"use strict";
+import { CommandInteraction } from "discord.js";
+import { DisTube } from "distube";
+import formatSong from "../format-song.js";
 
-const { CommandInteraction } = require("discord.js");
-const { DisTube } = require("distube");
-const formatSong = require("../format-song.js");
-
-exports.data = {
+export const data = {
   name: "next",
   description: "Play the next track in the queue",
 };
 
-exports.handler = async function (
+export const handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {

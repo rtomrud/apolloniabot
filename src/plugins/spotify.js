@@ -1,8 +1,6 @@
-"use strict";
-
-const { CustomPlugin, Song, Playlist } = require("distube");
-const { formatOpenURL, parse } = require("spotify-uri");
-const { getData } = require("spotify-url-info");
+import { CustomPlugin, Song, Playlist } from "distube";
+import spotifyUri from "spotify-uri";
+import { getData } from "spotify-url-info";
 
 const getTracks = (data) => {
   switch (data.type) {
@@ -18,7 +16,7 @@ const getTracks = (data) => {
   }
 };
 
-module.exports = class extends CustomPlugin {
+export default class extends CustomPlugin {
   constructor({
     parallel = true,
     supportedTypes = ["album", "artist", "playlist", "track"],
@@ -34,7 +32,7 @@ module.exports = class extends CustomPlugin {
     }
 
     try {
-      return this.supportedTypes.includes(parse(url).type);
+      return this.supportedTypes.includes(spotifyUri.parse(url).type);
     } catch {
       return false;
     }
@@ -57,7 +55,7 @@ module.exports = class extends CustomPlugin {
         .map((searchResult) => new Song(searchResult));
       const playlist = new Playlist(songs, member);
       playlist.name = data.name;
-      playlist.url = formatOpenURL(parse(url));
+      playlist.url = spotifyUri.formatOpenURL(spotifyUri.parse(url));
       this.distube.playVoiceChannel(voiceChannel, playlist, options);
     }
   }
@@ -86,4 +84,4 @@ module.exports = class extends CustomPlugin {
           Promise.resolve([])
         );
   }
-};
+}

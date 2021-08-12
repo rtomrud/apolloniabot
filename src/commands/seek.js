@@ -1,10 +1,8 @@
-"use strict";
+import { CommandInteraction } from "discord.js";
+import { DisTube } from "distube";
+import formatPlayback from "../format-playback.js";
 
-const { CommandInteraction } = require("discord.js");
-const { DisTube } = require("distube");
-const formatPlayback = require("../format-playback.js");
-
-exports.data = {
+export const data = {
   name: "seek",
   description: "Seek the current track to a specified time",
   options: [
@@ -26,7 +24,7 @@ exports.data = {
   ],
 };
 
-exports.handler = async function (
+export const handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {

@@ -1,6 +1,4 @@
-"use strict";
-
-module.exports = function (error) {
+export default function (error) {
   switch (error.errorCode) {
     case "NOT_IN_VOICE":
     case "NOT_SUPPORTED_VOICE":
@@ -38,4 +36,4 @@ module.exports = function (error) {
       return null;
     }
   }
-};
+}

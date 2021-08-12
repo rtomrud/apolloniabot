@@ -1,6 +1,4 @@
-"use strict";
-
-const { Permissions } = require("discord.js");
+import { Permissions } from "discord.js";
 
 const { bitfield } = new Permissions([
   Permissions.FLAGS.CONNECT,
@@ -10,6 +8,6 @@ const { bitfield } = new Permissions([
   Permissions.FLAGS.USE_APPLICATION_COMMANDS,
 ]);
 
-module.exports = function (clientId, permissions = bitfield) {
+export default function (clientId, permissions = bitfield) {
   return `https://discord.com/oauth2/authorize?client_id=${clientId}&permissions=${permissions}&scope=bot%20applications.commands`;
-};
+}

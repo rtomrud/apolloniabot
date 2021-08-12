@@ -1,9 +1,7 @@
-"use strict";
+import { CommandInteraction } from "discord.js";
+import { DisTube } from "distube";
 
-const { CommandInteraction } = require("discord.js");
-const { DisTube } = require("distube");
-
-exports.data = {
+export const data = {
   name: "move",
   description: "Move a track to another position in the queue",
   options: [
@@ -22,7 +20,7 @@ exports.data = {
   ],
 };
 
-exports.handler = async function (
+export const handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {

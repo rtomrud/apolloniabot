@@ -1,16 +1,14 @@
-"use strict";
+import { CommandInteraction } from "discord.js";
+import { DisTube } from "distube";
+import formatPlayback from "../format-playback.js";
+import formatQueue from "../format-queue.js";
 
-const { CommandInteraction } = require("discord.js");
-const { DisTube } = require("distube");
-const formatPlayback = require("../format-playback.js");
-const formatQueue = require("../format-queue.js");
-
-exports.data = {
+export const data = {
   name: "what",
   description: "Show what's playing and the status of the player",
 };
 
-exports.handler = async function (
+export const handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {

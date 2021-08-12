@@ -1,15 +1,13 @@
-"use strict";
+import { CommandInteraction } from "discord.js";
+import { DisTube } from "distube";
+import inviteUrl from "../invite-url.js";
 
-const { CommandInteraction } = require("discord.js");
-const { DisTube } = require("distube");
-const inviteUrl = require("../invite-url.js");
-
-exports.data = {
+export const data = {
   name: "help",
   description: "Show help",
 };
 
-exports.handler = async function (
+export const handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {

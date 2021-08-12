@@ -1,12 +1,10 @@
-"use strict";
+import { CommandInteraction } from "discord.js";
+import { DisTube } from "distube";
+import formatPlayback from "../format-playback.js";
+import formatQueue from "../format-queue.js";
+import formatSong from "../format-song.js";
 
-const { CommandInteraction } = require("discord.js");
-const { DisTube } = require("distube");
-const formatPlayback = require("../format-playback.js");
-const formatQueue = require("../format-queue.js");
-const formatSong = require("../format-song.js");
-
-exports.data = {
+export const data = {
   name: "queue",
   description: "Show the queue",
   options: [
@@ -18,7 +16,7 @@ exports.data = {
   ],
 };
 
-exports.handler = async function (
+export const handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {

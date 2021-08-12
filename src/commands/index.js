@@ -1,24 +1,22 @@
-"use strict";
+import * as autoplay from "./autoplay.js";
+import * as drop from "./drop.js";
+import * as effects from "./effects.js";
+import * as find from "./find.js";
+import * as help from "./help.js";
+import * as loop from "./loop.js";
+import * as move from "./move.js";
+import * as next from "./next.js";
+import * as pause from "./pause.js";
+import * as play from "./play.js";
+import * as queue from "./queue.js";
+import * as resume from "./resume.js";
+import * as seek from "./seek.js";
+import * as shuffle from "./shuffle.js";
+import * as stop from "./stop.js";
+import * as volume from "./volume.js";
+import * as what from "./what.js";
 
-const autoplay = require("./autoplay.js");
-const drop = require("./drop.js");
-const effects = require("./effects.js");
-const find = require("./find.js");
-const help = require("./help.js");
-const loop = require("./loop.js");
-const move = require("./move.js");
-const next = require("./next.js");
-const pause = require("./pause.js");
-const play = require("./play.js");
-const queue = require("./queue.js");
-const resume = require("./resume.js");
-const seek = require("./seek.js");
-const shuffle = require("./shuffle.js");
-const stop = require("./stop.js");
-const volume = require("./volume.js");
-const what = require("./what.js");
-
-module.exports = {
+export default {
   autoplay,
   drop,
   effects,

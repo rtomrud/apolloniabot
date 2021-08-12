@@ -1,14 +1,12 @@
-"use strict";
+import { CommandInteraction } from "discord.js";
+import { DisTube } from "distube";
 
-const { CommandInteraction } = require("discord.js");
-const { DisTube } = require("distube");
-
-exports.data = {
+export const data = {
   name: "autoplay",
   description: "Toggle whether a related track is played when the queue ends",
 };
 
-exports.handler = async function (
+export const handler = async function (
   interaction = new CommandInteraction(),
   distube = new DisTube()
 ) {

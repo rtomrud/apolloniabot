@@ -1,7 +1,5 @@
-"use strict";
-
-module.exports = function (queue) {
+export default function (queue) {
   return `${queue.songs.length} track${queue.songs.length === 1 ? "" : "s"} [${
     queue.formattedDuration
   }]`;
-};
+}

@@ -1,13 +1,11 @@
-"use strict";
-
-require("dotenv").config();
-const { Client } = require("discord.js");
-const { DisTube } = require("distube");
-const commands = require("./commands/index.js");
-const SpotifyPlugin = require("./plugins/spotify.js");
-const formatError = require("./format-error.js");
-const formatSong = require("./format-song.js");
-const inviteUrl = require("./invite-url.js");
+import "dotenv/config";
+import { Client } from "discord.js";
+import { DisTube } from "distube";
+import commands from "./commands/index.js";
+import SpotifyPlugin from "./plugins/spotify.js";
+import formatError from "./format-error.js";
+import formatSong from "./format-song.js";
+import inviteUrl from "./invite-url.js";
 
 const client = new Client({
   allowedMentions: { parse: ["users"] },
