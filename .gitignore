@@ -1,6 +1,5 @@
 *.log
 .env
-.nyc_output
 .terraform
 coverage
 dist
