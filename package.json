@@ -13,14 +13,13 @@
   "dependencies": {
     "@discordjs/opus": "0.5.3",
     "@discordjs/voice": "0.6.0",
+    "@distube/spotify": "0.6.0",
     "bufferutil": "4.0.3",
     "discord.js": "13.0.1",
     "distube": "3.0.0-beta.36",
     "dotenv": "10.0.0",
     "pm2": "5.1.0",
     "sodium": "3.0.2",
-    "spotify-uri": "2.2.0",
-    "spotify-url-info": "2.2.3",
     "utf-8-validate": "5.0.5"
   },
   "devDependencies": {

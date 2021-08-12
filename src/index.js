@@ -1,8 +1,8 @@
 import "dotenv/config";
+import { SpotifyPlugin } from "@distube/spotify";
 import { Client } from "discord.js";
 import { DisTube } from "distube";
 import commands from "./commands/index.js";
-import SpotifyPlugin from "./plugins/spotify.js";
 import formatError from "./format-error.js";
 import formatSong from "./format-song.js";
 import inviteUrl from "./invite-url.js";
