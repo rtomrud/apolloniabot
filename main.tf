@@ -45,6 +45,7 @@ apt install -y build-essential
 apt install -y libtool
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 apt install -y nodejs
+ln -s /usr/bin/python3.* /usr/bin/python
 EOF
   vpc_security_group_ids      = [aws_security_group.this.id]
 
