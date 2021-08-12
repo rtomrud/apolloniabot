@@ -8,8 +8,7 @@
     "start": "pm2 start src/index.js -o out.log -e err.log --time",
     "stop": "pm2 kill",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
-    "posttest": "npm run lint",
-    "watch": "pm2 start src/index.js --watch"
+    "posttest": "npm run lint"
   },
   "dependencies": {
     "@discordjs/opus": "0.5.3",
