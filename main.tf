@@ -2,9 +2,9 @@ terraform {
   required_version = "~> 1.0.0"
 
   backend "s3" {
+    encrypt = true
     key     = "terraform.tfstate"
     region  = "eu-west-1"
-    encrypt = true
   }
 
   required_providers {
