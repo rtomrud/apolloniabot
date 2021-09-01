@@ -4,6 +4,7 @@ import { Client } from "discord.js";
 import { DisTube } from "distube";
 import commands from "./commands/index.js";
 import formatError from "./format-error.js";
+import formatPlayback from "./format-playback.js";
 import formatSong from "./format-song.js";
 import inviteUrl from "./invite-url.js";
 
@@ -22,15 +23,7 @@ const distube = new DisTube(client, {
 
 distube.on("addList", (queue, playlist) => {
   queue.textChannel.send({
-    embeds: [
-      {
-        description: `Queued [${playlist.name}](${playlist.url}) (${
-          playlist.songs.length
-        } track${playlist.songs.length === 1 ? "" : "s"}) [${
-          playlist.formattedDuration
-        }]`,
-      },
-    ],
+    embeds: [{ description: `Queued ${formatPlayback(playlist)}` }],
   });
 });
 
