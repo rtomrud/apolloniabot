@@ -11,14 +11,14 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
-    "@discordjs/opus": "0.5.3",
+    "@discordjs/opus": "0.6.0",
     "@discordjs/voice": "0.6.0",
-    "@distube/spotify": "0.6.0",
+    "@distube/spotify": "0.6.3",
     "bufferutil": "4.0.3",
-    "discord.js": "13.0.1",
-    "distube": "3.0.0-beta.36",
+    "discord.js": "13.1.0",
+    "distube": "3.0.0-beta.37",
     "dotenv": "10.0.0",
-    "pm2": "5.1.0",
+    "pm2": "5.1.1",
     "sodium": "3.0.2",
     "utf-8-validate": "5.0.5"
   },
