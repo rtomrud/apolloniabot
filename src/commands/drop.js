@@ -1,6 +1,6 @@
 import { CommandInteraction } from "discord.js";
 import { DisTube } from "distube";
-import formatSong from "../format-song.js";
+import formatSong from "../formatters/format-song.js";
 
 export const data = {
   name: "drop",

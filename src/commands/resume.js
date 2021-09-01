@@ -1,6 +1,6 @@
 import { CommandInteraction } from "discord.js";
 import { DisTube } from "distube";
-import formatPlayback from "../format-playback.js";
+import formatPlayback from "../formatters/format-playback.js";
 
 export const data = {
   name: "resume",

@@ -1,7 +1,7 @@
 import { CommandInteraction } from "discord.js";
 import { DisTube } from "distube";
-import formatPlayback from "../format-playback.js";
-import formatQueue from "../format-queue.js";
+import formatPlayback from "../formatters/format-playback.js";
+import formatQueue from "../formatters/format-queue.js";
 
 export const data = {
   name: "what",
