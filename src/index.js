@@ -4,7 +4,7 @@ import { Client } from "discord.js";
 import { DisTube } from "distube";
 import commands from "./commands/index.js";
 import formatError from "./formatters/format-error.js";
-import formatPlayback from "./formatters/format-playback.js";
+import formatPlaylist from "./formatters/format-playlist.js";
 import formatSong from "./formatters/format-song.js";
 import inviteUrl from "./invite-url.js";
 
@@ -15,7 +15,7 @@ const client = new Client({
 });
 
 const distube = new DisTube(client, {
-  plugins: [new SpotifyPlugin()],
+  plugins: [new SpotifyPlugin({ emitEventsAfterFetching: true })],
   emitNewSongOnly: true,
   leaveOnFinish: true,
   savePreviousSongs: false,
@@ -23,7 +23,7 @@ const distube = new DisTube(client, {
 
 distube.on("addList", (queue, playlist) => {
   queue.textChannel.send({
-    embeds: [{ description: `Queued ${formatPlayback(playlist)}` }],
+    embeds: [{ description: `Queued ${formatPlaylist(playlist)}` }],
   });
 });
 
