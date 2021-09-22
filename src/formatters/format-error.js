@@ -1,5 +1,5 @@
-export default function (error) {
-  switch (error.errorCode) {
+export default function ({ errorCode, message }) {
+  switch (errorCode) {
     case "NOT_IN_VOICE":
     case "NOT_SUPPORTED_VOICE":
     case "VOICE_CHANGE_GUILD":
@@ -29,7 +29,7 @@ export default function (error) {
     case "NON_NSFW":
       return "Error: I can't play age-restricted content in a non-NSFW channel";
     default: {
-      if (error.message.includes("[youtube-dl] ERROR: Unsupported URL")) {
+      if (message.includes("[youtube-dl] ERROR: Unsupported URL")) {
         return "Error: I can't play that URL";
       }
 

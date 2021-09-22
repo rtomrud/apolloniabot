@@ -1,5 +1,5 @@
-export default function (playlist) {
-  return `[${playlist.name}](${playlist.url}) (${playlist.songs.length} track${
-    playlist.songs.length === 1 ? "" : "s"
-  }) [${playlist.formattedDuration}]`;
+export default function ({ formattedDuration, name, songs: { length }, url }) {
+  return `[${name}](${url}) (${length} track${
+    length === 1 ? "" : "s"
+  }) [${formattedDuration}]`;
 }

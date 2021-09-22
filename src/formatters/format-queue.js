@@ -1,5 +1,3 @@
-export default function (queue) {
-  return `${queue.songs.length} track${queue.songs.length === 1 ? "" : "s"} [${
-    queue.formattedDuration
-  }]`;
+export default function ({ formattedDuration, songs: { length } }) {
+  return `${length} track${length === 1 ? "" : "s"} [${formattedDuration}]`;
 }
