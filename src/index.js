@@ -122,7 +122,7 @@ client.on("interactionCreate", (interaction) => {
     interaction.createdAt.toISOString(),
     interaction.user.id,
     `/${interaction.guildId}/${interaction.channelId}/${interaction.id}`,
-    JSON.stringify(interaction.member.nickname || interaction.user.username),
+    JSON.stringify(interaction.user.username),
     JSON.stringify(argv.join(" "))
   );
 
