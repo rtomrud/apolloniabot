@@ -19,6 +19,7 @@ const distube = new DisTube(client, {
   emitNewSongOnly: true,
   leaveOnFinish: true,
   savePreviousSongs: false,
+  nsfw: true,
 });
 
 distube.on("addList", (queue, playlist) => {
