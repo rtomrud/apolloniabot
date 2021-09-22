@@ -4,7 +4,7 @@ import { expect, test } from "@jest/globals";
 
 const path = fileURLToPath(new URL("../src/index.js", import.meta.url));
 
-test("lenabot", async () => {
+test("lenabot smoke test", async () => {
   const lenabot = spawn("node", [path]);
   const exit = await new Promise((resolve, reject) => {
     const timeout = setTimeout(resolve, 500);
