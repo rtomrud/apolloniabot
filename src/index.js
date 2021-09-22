@@ -152,7 +152,7 @@ client.once("ready", async () => {
   await client.application.commands
     .set(
       Object.values(commands).map(({ data }) => data),
-      process.env.GUILD_ID
+      process.env.GUILD_ID // If defined, set commands only for this guild
     )
     .catch(({ message }) => console.error(message));
 });
