@@ -90,7 +90,7 @@ client.on("guildCreate", (guild) => {
       embeds: [
         {
           description:
-            "Hi! I play music. Type `/help` to find out what I can do for you.",
+            "Hi! I play music. Use the `/help` command to find out what I can do for you.",
         },
       ],
     });
