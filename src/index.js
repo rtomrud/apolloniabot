@@ -13,7 +13,6 @@ import permissions from "./permissions.js";
 const client = new Client({
   allowedMentions: { parse: ["users"] },
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES],
-  presence: { activity: { name: "/help", type: "LISTENING" } },
 });
 
 const distube = new DisTube(client, {
