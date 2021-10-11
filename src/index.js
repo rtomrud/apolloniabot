@@ -11,7 +11,6 @@ import formatInviteUrl from "./formatters/format-invite-url.js";
 import permissions from "./permissions.js";
 
 const client = new Client({
-  allowedMentions: { parse: ["users"] },
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES],
 });
 
