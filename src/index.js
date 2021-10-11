@@ -3,6 +3,7 @@ import { SpotifyPlugin } from "@distube/spotify";
 import { Client } from "discord.js";
 import { DisTube } from "distube";
 import commands from "./commands/index.js";
+import formatCommandInteraction from "./formatters/format-command-interaction.js";
 import formatError from "./formatters/format-error.js";
 import formatPlaylist from "./formatters/format-playlist.js";
 import formatSong from "./formatters/format-song.js";
@@ -105,28 +106,7 @@ client.on("interactionCreate", (interaction) => {
     return;
   }
 
-  const argv = [`/${interaction.commandName}`];
-  const options = [...interaction.options.data];
-  while (options.length > 0) {
-    const option = options.shift();
-    if (option.value != null) {
-      argv.push(`${option.name}:`, option.value);
-    } else {
-      argv.push(option.name);
-    }
-
-    if (option.options) {
-      options.push(...option.options.values());
-    }
-  }
-
-  console.log(
-    interaction.createdAt.toISOString(),
-    interaction.user.id,
-    `/${interaction.guildId}/${interaction.channelId}/${interaction.id}`,
-    JSON.stringify(interaction.user.username),
-    JSON.stringify(argv.join(" "))
-  );
+  console.log(formatCommandInteraction(interaction));
 
   const command = commands[interaction.commandName];
   if (!command) {
