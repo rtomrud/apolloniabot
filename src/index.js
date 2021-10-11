@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { SpotifyPlugin } from "@distube/spotify";
-import { Client } from "discord.js";
+import { Client, Intents } from "discord.js";
 import { DisTube } from "distube";
 import commands from "./commands/index.js";
 import formatCommandInteraction from "./formatters/format-command-interaction.js";
@@ -12,7 +12,7 @@ import permissions from "./permissions.js";
 
 const client = new Client({
   allowedMentions: { parse: ["users"] },
-  intents: ["GUILDS", "GUILD_VOICE_STATES"],
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES],
   presence: { activity: { name: "/help", type: "LISTENING" } },
 });
 
