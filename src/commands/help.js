@@ -1,6 +1,7 @@
 import { CommandInteraction } from "discord.js";
 import { DisTube } from "distube";
-import inviteUrl from "../invite-url.js";
+import formatInviteUrl from "../formatters/format-invite-url.js";
+import permissions from "../permissions.js";
 
 export const data = {
   name: "help",
@@ -17,8 +18,8 @@ export const handler = async function (
     embeds: [
       {
         title: "Lena Bot",
-        description: `I play music. [Invite me to your server!](${inviteUrl(
-          distube.client.user.id
+        description: `I play music. [Invite me to your server!](${formatInviteUrl(
+          { client_id: distube.client.user.id, permissions }
         )})`,
         url: process.env.SERVER_URL,
         fields: Array.from(commands, ([, command]) => ({

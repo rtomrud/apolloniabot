@@ -6,7 +6,8 @@ import commands from "./commands/index.js";
 import formatError from "./formatters/format-error.js";
 import formatPlaylist from "./formatters/format-playlist.js";
 import formatSong from "./formatters/format-song.js";
-import inviteUrl from "./invite-url.js";
+import formatInviteUrl from "./formatters/format-invite-url.js";
+import permissions from "./permissions.js";
 
 const client = new Client({
   allowedMentions: { parse: ["users"] },
@@ -142,7 +143,7 @@ client.once("ready", async () => {
   console.log(
     client.readyAt.toISOString(),
     client.user.id,
-    inviteUrl(client.user.id),
+    formatInviteUrl({ client_id: client.user.id, permissions }),
     JSON.stringify(client.user.username),
     '"READY"'
   );
