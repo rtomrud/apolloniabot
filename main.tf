@@ -65,7 +65,7 @@ resource "aws_internet_gateway" "this" {
 }
 
 resource "aws_key_pair" "this" {
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCnyZ+jDRfHk7M4s61n+kPAfc5+LmNWD8yxdV0bWEs4yy6csprLph18TRr2T4zwoJG7B/HxBUdoBvuycLPksh9VGvmTPcQlDMDb8HHCInsYpF9HjyqkND+GYmJma5YlO2XXo5fXDJedtBMdDJMk0e2uM7D8qM1Z6hVy0vZF8GJ4Ar2V0/8M+dM8c/UINx03aTSk7eU/w/vC22mB4CZVrSlM3NoQUESKfjWFaXnMpldqxHKgUIeKFdo9HpfP0HUc5ortfJU7DLEhy56FTTaWcnDBqgXLq5B8382HrK+5tBWe6hjz2YWVJN1CGIHruG2JOKJEAmtH2Qpeal20o1h8sA0R6s4z4ibncEkEwj4hvRU/wuzhE40/y6neBH3Hmu0P467lRHRa26879PlBqZqrwUfdA7mM9U4hVT/8fKjswvVkZOY5GBU8rPsRNL6KvwLa738XXDuypA49hawUGF0Qt3So2FQpya6ZqQFiTi+hTgsKjTtUvUrx1mWUUUfBGQcKduU= dev@desktop"
+  public_key = var.public_key
 }
 
 resource "aws_route_table" "this" {
