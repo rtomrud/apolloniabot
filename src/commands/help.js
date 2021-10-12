@@ -21,7 +21,7 @@ export const handler = async function (
     embeds: [
       {
         title: distube.client.user.username,
-        description: `I play music. These are the commands you can give me:`,
+        description: "I play music. These are the commands you can give me:",
         url: formatInviteUrl({
           client_id: distube.client.user.id,
           permissions,
