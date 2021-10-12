@@ -21,10 +21,11 @@ export const handler = async function (
     embeds: [
       {
         title: "Lena Bot",
-        description: `I play music. [Invite me to your server!](${formatInviteUrl(
-          { client_id: distube.client.user.id, permissions }
-        )})`,
-        url: process.env.SERVER_URL,
+        description: `I play music. Here's the commands you can give me:`,
+        url: formatInviteUrl({
+          client_id: distube.client.user.id,
+          permissions,
+        }),
         fields: Array.from(commands, ([, command]) => ({
           name: `/${command.name}`,
           value: command.description,
