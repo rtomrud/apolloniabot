@@ -20,7 +20,7 @@ export const handler = async function (
   return interaction.reply({
     embeds: [
       {
-        title: "Lena Bot",
+        title: distube.client.user.username,
         description: `I play music. Here's the commands you can give me:`,
         url: formatInviteUrl({
           client_id: distube.client.user.id,
