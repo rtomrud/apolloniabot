@@ -31,3 +31,4 @@ cat <<EOF > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
   }
 }
 EOF
+systemctl restart amazon-cloudwatch-agent
