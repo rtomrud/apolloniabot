@@ -30,9 +30,36 @@ data "aws_ami" "this" {
   }
 }
 
+resource "aws_iam_role" "this" {
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "this" {
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+  role       = aws_iam_role.this.name
+}
+
+resource "aws_iam_instance_profile" "this" {
+  role = aws_iam_role.this.name
+}
+
 resource "aws_instance" "this" {
   ami                         = data.aws_ami.this.id
   associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.this.name
   instance_type               = "t4g.micro"
   key_name                    = aws_key_pair.this.id
   subnet_id                   = aws_subnet.this.id
