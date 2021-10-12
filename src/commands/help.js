@@ -10,20 +10,20 @@ export const data = {
 
 export const handler = async function (
   interaction = new CommandInteraction(),
-  distube = new DisTube()
+  player = new DisTube()
 ) {
   const commands = process.env.GUILD_ID
-    ? await distube.client.guilds
+    ? await player.client.guilds
         .fetch(interaction.guildId)
         .then((guild) => guild.commands.fetch())
-    : await distube.client.application.commands.fetch();
+    : await player.client.application.commands.fetch();
   return interaction.reply({
     embeds: [
       {
-        title: distube.client.user.username,
+        title: player.client.user.username,
         description: "I play music. These are the commands you can give me:",
         url: formatInviteUrl({
-          client_id: distube.client.user.id,
+          client_id: player.client.user.id,
           permissions,
         }),
         fields: Array.from(commands, ([, command]) => ({

@@ -17,16 +17,16 @@ export const data = {
 
 export const handler = async function (
   interaction = new CommandInteraction(),
-  distube = new DisTube()
+  player = new DisTube()
 ) {
   const query = interaction.options.get("query").value;
-  const channel = await distube.client.channels.fetch(interaction.channelId);
-  distube
+  const channel = await player.client.channels.fetch(interaction.channelId);
+  player
     .playVoiceChannel(interaction.member.voice.channel, query, {
       member: interaction.member,
       textChannel: channel,
     })
-    .catch((error) => distube.emit("error", channel, error));
+    .catch((error) => player.emit("error", channel, error));
   return interaction.reply({
     embeds: [{ description: `Searching: ${query}` }],
   });

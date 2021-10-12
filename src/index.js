@@ -14,7 +14,7 @@ const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES],
 });
 
-const distube = new DisTube(client, {
+const player = new DisTube(client, {
   plugins: [new SpotifyPlugin({ emitEventsAfterFetching: true })],
   emitNewSongOnly: true,
   leaveOnFinish: true,
@@ -22,25 +22,25 @@ const distube = new DisTube(client, {
   nsfw: true,
 });
 
-distube.on("addList", (queue, playlist) => {
+player.on("addList", (queue, playlist) => {
   queue.textChannel.send({
     embeds: [{ description: `Queued ${formatPlaylist(playlist)}` }],
   });
 });
 
-distube.on("addSong", (queue, song) => {
+player.on("addSong", (queue, song) => {
   queue.textChannel.send({
     embeds: [{ description: `Queued ${formatSong(song)}` }],
   });
 });
 
-distube.on("empty", (queue) => {
+player.on("empty", (queue) => {
   queue.textChannel.send({
     embeds: [{ description: "Stopped because the voice channel is empty" }],
   });
 });
 
-distube.on("error", (channel, error) => {
+player.on("error", (channel, error) => {
   const message = formatError(error);
   if (!message) {
     console.error(error);
@@ -51,17 +51,17 @@ distube.on("error", (channel, error) => {
   });
 });
 
-distube.on("finish", (queue) => {
+player.on("finish", (queue) => {
   queue.textChannel.send({
     embeds: [{ description: "Stopped because the queue is finished" }],
   });
 });
 
-distube.on("initQueue", (queue) => {
+player.on("initQueue", (queue) => {
   queue.autoplay = false;
 });
 
-distube.on("noRelated", (queue) => {
+player.on("noRelated", (queue) => {
   queue.textChannel.send({
     embeds: [
       {
@@ -72,7 +72,7 @@ distube.on("noRelated", (queue) => {
   });
 });
 
-distube.on("playSong", (queue, song) => {
+player.on("playSong", (queue, song) => {
   queue.textChannel.send({
     embeds: [
       {
@@ -101,7 +101,7 @@ client.on("interactionCreate", (interaction) => {
     return;
   }
 
-  command.handler(interaction, distube);
+  command.handler(interaction, player);
 });
 
 client.once("ready", async () => {

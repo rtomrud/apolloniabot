@@ -10,9 +10,9 @@ export const data = {
 
 export const handler = async function (
   interaction = new CommandInteraction(),
-  distube = new DisTube()
+  player = new DisTube()
 ) {
-  const queue = distube.queues.get(interaction.guildId);
+  const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing in queue" }],

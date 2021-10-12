@@ -16,11 +16,11 @@ export const data = {
 
 export const handler = async function (
   interaction = new CommandInteraction(),
-  distube = new DisTube()
+  player = new DisTube()
 ) {
   const query = interaction.options.get("query")?.value;
   interaction.reply({ embeds: [{ description: `Searching "${query}"` }] });
-  return distube.search(query, { limit: 10 }).then(
+  return player.search(query, { limit: 10 }).then(
     (searchResults) =>
       interaction.followUp({
         embeds: [
