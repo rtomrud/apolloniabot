@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint .",
     "prepare": "husky install",
-    "start": "pm2 start src/index.js -o out.log -e err.log --time",
+    "start": "pm2 start src/index.js --time",
     "stop": "pm2 kill",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "posttest": "npm run lint"

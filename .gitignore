@@ -1,4 +1,3 @@
-*.log
 .env
 .terraform
 coverage
