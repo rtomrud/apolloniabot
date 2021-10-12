@@ -3,7 +3,7 @@ import { DisTube } from "distube";
 
 export const data = {
   name: "effects",
-  description: "Toggles the specified effect",
+  description: "Toggle the specified effect",
   options: [
     {
       name: "effect",
