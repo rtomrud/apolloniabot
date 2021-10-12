@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "license": "UNLICENSED",
   "scripts": {
+    "postinstall": "pm2 install pm2-logrotate",
     "lint": "eslint .",
     "prepare": "husky install",
     "start": "pm2 start src/index.js --time",
