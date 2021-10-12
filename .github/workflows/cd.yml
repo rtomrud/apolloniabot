@@ -20,6 +20,6 @@ jobs:
           ssh-keyscan -H "$HOSTNAME" >> ~/.ssh/known_hosts
           echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-      - run: ssh $USER@$HOSTNAME 'mkdir -p ~/$GITHUB_REPOSITORY/ && cd ~/$GITHUB_REPOSITORY/ && npm stop || true'
+      - run: ssh $USER@$HOSTNAME "mkdir -p ~/$GITHUB_REPOSITORY/ && cd ~/$GITHUB_REPOSITORY/ && npm stop || true"
       - run: rsync -avz --exclude '.git' ./ $USER@$HOSTNAME:/home/$USER/$GITHUB_REPOSITORY/
-      - run: ssh $USER@$HOSTNAME 'cd ~/$GITHUB_REPOSITORY/ && npm install && npm start'
+      - run: ssh $USER@$HOSTNAME "cd ~/$GITHUB_REPOSITORY/ && npm install && npm start"
