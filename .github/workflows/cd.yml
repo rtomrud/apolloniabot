@@ -9,12 +9,11 @@ jobs:
     env:
       HOSTNAME: ${{ secrets.HOSTNAME }}
       PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-      SERVER_URL: ${{ secrets.SERVER_URL }}
       TOKEN: ${{ secrets.TOKEN }}
       USER: ${{ secrets.USER }}
     steps:
       - uses: actions/checkout@v2
-      - run: echo -e "SERVER_URL=$SERVER_URL\nTOKEN=$TOKEN" > .env
+      - run: echo -e "TOKEN=$TOKEN" > .env
       - run: |
           mkdir -p ~/.ssh/
           touch ~/.ssh/known_hosts
