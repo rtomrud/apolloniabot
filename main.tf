@@ -63,17 +63,7 @@ resource "aws_instance" "this" {
   instance_type               = "t4g.micro"
   key_name                    = aws_key_pair.this.id
   subnet_id                   = aws_subnet.this.id
-  user_data                   = <<EOF
-#!/bin/bash
-apt update
-apt upgrade -y
-apt install -y ffmpeg
-apt install -y build-essential
-apt install -y libtool
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-apt install -y nodejs
-ln -s /usr/bin/python3.* /usr/bin/python
-EOF
+  user_data                   = file("user_data.sh")
   vpc_security_group_ids      = [aws_security_group.this.id]
 
   credit_specification {
