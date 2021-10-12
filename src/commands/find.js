@@ -1,5 +1,5 @@
 import { CommandInteraction } from "discord.js";
-import { DisTube } from "distube";
+import { DisTube as Player } from "distube";
 
 export const data = {
   name: "find",
@@ -16,7 +16,7 @@ export const data = {
 
 export const handler = async function (
   interaction = new CommandInteraction(),
-  player = new DisTube()
+  player = new Player()
 ) {
   const query = interaction.options.get("query")?.value;
   interaction.reply({ embeds: [{ description: `Searching "${query}"` }] });

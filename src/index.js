@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { SpotifyPlugin } from "@distube/spotify";
 import { Client, Intents } from "discord.js";
-import { DisTube } from "distube";
+import { DisTube as Player } from "distube";
 import commands from "./commands/index.js";
 import formatCommandInteraction from "./formatters/format-command-interaction.js";
 import formatError from "./formatters/format-error.js";
@@ -14,7 +14,7 @@ const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES],
 });
 
-const player = new DisTube(client, {
+const player = new Player(client, {
   plugins: [new SpotifyPlugin({ emitEventsAfterFetching: true })],
   emitNewSongOnly: true,
   leaveOnFinish: true,

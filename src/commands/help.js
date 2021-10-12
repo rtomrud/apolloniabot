@@ -1,5 +1,5 @@
 import { CommandInteraction } from "discord.js";
-import { DisTube } from "distube";
+import { DisTube as Player } from "distube";
 import formatInviteUrl from "../formatters/format-invite-url.js";
 import permissions from "../permissions.js";
 
@@ -10,7 +10,7 @@ export const data = {
 
 export const handler = async function (
   interaction = new CommandInteraction(),
-  player = new DisTube()
+  player = new Player()
 ) {
   const commands = process.env.GUILD_ID
     ? await player.client.guilds

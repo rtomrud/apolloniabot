@@ -1,5 +1,5 @@
 import { CommandInteraction } from "discord.js";
-import { DisTube } from "distube";
+import { DisTube as Player } from "distube";
 import formatPlayback from "../formatters/format-playback.js";
 import formatQueue from "../formatters/format-queue.js";
 import formatSong from "../formatters/format-song.js";
@@ -18,7 +18,7 @@ export const data = {
 
 export const handler = async function (
   interaction = new CommandInteraction(),
-  player = new DisTube()
+  player = new Player()
 ) {
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
