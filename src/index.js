@@ -84,19 +84,6 @@ distube.on("playSong", (queue, song) => {
   });
 });
 
-client.on("guildCreate", (guild) => {
-  if (guild.available && guild.systemChannel) {
-    guild.systemChannel.send({
-      embeds: [
-        {
-          description:
-            "Hi! I play music. Use the `/help` command to find out what I can do for you.",
-        },
-      ],
-    });
-  }
-});
-
 client.on("error", console.error);
 
 client.on("interactionCreate", (interaction) => {
