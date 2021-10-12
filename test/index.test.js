@@ -4,19 +4,19 @@ import { expect, test } from "@jest/globals";
 
 const path = fileURLToPath(new URL("../src/index.js", import.meta.url));
 
-test("lenabot smoke test", async () => {
-  const lenabot = spawn("node", [path]);
+test("smoke test", async () => {
+  const process = spawn("node", [path]);
   const exit = await new Promise((resolve, reject) => {
     const timeout = setTimeout(resolve, 500);
-    lenabot.on("close", (code) => {
+    process.on("close", (code) => {
       clearTimeout(timeout);
       resolve(code);
     });
-    lenabot.on("error", (error) => {
+    process.on("error", (error) => {
       clearTimeout(timeout);
       reject(error);
     });
   });
-  lenabot.kill("SIGKILL");
+  process.kill("SIGKILL");
   expect(exit).toBe(undefined);
 });
