@@ -26,7 +26,7 @@ data "aws_ami" "this" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-hirsute-21.04-arm64-server-20210720"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-hirsute-21.04-arm64-server-20210928"]
   }
 }
 
