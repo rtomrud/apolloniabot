@@ -71,9 +71,9 @@ resource "aws_instance" "this" {
   }
 
   root_block_device {
-    encrypted             = false
-    volume_size           = 8
-    volume_type           = "gp3"
+    encrypted   = false
+    volume_size = 8
+    volume_type = "gp3"
   }
 }
 
