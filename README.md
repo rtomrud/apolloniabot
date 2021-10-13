@@ -4,9 +4,9 @@ Listen to any song or podcast together with your friends or colleagues on a Disc
 
 ## Inspiration
 
-We have spent a lot of time hanging out (virtually) with friends on [Discord](https://discord.com/), particularly during the lockdowns. A lot of times, while being in a group voice chat we want to listen to music or to a podcast together, as if we all were in the same room.
+While being in a group call on [Discord](https://discord.com/), many times we want to listen to music or to a podcast together, as if we all were in the same room.
 
-Turns out that this is possible, because Discord provides an API to build bots for their platform. So we have built a Discord bot that let's you play (almost) any song or podcast on a voice channel.
+So we have built a Discord bot that let's you play (almost) any song or podcast on a Discord voice channel.
 
 There are already other music bots for Discord, but those don't fulfill our needs. First of all, those bots are shared between thousands of Discord servers, so audio quality is unreliable when lots of users play audio simultaneously and overload their servers. Next, those bots limit audio quality (bitrate) and disable features like audio effects/filters to save on CPU costs. Last but not least, well, the best ones [are gone](https://www.pcgamer.com/google-has-killed-discords-best-music-bot/).
 
