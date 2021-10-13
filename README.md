@@ -1,10 +1,12 @@
 ## Inspiration
 
-During the lockdows, we have spent a lot of time (virtually) hanging out with friends on Discord, and still do. Many times, while being in a group voice chat we want to listen to music or to a podcast together, as if we all were in the same room. Turns out that this is possible, because Discord provides an API to build bots for their platform. So we built a music bot that would let us play any song or podcast on a Discord voice channel.
+We have spent a lot of time hanging out (virtually) with friends on [Discord](https://discord.com/), particularly during the lockdowns. A lot of times, while being in a group voice chat we want to listen to music or to a podcast together, as if we all were in the same room.
 
-There already are existing music bots, but these didn't cut it. Firstly, other music bots are shared between thousands of Discord servers, which makes audio quality unreliable during peak hours, when many users use them simultaneously and overload their servers. Secondly, they limit audio quality (bitrate) to save on CPU costs. Lastly, well, the best ones [are gone](https://www.pcgamer.com/google-has-killed-discords-best-music-bot/).
+Turns out that this is possible, because Discord provides an API to build bots for their platform. So we have built a Discord bot that let's you play (almost) any song or podcast on a voice channel.
 
-Hence, the solution was to build and self-host our own bot, so that we could have the highest audio quality, don't compromise on features and don't depend on third-parties.
+There already are existing music bots, but those didn't cut it. Firstly, those bots are shared between thousands of Discord servers, which makes audio quality unreliable during peak hours, when many users play audio simultaneously. Secondly, those bots limit audio quality (bitrate) to save on CPU costs. Lastly, well, the best ones [are gone](https://www.pcgamer.com/google-has-killed-discords-best-music-bot/).
+
+Hence, the solution was to build and self-host our own bot, so that we could have the best audio quality, don't compromise on features, and don't depend on third-parties.
 
 ## What it does
 
