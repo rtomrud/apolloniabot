@@ -34,7 +34,7 @@ Thus, the ARM-based Graviton2 instances let us self-host a music bot for a very 
 
 ## Accomplishments that we're proud of
 
-- We build our first Discord bot to solve a problem we ourselves had
+We build our first Discord bot to solve a problem we had ourselves.
 
 ## What we learned
 
