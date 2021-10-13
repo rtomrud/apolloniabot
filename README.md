@@ -1,3 +1,7 @@
+# Apollonia Bot
+
+Listen to any song or podcast together with your friends or colleagues on a Discord voice call.
+
 ## Inspiration
 
 We have spent a lot of time hanging out (virtually) with friends on [Discord](https://discord.com/), particularly during the lockdowns. A lot of times, while being in a group voice chat we want to listen to music or to a podcast together, as if we all were in the same room.
