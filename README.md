@@ -10,9 +10,9 @@ Hence, the solution was to build and deploy our own bot, so that we could have t
 
 ## What it does
 
-- Plays songs, playlists or podcasts on Discord, so that users can listen to it together while they hang out in a voice channel
+- Plays songs, playlists, or podcasts on a Discord voice channel, so that users can listen to it together
 - Supports almost any audio format, from almost any source, thanks to [`youtube-dl`](https://ytdl-org.github.io/youtube-dl/supportedsites.html)
-- Provides great user experience, as the UI is build with [Slash Commands](https://discord.com/blog/slash-commands-are-here), the modern way to interact with Discord bots
+- Provides great user experience, as the UI is build with [Slash Commands](https://discord.com/blog/slash-commands-are-here), a modern, discoverable and accessible way to interact with Discord bots
 - Has all the functionality of a fully-featured music player, including:
   - Commands to control audio playback: `/play`, `/pause`, `/resume`, `/stop`, `/seek`, `/volume`
   - Commands to manage the playlist or queue: `/next`, `/queue`, `/move`, `/drop`, `/shuffle`, `/loop`, `/autoplay`
@@ -36,25 +36,23 @@ Streaming audio to a Discord voice channel is computationally expensive, because
 
 If there's any performance problem, users immediately notice it because the audio becomes laggy and choppy, which is unacceptable. One of the reasons we wanted our own music bot was to ensure we had reliable and high quality audio.
 
-So we had to find a cost-effective infrastructure for this latency-sensitive task. By using the Graviton2 instances, even a small one like the T4g.micro, the application can transcode multiple audio streams simultaneously without any performance degradation. This wasn't the case with similarly priced x86-based instances, which would reach high CPU utilization with just a few simultaneous audio streams and user experience would suffer as a result.
-
-Thus, the ARM-based Graviton2 instances let us deploy a music bot for a very reasonable price while enjoying high quality audio without any lag or choppiness.
+So we had to find a cost-effective infrastructure for this latency-sensitive task. By using the Graviton2 instances, even a small one like the T4g.micro, the application can transcode multiple audio streams simultaneously without any performance degradation. This wasn't the case with similarly priced x86-based instances, which would reach high CPU utilization with just a few simultaneous audio streams and user experience would suffer as a result. Thus, the ARM-based Graviton2 instances let us deploy a music bot for a very reasonable price while enjoying high quality audio without lag or choppiness.
 
 ## Accomplishments that we're proud of
 
-We build our first Discord bot to solve a problem we had ourselves.
+We built our first Discord bot to solve a problem we had ourselves.
 
 ## What we learned
 
-- How to develop a Discord bot, with the help of the Discord.js library
+- How to develop a Discord bot, with the help of the `discord.js` library
 - How to configure and provision all the AWS infrastructure needed for our application (EC2, VPC, IAM, etc.) by using Infrastructure as Code (IaC) tooling (Terraform)
-- How to use build a Continuous Delivery pipeline for EC2 instances
+- How to build a Continuous Delivery pipeline for EC2 instances
 - How to set up a CloudWatch agent to publish the application's logs from an EC2 instance to CloudWatch, so that we could set up alerts and use its log querying tools
 
 ## What's next for Apollonia Bot
 
-We built this bot to solve a problem we had ourselves, but we believe that other Discord server owners and moderators can also benefit from the reliability and control that a self-hosted music bot provides. Moreover, the recent death of the [Groovy](https://www.theverge.com/2021/8/24/22640024/youtube-discord-groovy-music-bot-closure) and [Rythm](https://www.theverge.com/2021/9/12/22669502/youtube-discord-rythm-music-bot-closure) bots for their violation of YouTube's Terms of Service has left a void for their millions of users. Meanwhile, our music bot, which is unmonetized, private and can be self-hosted, doesn't violate anyone's Terms of Service and cannot be shut down.
+We built this bot to solve a problem we had ourselves, but we believe that other Discord server owners and moderators can also benefit from the reliability and control provided by a self-hosted music bot. Moreover, the recent death of the [Groovy](https://www.theverge.com/2021/8/24/22640024/youtube-discord-groovy-music-bot-closure) and [Rythm](https://www.theverge.com/2021/9/12/22669502/youtube-discord-rythm-music-bot-closure) bots for their violation of YouTube's Terms of Service has left a void for their millions of users. Meanwhile, our music bot, which isn't monetized and can be self-hosted, doesn't violate anyone's Terms of Service and won't be shut down.
 
-Currently, developers can easily deploy this project on their own AWS accounts, because we provide a Terraform config to set up all the required infrastructure. But we want to thoroughly document this process and provide step-by-step instructions, so that deploying a music bot on EC2 is as easy as possible.
+Currently, anyone can easily deploy this project on their own AWS account, because we provide a Terraform config to set up all the required infrastructure. But we want to thoroughly document this process and provide step-by-step instructions, so that deploying our music bot on EC2 is as easy as possible.
 
 Then, we want to go one step further and also provide an easier setup of the required AWS infrastructure through the AWS Marketplace, so that even non-technical people can deploy this project on EC2, without having to understand how to install and use IaC tools or how to manage environment variables and secrets.
