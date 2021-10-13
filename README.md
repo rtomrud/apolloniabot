@@ -4,7 +4,7 @@ We have spent a lot of time hanging out (virtually) with friends on [Discord](ht
 
 Turns out that this is possible, because Discord provides an API to build bots for their platform. So we have built a Discord bot that let's you play (almost) any song or podcast on a voice channel.
 
-There are already other music bots for Discord, but those didn't cut it for us. First of all, those bots are shared between thousands of Discord servers, so audio quality is unreliable when many users play audio simultaneously and overload their servers. Next, those bots limit audio quality (bitrate) and disable features like audio effects/filters to save on CPU costs. Last but not least, well, the best ones [are gone](https://www.pcgamer.com/google-has-killed-discords-best-music-bot/).
+There are already other music bots for Discord, but those don't fulfill our needs. First of all, those bots are shared between thousands of Discord servers, so audio quality is unreliable when lots of users play audio simultaneously and overload their servers. Next, those bots limit audio quality (bitrate) and disable features like audio effects/filters to save on CPU costs. Last but not least, well, the best ones [are gone](https://www.pcgamer.com/google-has-killed-discords-best-music-bot/).
 
 Hence, the solution was to build and deploy our own bot, so that we could have the best audio quality without any lag or choppiness, don't compromise on features, and don't depend on third-parties.
 
