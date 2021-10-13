@@ -10,7 +10,13 @@ Hence, the solution was to build and deploy our own bot, so that we could have t
 
 ## What it does
 
-[TODO]
+- Plays songs, playlists or podcasts on Discord, so that users can listen to it together while they hang out in a voice channel
+- Supports almost any audio format, from almost any source, thanks to [`youtube-dl`](https://ytdl-org.github.io/youtube-dl/supportedsites.html)
+- Provides great user experience, as the UI is build with [Slash Commands](https://discord.com/blog/slash-commands-are-here), the modern way to interact with Discord bots
+- Has all the functionality of a fully-featured music player, including:
+  - Commands to control audio playback: `/play`, `/pause`, `/resume`, `/stop`, `/seek`, `/volume`
+  - Commands to manage the playlist or queue: `/next`, `/queue`, `/move`, `/drop`, `/shuffle`, `/loop`, `/autoplay`
+  - Commands to add sound effects/filters, such as, `/effect bassboost`, `/effect karaoke` or `/effect 3d`
 
 ## How we built it
 
