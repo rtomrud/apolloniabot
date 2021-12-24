@@ -18,7 +18,7 @@ cat <<EOF > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
       "files": {
         "collect_list": [
           {
-            "file_path": "/home/ubuntu/.pm2/logs/index-err.log",
+            "file_path": "/home/ubuntu/.pm2/logs/index-error.log",
             "log_group_name": "ec2-err.log"
           },
           {
