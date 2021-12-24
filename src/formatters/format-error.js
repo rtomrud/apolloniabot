@@ -28,6 +28,8 @@ export default function ({ errorCode, message }) {
       return "Error: I can't play that because there's no valid track";
     case "NON_NSFW":
       return "Error: I can't play age-restricted content in a non-NSFW channel";
+    case "INVALID_TYPE":
+      return "Error: I can't play that because it's not a valid URL";
     default: {
       if (message.includes("[youtube-dl] ERROR: Unsupported URL")) {
         return "Error: I can't play that URL";
