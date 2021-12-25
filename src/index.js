@@ -3,7 +3,6 @@ import { SpotifyPlugin } from "@distube/spotify";
 import { Client, Intents } from "discord.js";
 import { DisTube as Player } from "distube";
 import commands from "./commands/index.js";
-import formatCommandInteraction from "./formatters/format-command-interaction.js";
 import formatError from "./formatters/format-error.js";
 import formatPlaylist from "./formatters/format-playlist.js";
 import formatSong from "./formatters/format-song.js";
@@ -91,7 +90,17 @@ client.on("interactionCreate", (interaction) => {
     return;
   }
 
-  console.log(formatCommandInteraction(interaction));
+  console.log(
+    `%s (%s) used "%s" at %s (%s) #%s (%s) on %s`,
+    interaction.user.tag,
+    interaction.user.toString(),
+    interaction.toString(),
+    interaction.guild.name,
+    interaction.guildId,
+    interaction.channel.name,
+    interaction.channel.toString(),
+    interaction.createdAt.toUTCString()
+  );
 
   const command = commands[interaction.commandName];
   if (!command) {
@@ -106,11 +115,11 @@ client.on("interactionCreate", (interaction) => {
 
 client.once("ready", async () => {
   console.log(
-    client.readyAt.toISOString(),
-    client.user.id,
+    "%s#%s ready at %s on %s",
+    client.user.username,
+    client.user.discriminator,
     formatInviteUrl({ client_id: client.user.id, permissions }),
-    JSON.stringify(client.user.username),
-    '"READY"'
+    client.readyAt.toUTCString()
   );
   if (!client.application.owner) {
     await client.application.fetch();
