@@ -35,7 +35,7 @@ player.on("addSong", (queue, song) => {
 
 player.on("empty", (queue) => {
   queue.textChannel.send({
-    embeds: [{ description: "Stopped because the voice channel is empty" }],
+    embeds: [{ description: "I stopped because the voice channel is empty" }],
   });
 });
 
@@ -52,7 +52,7 @@ player.on("error", (channel, error) => {
 
 player.on("finish", (queue) => {
   queue.textChannel.send({
-    embeds: [{ description: "Stopped because the queue is finished" }],
+    embeds: [{ description: "I stopped because the queue is finished" }],
   });
 });
 
@@ -65,7 +65,7 @@ player.on("noRelated", (queue) => {
     embeds: [
       {
         description:
-          "Stopped because the queue is finished and I can't autoplay anything",
+          "I stopped because the queue is finished and I can't autoplay anything",
       },
     ],
   });
@@ -91,12 +91,12 @@ client.on("interactionCreate", (interaction) => {
   }
 
   console.log(
-    `%s (%s) used "%s" at %s (%s) #%s (%s) on %s`,
+    '%s (%s) used "%s" at %s (%s) #%s (%s) on %s',
     interaction.user.tag,
     interaction.user.toString(),
     interaction.toString(),
     interaction.guild.name,
-    interaction.guildId,
+    interaction.guild.id,
     interaction.channel.name,
     interaction.channel.toString(),
     interaction.createdAt.toUTCString()
@@ -115,9 +115,9 @@ client.on("interactionCreate", (interaction) => {
 
 client.once("ready", async () => {
   console.log(
-    "%s#%s ready at %s on %s",
-    client.user.username,
-    client.user.discriminator,
+    "%s (%s) ready at %s on %s",
+    client.user.tag,
+    client.user.toString(),
     formatInviteUrl({ client_id: client.user.id, permissions }),
     client.readyAt.toUTCString()
   );
