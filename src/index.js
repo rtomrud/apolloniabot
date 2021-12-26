@@ -33,12 +33,6 @@ player.on("addSong", (queue, song) => {
   });
 });
 
-player.on("disconnect", (queue) => {
-  queue.textChannel.send({
-    embeds: [{ description: "I stopped because I was disconnected" }],
-  });
-});
-
 player.on("empty", (queue) => {
   queue.textChannel.send({
     embeds: [{ description: "I stopped because the voice channel is empty" }],
