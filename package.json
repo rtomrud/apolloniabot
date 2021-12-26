@@ -12,12 +12,12 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
-    "@discordjs/opus": "0.6.0",
-    "@discordjs/voice": "0.7.2",
+    "@discordjs/opus": "0.7.0",
+    "@discordjs/voice": "0.7.5",
     "@distube/spotify": "1.0.0",
     "bufferutil": "4.0.5",
-    "discord.js": "13.3.1",
-    "distube": "3.0.2",
+    "discord.js": "13.4.0",
+    "distube": "3.0.4",
     "dotenv": "10.0.0",
     "pm2": "5.1.2",
     "sodium": "3.0.2",
