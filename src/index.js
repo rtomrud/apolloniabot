@@ -85,6 +85,17 @@ player.on("playSong", (queue, song) => {
 
 client.on("error", console.error);
 
+client.on("guildCreate", (guild) => {
+  console.log(
+    "%s (%s) joined %s (%s) on %s",
+    client.user.tag,
+    client.user.toString(),
+    guild.name,
+    guild.id,
+    guild.joinedAt.toUTCString()
+  );
+});
+
 client.on("interactionCreate", (interaction) => {
   if (!interaction.isCommand()) {
     return;
