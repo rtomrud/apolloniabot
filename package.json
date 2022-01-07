@@ -15,13 +15,13 @@
     "@discordjs/opus": "0.7.0",
     "@discordjs/voice": "0.7.5",
     "@distube/spotify": "1.0.0",
-    "bufferutil": "4.0.5",
-    "discord.js": "13.4.0",
-    "distube": "3.0.4",
+    "bufferutil": "4.0.6",
+    "discord.js": "13.5.0",
+    "distube": "3.0.5",
     "dotenv": "10.0.0",
     "pm2": "5.1.2",
     "sodium": "3.0.2",
-    "utf-8-validate": "5.0.7"
+    "utf-8-validate": "5.0.8"
   },
   "devDependencies": {
     "eslint": "8.5.0",
