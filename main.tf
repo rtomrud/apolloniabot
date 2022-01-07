@@ -60,7 +60,7 @@ resource "aws_instance" "this" {
   ami                         = data.aws_ami.this.id
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.this.name
-  instance_type               = "t4g.micro"
+  instance_type               = "t4g.nano"
   key_name                    = aws_key_pair.this.id
   subnet_id                   = aws_subnet.this.id
   user_data                   = file("user_data.sh")
