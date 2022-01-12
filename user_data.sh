@@ -6,6 +6,7 @@ apt install -y build-essential
 apt install -y libtool
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 apt install -y nodejs
+npm install -g npm
 ln -s /usr/bin/python3.* /usr/bin/python
 wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/arm64/latest/amazon-cloudwatch-agent.deb
 dpkg -i -E ./amazon-cloudwatch-agent.deb
