@@ -30,6 +30,7 @@ export const handler = async function (
           {
             name: "Duration",
             value: queue.songs[0].formattedDuration,
+            inline: true,
           },
           {
             name: "Requester",
@@ -61,7 +62,6 @@ export const handler = async function (
           {
             name: "Effects",
             value: queue.filters.join(", ") || "off",
-            inline: true,
           },
         ],
       },
