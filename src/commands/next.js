@@ -1,6 +1,5 @@
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
-import formatSong from "../formatters/format-song.js";
 
 export const data = {
   name: "next",
@@ -21,6 +20,6 @@ export const handler = async function (
   const [song] = queue.songs;
   queue.skip();
   return interaction.reply({
-    embeds: [{ description: `Skipped ${formatSong(song)}` }],
+    embeds: [{ description: `Skipped [${song.name}](${song.url})` }],
   });
 };

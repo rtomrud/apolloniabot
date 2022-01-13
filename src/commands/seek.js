@@ -1,6 +1,5 @@
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
-import formatPlayback from "../formatters/format-playback.js";
 
 export const data = {
   name: "seek",
@@ -52,6 +51,10 @@ export const handler = async function (
       : seconds;
   queue.seek(Math.max(0, Math.min(newTime, queue.songs[0].duration)));
   return interaction.reply({
-    embeds: [{ description: `Seeked ${formatPlayback(queue)}` }],
+    embeds: [
+      {
+        description: `Seeked to ${queue.formattedCurrentTime} of [${queue.songs[0].name}](${queue.songs[0].url})`,
+      },
+    ],
   });
 };

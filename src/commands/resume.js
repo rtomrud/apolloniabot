@@ -1,6 +1,5 @@
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
-import formatPlayback from "../formatters/format-playback.js";
 
 export const data = {
   name: "resume",
@@ -20,6 +19,10 @@ export const handler = async function (
 
   queue.resume();
   return interaction.reply({
-    embeds: [{ description: `Resumed ${formatPlayback(queue)}` }],
+    embeds: [
+      {
+        description: `Resumed [${queue.songs[0].name}](${queue.songs[0].url}) at ${queue.formattedCurrentTime}`,
+      },
+    ],
   });
 };

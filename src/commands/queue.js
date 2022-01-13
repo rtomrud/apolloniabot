@@ -1,8 +1,5 @@
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
-import formatPlayback from "../formatters/format-playback.js";
-import formatQueue from "../formatters/format-queue.js";
-import formatSong from "../formatters/format-song.js";
 
 export const data = {
   name: "queue",
@@ -45,11 +42,12 @@ export const handler = async function (
     embeds: [
       {
         title: "Queue",
-        description: formatQueue(queue),
+        description: `${queue.songs.length} track${
+          queue.songs.length === 1 ? "" : "s"
+        } [${queue.formattedDuration}]`,
         fields: queue.songs.slice(start, end).map((song, i) => ({
           name: String(i + start + 1),
-          value:
-            song === queue.songs[0] ? formatPlayback(queue) : formatSong(song),
+          value: `[${song.name}](${song.url})`,
         })),
         footer: { text: `Page ${pageIndex + 1} of ${pageCount}` },
       },

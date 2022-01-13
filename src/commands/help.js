@@ -1,7 +1,7 @@
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
-import formatInviteUrl from "../formatters/format-invite-url.js";
 import permissions from "../permissions.js";
+import scopes from "../scopes.js";
 
 export const data = {
   name: "help",
@@ -22,10 +22,7 @@ export const handler = async function (
       {
         title: player.client.user.username,
         description: "I play music. These are the commands you can give me:",
-        url: formatInviteUrl({
-          client_id: player.client.user.id,
-          permissions,
-        }),
+        url: player.client.generateInvite({ permissions, scopes }),
         fields: Array.from(commands, ([, command]) => ({
           name: `/${command.name}`,
           value: command.description,

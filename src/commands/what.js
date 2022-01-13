@@ -1,7 +1,5 @@
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
-import formatPlayback from "../formatters/format-playback.js";
-import formatQueue from "../formatters/format-queue.js";
 
 export const data = {
   name: "what",
@@ -23,9 +21,16 @@ export const handler = async function (
   return interaction.reply({
     embeds: [
       {
-        title: queue.playing ? "Now playing" : "Now paused",
-        description: formatPlayback(queue),
+        title: queue.songs[0].name,
+        url: queue.songs[0].url,
+        description: `${queue.playing ? "Playing" : "Paused"} at ${
+          queue.formattedCurrentTime
+        }`,
         fields: [
+          {
+            name: "Duration",
+            value: queue.songs[0].formattedDuration,
+          },
           {
             name: "Requester",
             value: queue.songs[0].user.toString(),
@@ -33,7 +38,9 @@ export const handler = async function (
           },
           {
             name: "Queue",
-            value: formatQueue(queue),
+            value: `${queue.songs.length} track${
+              queue.songs.length === 1 ? "" : "s"
+            } [${queue.formattedDuration}]`,
             inline: true,
           },
           {

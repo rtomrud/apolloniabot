@@ -1,6 +1,5 @@
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
-import formatSong from "../formatters/format-song.js";
 
 export const data = {
   name: "drop",
@@ -47,7 +46,9 @@ export const handler = async function (
 
   return interaction.reply({
     embeds: [
-      { description: `Dropped track ${start + 1}: ${formatSong(song)}` },
+      {
+        description: `Dropped track ${start + 1}: [${song.name}](${song.url})`,
+      },
     ],
   });
 };
