@@ -13,7 +13,7 @@ export default function addList(
                 playlist.songs.length === 2 ? "" : "s"
               }`
             : ""
-        }](${playlist.url}) [${playlist.formattedDuration}]`,
+        }](${playlist.url})`,
       },
     ],
   });
