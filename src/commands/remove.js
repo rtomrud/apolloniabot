@@ -2,12 +2,12 @@ import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
 export const data = {
-  name: "drop",
-  description: "Drop a track from the queue",
+  name: "remove",
+  description: "Remove a track from the queue",
   options: [
     {
       name: "track",
-      description: "The position of the track to drop",
+      description: "The position of the track to remove",
       type: "INTEGER",
       required: true,
     },
@@ -21,7 +21,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to drop" }],
+      embeds: [{ description: "Error: Nothing to remove" }],
     });
   }
 
@@ -47,7 +47,7 @@ export const handler = async function (
   return interaction.reply({
     embeds: [
       {
-        description: `Dropped track ${start + 1}: [${song.name}](${song.url})`,
+        description: `Removed track ${start + 1}: [${song.name}](${song.url})`,
       },
     ],
   });
