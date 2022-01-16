@@ -28,6 +28,6 @@ export const handler = async function (
     })
     .catch((error) => player.emit("error", channel, error));
   return interaction.reply({
-    embeds: [{ description: `Searching: ${query}` }],
+    embeds: [{ description: `Searching "${query}"` }],
   });
 };
