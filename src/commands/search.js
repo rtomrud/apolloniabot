@@ -2,7 +2,7 @@ import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
 export const data = {
-  name: "find",
+  name: "search",
   description: "Search on YouTube and show the search results",
   options: [
     {
