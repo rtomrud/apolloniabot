@@ -27,12 +27,12 @@ export const handler = async function (
           {
             title: "Results",
             fields: searchResults.map((searchResult) => ({
-              name: searchResult.uploader.name || "[Unknown]",
-              value: `[${searchResult.name}](${searchResult.url}) [${
+              name: searchResult.uploader.name || "-",
+              value: `[${searchResult.name}](${searchResult.url}) • ${
                 searchResult.type === "video"
                   ? searchResult.formattedDuration
                   : "Playlist"
-              }]`,
+              }`,
             })),
             footer: { text: "Powered by YouTube" },
           },
