@@ -23,13 +23,10 @@ export const handler = async function (
       {
         title: queue.songs[0].name,
         url: queue.songs[0].url,
-        description: `${queue.playing ? "Playing" : "Paused"} at ${
-          queue.formattedCurrentTime
-        }`,
         fields: [
           {
-            name: "Duration",
-            value: queue.songs[0].formattedDuration,
+            name: "Time",
+            value: `${queue.formattedCurrentTime}/${queue.songs[0].formattedDuration}`,
             inline: true,
           },
           {
@@ -38,15 +35,8 @@ export const handler = async function (
             inline: true,
           },
           {
-            name: "Queue",
-            value: `${queue.songs.length} track${
-              queue.songs.length === 1 ? "" : "s"
-            } [${queue.formattedDuration}]`,
-            inline: true,
-          },
-          {
             name: "Volume",
-            value: String(queue.volume),
+            value: queue.volume.toString(),
             inline: true,
           },
           {
@@ -62,6 +52,7 @@ export const handler = async function (
           {
             name: "Effects",
             value: queue.filters.join(", ") || "off",
+            inline: true,
           },
         ],
       },
