@@ -22,7 +22,7 @@ export const handler = async function (
   const query = interaction.options.get("query").value;
   const channel = await player.client.channels.fetch(interaction.channelId);
   player
-    .playVoiceChannel(interaction.member.voice.channel, query, {
+    .play(interaction.member.voice.channel, query, {
       member: interaction.member,
       textChannel: channel,
     })
