@@ -44,10 +44,10 @@ export const handler = async function (
         title: "Queue",
         description: `${queue.songs.length} track${
           queue.songs.length === 1 ? "" : "s"
-        } [${queue.formattedDuration}]`,
+        } • ${queue.formattedDuration}`,
         fields: queue.songs.slice(start, end).map((song, i) => ({
           name: String(i + start + 1),
-          value: `[${song.name}](${song.url})`,
+          value: `[${song.name}](${song.url}) • ${song.formattedDuration}`,
         })),
         footer: { text: `Page ${pageIndex + 1} of ${pageCount}` },
       },
