@@ -2,12 +2,12 @@ import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
 export const data = {
-  name: "loop",
-  description: "Loop the queue or current track",
+  name: "repeat",
+  description: "Repeat the queue or current track",
   options: [
     {
       name: "mode",
-      description: "The loop mode",
+      description: "The repeat mode",
       type: "STRING",
       required: true,
       choices: [
@@ -26,11 +26,11 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to loop" }],
+      embeds: [{ description: "Error: Nothing to repeat" }],
     });
   }
 
   const mode = interaction.options.get("mode")?.value;
   queue.setRepeatMode(mode === "queue" ? 2 : mode === "track" ? 1 : 0);
-  return interaction.reply({ embeds: [{ description: `Loop: ${mode}` }] });
+  return interaction.reply({ embeds: [{ description: `Repeat: ${mode}` }] });
 };

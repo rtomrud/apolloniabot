@@ -45,7 +45,7 @@ export const handler = async function (
             inline: true,
           },
           {
-            name: "Loop",
+            name: "Repeat",
             value: ["off", "track", "queue"][queue.repeatMode],
             inline: true,
           },

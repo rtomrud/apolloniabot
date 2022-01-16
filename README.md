@@ -19,7 +19,7 @@ Hence, the solution was to build and deploy our own bot, so that we could have t
 - Provides great user experience, as the UI is build with [Slash Commands](https://discord.com/blog/slash-commands-are-here), a modern, discoverable and accessible way to interact with Discord bots
 - Has all the functionality of a fully-featured music player, including:
   - Commands to control audio playback: `/play`, `/pause`, `/resume`, `/stop`, `/seek`, `/volume`
-  - Commands to manage the playlist or queue: `/next`, `/queue`, `/move`, `/drop`, `/shuffle`, `/loop`, `/autoplay`
+  - Commands to manage the playlist or queue: `/next`, `/queue`, `/move`, `/drop`, `/shuffle`, `/repeat`, `/autoplay`
   - Commands to add sound effects/filters, such as, `/effect bassboost`, `/effect karaoke` or `/effect 3d`
 
 ## How we built it
