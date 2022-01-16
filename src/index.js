@@ -1,13 +1,12 @@
 import "dotenv/config";
 import { SpotifyPlugin } from "@distube/spotify";
-import { Client, Intents } from "discord.js";
+import { Client } from "discord.js";
 import { DisTube as Player } from "distube";
 import events from "./events/index.js";
 import playerEvents from "./events/player/index.js";
+import intents from "./intents.js";
 
-const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES],
-});
+const client = new Client({ intents });
 
 const player = new Player(client, {
   plugins: [new SpotifyPlugin({ emitEventsAfterFetching: true })],
