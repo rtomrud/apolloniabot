@@ -32,5 +32,5 @@ export const handler = async function (
 
   const mode = interaction.options.get("mode")?.value;
   queue.setRepeatMode(mode === "queue" ? 2 : mode === "track" ? 1 : 0);
-  return interaction.reply({ embeds: [{ description: `Repeat: ${mode}` }] });
+  return interaction.reply({ embeds: [{ description: `Repeat ${mode}` }] });
 };
