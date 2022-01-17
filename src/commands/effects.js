@@ -36,6 +36,6 @@ export const handler = async function (
   const filter = interaction.options.get("effect")?.value;
   queue.setFilter(filter || false);
   return interaction.reply({
-    embeds: [{ description: `Effects: ${queue.filters.join(", ") || "off"}` }],
+    embeds: [{ description: `Effects: ${queue.filters.join(", ") || "none"}` }],
   });
 };
