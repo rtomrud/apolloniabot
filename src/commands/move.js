@@ -8,13 +8,13 @@ export const data = {
     {
       name: "track",
       description: "The position of the track to move",
-      type: "INTEGER",
+      type: 4,
       required: true,
     },
     {
       name: "position",
       description: "The position to move the track to",
-      type: "INTEGER",
+      type: 4,
       required: true,
     },
   ],

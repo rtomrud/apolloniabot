@@ -8,7 +8,7 @@ export const data = {
     {
       name: "track",
       description: "The position of the track to remove",
-      type: "INTEGER",
+      type: 4,
       required: true,
     },
   ],

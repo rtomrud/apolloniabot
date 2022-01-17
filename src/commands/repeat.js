@@ -8,7 +8,7 @@ export const data = {
     {
       name: "mode",
       description: "The repeat mode",
-      type: "STRING",
+      type: 3,
       required: true,
       choices: [
         { name: "off", value: "off" },

@@ -8,7 +8,7 @@ export const data = {
     {
       name: "percent",
       description: "The volume (0 to 100)",
-      type: "INTEGER",
+      type: 4,
       required: true,
     },
   ],

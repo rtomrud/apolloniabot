@@ -8,7 +8,7 @@ export const data = {
     {
       name: "effect",
       description: "The effect to toggle",
-      type: "STRING",
+      type: 3,
       required: true,
       choices: [
         { name: "3d", value: "3d" },

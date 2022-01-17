@@ -8,38 +8,38 @@ export const data = {
     {
       name: "backward",
       description: "Seek backward by the specified time",
-      type: "SUB_COMMAND",
+      type: 1,
       options: [
         {
           name: "time",
           description:
             "The time to seek backward by, in seconds or in HH:MM:SS format (15s by default)",
-          type: "STRING",
+          type: 3,
         },
       ],
     },
     {
       name: "forward",
       description: "Seek forward by the specified time",
-      type: "SUB_COMMAND",
+      type: 1,
       options: [
         {
           name: "time",
           description:
             "The time to seek forward by, in seconds or in HH:MM:SS format (15s by default)",
-          type: "STRING",
+          type: 3,
         },
       ],
     },
     {
       name: "to",
       description: "Seek the specified time",
-      type: "SUB_COMMAND",
+      type: 1,
       options: [
         {
           name: "time",
           description: "The time to seek, in seconds or in HH:MM:SS format",
-          type: "STRING",
+          type: 3,
           required: true,
         },
       ],

@@ -8,7 +8,7 @@ export const data = {
     {
       name: "query",
       description: "The search query",
-      type: "STRING",
+      type: 3,
       required: true,
     },
   ],

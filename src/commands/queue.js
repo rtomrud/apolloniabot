@@ -8,7 +8,7 @@ export const data = {
     {
       name: "page",
       description: "The page of the queue to show (defaults to page 1)",
-      type: "INTEGER",
+      type: 4,
     },
   ],
 };

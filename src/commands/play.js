@@ -9,7 +9,7 @@ export const data = {
       name: "query",
       description:
         "The URL of a track, or the URL of a playlist on YouTube or Spotify, or a query to search on YouTube",
-      type: "STRING",
+      type: 3,
       required: true,
     },
   ],
