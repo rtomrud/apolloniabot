@@ -3,21 +3,45 @@ import { DisTube as Player } from "distube";
 
 export const data = {
   name: "seek",
-  description: "Seek the current track to a specified time",
+  description: "Seek the current track to the specified time",
   options: [
     {
-      name: "time",
-      description: "The time in seconds or in HH:MM:SS format",
-      type: "STRING",
-      required: true,
+      name: "backward",
+      description: "Seek backward by the specified time",
+      type: "SUB_COMMAND",
+      options: [
+        {
+          name: "time",
+          description:
+            "The time to seek backward by, in seconds or in HH:MM:SS format (15s by default)",
+          type: "STRING",
+        },
+      ],
     },
     {
-      name: "mode",
-      description: "Whether to seek forward or backward by the specified time",
-      type: "STRING",
-      choices: [
-        { name: "backward", value: "backward" },
-        { name: "forward", value: "forward" },
+      name: "forward",
+      description: "Seek forward by the specified time",
+      type: "SUB_COMMAND",
+      options: [
+        {
+          name: "time",
+          description:
+            "The time to seek forward by, in seconds or in HH:MM:SS format (15s by default)",
+          type: "STRING",
+        },
+      ],
+    },
+    {
+      name: "to",
+      description: "Seek the specified time",
+      type: "SUB_COMMAND",
+      options: [
+        {
+          name: "time",
+          description: "The time to seek, in seconds or in HH:MM:SS format",
+          type: "STRING",
+          required: true,
+        },
       ],
     },
   ],
@@ -34,7 +58,7 @@ export const handler = async function (
     });
   }
 
-  const time = interaction.options.get("time")?.value;
+  const time = interaction.options.get("time")?.value || "15";
   const seconds = time
     .split(":")
     .reduce(
@@ -42,18 +66,18 @@ export const handler = async function (
         seconds + Number(component) * 60 ** (length - i - 1),
       0
     );
-  const mode = interaction.options.get("mode")?.value;
+  const subcommand = interaction.options.getSubcommand();
   const newTime =
-    mode === "forward"
-      ? queue.currentTime + seconds
-      : mode === "backward"
+    subcommand === "backward"
       ? queue.currentTime - seconds
+      : subcommand === "forward"
+      ? queue.currentTime + seconds
       : seconds;
   queue.seek(Math.max(0, Math.min(newTime, queue.songs[0].duration)));
   return interaction.reply({
     embeds: [
       {
-        description: `Seeked to ${queue.formattedCurrentTime} of [${queue.songs[0].name}](${queue.songs[0].url})`,
+        description: `Seeked to ${queue.formattedCurrentTime} in [${queue.songs[0].name}](${queue.songs[0].url})`,
       },
     ],
   });
