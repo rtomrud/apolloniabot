@@ -7,7 +7,7 @@ export const data = {
   options: [
     {
       name: "page",
-      description: "The page of the queue to show (defaults to page 1)",
+      description: "The page of the queue to show (1 by default)",
       type: 4,
     },
   ],
