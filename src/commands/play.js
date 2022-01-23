@@ -21,6 +21,17 @@ export const handler = async function (
 ) {
   const query = interaction.options.get("query").value;
   const channel = await player.client.channels.fetch(interaction.channelId);
+  if (!interaction.member.voice.channel) {
+    return interaction.reply({
+      embeds: [
+        {
+          description:
+            "Error: I can't join you because you're not in a voice channel",
+        },
+      ],
+    });
+  }
+
   player
     .play(interaction.member.voice.channel, query, {
       member: interaction.member,
