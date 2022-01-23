@@ -51,7 +51,11 @@ export default function error(
     console.error(error);
   }
 
-  channel.send({
-    embeds: [{ description: message || "Error: Something went wrong, sorry" }],
-  });
+  channel
+    .send({
+      embeds: [
+        { description: message || "Error: Something went wrong, sorry" },
+      ],
+    })
+    .catch(console.error);
 }
