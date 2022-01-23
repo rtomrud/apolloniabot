@@ -1,5 +1,14 @@
-import { Interaction } from "discord.js";
+import { CommandInteraction, Interaction } from "discord.js";
 import commands from "../commands/index.js";
+
+const defaultCommand = {
+  data: { name: "default" },
+  handler: async (interaction = new CommandInteraction()) => {
+    return interaction.reply({
+      embeds: [{ description: "Error: I can't do that yet, sorry" }],
+    });
+  },
+};
 
 export default function interactionCreate(interaction = new Interaction()) {
   if (!interaction.isCommand()) {
@@ -18,13 +27,6 @@ export default function interactionCreate(interaction = new Interaction()) {
     interaction.createdAt.toUTCString()
   );
 
-  const command = commands[interaction.commandName];
-  if (!command) {
-    interaction.reply({
-      embeds: [{ description: "Error: I can't do that yet, sorry" }],
-    });
-    return;
-  }
-
+  const command = commands[interaction.commandName] || defaultCommand;
   command.handler(interaction, interaction.client.player);
 }
