@@ -23,5 +23,5 @@ export default async function ready(client = new Client()) {
     : Routes.applicationCommands(client.application.id);
   await rest
     .put(route, { body: Object.values(commands).map(({ data }) => data) })
-    .catch(({ message }) => console.error(message));
+    .catch(console.error);
 }
