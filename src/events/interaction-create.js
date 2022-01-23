@@ -28,5 +28,5 @@ export default function interactionCreate(interaction = new Interaction()) {
   );
 
   const command = commands[interaction.commandName] || defaultCommand;
-  command.handler(interaction, interaction.client.player);
+  command.handler(interaction, interaction.client.player).catch(console.error);
 }
