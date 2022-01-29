@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { SpotifyPlugin } from "@distube/spotify";
+import { YtDlpPlugin } from "@distube/yt-dlp";
 import { Client } from "discord.js";
 import { DisTube as Player } from "distube";
 import events from "./events/index.js";
@@ -9,10 +10,14 @@ import intents from "./intents.js";
 const client = new Client({ intents });
 
 const player = new Player(client, {
-  plugins: [new SpotifyPlugin({ emitEventsAfterFetching: true })],
+  plugins: [
+    new YtDlpPlugin(),
+    new SpotifyPlugin({ emitEventsAfterFetching: true }),
+  ],
   emitNewSongOnly: true,
   leaveOnFinish: true,
   savePreviousSongs: false,
+  youtubeDL: false,
   nsfw: true,
 });
 
