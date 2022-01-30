@@ -33,7 +33,7 @@ const formatErrorMessage = ({ errorCode, message }) => {
     case "INVALID_TYPE":
       return "Error: I can't play that because it's not a valid URL";
     default: {
-      if (message.includes("[youtube-dl] ERROR: Unsupported URL")) {
+      if (message.includes("ERROR: Unsupported URL")) {
         return "Error: I can't play that URL";
       }
 
