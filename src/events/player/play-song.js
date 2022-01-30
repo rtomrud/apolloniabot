@@ -1,8 +1,8 @@
-import { Queue, Song } from "distube";
+import { Song } from "distube";
 
-export default function playSong(queue = new Queue(), song = new Song()) {
-  queue.textChannel
-    .send({
+export default function playSong(queue, song = new Song()) {
+  song.metadata.interaction
+    .followUp({
       embeds: [
         {
           title: song.name,

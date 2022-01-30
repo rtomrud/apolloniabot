@@ -32,10 +32,12 @@ export const handler = async function (
     });
   }
 
+  channel.interaction = interaction;
   player
     .play(interaction.member.voice.channel, query, {
       member: interaction.member,
       textChannel: channel,
+      metadata: { interaction },
     })
     .catch((error) => player.emit("error", channel, error));
   return interaction.reply({

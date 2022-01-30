@@ -51,8 +51,8 @@ export default function error(
     console.error(error);
   }
 
-  channel
-    .send({
+  channel.interaction
+    .followUp({
       embeds: [
         { description: message || "Error: Something went wrong, sorry" },
       ],

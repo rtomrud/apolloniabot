@@ -1,11 +1,8 @@
-import { Playlist, Queue } from "distube";
+import { Playlist } from "distube";
 
-export default function addList(
-  queue = new Queue(),
-  playlist = new Playlist()
-) {
-  queue.textChannel
-    .send({
+export default function addList(queue, playlist = new Playlist()) {
+  playlist.metadata.interaction
+    .followUp({
       embeds: [
         {
           description: `Queued [${playlist.songs[0].name}${
