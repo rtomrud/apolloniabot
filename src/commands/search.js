@@ -19,10 +19,13 @@ export const handler = async function (
   player = new Player()
 ) {
   const query = interaction.options.get("query")?.value;
-  interaction.reply({ embeds: [{ description: `Searching "${query}"` }] });
+  const message = interaction.reply({
+    embeds: [{ description: `Searching "${query}"` }],
+  });
   return player.search(query, { limit: 10 }).then(
-    (searchResults) =>
-      interaction.followUp({
+    async (searchResults) => {
+      await message;
+      return interaction.followUp({
         embeds: [
           {
             title: "Results",
@@ -38,11 +41,14 @@ export const handler = async function (
           },
         ],
         ephemeral: true,
-      }),
-    () =>
-      interaction.followUp({
+      });
+    },
+    async () => {
+      await message;
+      return interaction.followUp({
         embeds: [{ description: "Error: I cant't find anything" }],
         ephemeral: true,
-      })
+      });
+    }
   );
 };
