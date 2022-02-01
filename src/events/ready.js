@@ -1,5 +1,5 @@
 import { REST } from "@discordjs/rest";
-import { Routes } from "discord-api-types/v8";
+import { Routes } from "discord-api-types/v9";
 import { Client } from "discord.js";
 import commands from "../commands/index.js";
 
@@ -11,7 +11,7 @@ export default async function ready(client = new Client()) {
     client.readyAt.toUTCString()
   );
 
-  const rest = new REST({ version: "8" }).setToken(process.env.TOKEN);
+  const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
   const route = process.env.GUILD_ID
     ? Routes.applicationGuildCommands(
         client.application.id,
