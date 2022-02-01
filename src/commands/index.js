@@ -9,7 +9,6 @@ import * as queue from "./queue.js";
 import * as remove from "./remove.js";
 import * as repeat from "./repeat.js";
 import * as resume from "./resume.js";
-import * as search from "./search.js";
 import * as seek from "./seek.js";
 import * as shuffle from "./shuffle.js";
 import * as stop from "./stop.js";
@@ -28,7 +27,6 @@ export default {
   remove,
   repeat,
   resume,
-  search,
   seek,
   shuffle,
   stop,

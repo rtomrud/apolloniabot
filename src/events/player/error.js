@@ -13,8 +13,6 @@ const formatErrorMessage = ({ errorCode, message }) => {
       return "Error: I can't connect to your voice channel";
     case "VOICE_MISSING_PERMS":
       return "Error: I can't join your voice channel because I don't have permission";
-    case "NO_RESULT":
-      return "Error: I can't find anything";
     case "NO_RELATED":
     case "CANNOT_PLAY_RELATED":
       return "Error: I can't play any related track";
