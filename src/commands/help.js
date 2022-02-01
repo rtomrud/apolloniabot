@@ -29,6 +29,5 @@ export const handler = async function (
         })),
       },
     ],
-    ephemeral: true,
   });
 };
