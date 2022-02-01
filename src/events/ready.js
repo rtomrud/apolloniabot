@@ -2,15 +2,12 @@ import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v8";
 import { Client } from "discord.js";
 import commands from "../commands/index.js";
-import permissions from "../permissions.js";
-import scopes from "../scopes.js";
 
 export default async function ready(client = new Client()) {
   console.log(
-    "%s (%s) ready at %s on %s",
+    "%s (%s) ready on %s",
     client.user.tag,
     client.user.toString(),
-    client.generateInvite({ permissions, scopes }),
     client.readyAt.toUTCString()
   );
 
