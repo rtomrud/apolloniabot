@@ -15,6 +15,14 @@ export const data = {
   ],
 };
 
+const isHttpUrl = (string) => {
+  try {
+    return new URL(string).protocol.startsWith("http");
+  } catch {
+    return false;
+  }
+};
+
 export const handler = async function (
   interaction = new CommandInteraction(),
   player = new Player()
@@ -38,7 +46,18 @@ export const handler = async function (
     textChannel: channel,
     metadata: { interaction },
   });
+  const terms = query.split(" ");
   return interaction.reply({
-    embeds: [{ description: `Searching "${query}"` }],
+    embeds: [
+      {
+        description: `Searching "${
+          isHttpUrl(terms[0])
+            ? terms[0]
+            : `[${query}](https://www.youtube.com/results?search_query=${encodeURIComponent(
+                query
+              )})`
+        }"`,
+      },
+    ],
   });
 };
