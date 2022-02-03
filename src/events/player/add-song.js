@@ -1,9 +1,15 @@
-import { Song } from "distube";
+import { Queue, Song } from "distube";
 
-export default function addSong(queue, song = new Song()) {
+export default function addSong(queue = new Queue(), song = new Song()) {
   song.metadata.interaction
     .followUp({
-      embeds: [{ description: `Queued [${song.name}](${song.url})` }],
+      embeds: [
+        {
+          description: `${queue.songs[0] === song ? "Playing" : "Queued"} [${
+            song.name
+          }](${song.url})`,
+        },
+      ],
     })
     .catch(console.error);
 }
