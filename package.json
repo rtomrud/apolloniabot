@@ -16,7 +16,6 @@
     "@discordjs/rest": "0.3.0",
     "@discordjs/voice": "0.8.0",
     "@distube/spotify": "1.1.0",
-    "@distube/yt-dlp": "0.0.2",
     "bufferutil": "4.0.6",
     "discord-api-types": "0.26.1",
     "discord.js": "13.6.0",
@@ -24,7 +23,8 @@
     "dotenv": "15.0.0",
     "pm2": "5.1.2",
     "sodium": "3.0.2",
-    "utf-8-validate": "5.0.8"
+    "utf-8-validate": "5.0.8",
+    "youtube-dl-exec": "2.0.2"
   },
   "devDependencies": {
     "eslint": "8.8.0",
