@@ -10,6 +10,7 @@ const messages = {
   VOICE_RECONNECT_FAILED:
     "I can't join you because I can't reconnect to your voice channel",
   VOICE_CHANGE_GUILD: "I can't join you because you're in another server",
+  NO_RESULT: "I can't find that",
   NO_RELATED: "I can't find any related track",
   CANNOT_PLAY_RELATED: "I can't play any related track",
   UNAVAILABLE_VIDEO: "I can't play that because it's unavailable",
