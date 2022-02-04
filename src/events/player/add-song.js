@@ -1,6 +1,7 @@
 import { Queue, Song } from "distube";
 
-export default function addSong(queue = new Queue(), song = new Song()) {
+export default async function addSong(queue = new Queue(), song = new Song()) {
+  await song.metadata.reply;
   song.metadata.interaction
     .followUp({
       embeds: [

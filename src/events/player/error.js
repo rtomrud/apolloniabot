@@ -25,7 +25,7 @@ const messages = {
 
 const defaultMessage = "Something went wrong, sorry";
 
-export default function error(
+export default async function error(
   channel = new TextChannel(),
   error = new Error()
 ) {
@@ -34,6 +34,7 @@ export default function error(
     console.error(error);
   }
 
+  await channel.interaction.reply;
   channel.interaction
     .followUp({ embeds: [{ description: `Error: ${message}` }] })
     .catch(console.error);

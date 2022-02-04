@@ -1,9 +1,10 @@
 import { Playlist, Queue } from "distube";
 
-export default function addList(
+export default async function addList(
   queue = new Queue(),
   playlist = new Playlist()
 ) {
+  await playlist.metadata.reply;
   playlist.metadata.interaction
     .followUp({
       embeds: [

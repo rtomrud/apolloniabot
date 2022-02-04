@@ -40,19 +40,13 @@ export const handler = async function (
     });
   }
 
-  channel.interaction = interaction;
-  player.play(interaction.member.voice.channel, query, {
-    member: interaction.member,
-    textChannel: channel,
-    metadata: { interaction },
-  });
-  const terms = query.split(" ");
-  return interaction.reply({
+  const [url] = query.split(" ");
+  const reply = interaction.reply({
     embeds: [
       {
         description: `Searching "${
-          isHttpUrl(terms[0])
-            ? terms[0]
+          isHttpUrl(url)
+            ? url
             : `[${query}](https://www.youtube.com/results?search_query=${encodeURIComponent(
                 query
               )})`
@@ -60,4 +54,11 @@ export const handler = async function (
       },
     ],
   });
+  channel.interaction = interaction;
+  player.play(interaction.member.voice.channel, query, {
+    member: interaction.member,
+    textChannel: channel,
+    metadata: { interaction, reply },
+  });
+  return reply;
 };
