@@ -7,8 +7,8 @@ export default class YoutubeDlPlugin extends ExtractorPlugin {
     pattern,
   } = {}) {
     super();
-    this.youtubeDlExec = create(binaryPath);
     this.pattern = RegExp(pattern);
+    this.youtubeDl = create(binaryPath);
   }
 
   async validate(url) {
@@ -16,7 +16,7 @@ export default class YoutubeDlPlugin extends ExtractorPlugin {
   }
 
   async getStreamURL(url) {
-    const response = await this.youtubeDlExec(url, {
+    const response = await this.youtubeDl(url, {
       dumpSingleJson: true,
       noWarnings: true,
     });
@@ -24,7 +24,7 @@ export default class YoutubeDlPlugin extends ExtractorPlugin {
   }
 
   async resolve(url, { member, metadata }) {
-    const response = await this.youtubeDlExec(url, {
+    const response = await this.youtubeDl(url, {
       dumpSingleJson: true,
       noWarnings: true,
       preferFreeFormats: true,
