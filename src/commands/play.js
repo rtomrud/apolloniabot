@@ -49,6 +49,9 @@ export const handler = async function (
             ? url
             : `[${query}](https://www.youtube.com/results?search_query=${encodeURIComponent(
                 query
+              ).replace(
+                /[!'()*]/g,
+                (char) => `%${char.charCodeAt(0).toString(16).toUpperCase()}`
               )})`
         }"`,
       },
