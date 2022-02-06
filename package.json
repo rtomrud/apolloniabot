@@ -25,7 +25,8 @@
     "spotify-uri": "2.2.0",
     "spotify-url-info": "2.2.5",
     "utf-8-validate": "5.0.8",
-    "youtube-dl-exec": "2.0.2"
+    "youtube-dl-exec": "2.0.2",
+    "youtube-search-without-api-key": "1.0.7"
   },
   "devDependencies": {
     "eslint": "8.8.0",
