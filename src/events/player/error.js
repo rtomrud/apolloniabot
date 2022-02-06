@@ -35,7 +35,7 @@ export default async function error(
     console.error(error);
   }
 
-  await channel.interaction.reply;
+  await channel.interaction.fetchReply();
   channel.interaction
     .followUp({ embeds: [{ description: `Error: ${message}` }] })
     .catch(console.error);
