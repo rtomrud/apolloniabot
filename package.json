@@ -5,7 +5,6 @@
   "scripts": {
     "postinstall": "pm2 install pm2-logrotate",
     "lint": "eslint .",
-    "prepare": "husky install",
     "start": "pm2 start src/index.js",
     "stop": "pm2 kill",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
@@ -33,7 +32,6 @@
     "eslint-config-pretty-strict": "8.1.1",
     "eslint-plugin-jest": "26.1.1",
     "eslint-plugin-prettier": "4.0.0",
-    "husky": "7.0.4",
     "jest": "27.5.1",
     "prettier": "2.5.1"
   },
