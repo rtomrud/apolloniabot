@@ -47,11 +47,8 @@ export const handler = async function (
         description: `Searching "${
           isHttpUrl(url)
             ? url
-            : `[${query}](https://www.youtube.com/results?search_query=${encodeURIComponent(
-                query
-              ).replace(
-                /[!'()*]/g,
-                (char) => `%${char.charCodeAt(0).toString(16).toUpperCase()}`
+            : `[${query}](https://www.youtube.com/results?${new URLSearchParams(
+                { search_query: query }
               )})`
         }"`,
       },
