@@ -40,8 +40,8 @@ export const handler = async function (
     embeds: [
       {
         title: "Queue",
-        description: `${queue.songs.length} track${
-          queue.songs.length === 1 ? "" : "s"
+        description: `${queue.songs.length} ${
+          queue.songs.length === 1 ? "track" : "tracks"
         } • ${queue.formattedDuration}`,
         fields: queue.songs.slice(start, end).map((song, i) => ({
           name: String(i + start + 1),

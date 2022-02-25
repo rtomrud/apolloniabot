@@ -13,8 +13,8 @@ export default async function addList(
             queue.songs[0] === playlist.songs[0] ? "Playing" : "Queued"
           } [${playlist.songs[0].name}${
             playlist.songs.length > 1
-              ? ` and ${playlist.songs.length - 1} more track${
-                  playlist.songs.length === 2 ? "" : "s"
+              ? ` and ${playlist.songs.length - 1} more ${
+                  playlist.songs.length - 1 === 1 ? "track" : "tracks"
                 }`
               : ""
           }](${playlist.url})`,
