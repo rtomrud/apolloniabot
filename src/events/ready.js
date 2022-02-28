@@ -3,10 +3,12 @@ import commands from "../commands/index.js";
 
 export default async function ready(client = new Client()) {
   console.log(
-    "%s (%s) ready on %s",
-    client.user.tag,
-    client.user.toString(),
-    client.readyAt.toUTCString()
+    JSON.stringify({
+      event: "READY",
+      user: client.user.tag,
+      userId: client.user.id,
+      readyAt: client.readyAt.toISOString(),
+    })
   );
 
   await client.application.commands

@@ -16,15 +16,18 @@ export default function interactionCreate(interaction = new Interaction()) {
   }
 
   console.log(
-    '%s (%s) used "%s" at %s (%s) #%s (%s) on %s',
-    interaction.user.tag,
-    interaction.user.toString(),
-    interaction.toString(),
-    interaction.guild.name,
-    interaction.guild.id,
-    interaction.channel.name,
-    interaction.channel.toString(),
-    interaction.createdAt.toUTCString()
+    JSON.stringify({
+      event: "INTERACTION_CREATE",
+      data: interaction.toString(),
+      user: interaction.user.tag,
+      userId: interaction.user.id,
+      guild: interaction.guild.name,
+      guildId: interaction.guild.id,
+      channel: interaction.channel.name,
+      channelId: interaction.channel.id,
+      createdAt: interaction.createdAt.toISOString(),
+      id: interaction.id,
+    })
   );
 
   const command = commands[interaction.commandName] || defaultCommand;

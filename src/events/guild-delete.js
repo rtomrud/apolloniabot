@@ -6,11 +6,11 @@ export default function guildDelete(guild = new Guild()) {
   }
 
   console.log(
-    "%s (%s) left %s (%s) on %s",
-    guild.client.user.tag,
-    guild.client.user.toString(),
-    guild.name,
-    guild.id,
-    guild.joinedAt.toUTCString()
+    JSON.stringify({
+      event: "GUILD_DELETE",
+      guild: guild.name,
+      guildId: guild.id,
+      joinedAt: guild.leftAt.toISOString(),
+    })
   );
 }
