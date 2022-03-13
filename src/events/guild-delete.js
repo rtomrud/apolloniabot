@@ -10,7 +10,7 @@ export default function guildDelete(guild = new Guild()) {
       event: "GUILD_DELETE",
       guild: guild.name,
       guildId: guild.id,
-      joinedAt: guild.leftAt.toISOString(),
+      joinedAt: guild.joinedAt.toISOString(),
     })
   );
 }
