@@ -65,6 +65,26 @@ export const handler = async function (
     metadata: { interaction, reply },
   };
   channel.interaction = interaction;
+
+  if (!isHttpUrl(url)) {
+    try {
+      const [result] = await search(query);
+      const song = new Song({
+        id: result.id.videoId,
+        url: result.url,
+        name: result.title,
+        duration: result.duration_raw,
+      });
+      player.play(interaction.member.voice.channel, song, options);
+      return reply;
+    } catch (error) {
+      console.error(error);
+      return interaction.reply({
+        embeds: [{ description: "Error: I can't find that" }],
+      });
+    }
+  }
+
   if (isSpotifyUrl(url)) {
     try {
       const tracks = await getTracks(url);
