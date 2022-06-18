@@ -22,11 +22,11 @@ provider "aws" {
 
 data "aws_ami" "this" {
   most_recent = true
-  owners      = ["099720109477"] # Canonical
+  owners      = ["137112412989"] # amazon
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-impish-21.10-arm64-server-20220118"]
+    values = ["al2022-ami-2022.0.20220504.1-kernel-5.15-arm64"]
   }
 }
 
