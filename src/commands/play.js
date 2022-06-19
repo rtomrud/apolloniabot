@@ -1,8 +1,11 @@
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player, Playlist, Song } from "distube";
-import spotifyUri from "spotify-uri";
-import { getTracks } from "spotify-url-info";
+import fetch from "node-fetch";
+import { parse } from "spotify-uri";
+import spotifyUrlInfo from "spotify-url-info";
 import { search } from "youtube-search-without-api-key";
+
+const { getTracks } = spotifyUrlInfo(fetch);
 
 export const data = {
   name: "play",
@@ -28,7 +31,7 @@ const isHttpUrl = (string) => {
 
 const isSpotifyUrl = (url) => {
   try {
-    return /spotify/.test(url) && spotifyUri.parse(url).type != null;
+    return /spotify/.test(url) && parse(url).type != null;
   } catch {
     return false;
   }
