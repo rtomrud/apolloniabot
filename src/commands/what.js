@@ -22,13 +22,38 @@ export const handler = async function (
       {
         title: queue.songs[0].name,
         url: queue.songs[0].url,
-        description: `${queue.formattedCurrentTime}/${
-          queue.songs[0].formattedDuration
-        } • Requested by ${queue.songs[0].user} • Volume at ${
-          queue.volume
-        } • Repeat ${["off", "track", "queue"][queue.repeatMode]} • Autoplay ${
-          queue.autoplay ? "on" : "off"
-        } • Effects: ${queue.filters.join(", ") || "none"}`,
+        fields: [
+          {
+            name: "Duration",
+            value: `${queue.formattedCurrentTime}/${queue.songs[0].formattedDuration}`,
+            inline: true,
+          },
+          {
+            name: "Volume",
+            value: String(queue.volume),
+            inline: true,
+          },
+          {
+            name: "Requester",
+            value: String(queue.songs[0].user),
+            inline: true,
+          },
+          {
+            name: "Repeat",
+            value: ["off", "track", "queue"][queue.repeatMode],
+            inline: true,
+          },
+          {
+            name: "Autoplay",
+            value: queue.autoplay ? "on" : "off",
+            inline: true,
+          },
+          {
+            name: "Effects",
+            value: queue.filters.join(", ") || "none",
+            inline: true,
+          },
+        ],
       },
     ],
   });
