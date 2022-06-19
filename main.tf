@@ -26,7 +26,7 @@ data "aws_ami" "this" {
 
   filter {
     name   = "name"
-    values = ["al2022-ami-2022.0.20220504.1-kernel-5.15-arm64"]
+    values = ["amzn2-ami-kernel-5.10-hvm-2.0.20220606.1-arm64-gp2"]
   }
 }
 

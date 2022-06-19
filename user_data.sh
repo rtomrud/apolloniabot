@@ -1,6 +1,7 @@
 #!/bin/bash
-dnf update -y
-dnf install -y gcc-c++ libtool make nodejs npm
+curl -fsSL https://rpm.nodesource.com/setup_16.x | bash -
+yum update -y
+yum install -y gcc-c++ libtool make nodejs
 
 curl -fsSLO https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-arm64-static.tar.xz
 curl -fsSLO https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-arm64-static.tar.xz.md5
