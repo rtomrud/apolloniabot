@@ -13,7 +13,6 @@
   "dependencies": {
     "@discordjs/opus": "0.7.0",
     "@discordjs/voice": "0.10.0",
-    "@distube/yt-dlp": "1.0.2",
     "bufferutil": "4.0.6",
     "discord.js": "13.8.0",
     "distube": "3.3.4",
@@ -24,6 +23,7 @@
     "spotify-uri": "3.0.2",
     "spotify-url-info": "3.1.2",
     "utf-8-validate": "5.0.9",
+    "youtube-dl-exec": "2.0.12",
     "youtube-search-without-api-key": "1.0.7"
   },
   "devDependencies": {

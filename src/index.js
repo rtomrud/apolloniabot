@@ -1,9 +1,9 @@
 import "dotenv/config";
-import { YtDlpPlugin } from "@distube/yt-dlp";
 import { Client } from "discord.js";
 import { DisTube as Player } from "distube";
 import events from "./events/index.js";
 import playerEvents from "./events/player/index.js";
+import { YtDlpPlugin } from "./plugins/yt-dlp-plugin.js";
 import intents from "./intents.js";
 
 const client = new Client({ intents });
