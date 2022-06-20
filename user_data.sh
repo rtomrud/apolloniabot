@@ -9,6 +9,9 @@ md5sum -c ffmpeg-release-arm64-static.tar.xz.md5 && tar -xf ffmpeg-release-arm64
 chown root:root /usr/local/bin/ffmpeg /usr/local/bin/ffprobe
 rm ffmpeg-release-arm64-static.tar.xz ffmpeg-release-arm64-static.tar.xz.md5
 
+curl -fsSL -o /usr/local/bin/yt-dlp https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
+chmod a+rx /usr/local/bin/yt-dlp
+
 curl -fsSL https://s3.amazonaws.com/amazoncloudwatch-agent/assets/amazon-cloudwatch-agent.gpg | gpg --import
 curl -fsSLO https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/arm64/latest/amazon-cloudwatch-agent.rpm.sig
 curl -fsSLO https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/arm64/latest/amazon-cloudwatch-agent.rpm
