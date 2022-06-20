@@ -34,7 +34,12 @@ export class YtDlpPlugin extends ExtractorPlugin {
       dumpSingleJson: true,
       noWarnings: true,
       preferFreeFormats: true,
-    }).catch((e) => {
+    }).catch(async (e) => {
+      // Send a follup now because throwing here doesn't trigger the error event
+      await metadata.interaction.fetchReply();
+      metadata.interaction
+        .followUp({ embeds: [{ description: "Error: I can't play that" }] })
+        .catch(console.error);
       throw new DisTubeError("YTDLP_ERROR", e);
     });
     if (Array.isArray(response.entries) && response.entries.length > 0) {
