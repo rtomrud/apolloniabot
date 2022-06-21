@@ -82,7 +82,7 @@ export const handler = async function (
       return reply;
     } catch (error) {
       console.error(error);
-      return interaction.reply({
+      return interaction.followUp({
         embeds: [{ description: "Error: I can't find that" }],
       });
     }
@@ -114,7 +114,7 @@ export const handler = async function (
       return reply;
     } catch (error) {
       console.error(error);
-      return interaction.reply({
+      return interaction.followUp({
         embeds: [{ description: "Error: I can't find that" }],
       });
     }
