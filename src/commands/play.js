@@ -63,10 +63,7 @@ export const handler = async function (
   const reply = await interaction.reply({
     embeds: [{ description: `Searching "${searchUrl}"` }],
   });
-  const options = {
-    member: interaction.member,
-    metadata: { interaction, reply },
-  };
+  const options = { member: interaction.member, metadata: { interaction } };
   channel.interaction = interaction;
 
   if (!isHttpUrl(url)) {

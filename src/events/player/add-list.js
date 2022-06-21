@@ -4,7 +4,7 @@ export default async function addList(
   queue = new Queue(),
   playlist = new Playlist()
 ) {
-  await playlist.metadata.reply;
+  await playlist.metadata.interaction.fetchReply();
   playlist.metadata.interaction
     .followUp({
       embeds: [
