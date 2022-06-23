@@ -23,7 +23,6 @@
     "spotify-uri": "3.0.2",
     "spotify-url-info": "3.1.2",
     "utf-8-validate": "5.0.9",
-    "youtube-dl-exec": "2.0.12",
     "youtube-search-without-api-key": "1.0.7"
   },
   "devDependencies": {
