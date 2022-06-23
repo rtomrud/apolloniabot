@@ -3,10 +3,8 @@
   "version": "0.1.0",
   "license": "UNLICENSED",
   "scripts": {
-    "postinstall": "pm2 install pm2-logrotate",
     "lint": "eslint .",
-    "start": "pm2 start -f src/index.js",
-    "stop": "pm2 kill",
+    "start": "node src/index.js",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "posttest": "npm run lint"
   },
@@ -18,7 +16,6 @@
     "distube": "3.3.4",
     "dotenv": "16.0.1",
     "node-fetch": "3.2.6",
-    "pm2": "5.2.0",
     "sodium-native": "3.3.0",
     "spotify-uri": "3.0.2",
     "spotify-url-info": "3.1.2",
