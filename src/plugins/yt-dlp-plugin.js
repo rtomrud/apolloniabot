@@ -19,7 +19,9 @@ export class YtDlpPlugin extends ExtractorPlugin {
       this.binaryPath,
       [url, "--dump-single-json", "--no-warnings", "--prefer-free-formats"],
       { windowsHide: true }
-    );
+    ).catch((error) => {
+      throw new DisTubeError("YTDLP_ERROR", error.stderr || error);
+    });
     const info = JSON.parse(stdout);
     return info.url;
   }
@@ -29,16 +31,16 @@ export class YtDlpPlugin extends ExtractorPlugin {
       this.binaryPath,
       [url, "--dump-single-json", "--no-warnings", "--prefer-free-formats"],
       { windowsHide: true }
-    ).catch(async ({ stderr }) => {
+    ).catch(async (error) => {
       // Send a follup now because throwing here doesn't trigger the error event
       await metadata.interaction.fetchReply();
       metadata.interaction
         .followUp({ embeds: [{ description: "Error: I can't play that" }] })
         .catch(console.error);
-      throw new DisTubeError("YTDLP_ERROR", stderr);
+      throw new DisTubeError("YTDLP_ERROR", error.stderr || error);
     });
     const info = JSON.parse(stdout);
-    if (Array.isArray(info.entries) && info.entries.length > 0) {
+    if (Array.isArray(info.entries)) {
       return new Playlist(
         {
           ...info,
