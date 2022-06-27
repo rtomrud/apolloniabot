@@ -33,6 +33,10 @@ jobs:
       #     push: true
       #     tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}:latest,${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}:${{ github.sha }}
 
+  deploy:
+    runs-on: ubuntu-latest
+    # needs: build
+    steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -48,8 +52,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           container-name: app
-          environment-variables: |
-            TOKEN=${{ secrets.TOKEN }}
+          environment-variables: TOKEN=${{ secrets.TOKEN }}
           image: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}:${{ github.sha }}
           task-definition: task-definition.json
 
