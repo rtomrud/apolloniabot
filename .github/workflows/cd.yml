@@ -31,4 +31,4 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${GITHUB_REPOSITORY#*/}:latest,${{ secrets.DOCKER_HUB_USERNAME }}/${GITHUB_REPOSITORY#*/}:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}:latest,${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}:${{ github.sha }}
