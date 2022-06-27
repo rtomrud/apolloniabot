@@ -20,17 +20,99 @@ provider "aws" {
   }
 }
 
-data "aws_ami" "this" {
-  most_recent = true
-  owners      = ["137112412989"] # amazon
+resource "aws_appautoscaling_target" "this" {
+  max_capacity       = 2
+  min_capacity       = 1
+  resource_id        = "service/${aws_ecs_cluster.this.name}/${aws_ecs_service.this.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+}
 
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-kernel-5.10-hvm-2.0.20220606.1-arm64-gp2"]
+resource "aws_appautoscaling_policy" "this" {
+  name               = "cpu-autoscaling"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.this.resource_id
+  scalable_dimension = aws_appautoscaling_target.this.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.this.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    scale_in_cooldown  = 300
+    scale_out_cooldown = 60
+    target_value       = 80
+
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
   }
 }
 
-resource "aws_iam_role" "this" {
+resource "aws_cloudwatch_log_group" "this" {
+  name = var.app
+
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
+
+resource "aws_ecs_cluster" "this" {
+  name = var.app
+}
+
+resource "aws_ecs_service" "this" {
+  cluster         = aws_ecs_cluster.this.id
+  desired_count   = 1
+  launch_type     = "FARGATE"
+  name            = var.app
+  task_definition = aws_ecs_task_definition.this.arn
+
+  network_configuration {
+    assign_public_ip = true
+    security_groups  = [aws_security_group.this.id]
+    subnets          = aws_subnet.this.*.id
+  }
+
+  lifecycle {
+    ignore_changes = [desired_count, task_definition]
+  }
+}
+
+resource "aws_ecs_task_definition" "this" {
+  container_definitions    = <<EOF
+[
+    {
+      "image": "${var.image}",
+      "name": "app",
+      "environment": [
+        {
+          "name": "TOKEN",
+          "value": "${var.token}"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "${aws_cloudwatch_log_group.this.name}",
+          "awslogs-region": "${var.region}",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+  EOF
+  cpu                      = "256"
+  execution_role_arn       = aws_iam_role.task_execution_role.arn
+  family                   = var.app
+  memory                   = "512"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+
+  runtime_platform {
+    cpu_architecture        = "ARM64"
+    operating_system_family = "LINUX"
+  }
+}
+
+resource "aws_iam_role" "task_execution_role" {
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -38,7 +120,7 @@ resource "aws_iam_role" "this" {
     {
       "Action": "sts:AssumeRole",
       "Principal": {
-        "Service": "ec2.amazonaws.com"
+        "Service": "ecs-tasks.amazonaws.com"
       },
       "Effect": "Allow"
     }
@@ -47,42 +129,18 @@ resource "aws_iam_role" "this" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "this" {
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
-  role       = aws_iam_role.this.name
-}
-
-resource "aws_iam_instance_profile" "this" {
-  role = aws_iam_role.this.name
-}
-
-resource "aws_instance" "this" {
-  ami                         = data.aws_ami.this.id
-  associate_public_ip_address = true
-  iam_instance_profile        = aws_iam_instance_profile.this.name
-  instance_type               = "t4g.micro"
-  key_name                    = aws_key_pair.this.id
-  subnet_id                   = aws_subnet.this.id
-  user_data                   = file("user_data.sh")
-  vpc_security_group_ids      = [aws_security_group.this.id]
-
-  credit_specification {
-    cpu_credits = "standard"
-  }
-
-  root_block_device {
-    encrypted   = false
-    volume_size = 8
-    volume_type = "gp3"
-  }
+resource "aws_iam_role_policy_attachment" "task_execution_role" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  role       = aws_iam_role.task_execution_role.name
 }
 
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
 }
 
-resource "aws_key_pair" "this" {
-  public_key = var.public_key
+resource "aws_main_route_table_association" "this" {
+  route_table_id = aws_route_table.this.id
+  vpc_id         = aws_vpc.this.id
 }
 
 resource "aws_route_table" "this" {
@@ -92,11 +150,18 @@ resource "aws_route_table" "this" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.this.id
   }
+
+  route {
+    gateway_id = aws_internet_gateway.this.id
+    ipv6_cidr_block        = "::/0"
+  }
 }
 
 resource "aws_route_table_association" "this" {
+  count = length(aws_subnet.this.*)
+
   route_table_id = aws_route_table.this.id
-  subnet_id      = aws_subnet.this.id
+  subnet_id      = aws_subnet.this[count.index].id
 }
 
 resource "aws_security_group" "this" {
@@ -109,21 +174,23 @@ resource "aws_security_group" "this" {
     protocol         = "-1"
     to_port          = 0
   }
-
-  ingress {
-    cidr_blocks = ["0.0.0.0/0"]
-    from_port   = 22
-    protocol    = "tcp"
-    to_port     = 22
-  }
 }
 
+data "aws_availability_zones" "this" {}
+
 resource "aws_subnet" "this" {
-  availability_zone = "${var.region}a"
-  cidr_block        = "172.31.0.0/20"
-  vpc_id            = aws_vpc.this.id
+  count = length(data.aws_availability_zones.this.names)
+
+  assign_ipv6_address_on_creation = true
+  availability_zone               = data.aws_availability_zones.this.names[count.index]
+  cidr_block                      = cidrsubnet(aws_vpc.this.cidr_block, 4, count.index)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.this.ipv6_cidr_block, 8, count.index)
+  vpc_id                          = aws_vpc.this.id
 }
 
 resource "aws_vpc" "this" {
-  cidr_block = "172.31.0.0/16"
+  assign_generated_ipv6_cidr_block = true
+  cidr_block                       = "10.0.0.0/16"
+  enable_dns_hostnames             = true
+  enable_dns_support               = true
 }

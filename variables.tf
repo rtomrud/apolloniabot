@@ -1,6 +1,13 @@
-variable "public_key" {
-  description = "The public key used to SSH into the EC2 instance."
+variable "app" {
+  description = "The name of the app."
   type        = string
+  default     = "apolloniabot"
+}
+
+variable "image" {
+  description = "The Docker image of the app."
+  type        = string
+  default     = "rtomrud/apolloniabot:latest"
 }
 
 variable "region" {
@@ -12,4 +19,10 @@ variable "tags" {
   description = "The AWS tags common to all resources."
   type        = map(string)
   default     = {}
+}
+
+variable "token" {
+  description = "The token of the Discord bot."
+  type        = string
+  sensitive   = true
 }
