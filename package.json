@@ -9,12 +9,12 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
-    "@discordjs/opus": "0.7.0",
     "@discordjs/voice": "0.10.0",
     "discord.js": "13.8.1",
     "distube": "3.3.4",
     "dotenv": "16.0.1",
     "node-fetch": "3.2.6",
+    "opusscript": "0.0.8",
     "sodium-native": "3.3.0",
     "spotify-uri": "3.0.2",
     "spotify-url-info": "3.1.2",
