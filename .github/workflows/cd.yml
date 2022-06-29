@@ -26,7 +26,7 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}:latest,${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}:${{ github.sha }}
+          tags: ${{ secrets.IMAGE }}:latest,${{ secrets.IMAGE }}:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -48,7 +48,7 @@ jobs:
         with:
           container-name: app
           environment-variables: TOKEN=${{ secrets.TOKEN }}
-          image: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}:${{ github.sha }}
+          image: ${{ secrets.IMAGE }}:${{ github.sha }}
           task-definition: task-definition.json
 
       - name: Deploy task definition
