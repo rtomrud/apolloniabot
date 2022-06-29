@@ -100,7 +100,7 @@ resource "aws_ecs_task_definition" "this" {
   ]
   EOF
   cpu                      = "256"
-  execution_role_arn       = aws_iam_role.task_execution_role.arn
+  execution_role_arn       = aws_iam_role.task_execution.arn
   family                   = var.service
   memory                   = "512"
   network_mode             = "awsvpc"
@@ -112,7 +112,7 @@ resource "aws_ecs_task_definition" "this" {
   }
 }
 
-resource "aws_iam_role" "task_execution_role" {
+resource "aws_iam_role" "task_execution" {
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -126,12 +126,13 @@ resource "aws_iam_role" "task_execution_role" {
     }
   ]
 }
+  name_prefix = "${var.service}-task-execution"
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "task_execution_role" {
+resource "aws_iam_role_policy_attachment" "task_execution" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-  role       = aws_iam_role.task_execution_role.name
+  role       = aws_iam_role.task_execution.name
 }
 
 resource "aws_internet_gateway" "this" {
