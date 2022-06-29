@@ -1,4 +1,4 @@
-name: cd
+name: ci
 on:
   push:
     branches:
