@@ -10,6 +10,5 @@ node_modules
 docker-compose.yml
 Dockerfile
 main.tf
-outputs.tf
 terraform.tfvars
 variables.tf
