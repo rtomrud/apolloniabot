@@ -1,24 +1,30 @@
-variable "app" {
-  description = "The name of the app."
+variable "aws_region" {
+  description = "The AWS region."
+  type        = string
+}
+
+variable "aws_tags" {
+  description = "The AWS tags common to all resources."
+  type        = map(string)
+  default     = {}
+}
+
+variable "cluster" {
+  description = "The name of the ECS cluster."
   type        = string
   default     = "apolloniabot"
 }
 
 variable "image" {
-  description = "The Docker image of the app."
+  description = "The Docker image."
   type        = string
-  default     = "rtomrud/apolloniabot:latest"
+  default     = "rtomrud/apolloniabot"
 }
 
-variable "region" {
-  description = "The AWS region."
+variable "service" {
+  description = "The name of the ECS service."
   type        = string
-}
-
-variable "tags" {
-  description = "The AWS tags common to all resources."
-  type        = map(string)
-  default     = {}
+  default     = "apolloniabot"
 }
 
 variable "token" {

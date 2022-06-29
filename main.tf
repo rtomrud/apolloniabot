@@ -13,10 +13,10 @@ terraform {
 }
 
 provider "aws" {
-  region = var.region
+  region = var.aws_region
 
   default_tags {
-    tags = var.tags
+    tags = var.aws_tags
   }
 }
 
@@ -47,7 +47,7 @@ resource "aws_appautoscaling_policy" "this" {
 }
 
 resource "aws_cloudwatch_log_group" "this" {
-  name = var.app
+  name = var.cluster
 
   # lifecycle {
   #   prevent_destroy = true
@@ -55,14 +55,14 @@ resource "aws_cloudwatch_log_group" "this" {
 }
 
 resource "aws_ecs_cluster" "this" {
-  name = var.app
+  name = var.cluster
 }
 
 resource "aws_ecs_service" "this" {
   cluster         = aws_ecs_cluster.this.id
   desired_count   = 1
   launch_type     = "FARGATE"
-  name            = var.app
+  name            = var.service
   task_definition = aws_ecs_task_definition.this.arn
 
   network_configuration {
@@ -92,7 +92,7 @@ resource "aws_ecs_task_definition" "this" {
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "${aws_cloudwatch_log_group.this.name}",
-          "awslogs-region": "${var.region}",
+          "awslogs-region": "${var.aws_region}",
           "awslogs-stream-prefix": "ecs"
         }
       }
@@ -101,7 +101,7 @@ resource "aws_ecs_task_definition" "this" {
   EOF
   cpu                      = "256"
   execution_role_arn       = aws_iam_role.task_execution_role.arn
-  family                   = var.app
+  family                   = var.service
   memory                   = "512"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]

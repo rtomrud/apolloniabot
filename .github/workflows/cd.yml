@@ -40,7 +40,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Fetch task definition
-        run: aws ecs describe-task-definition --task-definition ${{ secrets.APP }} --query taskDefinition > task-definition.json
+        run: aws ecs describe-task-definition --task-definition ${{ secrets.SERVICE }} --query taskDefinition > task-definition.json
 
       - name: Render task definition
         id: render-task
@@ -54,7 +54,7 @@ jobs:
       - name: Deploy task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          cluster: ${{ secrets.APP }}
-          service: ${{ secrets.APP }}
+          cluster: ${{ secrets.CLUSTER }}
+          service: ${{ secrets.SERVICE }}
           task-definition: ${{ steps.render-task.outputs.task-definition }}
           wait-for-service-stability: true
