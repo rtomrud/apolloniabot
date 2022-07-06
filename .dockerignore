@@ -1,14 +1,3 @@
-.git
-.github
-.terraform
-coverage
-node_modules
-.dockerignore
-.env
-.gitignore
-.terraform.lock.hcl
-docker-compose.yml
-Dockerfile
-main.tf
-terraform.tfvars
-variables.tf
+**
+!package*.json
+!src
