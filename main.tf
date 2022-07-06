@@ -126,8 +126,8 @@ resource "aws_iam_role" "task_execution" {
     }
   ]
 }
-  name_prefix = "${var.service}-task-execution"
-EOF
+  EOF
+  name_prefix        = "${var.service}-task-execution"
 }
 
 resource "aws_iam_role_policy_attachment" "task_execution" {
