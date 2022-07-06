@@ -77,28 +77,26 @@ resource "aws_ecs_service" "this" {
 }
 
 resource "aws_ecs_task_definition" "this" {
-  container_definitions    = <<EOF
-[
+  container_definitions = jsonencode([
     {
-      "image": "${var.image}",
-      "name": "app",
-      "environment": [
+      image = var.image
+      name  = "app"
+      environment = [
         {
-          "name": "TOKEN",
-          "value": "${var.token}"
+          name  = "TOKEN"
+          value = var.token
         }
-      ],
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "${aws_cloudwatch_log_group.this.name}",
-          "awslogs-region": "${var.aws_region}",
-          "awslogs-stream-prefix": "ecs"
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = aws_cloudwatch_log_group.this.name
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
         }
       }
     }
-  ]
-  EOF
+  ])
   cpu                      = "256"
   execution_role_arn       = aws_iam_role.task_execution.arn
   family                   = var.service
@@ -113,20 +111,17 @@ resource "aws_ecs_task_definition" "this" {
 }
 
 resource "aws_iam_role" "task_execution" {
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ecs-tasks.amazonaws.com"
-      },
-      "Effect": "Allow"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = {
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ecs-tasks.amazonaws.com"
+      }
     }
-}
-  EOF
-  name_prefix        = "${var.service}-task-execution"
+  })
+  name_prefix = "${var.service}-task-execution"
 }
 
 data "aws_iam_policy" "amazon_ecs_task_execution_role_policy" {
