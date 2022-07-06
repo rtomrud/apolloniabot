@@ -81,12 +81,6 @@ resource "aws_ecs_task_definition" "this" {
     {
       image = var.image
       name  = "app"
-      environment = [
-        {
-          name  = "TOKEN"
-          value = var.token
-        }
-      ]
       logConfiguration = {
         logDriver = "awslogs"
         options = {
@@ -95,6 +89,12 @@ resource "aws_ecs_task_definition" "this" {
           awslogs-stream-prefix = "ecs"
         }
       }
+      secrets = [
+        {
+          name      = "TOKEN"
+          valueFrom = aws_ssm_parameter.token.arn
+        }
+      ]
     }
   ])
   cpu                      = "256"
@@ -110,9 +110,16 @@ resource "aws_ecs_task_definition" "this" {
   }
 }
 
+data "aws_iam_policy" "amazon_ecs_task_execution_role_policy" {
+  name = "AmazonECSTaskExecutionRolePolicy"
+}
+
+data "aws_kms_alias" "ssm" {
+  name = "alias/aws/ssm"
+}
+
 resource "aws_iam_role" "task_execution" {
   assume_role_policy = jsonencode({
-    Version = "2012-10-17"
     Statement = {
       Action = "sts:AssumeRole"
       Effect = "Allow"
@@ -120,17 +127,31 @@ resource "aws_iam_role" "task_execution" {
         Service = "ecs-tasks.amazonaws.com"
       }
     }
+    Version = "2012-10-17"
   })
+  managed_policy_arns = [
+    data.aws_iam_policy.amazon_ecs_task_execution_role_policy.arn
+  ]
   name_prefix = "${var.service}-task-execution"
-}
 
-data "aws_iam_policy" "amazon_ecs_task_execution_role_policy" {
-  name = "AmazonECSTaskExecutionRolePolicy"
-}
-
-resource "aws_iam_role_policy_attachment" "task_execution" {
-  policy_arn = data.aws_iam_policy.amazon_ecs_task_execution_role_policy.arn
-  role       = aws_iam_role.task_execution.name
+  inline_policy {
+    name = "${var.service}-task-execution"
+    policy = jsonencode({
+      Statement = [
+        {
+          Action   = "kms:Decrypt"
+          Effect   = "Allow"
+          Resource = data.aws_kms_alias.ssm.arn
+        },
+        {
+          Action   = "ssm:GetParameters"
+          Effect   = "Allow"
+          Resource = aws_ssm_parameter.token.arn
+        }
+      ]
+      Version = "2012-10-17"
+    })
+  }
 }
 
 resource "aws_internet_gateway" "this" {
@@ -173,6 +194,12 @@ resource "aws_security_group" "this" {
     protocol         = "-1"
     to_port          = 0
   }
+}
+
+resource "aws_ssm_parameter" "token" {
+  name  = "/discord/token"
+  type  = "SecureString"
+  value = var.token
 }
 
 data "aws_availability_zones" "this" {}
