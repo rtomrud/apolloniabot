@@ -153,8 +153,8 @@ resource "aws_route_table" "this" {
   }
 
   route {
-    gateway_id = aws_internet_gateway.this.id
-    ipv6_cidr_block        = "::/0"
+    gateway_id      = aws_internet_gateway.this.id
+    ipv6_cidr_block = "::/0"
   }
 }
 
