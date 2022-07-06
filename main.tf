@@ -124,14 +124,17 @@ resource "aws_iam_role" "task_execution" {
       },
       "Effect": "Allow"
     }
-  ]
 }
   EOF
   name_prefix        = "${var.service}-task-execution"
 }
 
+data "aws_iam_policy" "amazon_ecs_task_execution_role_policy" {
+  name = "AmazonECSTaskExecutionRolePolicy"
+}
+
 resource "aws_iam_role_policy_attachment" "task_execution" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  policy_arn = data.aws_iam_policy.amazon_ecs_task_execution_role_policy.arn
   role       = aws_iam_role.task_execution.name
 }
 
