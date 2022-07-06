@@ -47,7 +47,6 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           container-name: app
-          environment-variables: TOKEN=${{ secrets.TOKEN }}
           image: ${{ secrets.IMAGE }}:${{ github.sha }}
           task-definition: task-definition.json
 
