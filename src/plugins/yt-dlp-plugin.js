@@ -38,28 +38,17 @@ export class YtDlpPlugin extends ExtractorPlugin {
       [url, "--dump-single-json", "--no-warnings", "--prefer-free-formats"],
       { windowsHide: true }
     ).catch(async (error) => {
-      // Send a follup now because throwing here doesn't trigger the error event
-      await metadata.interaction.fetchReply();
-      metadata.interaction
-        .followUp({ embeds: [{ description: "Error: I can't play that" }] })
-        .catch(console.error);
       throw new DisTubeError("YTDLP_ERROR", error.stderr || error);
     });
     const info = JSON.parse(stdout);
-    if (Array.isArray(info.entries)) {
-      return new Playlist(
-        {
-          ...info,
-          songs: info.entries.map(
+    return Array.isArray(info.entries)
+      ? new Playlist(
+          info.entries.map(
             (entry) =>
               new Song(entry, { member, source: entry.extractor, metadata })
           ),
-          source: info.extractor,
-        },
-        { member, metadata }
-      );
-    }
-
-    return new Song(info, { member, source: info.extractor, metadata });
+          { member, properties: { url: info.url }, metadata }
+        )
+      : new Song(info, { member, source: info.extractor, metadata });
   }
 }
