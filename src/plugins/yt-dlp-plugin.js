@@ -17,7 +17,13 @@ export class YtDlpPlugin extends ExtractorPlugin {
   async getStreamURL(url) {
     const { stdout } = await execFile(
       this.binaryPath,
-      [url, "--dump-single-json", "--no-warnings", "--prefer-free-formats"],
+      [
+        url,
+        "--format=ba[acodec=opus]/ba/b[acodec=opus]/b",
+        "--dump-single-json",
+        "--no-warnings",
+        "--prefer-free-formats",
+      ],
       { windowsHide: true }
     ).catch((error) => {
       throw new DisTubeError("YTDLP_ERROR", error.stderr || error);
