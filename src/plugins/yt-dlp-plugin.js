@@ -67,7 +67,7 @@ export class YtDlpPlugin extends ExtractorPlugin {
             (entry) =>
               new Song(entry, { member, source: entry.extractor, metadata })
           ),
-          { member, properties: { url: info.url }, metadata }
+          { member, properties: { url }, metadata }
         )
       : new Song(info, { member, source: info.extractor, metadata });
   }
