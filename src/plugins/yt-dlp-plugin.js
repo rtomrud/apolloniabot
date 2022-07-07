@@ -4,6 +4,9 @@ import { DisTubeError, ExtractorPlugin, Playlist, Song } from "distube";
 
 const execFile = promisify(child_process.execFile);
 
+const cache = new Map();
+const timeouts = new Map();
+
 export class YtDlpPlugin extends ExtractorPlugin {
   constructor({ binaryPath = "yt-dlp" } = {}) {
     super();
@@ -15,6 +18,10 @@ export class YtDlpPlugin extends ExtractorPlugin {
   }
 
   async getStreamURL(url) {
+    if (cache.has(url)) {
+      return cache.get(url);
+    }
+
     const { stdout } = await execFile(
       this.binaryPath,
       [
@@ -35,12 +42,25 @@ export class YtDlpPlugin extends ExtractorPlugin {
   async resolve(url, { member, metadata }) {
     const { stdout } = await execFile(
       this.binaryPath,
-      [url, "--dump-single-json", "--no-warnings", "--prefer-free-formats"],
+      [
+        url,
+        "--format=ba[acodec=opus]/ba/b[acodec=opus]/b",
+        "--dump-single-json",
+        "--no-warnings",
+        "--prefer-free-formats",
+      ],
       { windowsHide: true }
     ).catch(async (error) => {
       throw new DisTubeError("YTDLP_ERROR", error.stderr || error);
     });
     const info = JSON.parse(stdout);
+    if (info.url) {
+      cache.set(url, info.url);
+      const timeout = setTimeout(() => cache.delete(url), 60000);
+      clearTimeout(timeouts.get(url));
+      timeouts.set(url, timeout);
+    }
+
     return Array.isArray(info.entries)
       ? new Playlist(
           info.entries.map(
