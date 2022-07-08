@@ -64,7 +64,11 @@ export class YtDlpPlugin extends ExtractorPlugin {
       timeouts.set(url, timeout);
     }
 
-    const options = { member, source: info.extractor, metadata };
+    const options = {
+      member,
+      source: metadata.source || info.extractor,
+      metadata,
+    };
     return Array.isArray(info.entries)
       ? new Playlist(
           info.entries.map((entry) => new Song(entry, options)),

@@ -63,7 +63,10 @@ export const handler = async function (
   const reply = await interaction.reply({
     embeds: [{ description: `Searching "${searchUrl}"` }],
   });
-  const options = { member: interaction.member, metadata: { interaction } };
+  const options = {
+    member: interaction.member,
+    metadata: { interaction, source: "yt-dlp" },
+  };
   channel.interaction = interaction;
 
   if (!isHttpUrl(url)) {
@@ -113,6 +116,22 @@ export const handler = async function (
       console.error(error);
       return interaction.followUp({
         embeds: [{ description: "Error: I can't find that" }],
+      });
+    }
+  }
+
+  const ytDlpPlugin = player.options.plugins.find(
+    (plugin) => plugin.constructor.name === "YtDlpPlugin"
+  );
+  if (ytDlpPlugin && ytDlpPlugin.validate(url)) {
+    try {
+      const songOrPlaylist = await ytDlpPlugin.resolve(url, options);
+      player.play(interaction.member.voice.channel, songOrPlaylist, options);
+      return reply;
+    } catch (error) {
+      console.error(error);
+      return interaction.followUp({
+        embeds: [{ description: "Error: I can't play that" }],
       });
     }
   }
