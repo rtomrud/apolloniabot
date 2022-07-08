@@ -47,26 +47,28 @@ export const handler = async function (
     : `[${query}](https://www.youtube.com/results?${new URLSearchParams({
         search_query: query,
       })})`;
-  const reply = await interaction.reply({
+  const reply = interaction.reply({
     embeds: [{ description: `Searching "${searchUrl}"` }],
   });
   const options = {
     member: interaction.member,
-    metadata: { interaction, source: "yt-dlp" },
+    metadata: { source: "yt-dlp" },
   };
   channel.interaction = interaction;
 
+  let songOrPlaylist;
   if (!isHttpUrl(url)) {
     try {
       const [result] = await search(query);
-      const song = new Song({
-        id: result.id.videoId,
-        url: result.url,
-        name: result.title,
-        duration: result.duration_raw,
-      });
-      player.play(interaction.member.voice.channel, song, options);
-      return reply;
+      songOrPlaylist = new Song(
+        {
+          id: result.id.videoId,
+          url: result.url,
+          name: result.title,
+          duration: result.duration_raw,
+        },
+        { ...options, source: options.metadata.source }
+      );
     } catch (error) {
       console.error(error);
       return interaction.followUp({
@@ -84,9 +86,7 @@ export const handler = async function (
   const plugin = extractorPlugins.find((plugin) => plugin.validate(url));
   if (plugin) {
     try {
-      const songOrPlaylist = await plugin.resolve(url, options);
-      player.play(interaction.member.voice.channel, songOrPlaylist, options);
-      return reply;
+      songOrPlaylist = await plugin.resolve(url, options);
     } catch (error) {
       // Workaround for throw in resolve() not triggering the error event
       console.error(error);
@@ -96,6 +96,28 @@ export const handler = async function (
     }
   }
 
-  player.play(interaction.member.voice.channel, url, options);
-  return reply;
+  await Promise.all([
+    player.play(interaction.member.voice.channel, songOrPlaylist),
+    reply,
+  ]);
+  const queue = player.queues.get(interaction.guildId);
+  return interaction.followUp({
+    embeds: [
+      {
+        description: songOrPlaylist.songs
+          ? `${
+              queue.songs[0] === songOrPlaylist.songs[0] ? "Playing" : "Queued"
+            } [${songOrPlaylist.songs[0].name}${
+              songOrPlaylist.songs.length > 1
+                ? ` and ${songOrPlaylist.songs.length - 1} more ${
+                    songOrPlaylist.songs.length - 1 === 1 ? "track" : "tracks"
+                  }`
+                : ""
+            }](${songOrPlaylist.url})`
+          : `${queue.songs[0] === songOrPlaylist ? "Playing" : "Queued"} [${
+              songOrPlaylist.name
+            }](${songOrPlaylist.url})`,
+      },
+    ],
+  });
 };
