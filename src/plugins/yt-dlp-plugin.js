@@ -13,8 +13,12 @@ export class YtDlpPlugin extends ExtractorPlugin {
     this.binaryPath = binaryPath;
   }
 
-  async validate() {
-    return Boolean(this.binaryPath);
+  validate(url) {
+    try {
+      return this.binaryPath && new URL(url).protocol.startsWith("http");
+    } catch {
+      return false;
+    }
   }
 
   async getStreamURL(url) {
