@@ -8,9 +8,13 @@ const cache = new Map();
 const timeouts = new Map();
 
 export class YtDlpPlugin extends ExtractorPlugin {
-  constructor({ binaryPath = "yt-dlp" } = {}) {
+  constructor({
+    binaryPath = "yt-dlp",
+    execFileOptions = { windowsHide: true, maxBuffer: 1024 * 1024 * 10 },
+  } = {}) {
     super();
     this.binaryPath = binaryPath;
+    this.execFileOptions = execFileOptions;
   }
 
   validate(url) {
@@ -35,7 +39,7 @@ export class YtDlpPlugin extends ExtractorPlugin {
         "--no-warnings",
         "--prefer-free-formats",
       ],
-      { windowsHide: true }
+      this.execFileOptions
     ).catch((error) => {
       throw new DisTubeError("YTDLP_ERROR", error.stderr || error);
     });
@@ -56,7 +60,7 @@ export class YtDlpPlugin extends ExtractorPlugin {
           ? ["--flat-playlist"]
           : []),
       ],
-      { windowsHide: true }
+      this.execFileOptions
     ).catch(async (error) => {
       throw new DisTubeError("YTDLP_ERROR", error.stderr || error);
     });
