@@ -48,6 +48,9 @@ export class YtDlpPlugin extends ExtractorPlugin {
         "--dump-single-json",
         "--no-warnings",
         "--prefer-free-formats",
+        ...(/^https?:\/\/(((www|music|m)\.youtube\.com)|youtu\.be)/.test(url)
+          ? ["--flat-playlist"]
+          : []),
       ],
       { windowsHide: true }
     ).catch(async (error) => {
@@ -61,14 +64,12 @@ export class YtDlpPlugin extends ExtractorPlugin {
       timeouts.set(url, timeout);
     }
 
+    const options = { member, source: info.extractor, metadata };
     return Array.isArray(info.entries)
       ? new Playlist(
-          info.entries.map(
-            (entry) =>
-              new Song(entry, { member, source: entry.extractor, metadata })
-          ),
-          { member, properties: { url }, metadata }
+          info.entries.map((entry) => new Song(entry, options)),
+          { ...options, properties: { url } }
         )
-      : new Song(info, { member, source: info.extractor, metadata });
+      : new Song(info, options);
   }
 }
