@@ -44,11 +44,6 @@ export const handler = async function (
             inline: true,
           },
           {
-            name: "Autoplay",
-            value: queue.autoplay ? "on" : "off",
-            inline: true,
-          },
-          {
             name: "Effects",
             value: queue.filters.join(", ") || "none",
             inline: true,

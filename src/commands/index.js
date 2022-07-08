@@ -1,4 +1,3 @@
-import * as autoplay from "./autoplay.js";
 import * as effects from "./effects.js";
 import * as help from "./help.js";
 import * as move from "./move.js";
@@ -16,7 +15,6 @@ import * as volume from "./volume.js";
 import * as what from "./what.js";
 
 export default {
-  autoplay,
   effects,
   help,
   move,
