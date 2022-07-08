@@ -75,31 +75,20 @@ export const handler = async function (
     }
   }
 
-  const spotifyPlugin = player.options.plugins.find(
-    (plugin) => plugin.constructor.name === "SpotifyPlugin"
+  const extractorPlugins = player.options.plugins.filter(
+    (plugin) =>
+      plugin.type === "extractor" &&
+      plugin.constructor.name !== "HTTPPlugin" &&
+      plugin.constructor.name !== "HTTPSPlugin"
   );
-  if (spotifyPlugin && spotifyPlugin.validate(url)) {
+  const plugin = extractorPlugins.find((plugin) => plugin.validate(url));
+  if (plugin) {
     try {
-      const songOrPlaylist = await spotifyPlugin.resolve(url, options);
+      const songOrPlaylist = await plugin.resolve(url, options);
       player.play(interaction.member.voice.channel, songOrPlaylist, options);
       return reply;
     } catch (error) {
-      console.error(error);
-      return interaction.followUp({
-        embeds: [{ description: "Error: I can't find that" }],
-      });
-    }
-  }
-
-  const ytDlpPlugin = player.options.plugins.find(
-    (plugin) => plugin.constructor.name === "YtDlpPlugin"
-  );
-  if (ytDlpPlugin && ytDlpPlugin.validate(url)) {
-    try {
-      const songOrPlaylist = await ytDlpPlugin.resolve(url, options);
-      player.play(interaction.member.voice.channel, songOrPlaylist, options);
-      return reply;
-    } catch (error) {
+      // Workaround for throw in resolve() not triggering the error event
       console.error(error);
       return interaction.followUp({
         embeds: [{ description: "Error: I can't play that" }],
