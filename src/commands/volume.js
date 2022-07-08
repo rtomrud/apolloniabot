@@ -42,6 +42,6 @@ export const handler = async function (
 
   queue.setVolume(percent);
   return interaction.reply({
-    embeds: [{ description: `Volume at ${queue.volume}` }],
+    embeds: [{ description: `Set volume to ${queue.volume}` }],
   });
 };
