@@ -17,9 +17,8 @@ export const handler = async function (
     });
   }
 
-  const [song] = queue.songs;
-  queue.skip();
+  const song = await queue.skip();
   return interaction.reply({
-    embeds: [{ description: `Skipped [${song.name}](${song.url})` }],
+    embeds: [{ description: `Skipped to [${song.name}](${song.url})` }],
   });
 };
