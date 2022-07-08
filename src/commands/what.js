@@ -44,6 +44,11 @@ export const handler = async function (
             inline: true,
           },
           {
+            name: "Bitrate",
+            value: `${queue.voiceChannel.bitrate / 1000}kbps`,
+            inline: true,
+          },
+          {
             name: "Effects",
             value: queue.filters.join(", ") || "none",
             inline: true,
