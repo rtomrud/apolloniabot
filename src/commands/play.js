@@ -1,11 +1,6 @@
 import { CommandInteraction } from "discord.js";
-import { DisTube as Player, Playlist, Song } from "distube";
-import fetch from "node-fetch";
-import { parse } from "spotify-uri";
-import spotifyUrlInfo from "spotify-url-info";
+import { DisTube as Player, Song } from "distube";
 import { search } from "youtube-search-without-api-key";
-
-const { getTracks } = spotifyUrlInfo(fetch);
 
 export const data = {
   name: "play",
@@ -24,14 +19,6 @@ export const data = {
 const isHttpUrl = (string) => {
   try {
     return new URL(string).protocol.startsWith("http");
-  } catch {
-    return false;
-  }
-};
-
-const isSpotifyUrl = (url) => {
-  try {
-    return /spotify/.test(url) && parse(url).type != null;
   } catch {
     return false;
   }
@@ -88,28 +75,12 @@ export const handler = async function (
     }
   }
 
-  if (isSpotifyUrl(url)) {
+  const spotifyPlugin = player.options.plugins.find(
+    (plugin) => plugin.constructor.name === "SpotifyPlugin"
+  );
+  if (spotifyPlugin && spotifyPlugin.validate(url)) {
     try {
-      const tracks = await getTracks(url);
-      const songs = await Promise.all(
-        tracks.map(async (data) => {
-          const query =
-            data.type === "track"
-              ? `${data.artists.map(({ name }) => name).join(" ")} ${data.name}`
-              : `${data.show.name} ${data.name}`;
-          const [result] = await search(query);
-          return new Song({
-            id: result.id.videoId,
-            url: result.url,
-            name: result.title,
-            duration: result.duration_raw,
-          });
-        })
-      );
-      const songOrPlaylist =
-        songs.length > 1
-          ? new Playlist(songs, { properties: { url } })
-          : songs[0];
+      const songOrPlaylist = await spotifyPlugin.resolve(url, options);
       player.play(interaction.member.voice.channel, songOrPlaylist, options);
       return reply;
     } catch (error) {
