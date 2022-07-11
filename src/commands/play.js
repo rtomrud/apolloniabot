@@ -71,6 +71,7 @@ export const handler = async function (
       );
     } catch (error) {
       console.error(error);
+      await reply;
       return interaction.followUp({
         embeds: [{ description: "Error: I can't find that" }],
       });
@@ -90,6 +91,7 @@ export const handler = async function (
     } catch (error) {
       // Workaround for throw in resolve() not triggering the error event
       console.error(error);
+      await reply;
       return interaction.followUp({
         embeds: [{ description: "Error: I can't play that" }],
       });
