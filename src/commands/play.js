@@ -56,10 +56,9 @@ export const handler = async function (
     metadata: { source: "yt-dlp" },
   };
   channel.interaction = interaction;
-
   let songOrPlaylist;
-  if (!isHttpUrl(url)) {
-    try {
+  try {
+    if (!isHttpUrl(url)) {
       const [result] = await search(query);
       songOrPlaylist = new Song(
         {
@@ -68,34 +67,25 @@ export const handler = async function (
           name: result.title,
           duration: result.duration_raw,
         },
-        { ...options, source: options.metadata.source }
+        options
       );
-    } catch (error) {
-      console.error(error);
-      await reply;
-      return interaction.followUp({
-        embeds: [{ description: "Error: I can't find that" }],
-      });
+    } else {
+      const plugin = player.options.plugins
+        .filter(
+          (plugin) =>
+            plugin.type === "extractor" &&
+            plugin.constructor.name !== "HTTPPlugin" &&
+            plugin.constructor.name !== "HTTPSPlugin"
+        )
+        .find((plugin) => plugin.validate(url));
+      songOrPlaylist = plugin ? await plugin.resolve(url, options) : url;
     }
-  }
-
-  const extractorPlugins = player.options.plugins.filter(
-    (plugin) =>
-      plugin.type === "extractor" &&
-      plugin.constructor.name !== "HTTPPlugin" &&
-      plugin.constructor.name !== "HTTPSPlugin"
-  );
-  const plugin = extractorPlugins.find((plugin) => plugin.validate(url));
-  if (plugin) {
-    try {
-      songOrPlaylist = await plugin.resolve(url, options);
-    } catch (error) {
-      console.error(error);
-      await reply;
-      return interaction.followUp({
-        embeds: [{ description: "Error: I can't play that" }],
-      });
-    }
+  } catch (error) {
+    console.error(error);
+    await reply;
+    return interaction.followUp({
+      embeds: [{ description: "Error: I can't find that" }],
+    });
   }
 
   try {
