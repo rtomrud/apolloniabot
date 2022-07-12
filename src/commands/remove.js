@@ -45,6 +45,6 @@ export const handler = async function (
   }
 
   return interaction.reply({
-    embeds: [{ description: `Removed ${song.name}](${song.url}` }],
+    embeds: [{ description: `Removed [${song.name}](${song.url})` }],
   });
 };
