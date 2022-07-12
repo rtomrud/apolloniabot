@@ -2,6 +2,7 @@ import "dotenv/config";
 import { Client } from "discord.js";
 import { DisTube as Player } from "distube";
 import commands from "./commands/index.js";
+import { ResolverPlugin } from "./plugins/resolver-plugin.js";
 import { SpotifyPlugin } from "./plugins/spotify-plugin.js";
 import { YouTubeSearchPlugin } from "./plugins/youtube-search-plugin.js";
 import { YtDlpPlugin } from "./plugins/yt-dlp-plugin.js";
@@ -10,7 +11,12 @@ import intents from "./intents.js";
 const client = new Client({ intents });
 
 const player = new Player(client, {
-  plugins: [new YouTubeSearchPlugin(), new SpotifyPlugin(), new YtDlpPlugin()],
+  plugins: [
+    new YouTubeSearchPlugin(),
+    new ResolverPlugin(),
+    new SpotifyPlugin(),
+    new YtDlpPlugin(),
+  ],
   emitNewSongOnly: true,
   leaveOnFinish: true,
   savePreviousSongs: false,
@@ -74,10 +80,16 @@ player.on("error", async (channel, error) => {
     EMPTY_FILTERED_PLAYLIST:
       "I can't play that because there's no valid track or there's only age-restricted content and this is a SFW channel",
     EMPTY_PLAYLIST: "I can't play that because there's no valid track",
+    SPOTIFY_PLUGIN_NO_RESULT: "I can't find that",
+    YTDLP_ERROR: "I can't play that",
   };
   const defaultErrorMessage = "Something went wrong, sorry";
   const errorMessage = errorMessages[error.errorCode] || defaultErrorMessage;
-  if (errorMessage === defaultErrorMessage) {
+  if (
+    errorMessage === defaultErrorMessage ||
+    error.errorCode === "SPOTIFY_PLUGIN_NO_RESULT" ||
+    error.errorCode === "YTDLP_ERROR"
+  ) {
     console.error(error);
   }
 

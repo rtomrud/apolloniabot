@@ -25,7 +25,7 @@ export class SpotifyPlugin extends ExtractorPlugin {
     const options = { member, source: metadata.source, metadata };
     const tracks = await getTracks(url, this.spotifyUrlInfoOptions).catch(
       (error) => {
-        throw new DisTubeError("SPOTIFY_URL_INFO_ERROR", error);
+        throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", error);
       }
     );
     const songs = await Promise.all(
@@ -35,7 +35,7 @@ export class SpotifyPlugin extends ExtractorPlugin {
             ? `${data.artists.map(({ name }) => name).join(" ")} ${data.name}`
             : `${data.show.name} ${data.name}`;
         const [result] = await search(query).catch((error) => {
-          throw new DisTubeError("YOUTUBE_SEARCH_WITHOUT_API_KEY_ERROR", error);
+          throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", error);
         });
         return new Song(
           {
