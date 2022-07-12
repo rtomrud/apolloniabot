@@ -17,6 +17,38 @@ const player = new Player(client, {
   nsfw: true,
 });
 
+player.on("addList", async (queue, playlist) => {
+  await playlist.metadata.interaction.fetchReply();
+  playlist.metadata.interaction.followUp({
+    embeds: [
+      {
+        description: `${
+          queue.songs[0] === playlist.songs[0] ? "Playing" : "Queued"
+        } [${playlist.songs[0].name}${
+          playlist.songs.length > 1
+            ? ` and ${playlist.songs.length - 1} more ${
+                playlist.songs.length - 1 === 1 ? "track" : "tracks"
+              }`
+            : ""
+        }](${playlist.url})`,
+      },
+    ],
+  });
+});
+
+player.on("addSong", async (queue, song) => {
+  await song.metadata.interaction.fetchReply();
+  song.metadata.interaction.followUp({
+    embeds: [
+      {
+        description: `${queue.songs[0] === song ? "Playing" : "Queued"} [${
+          song.name
+        }](${song.url})`,
+      },
+    ],
+  });
+});
+
 player.on("error", async (channel, error) => {
   const errorMessages = {
     NOT_IN_VOICE: "I can't join you because you're not in a voice channel",

@@ -53,7 +53,7 @@ export const handler = async function (
   const options = {
     member: interaction.member,
     textChannel: interaction.channel,
-    metadata: { source: "yt-dlp" },
+    metadata: { interaction, source: "yt-dlp" },
   };
   channel.interaction = interaction;
   let songOrPlaylist;
@@ -88,34 +88,6 @@ export const handler = async function (
     });
   }
 
-  try {
-    await Promise.all([
-      player.play(interaction.member.voice.channel, songOrPlaylist, options),
-      reply,
-    ]);
-    const queue = player.queues.get(interaction.guildId);
-    return interaction.followUp({
-      embeds: [
-        {
-          description: songOrPlaylist.songs
-            ? `${
-                queue.songs[0] === songOrPlaylist.songs[0]
-                  ? "Playing"
-                  : "Queued"
-              } [${songOrPlaylist.songs[0].name}${
-                songOrPlaylist.songs.length > 1
-                  ? ` and ${songOrPlaylist.songs.length - 1} more ${
-                      songOrPlaylist.songs.length - 1 === 1 ? "track" : "tracks"
-                    }`
-                  : ""
-              }](${songOrPlaylist.url})`
-            : `${queue.songs[0] === songOrPlaylist ? "Playing" : "Queued"} [${
-                songOrPlaylist.name
-              }](${songOrPlaylist.url})`,
-        },
-      ],
-    });
-  } catch {
-    return reply;
-  }
+  await player.play(interaction.member.voice.channel, songOrPlaylist, options);
+  return reply;
 };
