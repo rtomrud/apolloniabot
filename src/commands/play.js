@@ -1,6 +1,5 @@
 import { CommandInteraction } from "discord.js";
-import { DisTube as Player, Song } from "distube";
-import { search } from "youtube-search-without-api-key";
+import { DisTube as Player } from "distube";
 
 export const data = {
   name: "play",
@@ -50,44 +49,11 @@ export const handler = async function (
   const reply = interaction.reply({
     embeds: [{ description: `Searching "${searchUrl}"` }],
   });
-  const options = {
+  channel.interaction = interaction;
+  await player.play(interaction.member.voice.channel, query, {
     member: interaction.member,
     textChannel: interaction.channel,
     metadata: { interaction, source: "yt-dlp" },
-  };
-  channel.interaction = interaction;
-  let songOrPlaylist;
-  try {
-    if (!isHttpUrl(url)) {
-      const [result] = await search(query);
-      songOrPlaylist = new Song(
-        {
-          id: result.id.videoId,
-          url: result.url,
-          name: result.title,
-          duration: result.duration_raw,
-        },
-        options
-      );
-    } else {
-      const plugin = player.options.plugins
-        .filter(
-          (plugin) =>
-            plugin.type === "extractor" &&
-            plugin.constructor.name !== "HTTPPlugin" &&
-            plugin.constructor.name !== "HTTPSPlugin"
-        )
-        .find((plugin) => plugin.validate(url));
-      songOrPlaylist = plugin ? await plugin.resolve(url, options) : url;
-    }
-  } catch (error) {
-    console.error(error);
-    await reply;
-    return interaction.followUp({
-      embeds: [{ description: "Error: I can't find that" }],
-    });
-  }
-
-  await player.play(interaction.member.voice.channel, songOrPlaylist, options);
+  });
   return reply;
 };

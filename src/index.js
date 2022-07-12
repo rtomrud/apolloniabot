@@ -3,13 +3,14 @@ import { Client } from "discord.js";
 import { DisTube as Player } from "distube";
 import commands from "./commands/index.js";
 import { SpotifyPlugin } from "./plugins/spotify-plugin.js";
+import { YouTubeSearchPlugin } from "./plugins/youtube-search-plugin.js";
 import { YtDlpPlugin } from "./plugins/yt-dlp-plugin.js";
 import intents from "./intents.js";
 
 const client = new Client({ intents });
 
 const player = new Player(client, {
-  plugins: [new SpotifyPlugin(), new YtDlpPlugin()],
+  plugins: [new YouTubeSearchPlugin(), new SpotifyPlugin(), new YtDlpPlugin()],
   emitNewSongOnly: true,
   leaveOnFinish: true,
   savePreviousSongs: false,
