@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, hyperlink } from "@discordjs/builders";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
@@ -8,8 +8,10 @@ export const data = new SlashCommandBuilder()
   .addIntegerOption((option) =>
     option
       .setName("percent")
-      .setDescription("The volume (0 to 100)")
+      .setDescription("The volume (between 0 and 100)")
       .setRequired(true)
+      .setMaxValue(100)
+      .setMinValue(0)
   );
 
 export const handler = async function (
@@ -24,23 +26,6 @@ export const handler = async function (
   }
 
   const percent = interaction.options.getInteger("percent");
-  if (!(percent >= 0 && percent <= 100)) {
-    return interaction.reply({
-      embeds: [
-        {
-          description: `Error: ${
-            percent > 100
-              ? `These don't ${hyperlink(
-                  "go to 11",
-                  "https://youtu.be/4xgx4k83zzc"
-                )}`
-              : "No such volume"
-          }`,
-        },
-      ],
-    });
-  }
-
   queue.setVolume(percent);
   return interaction.reply({
     embeds: [{ description: `Set volume to ${queue.volume}` }],
