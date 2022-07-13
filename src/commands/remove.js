@@ -23,7 +23,7 @@ export const handler = async function (
     });
   }
 
-  const track = interaction.options.get("track")?.value;
+  const track = interaction.options.getInteger("track");
   if (!(track !== 0 && track <= queue.songs.length)) {
     return interaction.reply({
       embeds: [{ description: "Error: No such track" }],

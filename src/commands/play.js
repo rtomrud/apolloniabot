@@ -26,7 +26,7 @@ export const handler = async function (
   interaction = new CommandInteraction(),
   player = new Player()
 ) {
-  const query = interaction.options.get("query").value;
+  const query = interaction.options.getString("query");
   const channel = await player.client.channels.fetch(interaction.channelId);
   if (!interaction.member.voice.channel) {
     return interaction.reply({

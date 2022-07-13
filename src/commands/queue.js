@@ -22,7 +22,7 @@ export const handler = async function (
     });
   }
 
-  const page = (interaction.options.get("page") || { value: 1 }).value;
+  const page = interaction.options.getInteger("page") || 1;
   const pageSize = 10;
   const pageCount = Math.ceil(queue.songs.length / pageSize);
   if (!(page !== 0 && page <= pageCount)) {

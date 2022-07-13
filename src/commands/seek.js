@@ -52,7 +52,7 @@ export const handler = async function (
     });
   }
 
-  const time = interaction.options.get("time")?.value || "15";
+  const time = interaction.options.getString("time") || "15";
   const seconds = time
     .split(":")
     .reduce(

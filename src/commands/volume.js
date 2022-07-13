@@ -23,7 +23,7 @@ export const handler = async function (
     });
   }
 
-  const percent = interaction.options.get("percent")?.value;
+  const percent = interaction.options.getInteger("percent");
   if (!(percent >= 0 && percent <= 100)) {
     return interaction.reply({
       embeds: [
