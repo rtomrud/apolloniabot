@@ -4,11 +4,11 @@ import { DisTube as Player } from "distube";
 
 export const data = new SlashCommandBuilder()
   .setName("effects")
-  .setDescription("Toggle the specified effect")
+  .setDescription("Set the specified effect")
   .addStringOption((option) =>
     option
       .setName("effect")
-      .setDescription("The effect to toggle")
+      .setDescription("The effect to set")
       .setRequired(true)
       .addChoices(
         { name: "3d", value: "3d" },
@@ -18,6 +18,12 @@ export const data = new SlashCommandBuilder()
         { name: "nightcore", value: "nightcore" },
         { name: "vaporwave", value: "vaporwave" }
       )
+  )
+  .addBooleanOption((option) =>
+    option
+      .setName("enable")
+      .setDescription("Whether to turn on the effect or not")
+      .setRequired(true)
   );
 
 export const handler = async function (
@@ -34,7 +40,13 @@ export const handler = async function (
   }
 
   const filter = interaction.options.getString("effect");
-  queue.setFilter(filter || false);
+  const enable = interaction.options.getBoolean("enable");
+  if (enable && !queue.filters.includes(filter)) {
+    queue.setFilter(filter);
+  } else if (!enable && queue.filters.includes(filter)) {
+    queue.setFilter(filter);
+  }
+
   return interaction.reply({
     embeds: [{ description: `Effects: ${queue.filters.join(", ") || "none"}` }],
   });
