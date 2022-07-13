@@ -1,51 +1,45 @@
+import { SlashCommandBuilder, hyperlink } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
-export const data = {
-  name: "seek",
-  description: "Seek the current track to the specified time",
-  options: [
-    {
-      name: "backward",
-      description: "Seek backward by the specified time",
-      type: 1,
-      options: [
-        {
-          name: "time",
-          description:
-            "The time to seek backward by, in seconds or in HH:MM:SS format (15s by default)",
-          type: 3,
-        },
-      ],
-    },
-    {
-      name: "forward",
-      description: "Seek forward by the specified time",
-      type: 1,
-      options: [
-        {
-          name: "time",
-          description:
-            "The time to seek forward by, in seconds or in HH:MM:SS format (15s by default)",
-          type: 3,
-        },
-      ],
-    },
-    {
-      name: "to",
-      description: "Seek the specified time",
-      type: 1,
-      options: [
-        {
-          name: "time",
-          description: "The time to seek, in seconds or in HH:MM:SS format",
-          type: 3,
-          required: true,
-        },
-      ],
-    },
-  ],
-};
+export const data = new SlashCommandBuilder()
+  .setName("seek")
+  .setDescription("Seek the current track to the specified time")
+  .addSubcommand((subcommand) =>
+    subcommand
+      .setName("backward")
+      .setDescription("Seek backward by the specified time")
+      .addStringOption((option) =>
+        option
+          .setName("time")
+          .setDescription(
+            "The time to seek backward by, in seconds or in HH:MM:SS format (15s by default)"
+          )
+      )
+  )
+  .addSubcommand((subcommand) =>
+    subcommand
+      .setName("forward")
+      .setDescription("Seek forward by the specified time")
+      .addStringOption((option) =>
+        option
+          .setName("time")
+          .setDescription(
+            "The time to seek forward by, in seconds or in HH:MM:SS format (15s by default)"
+          )
+      )
+  )
+  .addSubcommand((subcommand) =>
+    subcommand
+      .setName("to")
+      .setDescription("Seek the specified time")
+      .addStringOption((option) =>
+        option
+          .setName("time")
+          .setDescription("The time to seek, in seconds or in HH:MM:SS format")
+          .setRequired(true)
+      )
+  );
 
 export const handler = async function (
   interaction = new CommandInteraction(),
@@ -77,7 +71,10 @@ export const handler = async function (
   return interaction.reply({
     embeds: [
       {
-        description: `Seeked to ${queue.formattedCurrentTime} in [${queue.songs[0].name}](${queue.songs[0].url})`,
+        description: `Seeked to ${queue.formattedCurrentTime} in ${hyperlink(
+          queue.songs[0].name,
+          queue.songs[0].url
+        )}`,
       },
     ],
   });

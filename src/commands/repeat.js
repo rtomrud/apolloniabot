@@ -1,23 +1,21 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
-export const data = {
-  name: "repeat",
-  description: "Repeat the queue or current track",
-  options: [
-    {
-      name: "mode",
-      description: "The repeat mode",
-      type: 3,
-      required: true,
-      choices: [
+export const data = new SlashCommandBuilder()
+  .setName("repeat")
+  .setDescription("Repeat the queue or current track")
+  .addStringOption((option) =>
+    option
+      .setName("mode")
+      .setDescription("The repeat mode")
+      .setRequired(true)
+      .addChoices(
         { name: "off", value: "off" },
         { name: "queue", value: "queue" },
-        { name: "track", value: "track" },
-      ],
-    },
-  ],
-};
+        { name: "track", value: "track" }
+      )
+  );
 
 export const handler = async function (
   interaction = new CommandInteraction(),

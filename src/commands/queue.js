@@ -1,17 +1,15 @@
+import { SlashCommandBuilder, hyperlink } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
-export const data = {
-  name: "queue",
-  description: "Show the queue",
-  options: [
-    {
-      name: "page",
-      description: "The page of the queue to show (1 by default)",
-      type: 4,
-    },
-  ],
-};
+export const data = new SlashCommandBuilder()
+  .setName("queue")
+  .setDescription("Show the queue")
+  .addIntegerOption((option) =>
+    option
+      .setName("page")
+      .setDescription("The page of the queue to show (1 by default)")
+  );
 
 export const handler = async function (
   interaction = new CommandInteraction(),
@@ -45,7 +43,9 @@ export const handler = async function (
         } • ${queue.formattedDuration}`,
         fields: queue.songs.slice(start, end).map((song, i) => ({
           name: String(i + start + 1),
-          value: `[${song.name}](${song.url}) • ${song.formattedDuration}`,
+          value: `${hyperlink(song.name, song.url)} • ${
+            song.formattedDuration
+          }`,
         })),
         footer: { text: `Page ${pageIndex + 1} of ${pageCount}` },
       },

@@ -1,18 +1,16 @@
+import { SlashCommandBuilder, hyperlink } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
-export const data = {
-  name: "remove",
-  description: "Remove a track from the queue",
-  options: [
-    {
-      name: "track",
-      description: "The position of the track to remove",
-      type: 4,
-      required: true,
-    },
-  ],
-};
+export const data = new SlashCommandBuilder()
+  .setName("remove")
+  .setDescription("Remove a track from the queue")
+  .addIntegerOption((option) =>
+    option
+      .setName("track")
+      .setDescription("The position of the track to remove")
+      .setRequired(true)
+  );
 
 export const handler = async function (
   interaction = new CommandInteraction(),
@@ -45,6 +43,6 @@ export const handler = async function (
   }
 
   return interaction.reply({
-    embeds: [{ description: `Removed [${song.name}](${song.url})` }],
+    embeds: [{ description: `Removed ${hyperlink(song.name, song.url)}` }],
   });
 };

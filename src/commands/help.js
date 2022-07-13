@@ -1,12 +1,12 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 import permissions from "../permissions.js";
 import scopes from "../scopes.js";
 
-export const data = {
-  name: "help",
-  description: "Show help",
-};
+export const data = new SlashCommandBuilder()
+  .setName("help")
+  .setDescription("Show help");
 
 export const handler = async function (
   interaction = new CommandInteraction(),

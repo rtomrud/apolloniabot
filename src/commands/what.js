@@ -1,10 +1,10 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
-export const data = {
-  name: "what",
-  description: "Show what's playing and the status of the player",
-};
+export const data = new SlashCommandBuilder()
+  .setName("what")
+  .setDescription("Show what's playing and the status of the player");
 
 export const handler = async function (
   interaction = new CommandInteraction(),

@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { hyperlink } from "@discordjs/builders";
 import { Client } from "discord.js";
 import { DisTube as Player } from "distube";
 import commands from "./commands/index.js";
@@ -31,13 +32,16 @@ player.on("addList", async (queue, playlist) => {
       {
         description: `${
           queue.songs[0] === playlist.songs[0] ? "Playing" : "Queued"
-        } [${playlist.songs[0].name}${
-          playlist.songs.length > 1
-            ? ` and ${playlist.songs.length - 1} more ${
-                playlist.songs.length - 1 === 1 ? "track" : "tracks"
-              }`
-            : ""
-        }](${playlist.url})`,
+        } ${hyperlink(
+          `${playlist.songs[0].name}${
+            playlist.songs.length > 1
+              ? ` and ${playlist.songs.length - 1} more ${
+                  playlist.songs.length - 1 === 1 ? "track" : "tracks"
+                }`
+              : ""
+          }`,
+          playlist.url
+        )}`,
       },
     ],
   });
@@ -48,9 +52,9 @@ player.on("addSong", async (queue, song) => {
   song.metadata.interaction.followUp({
     embeds: [
       {
-        description: `${queue.songs[0] === song ? "Playing" : "Queued"} [${
-          song.name
-        }](${song.url})`,
+        description: `${
+          queue.songs[0] === song ? "Playing" : "Queued"
+        } ${hyperlink(song.name, song.url)}`,
       },
     ],
   });
@@ -170,7 +174,7 @@ client.on("ready", async (client) => {
 
   await client.application.commands
     .set(
-      Object.values(commands).map(({ data }) => data),
+      Object.values(commands).map(({ data }) => data.toJSON()),
       process.env.GUILD_ID
     )
     .catch(console.error);

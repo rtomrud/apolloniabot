@@ -1,10 +1,10 @@
+import { SlashCommandBuilder, hyperlink } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
-export const data = {
-  name: "next",
-  description: "Play the next track in the queue",
-};
+export const data = new SlashCommandBuilder()
+  .setName("next")
+  .setDescription("Play the next track in the queue");
 
 export const handler = async function (
   interaction = new CommandInteraction(),
@@ -19,6 +19,6 @@ export const handler = async function (
 
   const song = await queue.skip();
   return interaction.reply({
-    embeds: [{ description: `Skipped to [${song.name}](${song.url})` }],
+    embeds: [{ description: `Skipped to ${hyperlink(song.name, song.url)}` }],
   });
 };

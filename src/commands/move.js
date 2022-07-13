@@ -1,24 +1,22 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
-export const data = {
-  name: "move",
-  description: "Move a track to another position in the queue",
-  options: [
-    {
-      name: "track",
-      description: "The position of the track to move",
-      type: 4,
-      required: true,
-    },
-    {
-      name: "position",
-      description: "The position to move the track to",
-      type: 4,
-      required: true,
-    },
-  ],
-};
+export const data = new SlashCommandBuilder()
+  .setName("move")
+  .setDescription("Move a track to another position in the queue")
+  .addIntegerOption((option) =>
+    option
+      .setName("track")
+      .setDescription("The position of the track to move")
+      .setRequired(true)
+  )
+  .addIntegerOption((option) =>
+    option
+      .setName("position")
+      .setDescription("The position to move the track to")
+      .setRequired(true)
+  );
 
 export const handler = async function (
   interaction = new CommandInteraction(),

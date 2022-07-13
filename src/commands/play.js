@@ -1,19 +1,18 @@
+import { SlashCommandBuilder, hyperlink } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
-export const data = {
-  name: "play",
-  description: "Play a track or playlist",
-  options: [
-    {
-      name: "query",
-      description:
-        "The URL of a track, or the URL of a playlist on YouTube or Spotify, or a query to search on YouTube",
-      type: 3,
-      required: true,
-    },
-  ],
-};
+export const data = new SlashCommandBuilder()
+  .setName("play")
+  .setDescription("Play a track or playlist")
+  .addStringOption((option) =>
+    option
+      .setName("query")
+      .setDescription(
+        "The URL of a track, or the URL of a playlist on YouTube or Spotify, or a query to search on YouTube"
+      )
+      .setRequired(true)
+  );
 
 const isHttpUrl = (string) => {
   try {
@@ -43,9 +42,12 @@ export const handler = async function (
   const [url] = query.split(" ");
   const searchUrl = isHttpUrl(url)
     ? url
-    : `[${query}](https://www.youtube.com/results?${new URLSearchParams({
-        search_query: query,
-      })})`;
+    : hyperlink(
+        query,
+        `https://www.youtube.com/results?${new URLSearchParams({
+          search_query: query,
+        })}`
+      );
   const reply = interaction.reply({
     embeds: [{ description: `Searching "${searchUrl}"` }],
   });

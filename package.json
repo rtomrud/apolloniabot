@@ -9,6 +9,7 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
+    "@discordjs/builders": "0.15.0",
     "@discordjs/opus": "0.8.0",
     "@discordjs/voice": "0.10.0",
     "discord.js": "13.8.1",

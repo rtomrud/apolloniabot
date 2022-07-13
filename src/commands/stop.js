@@ -1,10 +1,12 @@
+import { SlashCommandBuilder, hyperlink } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { DisTube as Player } from "distube";
 
-export const data = {
-  name: "stop",
-  description: "Stop the playback, clear the queue and leave the voice channel",
-};
+export const data = new SlashCommandBuilder()
+  .setName("stop")
+  .setDescription(
+    "Stop the playback, clear the queue and leave the voice channel"
+  );
 
 export const handler = async function (
   interaction = new CommandInteraction(),
@@ -22,7 +24,9 @@ export const handler = async function (
     embeds: [
       {
         description: queue.playing
-          ? `Stopped [${queue.songs[0].name}](${queue.songs[0].url}) at ${queue.formattedCurrentTime}`
+          ? `Stopped ${hyperlink(queue.songs[0].name, queue.songs[0].url)} at ${
+              queue.formattedCurrentTime
+            }`
           : "Stopped",
       },
     ],
