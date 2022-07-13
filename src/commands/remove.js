@@ -19,14 +19,14 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to remove" }],
+      embeds: [{ description: "Error: Nothing to remove", color: "RED" }],
     });
   }
 
   const track = interaction.options.getInteger("track");
   if (!(track !== 0 && track <= queue.songs.length)) {
     return interaction.reply({
-      embeds: [{ description: "Error: No such track" }],
+      embeds: [{ description: "Error: No such track", color: "RED" }],
     });
   }
 

@@ -13,7 +13,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue || (queue.songs.length <= 1 && !queue.autoplay)) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to skip" }],
+      embeds: [{ description: "Error: Nothing to skip", color: "RED" }],
     });
   }
 

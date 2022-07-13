@@ -99,7 +99,9 @@ player.on("error", async (channel, error) => {
 
   await channel.interaction.fetchReply();
   channel.interaction
-    .followUp({ embeds: [{ description: `Error: ${errorMessage}` }] })
+    .followUp({
+      embeds: [{ description: `Error: ${errorMessage}`, color: "RED" }],
+    })
     .catch(console.error);
 });
 
@@ -154,7 +156,9 @@ client.on("interactionCreate", (interaction) => {
   const command = commands[interaction.commandName];
   if (!command) {
     interaction.reply({
-      embeds: [{ description: "Error: I can't do that yet, sorry" }],
+      embeds: [
+        { description: "Error: I can't do that yet, sorry", color: "RED" },
+      ],
     });
     return;
   }

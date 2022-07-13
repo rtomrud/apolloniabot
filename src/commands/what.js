@@ -13,7 +13,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing in queue" }],
+      embeds: [{ description: "Error: Nothing in queue", color: "RED" }],
     });
   }
 

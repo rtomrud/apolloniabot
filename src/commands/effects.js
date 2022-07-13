@@ -27,7 +27,9 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue || !queue.playing) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to apply effects to" }],
+      embeds: [
+        { description: "Error: Nothing to apply effects to", color: "RED" },
+      ],
     });
   }
 

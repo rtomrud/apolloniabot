@@ -48,7 +48,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue || !queue.playing) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to seek on" }],
+      embeds: [{ description: "Error: Nothing to seek on", color: "RED" }],
     });
   }
 

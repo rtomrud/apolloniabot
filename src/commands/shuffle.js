@@ -13,7 +13,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue || queue.songs.length <= 1) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to shuffle" }],
+      embeds: [{ description: "Error: Nothing to shuffle", color: "RED" }],
     });
   }
 

@@ -24,7 +24,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to repeat" }],
+      embeds: [{ description: "Error: Nothing to repeat", color: "RED" }],
     });
   }
 

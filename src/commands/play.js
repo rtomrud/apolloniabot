@@ -34,6 +34,7 @@ export const handler = async function (
         {
           description:
             "Error: I can't join you because you're not in a voice channel",
+          color: "RED",
         },
       ],
     });

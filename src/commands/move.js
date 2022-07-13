@@ -25,7 +25,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue || queue.songs.length <= 1) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to move" }],
+      embeds: [{ description: "Error: Nothing to move", color: "RED" }],
     });
   }
 
@@ -33,13 +33,13 @@ export const handler = async function (
   const position = interaction.options.getInteger("position");
   if (!(track !== 0 && track <= queue.songs.length)) {
     return interaction.reply({
-      embeds: [{ description: "Error: No such track" }],
+      embeds: [{ description: "Error: No such track", color: "RED" }],
     });
   }
 
   if (!(position !== 0 && position <= queue.songs.length)) {
     return interaction.reply({
-      embeds: [{ description: "Error: No such position" }],
+      embeds: [{ description: "Error: No such position", color: "RED" }],
     });
   }
 

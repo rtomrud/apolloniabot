@@ -21,7 +21,12 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to set volume to" }],
+      embeds: [
+        {
+          description: "Error: Nothing to set volume to",
+          color: "RED",
+        },
+      ],
     });
   }
 
