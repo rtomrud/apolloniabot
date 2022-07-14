@@ -49,14 +49,6 @@ resource "aws_appautoscaling_policy" "this" {
   }
 }
 
-resource "aws_cloudwatch_log_group" "this" {
-  name = var.cluster
-
-  # lifecycle {
-  #   prevent_destroy = true
-  # }
-}
-
 resource "aws_ecs_cluster" "this" {
   name = var.cluster
 }
@@ -87,7 +79,8 @@ resource "aws_ecs_task_definition" "this" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = aws_cloudwatch_log_group.this.name
+          awslogs-create-group  = "true",
+          awslogs-group         = var.service
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
@@ -145,6 +138,11 @@ resource "aws_iam_role" "task_execution" {
           Action   = "kms:Decrypt"
           Effect   = "Allow"
           Resource = data.aws_kms_alias.ssm.arn
+        },
+        {
+          Action   = "logs:CreateLogGroup"
+          Effect   = "Allow"
+          Resource = "*"
         },
         {
           Action   = "ssm:GetParameters"
