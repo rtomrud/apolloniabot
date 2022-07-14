@@ -30,10 +30,11 @@ export class SpotifyPlugin extends ExtractorPlugin {
     );
     const songs = await Promise.all(
       tracks.map(async (data) => {
-        const query =
-          data.type === "track"
-            ? `${data.artists.map(({ name }) => name).join(" ")} ${data.name}`
-            : `${data.show.name} ${data.name}`;
+        const query = `${
+          data.artists?.map(({ name }) => name).join(" ") ||
+          data.podcast?.name ||
+          data.showOrAudiobook?.name
+        } ${data.name}`;
         const [result] = await search(query).catch((error) => {
           throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", error);
         });
