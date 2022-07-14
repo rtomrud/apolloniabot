@@ -96,7 +96,7 @@ resource "aws_ecs_task_definition" "this" {
   cpu                      = "256"
   execution_role_arn       = aws_iam_role.task_execution.arn
   family                   = var.service
-  memory                   = "512"
+  memory                   = "1024"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
 
