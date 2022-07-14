@@ -12,11 +12,7 @@ export const handler = async function (
   interaction = new CommandInteraction(),
   player = new Player()
 ) {
-  const commands = process.env.GUILD_ID
-    ? await player.client.guilds
-        .fetch(interaction.guildId)
-        .then((guild) => guild.commands.fetch())
-    : await player.client.application.commands.fetch();
+  const commands = await player.client.application.commands.fetch();
   return interaction.reply({
     embeds: [
       {

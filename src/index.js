@@ -177,10 +177,7 @@ client.on("ready", async (client) => {
   );
 
   await client.application.commands
-    .set(
-      Object.values(commands).map(({ data }) => data.toJSON()),
-      process.env.GUILD_ID
-    )
+    .set(Object.values(commands).map(({ data }) => data.toJSON()))
     .catch(console.error);
 });
 
