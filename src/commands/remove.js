@@ -1,6 +1,10 @@
-import { SlashCommandBuilder, hyperlink } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
-import { DisTube as Player } from "distube";
+import {
+  Colors,
+  CommandInteraction,
+  SlashCommandBuilder,
+  hyperlink,
+} from "discord.js";
+import { DisTube as Player } from "../../node_modules/distube/dist/index.js";
 
 export const data = new SlashCommandBuilder()
   .setName("remove")
@@ -19,14 +23,14 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to remove", color: "RED" }],
+      embeds: [{ description: "Error: Nothing to remove", color: Colors.Red }],
     });
   }
 
   const track = interaction.options.getInteger("track");
   if (!(track !== 0 && track <= queue.songs.length)) {
     return interaction.reply({
-      embeds: [{ description: "Error: No such track", color: "RED" }],
+      embeds: [{ description: "Error: No such track", color: Colors.Red }],
     });
   }
 

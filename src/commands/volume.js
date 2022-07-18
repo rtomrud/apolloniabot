@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
-import { DisTube as Player } from "distube";
+import { Colors, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { DisTube as Player } from "../../node_modules/distube/dist/index.js";
 
 export const data = new SlashCommandBuilder()
   .setName("volume")
@@ -24,7 +23,7 @@ export const handler = async function (
       embeds: [
         {
           description: "Error: Nothing to set volume to",
-          color: "RED",
+          color: Colors.Red,
         },
       ],
     });

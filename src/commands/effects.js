@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
-import { DisTube as Player } from "distube";
+import { Colors, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { DisTube as Player } from "../../node_modules/distube/dist/index.js";
 
 export const data = new SlashCommandBuilder()
   .setName("effects")
@@ -34,20 +33,25 @@ export const handler = async function (
   if (!queue || !queue.playing) {
     return interaction.reply({
       embeds: [
-        { description: "Error: Nothing to apply effects to", color: "RED" },
+        {
+          description: "Error: Nothing to apply effects to",
+          color: Colors.Red,
+        },
       ],
     });
   }
 
   const filter = interaction.options.getString("effect");
   const enable = interaction.options.getBoolean("enable");
-  if (enable && !queue.filters.includes(filter)) {
-    queue.setFilter(filter);
-  } else if (!enable && queue.filters.includes(filter)) {
-    queue.setFilter(filter);
+  if (!queue.filters.has(filter) && enable) {
+    queue.filters.add(filter);
+  } else if (queue.filters.has(filter) && !enable) {
+    queue.filters.remove(filter);
   }
 
   return interaction.reply({
-    embeds: [{ description: `Effects: ${queue.filters.join(", ") || "none"}` }],
+    embeds: [
+      { description: `Effects: ${queue.filters.names.join(", ") || "none"}` },
+    ],
   });
 };

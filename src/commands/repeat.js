@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
-import { DisTube as Player } from "distube";
+import { Colors, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { DisTube as Player } from "../../node_modules/distube/dist/index.js";
 
 export const data = new SlashCommandBuilder()
   .setName("repeat")
@@ -24,7 +23,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to repeat", color: "RED" }],
+      embeds: [{ description: "Error: Nothing to repeat", color: Colors.Red }],
     });
   }
 

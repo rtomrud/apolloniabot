@@ -1,7 +1,7 @@
-import { Permissions } from "discord.js";
+import { PermissionsBitField } from "discord.js";
 
 export default [
-  Permissions.FLAGS.CONNECT,
-  Permissions.FLAGS.SPEAK,
-  Permissions.FLAGS.USE_APPLICATION_COMMANDS,
+  PermissionsBitField.Flags.Connect,
+  PermissionsBitField.Flags.Speak,
+  PermissionsBitField.Flags.UseApplicationCommands,
 ];

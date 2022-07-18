@@ -1,4 +1,9 @@
-import { DisTubeError, ExtractorPlugin, Playlist, Song } from "distube";
+import {
+  DisTubeError,
+  ExtractorPlugin,
+  Playlist,
+  Song,
+} from "../../node_modules/distube/dist/index.js";
 import fetch from "node-fetch";
 import { parse } from "spotify-uri";
 import spotifyUrlInfo from "spotify-url-info";

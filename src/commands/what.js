@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
-import { DisTube as Player } from "distube";
+import { Colors, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { DisTube as Player } from "../../node_modules/distube/dist/index.js";
 
 export const data = new SlashCommandBuilder()
   .setName("what")
@@ -13,7 +12,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing in queue", color: "RED" }],
+      embeds: [{ description: "Error: Nothing in queue", color: Colors.Red }],
     });
   }
 
@@ -50,7 +49,7 @@ export const handler = async function (
           },
           {
             name: "Effects",
-            value: queue.filters.join(", ") || "none",
+            value: queue.filters.names.join(", ") || "none",
             inline: true,
           },
         ],

@@ -1,4 +1,4 @@
-import { CustomPlugin } from "distube";
+import { CustomPlugin } from "../../node_modules/distube/dist/index.js";
 
 export class ResolverPlugin extends CustomPlugin {
   constructor({ separator = " " } = {}) {
@@ -19,12 +19,12 @@ export class ResolverPlugin extends CustomPlugin {
     const plugin = this.distube.extractorPlugins.find((plugin) =>
       plugin.validate(url)
     );
-    if (plugin) {
-      const resolvedURL = await plugin.resolve(url, options);
-      this.distube.play(voiceChannel, resolvedURL, options);
-    } else {
+    if (!plugin) {
       // Fallback to default resolve
-      this.distube.play(voiceChannel, url, options);
+      return this.distube.play(voiceChannel, url, options);
     }
+
+    const resolvedURL = await plugin.resolve(url, options);
+    return this.distube.play(voiceChannel, resolvedURL, options);
   }
 }

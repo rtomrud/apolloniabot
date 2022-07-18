@@ -1,6 +1,10 @@
-import { SlashCommandBuilder, hyperlink } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
-import { DisTube as Player } from "distube";
+import {
+  Colors,
+  CommandInteraction,
+  SlashCommandBuilder,
+  hyperlink,
+} from "discord.js";
+import { DisTube as Player } from "../../node_modules/distube/dist/index.js";
 
 export const data = new SlashCommandBuilder()
   .setName("resume")
@@ -13,7 +17,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue || queue.playing) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to resume", color: "RED" }],
+      embeds: [{ description: "Error: Nothing to resume", color: Colors.Red }],
     });
   }
 

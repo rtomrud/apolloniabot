@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
-import { DisTube as Player } from "distube";
+import { Colors, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { DisTube as Player } from "../../node_modules/distube/dist/index.js";
 
 export const data = new SlashCommandBuilder()
   .setName("move")
@@ -25,7 +24,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue || queue.songs.length <= 1) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to move", color: "RED" }],
+      embeds: [{ description: "Error: Nothing to move", color: Colors.Red }],
     });
   }
 
@@ -33,13 +32,13 @@ export const handler = async function (
   const position = interaction.options.getInteger("position");
   if (!(track !== 0 && track <= queue.songs.length)) {
     return interaction.reply({
-      embeds: [{ description: "Error: No such track", color: "RED" }],
+      embeds: [{ description: "Error: No such track", color: Colors.Red }],
     });
   }
 
   if (!(position !== 0 && position <= queue.songs.length)) {
     return interaction.reply({
-      embeds: [{ description: "Error: No such position", color: "RED" }],
+      embeds: [{ description: "Error: No such position", color: Colors.Red }],
     });
   }
 

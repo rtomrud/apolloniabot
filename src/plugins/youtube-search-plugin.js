@@ -1,4 +1,8 @@
-import { CustomPlugin, DisTubeError, Song } from "distube";
+import {
+  CustomPlugin,
+  DisTubeError,
+  Song,
+} from "../../node_modules/distube/dist/index.js";
 import { search } from "youtube-search-without-api-key";
 
 export class YouTubeSearchPlugin extends CustomPlugin {
@@ -17,9 +21,10 @@ export class YouTubeSearchPlugin extends CustomPlugin {
   }
 
   async play(voiceChannel, query, options) {
+    let song;
     try {
       const [result] = await search(query);
-      const song = new Song(
+      song = new Song(
         {
           id: result.id.videoId,
           url: result.url,
@@ -32,9 +37,10 @@ export class YouTubeSearchPlugin extends CustomPlugin {
           metadata: options.metadata,
         }
       );
-      this.distube.play(voiceChannel, song, options);
     } catch (error) {
-      this.emitError(new DisTubeError("NO_RESULT", error), options.textChannel);
+      throw new DisTubeError("NO_RESULT", error);
     }
+
+    return this.distube.play(voiceChannel, song, options);
   }
 }

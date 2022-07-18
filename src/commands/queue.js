@@ -1,6 +1,10 @@
-import { SlashCommandBuilder, hyperlink } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
-import { DisTube as Player } from "distube";
+import {
+  Colors,
+  CommandInteraction,
+  SlashCommandBuilder,
+  hyperlink,
+} from "discord.js";
+import { DisTube as Player } from "../../node_modules/distube/dist/index.js";
 
 export const data = new SlashCommandBuilder()
   .setName("queue")
@@ -18,7 +22,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing in queue", color: "RED" }],
+      embeds: [{ description: "Error: Nothing in queue", color: Colors.Red }],
     });
   }
 
@@ -28,7 +32,7 @@ export const handler = async function (
   if (!(page !== 0 && page <= pageCount)) {
     return interaction.reply({
       embeds: [
-        { description: "Error: No such page in the queue", color: "RED" },
+        { description: "Error: No such page in the queue", color: Colors.Red },
       ],
     });
   }

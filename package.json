@@ -9,11 +9,10 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
-    "@discordjs/builders": "0.15.0",
     "@discordjs/opus": "0.8.0",
-    "@discordjs/voice": "0.10.0",
-    "discord.js": "13.8.1",
-    "distube": "3.3.4",
+    "@discordjs/voice": "0.11.0",
+    "discord.js": "14.0.1",
+    "distube": "4.0.0-dev.6",
     "dotenv": "16.0.1",
     "node-fetch": "3.2.8",
     "sodium-native": "3.3.0",
@@ -30,7 +29,7 @@
     "prettier": "2.7.1"
   },
   "engines": {
-    "node": ">=16.6.0"
+    "node": ">=16.9.0"
   },
   "private": true,
   "type": "module"
