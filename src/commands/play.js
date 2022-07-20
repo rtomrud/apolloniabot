@@ -31,7 +31,6 @@ export const handler = async function (
   player = new Player()
 ) {
   const query = interaction.options.getString("query");
-  const channel = await player.client.channels.fetch(interaction.channelId);
   if (!interaction.member.voice.channel) {
     return interaction.reply({
       embeds: [
@@ -56,7 +55,6 @@ export const handler = async function (
   const reply = interaction.reply({
     embeds: [{ description: `Searching "${searchUrl}"` }],
   });
-  channel.interaction = interaction;
   await player.play(interaction.member.voice.channel, query, {
     member: interaction.member,
     textChannel: interaction.channel,
