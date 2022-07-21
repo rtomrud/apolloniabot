@@ -52,7 +52,11 @@ export class SpotifyPlugin extends ExtractorPlugin {
             name: video.title,
             duration: video.duration,
           },
-          { member, source: metadata.source, metadata }
+          {
+            member,
+            source: metadata.source || "youtube",
+            metadata,
+          }
         );
       })
     );
