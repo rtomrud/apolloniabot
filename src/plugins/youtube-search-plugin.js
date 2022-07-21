@@ -21,27 +21,23 @@ export class YouTubeSearchPlugin extends CustomPlugin {
   }
 
   async play(voiceChannel, query, options) {
-    let song;
-    try {
-      const results = await search(query, { type: "video" });
-      const [video] = results.videos;
-      song = new Song(
-        {
-          id: video.id,
-          url: video.link,
-          name: video.title,
-          duration: video.duration,
-        },
-        {
-          member: options.member,
-          source: options.metadata.source || "youtube",
-          metadata: options.metadata,
-        }
-      );
-    } catch (error) {
+    const results = await search(query, { type: "video" }).catch((error) => {
       throw new DisTubeError("NO_RESULT", error);
-    }
-
+    });
+    const [video] = results.videos;
+    const song = new Song(
+      {
+        id: video.id,
+        url: video.link,
+        name: video.title,
+        duration: video.duration,
+      },
+      {
+        member: options.member,
+        source: options.metadata.source || "youtube",
+        metadata: options.metadata,
+      }
+    );
     return this.distube.play(voiceChannel, song, options);
   }
 }
