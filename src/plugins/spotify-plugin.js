@@ -27,7 +27,6 @@ export class SpotifyPlugin extends ExtractorPlugin {
   }
 
   async resolve(url, { member, metadata }) {
-    const options = { member, source: metadata.source, metadata };
     const tracks = await getTracks(url, this.spotifyUrlInfoOptions).catch(
       (error) => {
         throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", error);
@@ -53,12 +52,12 @@ export class SpotifyPlugin extends ExtractorPlugin {
             name: video.title,
             duration: video.duration,
           },
-          options
+          { member, source: metadata.source, metadata }
         );
       })
     );
     return songs.length > 1
-      ? new Playlist(songs, { ...options, properties: { url } })
+      ? new Playlist(songs, { member, properties: { url }, metadata })
       : songs[0];
   }
 }
