@@ -52,7 +52,7 @@ export const handler = async function (
           search_query: query,
         })}`
       );
-  const reply = interaction.reply({
+  interaction.interactionResponse = interaction.reply({
     embeds: [{ description: `Searching "${searchUrl}"` }],
   });
   await player.play(interaction.member.voice.channel, query, {
@@ -60,5 +60,5 @@ export const handler = async function (
     textChannel: interaction.channel,
     metadata: { interaction, source: "yt-dlp" },
   });
-  return reply;
+  return interaction.interactionResponse;
 };

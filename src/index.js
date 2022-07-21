@@ -24,7 +24,7 @@ const player = new Player(client, {
 });
 
 player.on("addList", async (queue, playlist) => {
-  await playlist.metadata.interaction.fetchReply();
+  await playlist.metadata.interaction.interactionResponse;
   playlist.metadata.interaction.followUp({
     embeds: [
       {
@@ -46,7 +46,7 @@ player.on("addList", async (queue, playlist) => {
 });
 
 player.on("addSong", async (queue, song) => {
-  await song.metadata.interaction.fetchReply();
+  await song.metadata.interaction.interactionResponse;
   song.metadata.interaction.followUp({
     embeds: [
       {
@@ -146,7 +146,7 @@ client.on("interactionCreate", (interaction) => {
     return;
   }
 
-  command.handler(interaction, player).catch((error) => {
+  command.handler(interaction, player).catch(async (error) => {
     const errorMessage = errorMessages[error.errorCode] || defaultErrorMessage;
     if (
       errorMessage === defaultErrorMessage ||
@@ -156,7 +156,8 @@ client.on("interactionCreate", (interaction) => {
       console.error(error);
     }
 
-    interaction[interaction.replied ? "followUp" : "reply"]({
+    await interaction.interactionResponse;
+    interaction[interaction.interactionResponse ? "followUp" : "reply"]({
       embeds: [{ description: `Error: ${errorMessage}`, color: Colors.Red }],
     }).catch(console.error);
   });
