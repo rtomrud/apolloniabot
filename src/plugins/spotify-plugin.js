@@ -12,9 +12,14 @@ import { search } from "scrape-youtube";
 const { getTracks } = spotifyUrlInfo(fetch);
 
 export class SpotifyPlugin extends ExtractorPlugin {
-  constructor({ regExp = /spotify/, spotifyUrlInfoOptions = {} } = {}) {
+  constructor({
+    regExp = /spotify/,
+    searchOptions = { type: "video" },
+    spotifyUrlInfoOptions = {},
+  } = {}) {
     super();
     this.regExp = regExp;
+    this.searchOptions = searchOptions;
     this.spotifyUrlInfoOptions = spotifyUrlInfoOptions;
   }
 
@@ -39,7 +44,7 @@ export class SpotifyPlugin extends ExtractorPlugin {
           data.podcast?.name ||
           data.showOrAudiobook?.name
         } ${data.name}`;
-        const results = await search(query, { type: "video" }).catch(
+        const results = await search(query, this.searchOptions).catch(
           (error) => {
             throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", error);
           }
