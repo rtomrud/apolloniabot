@@ -6,8 +6,9 @@ import {
 import { search } from "scrape-youtube";
 
 export class YouTubeSearchPlugin extends CustomPlugin {
-  constructor({ separator = " " } = {}) {
+  constructor({ searchOptions = { type: "video" }, separator = " " } = {}) {
     super();
+    this.searchOptions = searchOptions;
     this.separator = separator;
   }
 
@@ -21,7 +22,7 @@ export class YouTubeSearchPlugin extends CustomPlugin {
   }
 
   async play(voiceChannel, query, options) {
-    const results = await search(query, { type: "video" }).catch((error) => {
+    const results = await search(query, this.searchOptions).catch((error) => {
       throw new DisTubeError("NO_RESULT", error);
     });
     const [video] = results.videos;
