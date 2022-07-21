@@ -7,7 +7,7 @@ import {
 import fetch from "node-fetch";
 import { parse } from "spotify-uri";
 import spotifyUrlInfo from "spotify-url-info";
-import { search } from "youtube-search-without-api-key";
+import { search } from "scrape-youtube";
 
 const { getTracks } = spotifyUrlInfo(fetch);
 
@@ -40,15 +40,18 @@ export class SpotifyPlugin extends ExtractorPlugin {
           data.podcast?.name ||
           data.showOrAudiobook?.name
         } ${data.name}`;
-        const [result] = await search(query).catch((error) => {
-          throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", error);
-        });
+        const results = await search(query, { type: "video" }).catch(
+          (error) => {
+            throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", error);
+          }
+        );
+        const [video] = results.videos;
         return new Song(
           {
-            id: result.id.videoId,
-            url: result.url,
-            name: result.title,
-            duration: result.duration_raw,
+            id: video.id,
+            url: video.link,
+            name: video.title,
+            duration: video.duration,
           },
           options
         );

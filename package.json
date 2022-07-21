@@ -15,10 +15,10 @@
     "distube": "4.0.2",
     "dotenv": "16.0.1",
     "node-fetch": "3.2.9",
+    "scrape-youtube": "2.2.0",
     "sodium-native": "3.3.0",
     "spotify-uri": "3.0.2",
-    "spotify-url-info": "3.1.2",
-    "youtube-search-without-api-key": "1.0.7"
+    "spotify-url-info": "3.1.2"
   },
   "devDependencies": {
     "eslint": "8.20.0",

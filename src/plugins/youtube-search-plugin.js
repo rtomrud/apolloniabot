@@ -3,7 +3,7 @@ import {
   DisTubeError,
   Song,
 } from "../../node_modules/distube/dist/index.js";
-import { search } from "youtube-search-without-api-key";
+import { search } from "scrape-youtube";
 
 export class YouTubeSearchPlugin extends CustomPlugin {
   constructor({ separator = " " } = {}) {
@@ -23,13 +23,14 @@ export class YouTubeSearchPlugin extends CustomPlugin {
   async play(voiceChannel, query, options) {
     let song;
     try {
-      const [result] = await search(query);
+      const results = await search(query, { type: "video" });
+      const [video] = results.videos;
       song = new Song(
         {
-          id: result.id.videoId,
-          url: result.url,
-          name: result.title,
-          duration: result.duration_raw,
+          id: video.id,
+          url: video.link,
+          name: video.title,
+          duration: video.duration,
         },
         {
           member: options.member,
