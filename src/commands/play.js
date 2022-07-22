@@ -51,6 +51,9 @@ const isHttpUrl = (string) => {
   }
 };
 
+const resultsUrl = (search_query) =>
+  `https://www.youtube.com/results?${new URLSearchParams({ search_query })}`;
+
 export const handler = async function (
   interaction = new CommandInteraction(),
   player = new Player()
@@ -69,14 +72,7 @@ export const handler = async function (
   }
 
   const [url] = query.split(" ");
-  const searchUrl = isHttpUrl(url)
-    ? url
-    : hyperlink(
-        query,
-        `https://www.youtube.com/results?${new URLSearchParams({
-          search_query: query,
-        })}`
-      );
+  const searchUrl = isHttpUrl(url) ? url : hyperlink(query, resultsUrl(query));
   const interactionResponse = interaction.reply({
     embeds: [{ description: `Searching "${searchUrl}"` }],
   });
