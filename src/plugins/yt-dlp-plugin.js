@@ -49,6 +49,10 @@ export class YtDlpPlugin extends ExtractorPlugin {
       throw new DisTubeError("YTDLP_ERROR", error.stderr || error);
     });
     const info = JSON.parse(stdout);
+    if (!info.url) {
+      throw new DisTubeError("YTDLP_ERROR", `Can't get stream URL of "${url}"`);
+    }
+
     return info.url;
   }
 
