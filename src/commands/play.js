@@ -77,16 +77,16 @@ export const handler = async function (
           search_query: query,
         })}`
       );
-  interaction.interactionResponse = interaction.reply({
+  const interactionResponse = interaction.reply({
     embeds: [{ description: `Searching "${searchUrl}"` }],
   });
   return player
     .play(interaction.member.voice.channel, query, {
       member: interaction.member,
       textChannel: interaction.channel,
-      metadata: { interaction, source: "yt-dlp" },
+      metadata: { interaction, interactionResponse, source: "yt-dlp" },
     })
-    .then(() => interaction.interactionResponse)
+    .then(() => interactionResponse)
     .catch(async (error) => {
       if (
         !errorMessages[error.errorCode] ||
@@ -96,7 +96,7 @@ export const handler = async function (
         console.error(error);
       }
 
-      await interaction.interactionResponse;
+      await interactionResponse;
       return interaction.followUp({
         embeds: [
           {

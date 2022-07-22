@@ -24,7 +24,7 @@ const player = new Player(client, {
 });
 
 player.on("addList", async (queue, playlist) => {
-  await playlist.metadata.interaction.interactionResponse;
+  await playlist.metadata.interactionResponse;
   playlist.metadata.interaction.followUp({
     embeds: [
       {
@@ -46,7 +46,7 @@ player.on("addList", async (queue, playlist) => {
 });
 
 player.on("addSong", async (queue, song) => {
-  await song.metadata.interaction.interactionResponse;
+  await song.metadata.interactionResponse;
   song.metadata.interaction.followUp({
     embeds: [
       {
