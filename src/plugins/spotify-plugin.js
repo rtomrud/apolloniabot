@@ -12,15 +12,10 @@ import { search } from "scrape-youtube";
 const { getTracks } = spotifyUrlInfo(fetch);
 
 export class SpotifyPlugin extends ExtractorPlugin {
-  constructor({
-    regExp = /spotify/,
-    searchOptions = { type: "video" },
-    spotifyUrlInfoOptions = {},
-  } = {}) {
+  constructor({ regExp = /spotify/, searchOptions = { type: "video" } } = {}) {
     super();
     this.regExp = regExp;
     this.searchOptions = searchOptions;
-    this.spotifyUrlInfoOptions = spotifyUrlInfoOptions;
   }
 
   validate(url) {
@@ -32,11 +27,9 @@ export class SpotifyPlugin extends ExtractorPlugin {
   }
 
   async resolve(url, { member, metadata }) {
-    const tracks = await getTracks(url, this.spotifyUrlInfoOptions).catch(
-      (error) => {
-        throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", error);
-      }
-    );
+    const tracks = await getTracks(url).catch((error) => {
+      throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", error);
+    });
     const songs = await Promise.all(
       tracks.map(async (data) => {
         const query = `${
