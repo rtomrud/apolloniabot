@@ -89,7 +89,7 @@ client.on("guildDelete", (guild) => {
 });
 
 client.on("interactionCreate", (interaction) => {
-  if (!interaction.type === InteractionType.ApplicationCommand) {
+  if (interaction.type !== InteractionType.ApplicationCommand) {
     return;
   }
 
