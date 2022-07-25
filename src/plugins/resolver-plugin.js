@@ -1,4 +1,4 @@
-import { CustomPlugin } from "../../node_modules/distube/dist/index.js";
+import { CustomPlugin } from "distube";
 
 export class ResolverPlugin extends CustomPlugin {
   constructor({ separator = " " } = {}) {

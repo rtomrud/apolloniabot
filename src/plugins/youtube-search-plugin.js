@@ -1,8 +1,4 @@
-import {
-  CustomPlugin,
-  DisTubeError,
-  Song,
-} from "../../node_modules/distube/dist/index.js";
+import { CustomPlugin, DisTubeError, Song } from "distube";
 import { search } from "scrape-youtube";
 
 export class YouTubeSearchPlugin extends CustomPlugin {

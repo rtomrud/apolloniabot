@@ -1,11 +1,6 @@
 import child_process from "child_process";
 import { promisify } from "util";
-import {
-  DisTubeError,
-  ExtractorPlugin,
-  Playlist,
-  Song,
-} from "../../node_modules/distube/dist/index.js";
+import { DisTubeError, ExtractorPlugin, Playlist, Song } from "distube";
 
 const execFile = promisify(child_process.execFile);
 

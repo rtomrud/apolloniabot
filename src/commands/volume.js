@@ -1,5 +1,5 @@
 import { Colors, CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { DisTube as Player } from "../../node_modules/distube/dist/index.js";
+import { DisTube as Player } from "distube";
 
 export const data = new SlashCommandBuilder()
   .setName("volume")

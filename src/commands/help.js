@@ -1,5 +1,5 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { DisTube as Player } from "../../node_modules/distube/dist/index.js";
+import { DisTube as Player } from "distube";
 import permissions from "../permissions.js";
 import scopes from "../scopes.js";
 

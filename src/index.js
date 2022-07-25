@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { Client, Colors, InteractionType, hyperlink } from "discord.js";
-import { DisTube as Player } from "../node_modules/distube/dist/index.js";
+import { DisTube as Player } from "distube";
 import commands from "./commands/index.js";
 import { ResolverPlugin } from "./plugins/resolver-plugin.js";
 import { SpotifyPlugin } from "./plugins/spotify-plugin.js";
