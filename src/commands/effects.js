@@ -3,12 +3,11 @@ import { DisTube as Player } from "distube";
 
 export const data = new SlashCommandBuilder()
   .setName("effects")
-  .setDescription("Set the specified effect")
+  .setDescription("Enable or disable an effect")
   .addStringOption((option) =>
     option
       .setName("effect")
-      .setDescription("The effect to set")
-      .setRequired(true)
+      .setDescription("The effect to enable or disable")
       .addChoices(
         { name: "3d", value: "3d" },
         { name: "bassboost", value: "bassboost" },
@@ -21,8 +20,7 @@ export const data = new SlashCommandBuilder()
   .addBooleanOption((option) =>
     option
       .setName("enable")
-      .setDescription("Whether to turn on the effect or not")
-      .setRequired(true)
+      .setDescription("Whether to turn on the effect or not (default: True)")
   );
 
 export const handler = async function (
@@ -32,20 +30,15 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue || !queue.playing) {
     return interaction.reply({
-      embeds: [
-        {
-          description: "Error: Nothing to apply effects to",
-          color: Colors.Red,
-        },
-      ],
+      embeds: [{ description: "Error: Nothing is playing", color: Colors.Red }],
     });
   }
 
   const filter = interaction.options.getString("effect");
   const enable = interaction.options.getBoolean("enable");
-  if (!queue.filters.has(filter) && enable) {
+  if (filter && !queue.filters.has(filter) && (enable || enable == null)) {
     queue.filters.add(filter);
-  } else if (queue.filters.has(filter) && !enable) {
+  } else if (filter && queue.filters.has(filter) && enable === false) {
     queue.filters.remove(filter);
   }
 
