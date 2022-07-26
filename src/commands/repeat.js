@@ -8,7 +8,6 @@ export const data = new SlashCommandBuilder()
     option
       .setName("mode")
       .setDescription("The repeat mode")
-      .setRequired(true)
       .addChoices(
         { name: "off", value: "off" },
         { name: "queue", value: "queue" },
@@ -23,11 +22,18 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to repeat", color: Colors.Red }],
+      embeds: [{ description: "Error: Nothing is playing", color: Colors.Red }],
     });
   }
 
   const mode = interaction.options.getString("mode");
-  queue.setRepeatMode(mode === "queue" ? 2 : mode === "track" ? 1 : 0);
-  return interaction.reply({ embeds: [{ description: `Repeat ${mode}` }] });
+  if (mode) {
+    queue.setRepeatMode(mode === "queue" ? 2 : mode === "track" ? 1 : 0);
+  }
+
+  return interaction.reply({
+    embeds: [
+      { description: `Repeat: ${["off", "track", "queue"][queue.repeatMode]}` },
+    ],
+  });
 };
