@@ -1,6 +1,10 @@
 import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
   Colors,
   CommandInteraction,
+  InteractionType,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
@@ -26,7 +30,10 @@ export const handler = async function (
     });
   }
 
-  const page = interaction.options.getInteger("page") || 1;
+  const page =
+    interaction.type === InteractionType.ApplicationCommand
+      ? interaction.options.getInteger("page") || 1
+      : Number(interaction.customId.match(/page:(-?\d+)/)?.[1]) || 1;
   const pageSize = 10;
   const pageCount = Math.ceil(queue.songs.length / pageSize);
   if (!(page !== 0 && page <= pageCount)) {
@@ -40,7 +47,11 @@ export const handler = async function (
   const pageIndex = page < 0 ? Math.max(0, pageCount + page) : page - 1;
   const start = pageIndex * pageSize;
   const end = Math.min((pageIndex + 1) * pageSize, queue.songs.length);
-  return interaction.reply({
+  const replyMethod =
+    interaction.type === InteractionType.ApplicationCommand
+      ? "reply"
+      : "update";
+  return interaction[replyMethod]({
     embeds: [
       {
         title: "Queue",
@@ -56,5 +67,32 @@ export const handler = async function (
         footer: { text: `Page ${pageIndex + 1} of ${pageCount}` },
       },
     ],
+    components:
+      pageCount === 1
+        ? []
+        : [
+            new ActionRowBuilder().addComponents(
+              new ButtonBuilder()
+                .setCustomId("/queue")
+                .setLabel("<< First")
+                .setStyle(ButtonStyle.Secondary)
+                .setDisabled(pageIndex === 0),
+              new ButtonBuilder()
+                .setCustomId(`/queue page:${pageIndex}`)
+                .setLabel("< Prev")
+                .setStyle(ButtonStyle.Secondary)
+                .setDisabled(pageIndex === 0),
+              new ButtonBuilder()
+                .setCustomId(`/queue page:${pageIndex + 2}`)
+                .setLabel("Next >")
+                .setStyle(ButtonStyle.Secondary)
+                .setDisabled(pageIndex === pageCount - 1),
+              new ButtonBuilder()
+                .setCustomId(`/queue page:-1`)
+                .setLabel("Last >>")
+                .setStyle(ButtonStyle.Secondary)
+                .setDisabled(pageIndex === pageCount - 1)
+            ),
+          ],
   });
 };

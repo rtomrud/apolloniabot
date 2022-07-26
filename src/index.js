@@ -89,14 +89,17 @@ client.on("guildDelete", (guild) => {
 });
 
 client.on("interactionCreate", (interaction) => {
-  if (interaction.type !== InteractionType.ApplicationCommand) {
+  if (
+    interaction.type !== InteractionType.ApplicationCommand &&
+    interaction.type !== InteractionType.MessageComponent
+  ) {
     return;
   }
 
   console.log(
     JSON.stringify({
       event: "INTERACTION_CREATE",
-      data: interaction.toString(),
+      data: interaction.customId || interaction.toString(),
       user: interaction.user.tag,
       userId: interaction.user.id,
       guild: interaction.guild.name,
@@ -108,7 +111,11 @@ client.on("interactionCreate", (interaction) => {
     })
   );
 
-  const command = commands[interaction.commandName];
+  const commandName =
+    interaction.type === InteractionType.ApplicationCommand
+      ? interaction.commandName
+      : interaction.customId.split(" ")[0].replace("/", "");
+  const command = commands[commandName];
   if (!command) {
     interaction.reply({
       embeds: [
