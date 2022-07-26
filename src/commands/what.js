@@ -3,7 +3,7 @@ import { DisTube as Player } from "distube";
 
 export const data = new SlashCommandBuilder()
   .setName("what")
-  .setDescription("Show what's playing and the status of the player");
+  .setDescription("Show what's playing now");
 
 export const handler = async function (
   interaction = new CommandInteraction(),
@@ -12,7 +12,7 @@ export const handler = async function (
   const queue = player.queues.get(interaction.guildId);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing in queue", color: Colors.Red }],
+      embeds: [{ description: "Error: Nothing is playing", color: Colors.Red }],
     });
   }
 
@@ -28,28 +28,13 @@ export const handler = async function (
             inline: true,
           },
           {
-            name: "Volume",
-            value: String(queue.volume),
-            inline: true,
-          },
-          {
-            name: "Requester",
-            value: String(queue.songs[0].user),
-            inline: true,
-          },
-          {
-            name: "Repeat",
-            value: ["off", "track", "queue"][queue.repeatMode],
-            inline: true,
-          },
-          {
             name: "Bitrate",
             value: `${queue.voiceChannel.bitrate / 1000}kbps`,
             inline: true,
           },
           {
-            name: "Effects",
-            value: queue.filters.names.join(", ") || "none",
+            name: "Requester",
+            value: String(queue.songs[0].user),
             inline: true,
           },
         ],
