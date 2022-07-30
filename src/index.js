@@ -134,7 +134,7 @@ client.on(Events.GuildCreate, (guild) => {
       event: Events.GuildCreate,
       guild: guild.name,
       guildId: guild.id,
-      joinedAt: guild.joinedAt.toISOString(),
+      date: guild.joinedAt.toISOString(),
     })
   );
 });
@@ -149,7 +149,7 @@ client.on(Events.GuildDelete, (guild) => {
       event: "GUILD_DELETE",
       guild: guild.name,
       guildId: guild.id,
-      joinedAt: guild.joinedAt.toISOString(),
+      date: guild.joinedAt.toISOString(),
     })
   );
 });
@@ -172,7 +172,7 @@ client.on(Events.InteractionCreate, (interaction) => {
       guildId: interaction.guild.id,
       channel: interaction.channel.name,
       channelId: interaction.channel.id,
-      createdAt: interaction.createdAt.toISOString(),
+      date: interaction.createdAt.toISOString(),
       id: interaction.id,
     })
   );
@@ -200,7 +200,7 @@ client.on(Events.ClientReady, async (client) => {
       event: "READY",
       user: client.user.tag,
       userId: client.user.id,
-      readyAt: client.readyAt.toISOString(),
+      date: client.readyAt.toISOString(),
     })
   );
 
