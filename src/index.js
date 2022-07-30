@@ -1,6 +1,6 @@
 import "dotenv/config";
-import { Client, Colors, InteractionType, hyperlink } from "discord.js";
-import { DisTube as Player } from "distube";
+import { Client, Colors, Events, InteractionType, hyperlink } from "discord.js";
+import { DisTube as Player, Events as PlayerEvents } from "distube";
 import commands from "./commands/index.js";
 import { ResolverPlugin } from "./plugins/resolver-plugin.js";
 import { SpotifyPlugin } from "./plugins/spotify-plugin.js";
@@ -23,7 +23,7 @@ const player = new Player(client, {
   nsfw: true,
 });
 
-player.on("addList", async (queue, playlist) => {
+player.on(PlayerEvents.ADD_LIST, async (queue, playlist) => {
   await playlist.metadata.interactionResponse;
   playlist.metadata.interaction.followUp({
     embeds: [
@@ -45,7 +45,7 @@ player.on("addList", async (queue, playlist) => {
   });
 });
 
-player.on("addSong", async (queue, song) => {
+player.on(PlayerEvents.ADD_SONG, async (queue, song) => {
   await song.metadata.interactionResponse;
   song.metadata.interaction.followUp({
     embeds: [
@@ -58,14 +58,14 @@ player.on("addSong", async (queue, song) => {
   });
 });
 
-player.on("error", (channel, error) => console.error(error));
+player.on(PlayerEvents.ERROR, (channel, error) => console.error(error));
 
-client.on("error", console.error);
+client.on(Events.Error, console.error);
 
-client.on("guildCreate", (guild) => {
+client.on(Events.GuildCreate, (guild) => {
   console.log(
     JSON.stringify({
-      event: "GUILD_CREATE",
+      event: Events.GuildCreate,
       guild: guild.name,
       guildId: guild.id,
       joinedAt: guild.joinedAt.toISOString(),
@@ -73,7 +73,7 @@ client.on("guildCreate", (guild) => {
   );
 });
 
-client.on("guildDelete", (guild) => {
+client.on(Events.GuildDelete, (guild) => {
   if (!guild.available) {
     return;
   }
@@ -88,7 +88,7 @@ client.on("guildDelete", (guild) => {
   );
 });
 
-client.on("interactionCreate", (interaction) => {
+client.on(Events.InteractionCreate, (interaction) => {
   if (
     interaction.type !== InteractionType.ApplicationCommand &&
     interaction.type !== InteractionType.MessageComponent
@@ -128,7 +128,7 @@ client.on("interactionCreate", (interaction) => {
   command.handler(interaction, player).catch(console.error);
 });
 
-client.on("ready", async (client) => {
+client.on(Events.ClientReady, async (client) => {
   console.log(
     JSON.stringify({
       event: "READY",
