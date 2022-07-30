@@ -17,7 +17,6 @@ const player = new Player(client, {
     new SpotifyPlugin(),
     new YtDlpPlugin(),
   ],
-  emitNewSongOnly: true,
   leaveOnFinish: true,
   savePreviousSongs: false,
   nsfw: true,
@@ -58,7 +57,74 @@ player.on(PlayerEvents.ADD_SONG, async (queue, song) => {
   });
 });
 
+player.on(PlayerEvents.DISCONNECT, (queue) => {
+  console.log(
+    JSON.stringify({
+      event: "DISCONNECT",
+      guild: queue.voiceChannel.guild.name,
+      guildId: queue.voiceChannel.guildId,
+      channel: queue.voiceChannel.name,
+      channelId: queue.voiceChannel.id,
+      date: new Date().toISOString(),
+    })
+  );
+});
+
+player.on(PlayerEvents.EMPTY, (queue) => {
+  console.log(
+    JSON.stringify({
+      event: "EMPTY",
+      guild: queue.voiceChannel.guild.name,
+      guildId: queue.voiceChannel.guildId,
+      channel: queue.voiceChannel.name,
+      channelId: queue.voiceChannel.id,
+      date: new Date().toISOString(),
+    })
+  );
+});
+
 player.on(PlayerEvents.ERROR, (channel, error) => console.error(error));
+
+player.on(PlayerEvents.FINISH, (queue) => {
+  console.log(
+    JSON.stringify({
+      event: "FINISH",
+      guild: queue.voiceChannel.guild.name,
+      guildId: queue.voiceChannel.guildId,
+      channel: queue.voiceChannel.name,
+      channelId: queue.voiceChannel.id,
+      date: new Date().toISOString(),
+    })
+  );
+});
+
+player.on(PlayerEvents.FINISH_SONG, (queue, song) => {
+  console.log(
+    JSON.stringify({
+      event: "FINISH_SONG",
+      data: `${song.name} <${song.url}>`,
+      guild: queue.voiceChannel.guild.name,
+      guildId: queue.voiceChannel.guildId,
+      channel: queue.voiceChannel.name,
+      channelId: queue.voiceChannel.id,
+      date: new Date().toISOString(),
+    })
+  );
+});
+
+player.on(PlayerEvents.PLAY_SONG, (queue, song) => {
+  console.log(
+    JSON.stringify({
+      event: "PLAY_SONG",
+      data: `${song.name} <${song.url}>`,
+      guild: queue.voiceChannel.guild.name,
+      guildId: queue.voiceChannel.guildId,
+      channel: queue.voiceChannel.name,
+      channelId: queue.voiceChannel.id,
+      date: new Date().toISOString(),
+    })
+  );
+});
 
 client.on(Events.Error, console.error);
 
