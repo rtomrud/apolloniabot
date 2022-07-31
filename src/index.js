@@ -173,7 +173,6 @@ client.on(Events.InteractionCreate, (interaction) => {
       channel: interaction.channel.name,
       channelId: interaction.channel.id,
       date: interaction.createdAt.toISOString(),
-      id: interaction.id,
     })
   );
 
