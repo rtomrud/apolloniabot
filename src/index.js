@@ -197,8 +197,6 @@ client.on(Events.ClientReady, async (client) => {
   console.log(
     JSON.stringify({
       event: "READY",
-      user: client.user.tag,
-      userId: client.user.id,
       date: client.readyAt.toISOString(),
     })
   );
