@@ -1,10 +1,13 @@
 import {
   ActionRowBuilder,
+  APIEmbed,
   ButtonBuilder,
   ButtonStyle,
+  ChatInputCommandInteraction,
   Colors,
-  CommandInteraction,
+  Interaction,
   InteractionType,
+  MessageComponentInteraction,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
@@ -20,10 +23,10 @@ export const data = new SlashCommandBuilder()
   );
 
 export const handler = async function (
-  interaction = new CommandInteraction(),
-  player = new Player()
+  interaction: ChatInputCommandInteraction | MessageComponentInteraction,
+  player: Player
 ) {
-  const queue = player.queues.get(interaction.guildId);
+  const queue = player.queues.get(interaction as Interaction);
   if (!queue) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing in queue", color: Colors.Red }],
@@ -31,9 +34,9 @@ export const handler = async function (
   }
 
   const page =
-    interaction.type === InteractionType.ApplicationCommand
-      ? interaction.options.getInteger("page") || 1
-      : Number(interaction.customId.match(/page:(-?\d+)/)?.[1]) || 1;
+    interaction.type === InteractionType.MessageComponent
+      ? Number(interaction.customId.match(/page:(-?\d+)/)?.[1]) || 1
+      : interaction.options.getInteger("page") || 1;
   const pageSize = 10;
   const pageCount = Math.ceil(queue.songs.length / pageSize);
   if (!(page !== 0 && page <= pageCount)) {
@@ -47,11 +50,7 @@ export const handler = async function (
   const pageIndex = page < 0 ? Math.max(0, pageCount + page) : page - 1;
   const start = pageIndex * pageSize;
   const end = Math.min((pageIndex + 1) * pageSize, queue.songs.length);
-  const replyMethod =
-    interaction.type === InteractionType.ApplicationCommand
-      ? "reply"
-      : "update";
-  return interaction[replyMethod]({
+  const options = {
     embeds: [
       {
         title: "Queue",
@@ -60,18 +59,18 @@ export const handler = async function (
         } • ${queue.formattedDuration}`,
         fields: queue.songs.slice(start, end).map((song, i) => ({
           name: String(i + start + 1),
-          value: `${hyperlink(song.name, song.url)} • ${
-            song.formattedDuration
+          value: `${hyperlink(song.name || song.url, song.url)} • ${
+            song.formattedDuration || "--:--"
           }`,
         })),
         footer: { text: `Page ${pageIndex + 1} of ${pageCount}` },
-      },
+      } as APIEmbed,
     ],
     components:
       pageCount === 1
         ? []
         : [
-            new ActionRowBuilder().addComponents(
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
               new ButtonBuilder()
                 .setCustomId("/queue")
                 .setLabel("<< First")
@@ -94,5 +93,8 @@ export const handler = async function (
                 .setDisabled(pageIndex === pageCount - 1)
             ),
           ],
-  });
+  };
+  return interaction.type === InteractionType.ApplicationCommand
+    ? interaction.reply(options)
+    : interaction.update(options);
 };

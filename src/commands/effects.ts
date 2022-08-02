@@ -1,4 +1,8 @@
-import { Colors, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Colors,
+  SlashCommandBuilder,
+} from "discord.js";
 import { DisTube as Player } from "distube";
 
 export const data = new SlashCommandBuilder()
@@ -24,10 +28,10 @@ export const data = new SlashCommandBuilder()
   );
 
 export const handler = async function (
-  interaction = new CommandInteraction(),
-  player = new Player()
+  interaction: ChatInputCommandInteraction,
+  player: Player
 ) {
-  const queue = player.queues.get(interaction.guildId);
+  const queue = player.queues.get(interaction);
   if (!queue || !queue.playing) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing is playing", color: Colors.Red }],

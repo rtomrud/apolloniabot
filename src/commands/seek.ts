@@ -1,6 +1,6 @@
 import {
+  ChatInputCommandInteraction,
   Colors,
-  CommandInteraction,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
@@ -46,10 +46,10 @@ export const data = new SlashCommandBuilder()
   );
 
 export const handler = async function (
-  interaction = new CommandInteraction(),
-  player = new Player()
+  interaction: ChatInputCommandInteraction,
+  player: Player
 ) {
-  const queue = player.queues.get(interaction.guildId);
+  const queue = player.queues.get(interaction);
   if (!queue || !queue.playing) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing to seek on", color: Colors.Red }],
@@ -76,7 +76,7 @@ export const handler = async function (
     embeds: [
       {
         description: `Seeked to ${queue.formattedCurrentTime} in ${hyperlink(
-          queue.songs[0].name,
+          queue.songs[0].name || queue.songs[0].url,
           queue.songs[0].url
         )}`,
       },

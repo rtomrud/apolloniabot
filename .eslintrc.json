@@ -3,7 +3,11 @@
     "es6": true,
     "node": true
   },
-  "extends": ["eslint-config-pretty-strict"],
+  "extends": [
+    "eslint-config-pretty-strict",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
   "overrides": [
     {
       "extends": ["plugin:jest/recommended"],
@@ -14,9 +18,12 @@
       "plugins": ["jest"]
     }
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2020,
+    "ecmaVersion": 2021,
+    "project": ["./tsconfig.json"],
     "sourceType": "module"
   },
+  "plugins": ["@typescript-eslint"],
   "root": true
 }

@@ -1,4 +1,8 @@
-import { Colors, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Colors,
+  SlashCommandBuilder,
+} from "discord.js";
 import { DisTube as Player } from "distube";
 
 export const data = new SlashCommandBuilder()
@@ -18,10 +22,10 @@ export const data = new SlashCommandBuilder()
   );
 
 export const handler = async function (
-  interaction = new CommandInteraction(),
-  player = new Player()
+  interaction: ChatInputCommandInteraction,
+  player: Player
 ) {
-  const queue = player.queues.get(interaction.guildId);
+  const queue = player.queues.get(interaction);
   if (!queue || queue.songs.length <= 1) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing to move", color: Colors.Red }],
@@ -30,13 +34,13 @@ export const handler = async function (
 
   const track = interaction.options.getInteger("track");
   const position = interaction.options.getInteger("position");
-  if (!(track !== 0 && track <= queue.songs.length)) {
+  if (!(track && track <= queue.songs.length)) {
     return interaction.reply({
       embeds: [{ description: "Error: No such track", color: Colors.Red }],
     });
   }
 
-  if (!(position !== 0 && position <= queue.songs.length)) {
+  if (!(position && position <= queue.songs.length)) {
     return interaction.reply({
       embeds: [{ description: "Error: No such position", color: Colors.Red }],
     });
@@ -49,7 +53,7 @@ export const handler = async function (
   queue.songs.splice(to, 0, queue.songs.splice(from, 1)[0]);
   if (from === 0 || to === 0) {
     queue.songs.unshift(song);
-    queue.jump(1);
+    await queue.jump(1);
   }
 
   return interaction.reply({

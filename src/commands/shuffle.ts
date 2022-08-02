@@ -1,4 +1,8 @@
-import { Colors, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Colors,
+  SlashCommandBuilder,
+} from "discord.js";
 import { DisTube as Player } from "distube";
 
 export const data = new SlashCommandBuilder()
@@ -6,16 +10,16 @@ export const data = new SlashCommandBuilder()
   .setDescription("Shuffle the queue");
 
 export const handler = async function (
-  interaction = new CommandInteraction(),
-  player = new Player()
+  interaction: ChatInputCommandInteraction,
+  player: Player
 ) {
-  const queue = player.queues.get(interaction.guildId);
+  const queue = player.queues.get(interaction);
   if (!queue || queue.songs.length <= 1) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing to shuffle", color: Colors.Red }],
     });
   }
 
-  queue.shuffle();
+  await queue.shuffle();
   return interaction.reply({ embeds: [{ description: "Shuffled the queue" }] });
 };

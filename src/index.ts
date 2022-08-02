@@ -1,5 +1,14 @@
 import "dotenv/config";
-import { Client, Colors, Events, InteractionType, hyperlink } from "discord.js";
+import {
+  ChannelType,
+  ChatInputCommandInteraction,
+  Client,
+  Colors,
+  Events,
+  InteractionType,
+  Message,
+  hyperlink,
+} from "discord.js";
 import { DisTube as Player, Events as PlayerEvents } from "distube";
 import commands from "./commands/index.js";
 import { ResolverPlugin } from "./plugins/resolver-plugin.js";
@@ -23,21 +32,25 @@ const player = new Player(client, {
 });
 
 player.on(PlayerEvents.ADD_LIST, async (queue, playlist) => {
-  await playlist.metadata.interactionResponse;
-  playlist.metadata.interaction.followUp({
+  const metadata = playlist.metadata as {
+    interaction: ChatInputCommandInteraction;
+    interactionResponse: Promise<Message>;
+  };
+  await metadata.interactionResponse;
+  await metadata.interaction.followUp({
     embeds: [
       {
         description: `${
           queue.songs[0] === playlist.songs[0] ? "Playing" : "Queued"
         } ${hyperlink(
-          `${playlist.songs[0].name}${
+          `${playlist.songs[0].name || playlist.songs[0].url}${
             playlist.songs.length > 1
               ? ` and ${playlist.songs.length - 1} more ${
                   playlist.songs.length - 1 === 1 ? "track" : "tracks"
                 }`
               : ""
           }`,
-          playlist.url
+          playlist.url || playlist.songs[0].url
         )}`,
       },
     ],
@@ -45,13 +58,17 @@ player.on(PlayerEvents.ADD_LIST, async (queue, playlist) => {
 });
 
 player.on(PlayerEvents.ADD_SONG, async (queue, song) => {
-  await song.metadata.interactionResponse;
-  song.metadata.interaction.followUp({
+  const metadata = song.metadata as {
+    interaction: ChatInputCommandInteraction;
+    interactionResponse: Promise<Message>;
+  };
+  await metadata.interactionResponse;
+  await metadata.interaction.followUp({
     embeds: [
       {
         description: `${
           queue.songs[0] === song ? "Playing" : "Queued"
-        } ${hyperlink(song.name, song.url)}`,
+        } ${hyperlink(song.name || song.url, song.url)}`,
       },
     ],
   });
@@ -61,10 +78,10 @@ player.on(PlayerEvents.DISCONNECT, (queue) => {
   console.log(
     JSON.stringify({
       event: "DISCONNECT",
-      guild: queue.voiceChannel.guild.name,
-      guildId: queue.voiceChannel.guildId,
-      channel: queue.voiceChannel.name,
-      channelId: queue.voiceChannel.id,
+      guild: queue.voiceChannel?.guild.name,
+      guildId: queue.voiceChannel?.guildId,
+      channel: queue.voiceChannel?.name,
+      channelId: queue.voiceChannel?.id,
       date: new Date().toISOString(),
     })
   );
@@ -74,10 +91,10 @@ player.on(PlayerEvents.EMPTY, (queue) => {
   console.log(
     JSON.stringify({
       event: "EMPTY",
-      guild: queue.voiceChannel.guild.name,
-      guildId: queue.voiceChannel.guildId,
-      channel: queue.voiceChannel.name,
-      channelId: queue.voiceChannel.id,
+      guild: queue.voiceChannel?.guild.name,
+      guildId: queue.voiceChannel?.guildId,
+      channel: queue.voiceChannel?.name,
+      channelId: queue.voiceChannel?.id,
       date: new Date().toISOString(),
     })
   );
@@ -89,10 +106,10 @@ player.on(PlayerEvents.FINISH, (queue) => {
   console.log(
     JSON.stringify({
       event: "FINISH",
-      guild: queue.voiceChannel.guild.name,
-      guildId: queue.voiceChannel.guildId,
-      channel: queue.voiceChannel.name,
-      channelId: queue.voiceChannel.id,
+      guild: queue.voiceChannel?.guild.name,
+      guildId: queue.voiceChannel?.guildId,
+      channel: queue.voiceChannel?.name,
+      channelId: queue.voiceChannel?.id,
       date: new Date().toISOString(),
     })
   );
@@ -102,11 +119,11 @@ player.on(PlayerEvents.FINISH_SONG, (queue, song) => {
   console.log(
     JSON.stringify({
       event: "FINISH_SONG",
-      data: `${song.name} <${song.url}>`,
-      guild: queue.voiceChannel.guild.name,
-      guildId: queue.voiceChannel.guildId,
-      channel: queue.voiceChannel.name,
-      channelId: queue.voiceChannel.id,
+      data: `${song.name || song.url} <${song.url}>`,
+      guild: queue.voiceChannel?.guild.name,
+      guildId: queue.voiceChannel?.guildId,
+      channel: queue.voiceChannel?.name,
+      channelId: queue.voiceChannel?.id,
       date: new Date().toISOString(),
     })
   );
@@ -116,11 +133,11 @@ player.on(PlayerEvents.PLAY_SONG, (queue, song) => {
   console.log(
     JSON.stringify({
       event: "PLAY_SONG",
-      data: `${song.name} <${song.url}>`,
-      guild: queue.voiceChannel.guild.name,
-      guildId: queue.voiceChannel.guildId,
-      channel: queue.voiceChannel.name,
-      channelId: queue.voiceChannel.id,
+      data: `${song.name || song.url} <${song.url}>`,
+      guild: queue.voiceChannel?.guild.name,
+      guildId: queue.voiceChannel?.guildId,
+      channel: queue.voiceChannel?.name,
+      channelId: queue.voiceChannel?.id,
       date: new Date().toISOString(),
     })
   );
@@ -154,7 +171,7 @@ client.on(Events.GuildDelete, (guild) => {
   );
 });
 
-client.on(Events.InteractionCreate, (interaction) => {
+client.on(Events.InteractionCreate, async (interaction) => {
   if (
     interaction.type !== InteractionType.ApplicationCommand &&
     interaction.type !== InteractionType.MessageComponent
@@ -165,24 +182,31 @@ client.on(Events.InteractionCreate, (interaction) => {
   console.log(
     JSON.stringify({
       event: "INTERACTION_CREATE",
-      data: interaction.customId || interaction.toString(),
+      data:
+        interaction.type === InteractionType.MessageComponent
+          ? interaction.customId
+          : interaction.toString(),
       user: interaction.user.tag,
       userId: interaction.user.id,
-      guild: interaction.guild.name,
-      guildId: interaction.guild.id,
-      channel: interaction.channel.name,
-      channelId: interaction.channel.id,
+      guild: interaction.guild?.name,
+      guildId: interaction.guild?.id,
+      channel:
+        interaction.channel?.type === ChannelType.DM
+          ? interaction.channel.recipient?.tag
+          : interaction.channel?.name || "",
+      channelId: interaction.channel?.id,
       date: interaction.createdAt.toISOString(),
     })
   );
 
-  const commandName =
-    interaction.type === InteractionType.ApplicationCommand
-      ? interaction.commandName
-      : interaction.customId.split(" ")[0].replace("/", "");
+  const commandName = (
+    interaction.type === InteractionType.MessageComponent
+      ? interaction.customId.split(" ")[0].replace("/", "")
+      : interaction.commandName
+  ) as keyof typeof commands;
   const command = commands[commandName];
   if (!command) {
-    interaction.reply({
+    await interaction.reply({
       embeds: [
         { description: "Error: I can't do that yet, sorry", color: Colors.Red },
       ],
@@ -190,7 +214,9 @@ client.on(Events.InteractionCreate, (interaction) => {
     return;
   }
 
-  command.handler(interaction, player).catch(console.error);
+  command
+    .handler(interaction as ChatInputCommandInteraction, player)
+    .catch(console.error);
 });
 
 client.on(Events.ClientReady, async (client) => {
@@ -206,4 +232,6 @@ client.on(Events.ClientReady, async (client) => {
     .catch(console.error);
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN).catch(console.error);
+
+export default client;

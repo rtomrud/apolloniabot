@@ -1,10 +1,12 @@
 import {
+  ChatInputCommandInteraction,
   Colors,
-  CommandInteraction,
+  GuildMember,
+  GuildTextBasedChannel,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
-import { DisTube as Player } from "distube";
+import { DisTube as Player, DisTubeError } from "distube";
 
 export const data = new SlashCommandBuilder()
   .setName("play")
@@ -43,7 +45,7 @@ const errorMessages = {
 
 const defaultErrorMessage = "Error: Something went wrong, sorry";
 
-const isHttpUrl = (string) => {
+const isHttpUrl = (string: string) => {
   try {
     return new URL(string).protocol.startsWith("http");
   } catch {
@@ -51,15 +53,18 @@ const isHttpUrl = (string) => {
   }
 };
 
-const resultsUrl = (search_query) =>
-  `https://www.youtube.com/results?${new URLSearchParams({ search_query })}`;
+const resultsUrl = (search_query: string) =>
+  `https://www.youtube.com/results?${new URLSearchParams({
+    search_query,
+  }).toString()}`;
 
 export const handler = async function (
-  interaction = new CommandInteraction(),
-  player = new Player()
+  interaction: ChatInputCommandInteraction,
+  player: Player
 ) {
-  const query = interaction.options.getString("query");
-  if (!interaction.member.voice.channel) {
+  const query = interaction.options.getString("query") || "";
+  const member = interaction.member as GuildMember;
+  if (!member.voice.channel) {
     return interaction.reply({
       embeds: [
         {
@@ -77,17 +82,18 @@ export const handler = async function (
     embeds: [{ description: `Searching "${searchUrl}"` }],
   });
   return player
-    .play(interaction.member.voice.channel, query, {
-      member: interaction.member,
-      textChannel: interaction.channel,
-      metadata: { interaction, interactionResponse, source: "yt-dlp" },
+    .play(member.voice.channel, query, {
+      member,
+      textChannel: interaction.channel as GuildTextBasedChannel,
+      metadata: { interaction, interactionResponse },
     })
     .then(() => interactionResponse)
-    .catch(async (error) => {
+    .catch(async (error: DisTubeError<string>) => {
+      const errorCode = error.errorCode as keyof typeof errorMessages;
       if (
-        !errorMessages[error.errorCode] ||
-        error.errorCode === "SPOTIFY_PLUGIN_NO_RESULT" ||
-        error.errorCode === "YTDLP_ERROR"
+        !errorMessages[errorCode] ||
+        errorCode === "SPOTIFY_PLUGIN_NO_RESULT" ||
+        errorCode === "YTDLP_ERROR"
       ) {
         console.error(error);
       }
@@ -96,7 +102,7 @@ export const handler = async function (
       return interaction.followUp({
         embeds: [
           {
-            description: errorMessages[error.errorCode] || defaultErrorMessage,
+            description: errorMessages[errorCode] || defaultErrorMessage,
             color: Colors.Red,
           },
         ],

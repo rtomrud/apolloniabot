@@ -1,6 +1,6 @@
 import {
+  ChatInputCommandInteraction,
   Colors,
-  CommandInteraction,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
@@ -11,10 +11,10 @@ export const data = new SlashCommandBuilder()
   .setDescription("Play the next track in the queue");
 
 export const handler = async function (
-  interaction = new CommandInteraction(),
-  player = new Player()
+  interaction: ChatInputCommandInteraction,
+  player: Player
 ) {
-  const queue = player.queues.get(interaction.guildId);
+  const queue = player.queues.get(interaction);
   if (!queue || (queue.songs.length <= 1 && !queue.autoplay)) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing to skip", color: Colors.Red }],
@@ -23,6 +23,10 @@ export const handler = async function (
 
   const song = await queue.skip();
   return interaction.reply({
-    embeds: [{ description: `Skipped to ${hyperlink(song.name, song.url)}` }],
+    embeds: [
+      {
+        description: `Skipped to ${hyperlink(song.name || song.url, song.url)}`,
+      },
+    ],
   });
 };

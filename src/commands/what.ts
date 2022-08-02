@@ -1,4 +1,8 @@
-import { Colors, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Colors,
+  SlashCommandBuilder,
+} from "discord.js";
 import { DisTube as Player } from "distube";
 
 export const data = new SlashCommandBuilder()
@@ -6,10 +10,10 @@ export const data = new SlashCommandBuilder()
   .setDescription("Show what's playing now");
 
 export const handler = async function (
-  interaction = new CommandInteraction(),
-  player = new Player()
+  interaction: ChatInputCommandInteraction,
+  player: Player
 ) {
-  const queue = player.queues.get(interaction.guildId);
+  const queue = player.queues.get(interaction);
   if (!queue) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing is playing", color: Colors.Red }],
@@ -24,12 +28,16 @@ export const handler = async function (
         fields: [
           {
             name: "Duration",
-            value: `${queue.formattedCurrentTime}/${queue.songs[0].formattedDuration}`,
+            value: `${queue.formattedCurrentTime}/${
+              queue.songs[0].formattedDuration || "--:--"
+            }`,
             inline: true,
           },
           {
             name: "Bitrate",
-            value: `${queue.voiceChannel.bitrate / 1000}kbps`,
+            value: queue.voiceChannel
+              ? `${queue.voiceChannel.bitrate / 1000}kbps`
+              : "?",
             inline: true,
           },
           {
