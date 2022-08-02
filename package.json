@@ -16,7 +16,7 @@
     "discord.js": "14.1.2",
     "distube": "4.0.3",
     "dotenv": "16.0.1",
-    "node-fetch": "3.2.9",
+    "node-fetch": "3.2.10",
     "scrape-youtube": "2.3.2",
     "sodium-native": "3.3.0",
     "spotify-uri": "3.0.2",
