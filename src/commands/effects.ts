@@ -40,6 +40,14 @@ export const handler = async function (
 
   const filter = interaction.options.getString("effect");
   const enable = interaction.options.getBoolean("enable");
+  if (filter == null && enable != null) {
+    return interaction.reply({
+      embeds: [
+        { description: "Error: No effect specified", color: Colors.Red },
+      ],
+    });
+  }
+
   if (filter && !queue.filters.has(filter) && (enable || enable == null)) {
     queue.filters.add(filter);
   } else if (filter && queue.filters.has(filter) && enable === false) {
