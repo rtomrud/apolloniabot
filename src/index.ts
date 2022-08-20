@@ -9,7 +9,10 @@ import { YouTubeSearchPlugin } from "./plugins/youtube-search-plugin.js";
 import { YtDlpPlugin } from "./plugins/yt-dlp-plugin.js";
 import intents from "./intents.js";
 
-const client = new Client({ intents }) as Client & { player: Player };
+const client = new Client({
+  intents,
+  shards: "auto",
+}) as Client & { player: Player };
 
 const player = new Player(client, {
   plugins: [
