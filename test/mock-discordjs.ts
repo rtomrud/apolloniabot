@@ -7,7 +7,7 @@ import {
   APIMessage,
   APITextChannel,
   APIUser,
-  APIVoiceChannel,
+  APIVoiceChannelBase,
   BaseGuildVoiceChannel,
   ChannelType,
   ChatInputCommandInteraction,
@@ -145,7 +145,7 @@ export const mockInteraction = (
 };
 
 export const mockVoiceState = (guild: Guild, user: User) => {
-  const apiVoiceChannel: APIVoiceChannel = {
+  const apiVoiceChannel: APIVoiceChannelBase<ChannelType.GuildVoice> = {
     id: "1",
     type: ChannelType.GuildVoice,
     guild_id: guild.id,
