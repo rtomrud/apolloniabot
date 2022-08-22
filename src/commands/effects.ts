@@ -1,9 +1,26 @@
 import {
+  APIApplicationCommandOptionChoice,
+  ActionRowBuilder,
   ChatInputCommandInteraction,
   Colors,
+  Interaction,
+  InteractionReplyOptions,
+  InteractionType,
+  InteractionUpdateOptions,
   SlashCommandBuilder,
+  SelectMenuBuilder,
+  SelectMenuInteraction,
 } from "discord.js";
 import { DisTube as Player } from "distube";
+
+const effectChoices = [
+  { name: "3d", value: "3d" },
+  { name: "bassboost", value: "bassboost" },
+  { name: "echo", value: "echo" },
+  { name: "karaoke", value: "karaoke" },
+  { name: "nightcore", value: "nightcore" },
+  { name: "vaporwave", value: "vaporwave" },
+] as APIApplicationCommandOptionChoice<string>[];
 
 export const data = new SlashCommandBuilder()
   .setName("effects")
@@ -12,14 +29,7 @@ export const data = new SlashCommandBuilder()
     option
       .setName("effect")
       .setDescription("The effect to enable or disable")
-      .addChoices(
-        { name: "3d", value: "3d" },
-        { name: "bassboost", value: "bassboost" },
-        { name: "echo", value: "echo" },
-        { name: "karaoke", value: "karaoke" },
-        { name: "nightcore", value: "nightcore" },
-        { name: "vaporwave", value: "vaporwave" }
-      )
+      .addChoices(...effectChoices)
   )
   .addBooleanOption((option) =>
     option
@@ -28,19 +38,25 @@ export const data = new SlashCommandBuilder()
   );
 
 export const handler = async function (
-  interaction: ChatInputCommandInteraction,
+  interaction: ChatInputCommandInteraction | SelectMenuInteraction,
   player: Player
 ) {
-  const queue = player.queues.get(interaction);
+  const queue = player.queues.get(interaction as Interaction);
   if (!queue || !queue.playing) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing is playing", color: Colors.Red }],
     });
   }
 
-  const filter = interaction.options.getString("effect");
-  const enable = interaction.options.getBoolean("enable");
-  if (filter == null && enable != null) {
+  const filters =
+    interaction.type === InteractionType.ApplicationCommand
+      ? interaction.options.getString("effect")
+      : interaction.values;
+  const enable =
+    interaction.type === InteractionType.ApplicationCommand
+      ? interaction.options.getBoolean("enable")
+      : null;
+  if (filters == null && enable != null) {
     return interaction.reply({
       embeds: [
         { description: "Error: No effect specified", color: Colors.Red },
@@ -48,15 +64,33 @@ export const handler = async function (
     });
   }
 
-  if (filter && !queue.filters.has(filter) && (enable || enable == null)) {
-    queue.filters.add(filter);
-  } else if (filter && queue.filters.has(filter) && enable === false) {
-    queue.filters.remove(filter);
+  if (interaction.type !== InteractionType.ApplicationCommand) {
+    queue.filters.set(filters as string[]);
+  } else if (filters && (enable || enable == null)) {
+    queue.filters.add(filters);
+  } else if (filters && enable === false) {
+    queue.filters.remove(filters);
   }
 
-  return interaction.reply({
-    embeds: [
-      { description: `Effects: ${queue.filters.names.join(", ") || "none"}` },
+  const options = {
+    components: [
+      new ActionRowBuilder<SelectMenuBuilder>().addComponents(
+        new SelectMenuBuilder()
+          .setCustomId("/effects")
+          .setPlaceholder("No effects")
+          .setMaxValues(effectChoices.length)
+          .setMinValues(0)
+          .addOptions(
+            effectChoices.map(({ name, value }) => ({
+              default: queue.filters.has(value),
+              label: name,
+              value,
+            }))
+          )
+      ),
     ],
-  });
+  } as InteractionReplyOptions & InteractionUpdateOptions;
+  return interaction.type === InteractionType.ApplicationCommand
+    ? interaction.reply(options)
+    : interaction.update(options);
 };
