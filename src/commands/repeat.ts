@@ -1,6 +1,12 @@
 import {
+  ActionRowBuilder,
   ChatInputCommandInteraction,
   Colors,
+  InteractionReplyOptions,
+  InteractionType,
+  InteractionUpdateOptions,
+  SelectMenuBuilder,
+  SelectMenuInteraction,
   SlashCommandBuilder,
 } from "discord.js";
 import { DisTube as Player, RepeatMode } from "distube";
@@ -16,7 +22,7 @@ export const data = new SlashCommandBuilder()
   .setDescription("Repeat the queue or current track")
   .addStringOption((option) =>
     option
-      .setName("mode")
+      .setName("repeat")
       .setDescription("The repeat mode")
       .addChoices(
         ...Object.entries(repeatModes).map(([value, name]) => ({ name, value }))
@@ -24,7 +30,7 @@ export const data = new SlashCommandBuilder()
   );
 
 export const handler = async function (
-  interaction: ChatInputCommandInteraction,
+  interaction: ChatInputCommandInteraction | SelectMenuInteraction,
   player: Player
 ) {
   const queue = player.queues.get(interaction);
@@ -34,12 +40,28 @@ export const handler = async function (
     });
   }
 
-  const mode = interaction.options.getString("mode");
+  const mode =
+    interaction.type === InteractionType.ApplicationCommand
+      ? interaction.options.getString("repeat")
+      : interaction.values[0];
   if (mode) {
     queue.setRepeatMode(Number(mode));
   }
 
-  return interaction.reply({
-    embeds: [{ description: `Repeat: ${repeatModes[queue.repeatMode]}` }],
-  });
+  const options = {
+    components: [
+      new ActionRowBuilder<SelectMenuBuilder>().addComponents(
+        new SelectMenuBuilder().setCustomId("/repeat").addOptions(
+          Object.entries(repeatModes).map(([value, label]) => ({
+            default: queue.repeatMode === Number(value),
+            label: `Repeat: ${label}`,
+            value,
+          }))
+        )
+      ),
+    ],
+  } as InteractionReplyOptions & InteractionUpdateOptions;
+  return interaction.type === InteractionType.ApplicationCommand
+    ? interaction.reply(options)
+    : interaction.update(options);
 };
