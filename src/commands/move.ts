@@ -32,15 +32,15 @@ export const handler = async function (
     });
   }
 
-  const track = interaction.options.getInteger("track");
-  const position = interaction.options.getInteger("position");
-  if (!(track && track <= queue.songs.length)) {
+  const track = interaction.options.getInteger("track", true);
+  const position = interaction.options.getInteger("position", true);
+  if (!(track !== 0 && track <= queue.songs.length)) {
     return interaction.reply({
       embeds: [{ description: "Error: No such track", color: Colors.Red }],
     });
   }
 
-  if (!(position && position <= queue.songs.length)) {
+  if (!(position !== 0 && position <= queue.songs.length)) {
     return interaction.reply({
       embeds: [{ description: "Error: No such position", color: Colors.Red }],
     });

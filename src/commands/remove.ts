@@ -27,8 +27,8 @@ export const handler = async function (
     });
   }
 
-  const track = interaction.options.getInteger("track");
-  if (!(track && track <= queue.songs.length)) {
+  const track = interaction.options.getInteger("track", true);
+  if (!(track !== 0 && track <= queue.songs.length)) {
     return interaction.reply({
       embeds: [{ description: "Error: No such track", color: Colors.Red }],
     });

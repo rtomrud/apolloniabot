@@ -37,7 +37,7 @@ export const handler = async function (
   interaction: ChatInputCommandInteraction,
   player: Player
 ) {
-  const query = interaction.options.getString("query") || "";
+  const query = interaction.options.getString("query", true);
   const member = interaction.member as GuildMember;
   if (!member.voice.channel) {
     return interaction.reply({
