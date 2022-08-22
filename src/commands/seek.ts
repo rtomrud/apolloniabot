@@ -1,10 +1,20 @@
 import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
   ChatInputCommandInteraction,
   Colors,
+  Interaction,
+  InteractionReplyOptions,
+  InteractionType,
+  InteractionUpdateOptions,
+  MessageComponentInteraction,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
 import { DisTube as Player } from "distube";
+
+const defaultTime = 15;
 
 export const data = new SlashCommandBuilder()
   .setName("seek")
@@ -17,7 +27,7 @@ export const data = new SlashCommandBuilder()
         option
           .setName("time")
           .setDescription(
-            "The time to seek backward by, in seconds or in HH:MM:SS format (15s by default)"
+            `The time to seek backward by, in seconds or in HH:MM:SS format (${defaultTime}s by default)`
           )
       )
   )
@@ -29,7 +39,7 @@ export const data = new SlashCommandBuilder()
         option
           .setName("time")
           .setDescription(
-            "The time to seek forward by, in seconds or in HH:MM:SS format (15s by default)"
+            `The time to seek forward by, in seconds or in HH:MM:SS format (${defaultTime}s by default)`
           )
       )
   )
@@ -46,17 +56,21 @@ export const data = new SlashCommandBuilder()
   );
 
 export const handler = async function (
-  interaction: ChatInputCommandInteraction,
+  interaction: ChatInputCommandInteraction | MessageComponentInteraction,
   player: Player
 ) {
-  const queue = player.queues.get(interaction);
+  const queue = player.queues.get(interaction as Interaction);
   if (!queue || !queue.playing) {
     return interaction.reply({
       embeds: [{ description: "Error: Nothing to seek on", color: Colors.Red }],
     });
   }
 
-  const time = interaction.options.getString("time") || "15";
+  const time =
+    interaction.type === InteractionType.ApplicationCommand
+      ? interaction.options.getString("time") || String(defaultTime)
+      : interaction.customId.match(/seek .*time:(-?\d+)/)?.[1] ||
+        String(defaultTime);
   const seconds = time
     .split(":")
     .reduce(
@@ -64,7 +78,10 @@ export const handler = async function (
         seconds + Number(component) * 60 ** (length - i - 1),
       0
     );
-  const subcommand = interaction.options.getSubcommand();
+  const subcommand =
+    interaction.type === InteractionType.ApplicationCommand
+      ? interaction.options.getSubcommand(true)
+      : interaction.customId.match(/seek (backward|forward|to)/)?.[1];
   const newTime =
     subcommand === "backward"
       ? queue.currentTime - seconds
@@ -72,7 +89,7 @@ export const handler = async function (
       ? queue.currentTime + seconds
       : seconds;
   queue.seek(Math.max(0, Math.min(newTime, queue.songs[0].duration)));
-  return interaction.reply({
+  const options = {
     embeds: [
       {
         description: `Seeked to ${queue.formattedCurrentTime} in ${hyperlink(
@@ -81,5 +98,29 @@ export const handler = async function (
         )}`,
       },
     ],
-  });
+    components: [
+      new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder()
+          .setCustomId("/seek to time:0")
+          .setLabel("00:00")
+          .setStyle(ButtonStyle.Secondary)
+          .setDisabled(queue.currentTime === 0),
+        new ButtonBuilder()
+          .setCustomId(`/seek backward time:${defaultTime}`)
+          .setLabel(`-${defaultTime}s`)
+          .setStyle(ButtonStyle.Secondary)
+          .setDisabled(queue.currentTime - defaultTime < 0),
+        new ButtonBuilder()
+          .setCustomId(`/seek forward time:${defaultTime}`)
+          .setLabel(`+${defaultTime}s`)
+          .setStyle(ButtonStyle.Secondary)
+          .setDisabled(
+            queue.currentTime + defaultTime >= queue.songs[0].duration
+          )
+      ),
+    ],
+  } as InteractionReplyOptions & InteractionUpdateOptions;
+  return interaction.type === InteractionType.ApplicationCommand
+    ? interaction.reply(options)
+    : interaction.update(options);
 };
