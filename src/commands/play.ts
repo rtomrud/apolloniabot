@@ -6,7 +6,7 @@ import {
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
-import { DisTube as Player, DisTubeError } from "distube";
+import { DisTube as Player } from "distube";
 
 export const data = new SlashCommandBuilder()
   .setName("play")
@@ -19,31 +19,6 @@ export const data = new SlashCommandBuilder()
       )
       .setRequired(true)
   );
-
-const errorMessages = {
-  VOICE_FULL: "Error: I can't join your voice channel because it's full",
-  VOICE_CONNECT_FAILED:
-    "Error: I can't join you because I can't connect to your voice channel",
-  VOICE_MISSING_PERMS:
-    "Error: I can't join your voice channel because I don't have permission",
-  NO_RESULT: "Error: I can't find that",
-  UNAVAILABLE_VIDEO: "Error: I can't play that because it's unavailable",
-  UNPLAYABLE_FORMATS:
-    "Error: I can't play that because it's in an unplayable format",
-  NON_NSFW:
-    "Error: I can't play that because it's age-restricted content and this is a SFW channel",
-  NOT_SUPPORTED_URL:
-    "Error: I can't play that because the website is unsupported",
-  CANNOT_RESOLVE_SONG:
-    "Error: I can't play that because the track is unresolved",
-  EMPTY_FILTERED_PLAYLIST:
-    "Error: I can't play that because there's no valid track or there's only age-restricted content and this is a SFW channel",
-  EMPTY_PLAYLIST: "Error: I can't play that because there's no valid track",
-  SPOTIFY_PLUGIN_NO_RESULT: "Error: I can't find that",
-  YTDLP_ERROR: "Error: I can't play that",
-};
-
-const defaultErrorMessage = "Error: Something went wrong, sorry";
 
 const isHttpUrl = (string: string) => {
   try {
@@ -78,34 +53,13 @@ export const handler = async function (
 
   const [url] = query.split(" ");
   const searchUrl = isHttpUrl(url) ? url : hyperlink(query, resultsUrl(query));
-  const interactionResponse = interaction.reply({
-    embeds: [{ description: `Searching "${searchUrl}"` }],
+  const interactionResponse = interaction
+    .reply({ embeds: [{ description: `Searching "${searchUrl}"` }] })
+    .catch(() => null);
+  await player.play(member.voice.channel, query, {
+    member,
+    textChannel: interaction.channel as GuildTextBasedChannel,
+    metadata: { interaction, interactionResponse },
   });
-  return player
-    .play(member.voice.channel, query, {
-      member,
-      textChannel: interaction.channel as GuildTextBasedChannel,
-      metadata: { interaction, interactionResponse },
-    })
-    .then(() => interactionResponse)
-    .catch(async (error: DisTubeError<string>) => {
-      const errorCode = error.errorCode as keyof typeof errorMessages;
-      if (
-        !errorMessages[errorCode] ||
-        errorCode === "SPOTIFY_PLUGIN_NO_RESULT" ||
-        errorCode === "YTDLP_ERROR"
-      ) {
-        console.error(error);
-      }
-
-      await interactionResponse;
-      return interaction.followUp({
-        embeds: [
-          {
-            description: errorMessages[errorCode] || defaultErrorMessage,
-            color: Colors.Red,
-          },
-        ],
-      });
-    });
+  return interactionResponse;
 };
