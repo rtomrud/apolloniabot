@@ -1,0 +1,101 @@
+import { expect, jest, test } from "@jest/globals";
+import {
+  ApplicationCommandOptionType,
+  ApplicationCommandType,
+  Guild,
+  GuildMember,
+} from "discord.js";
+import { DisTube as Player } from "distube";
+import { handler } from "../../src/commands/play.js";
+import { mockInteraction, mockVoiceState } from "../mock-discordjs.js";
+
+jest.mock("distube");
+
+test("play when not in a voice channel", async () => {
+  const interaction = mockInteraction({
+    id: "1",
+    name: "play",
+    type: ApplicationCommandType.ChatInput,
+    options: [
+      {
+        type: ApplicationCommandOptionType.String,
+        name: "query",
+        value: "titi me pregunto",
+      },
+    ],
+  });
+  const player = new Player(interaction.client);
+  await handler(interaction, player);
+  expect(interaction.reply).toHaveBeenCalledWith({
+    embeds: [
+      expect.objectContaining({
+        description: expect.stringContaining("Error: "),
+      }),
+    ],
+  });
+  expect(player.play).toHaveBeenCalledTimes(0);
+});
+
+test("play with a text query", async () => {
+  const interaction = mockInteraction({
+    id: "1",
+    name: "play",
+    type: ApplicationCommandType.ChatInput,
+    options: [
+      {
+        type: ApplicationCommandOptionType.String,
+        name: "query",
+        value: "titi me pregunto",
+      },
+    ],
+  });
+  mockVoiceState(interaction.guild as NonNullable<Guild>, interaction.user);
+  const player = new Player(interaction.client);
+  await handler(interaction, player);
+  expect(interaction.reply).toHaveBeenCalledWith({
+    embeds: [
+      expect.objectContaining({
+        description:
+          'Searching "[titi me pregunto](https://www.youtube.com/results?search_query=titi+me+pregunto)"',
+      }),
+    ],
+  });
+  const member = interaction.member as GuildMember;
+  expect(player.play).toHaveBeenCalledWith(
+    member.voice.channel,
+    "titi me pregunto",
+    expect.objectContaining({ member, textChannel: interaction.channel })
+  );
+});
+
+test("play with an URL query", async () => {
+  const interaction = mockInteraction({
+    id: "1",
+    name: "play",
+    type: ApplicationCommandType.ChatInput,
+    options: [
+      {
+        type: ApplicationCommandOptionType.String,
+        name: "query",
+        value: "https://soundcloud.com/badbunny15/bad-bunny-titi-me-pregunto",
+      },
+    ],
+  });
+  mockVoiceState(interaction.guild as NonNullable<Guild>, interaction.user);
+  const player = new Player(interaction.client);
+  await handler(interaction, player);
+  expect(interaction.reply).toHaveBeenCalledWith({
+    embeds: [
+      expect.objectContaining({
+        description:
+          'Searching "https://soundcloud.com/badbunny15/bad-bunny-titi-me-pregunto"',
+      }),
+    ],
+  });
+  const member = interaction.member as GuildMember;
+  expect(player.play).toHaveBeenCalledWith(
+    member.voice.channel,
+    "https://soundcloud.com/badbunny15/bad-bunny-titi-me-pregunto",
+    expect.objectContaining({ member, textChannel: interaction.channel })
+  );
+});
