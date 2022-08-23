@@ -62,7 +62,7 @@ export const handler = async function (
   await player.play(member.voice.channel, query, {
     member,
     textChannel: interaction.channel as GuildTextBasedChannel,
-    metadata: { interaction, interactionResponse },
+    metadata: { interactionResponse },
   });
   return interactionResponse;
 };
