@@ -2,9 +2,8 @@ import {
   ActionRowBuilder,
   ChatInputCommandInteraction,
   Colors,
-  InteractionReplyOptions,
+  EmbedBuilder,
   InteractionType,
-  InteractionUpdateOptions,
   SelectMenuBuilder,
   SelectMenuInteraction,
   SlashCommandBuilder,
@@ -36,7 +35,11 @@ export const handler = async function (
   const queue = player.queues.get(interaction);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing is playing", color: Colors.Red }],
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("Error: Nothing is playing")
+          .setColor(Colors.Red),
+      ],
     });
   }
 
@@ -48,20 +51,18 @@ export const handler = async function (
     queue.setRepeatMode(Number(mode));
   }
 
-  const options = {
-    components: [
-      new ActionRowBuilder<SelectMenuBuilder>().addComponents(
-        new SelectMenuBuilder().setCustomId("/repeat").addOptions(
-          Object.entries(repeatModes).map(([value, label]) => ({
-            default: queue.repeatMode === Number(value),
-            label: `Repeat: ${label}`,
-            value,
-          }))
-        )
-      ),
-    ],
-  } as InteractionReplyOptions & InteractionUpdateOptions;
+  const components = [
+    new ActionRowBuilder<SelectMenuBuilder>().addComponents(
+      new SelectMenuBuilder().setCustomId("/repeat").addOptions(
+        Object.entries(repeatModes).map(([value, label]) => ({
+          default: queue.repeatMode === Number(value),
+          label: `Repeat: ${label}`,
+          value,
+        }))
+      )
+    ),
+  ];
   return interaction.type === InteractionType.ApplicationCommand
-    ? interaction.reply(options)
-    : interaction.update(options);
+    ? interaction.reply({ components })
+    : interaction.update({ components });
 };

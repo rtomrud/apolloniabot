@@ -1,6 +1,7 @@
 import {
   ChatInputCommandInteraction,
   Colors,
+  EmbedBuilder,
   GuildMember,
   GuildTextBasedChannel,
   SlashCommandBuilder,
@@ -42,11 +43,11 @@ export const handler = async function (
   if (!member.voice.channel) {
     return interaction.reply({
       embeds: [
-        {
-          description:
-            "Error: I can't join you because you're not in a voice channel",
-          color: Colors.Red,
-        },
+        new EmbedBuilder()
+          .setDescription(
+            "Error: I can't join you because you're not in a voice channel"
+          )
+          .setColor(Colors.Red),
       ],
     });
   }
@@ -54,7 +55,9 @@ export const handler = async function (
   const [url] = query.split(" ");
   const searchUrl = isHttpUrl(url) ? url : hyperlink(query, resultsUrl(query));
   const interactionResponse = interaction
-    .reply({ embeds: [{ description: `Searching "${searchUrl}"` }] })
+    .reply({
+      embeds: [new EmbedBuilder().setDescription(`Searching "${searchUrl}"`)],
+    })
     .catch(() => null);
   await player.play(member.voice.channel, query, {
     member,

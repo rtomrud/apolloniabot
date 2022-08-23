@@ -2,10 +2,8 @@ import {
   ActionRowBuilder,
   ChatInputCommandInteraction,
   Colors,
-  Interaction,
-  InteractionReplyOptions,
+  EmbedBuilder,
   InteractionType,
-  InteractionUpdateOptions,
   SelectMenuBuilder,
   SelectMenuInteraction,
   SlashCommandBuilder,
@@ -27,10 +25,14 @@ export const handler = async function (
   interaction: ChatInputCommandInteraction | SelectMenuInteraction,
   player: Player
 ) {
-  const queue = player.queues.get(interaction as Interaction);
+  const queue = player.queues.get(interaction);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing is playing", color: Colors.Red }],
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("Error: Nothing is playing")
+          .setColor(Colors.Red),
+      ],
     });
   }
 
@@ -42,23 +44,21 @@ export const handler = async function (
     queue.setVolume(volume);
   }
 
-  const options = {
-    components: [
-      new ActionRowBuilder<SelectMenuBuilder>().addComponents(
-        new SelectMenuBuilder()
-          .setCustomId("/volume")
-          .setPlaceholder(`Volume: ${queue.volume}`)
-          .addOptions(
-            ["0", "25", "50", "75", "100"].map((value) => ({
-              default: queue.volume === Number(value),
-              label: `Volume: ${value}`,
-              value,
-            }))
-          )
-      ),
-    ],
-  } as InteractionReplyOptions & InteractionUpdateOptions;
+  const components = [
+    new ActionRowBuilder<SelectMenuBuilder>().addComponents(
+      new SelectMenuBuilder()
+        .setCustomId("/volume")
+        .setPlaceholder(`Volume: ${queue.volume}`)
+        .addOptions(
+          ["0", "25", "50", "75", "100"].map((value) => ({
+            default: queue.volume === Number(value),
+            label: `Volume: ${value}`,
+            value,
+          }))
+        )
+    ),
+  ];
   return interaction.type === InteractionType.ApplicationCommand
-    ? interaction.reply(options)
-    : interaction.update(options);
+    ? interaction.reply({ components })
+    : interaction.update({ components });
 };

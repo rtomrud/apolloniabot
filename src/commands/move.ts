@@ -1,6 +1,7 @@
 import {
   ChatInputCommandInteraction,
   Colors,
+  EmbedBuilder,
   SlashCommandBuilder,
 } from "discord.js";
 import { DisTube as Player } from "distube";
@@ -28,7 +29,11 @@ export const handler = async function (
   const queue = player.queues.get(interaction);
   if (!queue || queue.songs.length <= 1) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to move", color: Colors.Red }],
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("Error: Nothing to move")
+          .setColor(Colors.Red),
+      ],
     });
   }
 
@@ -36,13 +41,21 @@ export const handler = async function (
   const position = interaction.options.getInteger("position", true);
   if (!(track !== 0 && track <= queue.songs.length)) {
     return interaction.reply({
-      embeds: [{ description: "Error: No such track", color: Colors.Red }],
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("Error: No such track")
+          .setColor(Colors.Red),
+      ],
     });
   }
 
   if (!(position !== 0 && position <= queue.songs.length)) {
     return interaction.reply({
-      embeds: [{ description: "Error: No such position", color: Colors.Red }],
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("Error: No such position")
+          .setColor(Colors.Red),
+      ],
     });
   }
 
@@ -57,6 +70,10 @@ export const handler = async function (
   }
 
   return interaction.reply({
-    embeds: [{ description: `Moved track ${from + 1} to position ${to + 1}` }],
+    embeds: [
+      new EmbedBuilder().setDescription(
+        `Moved track ${from + 1} to position ${to + 1}`
+      ),
+    ],
   });
 };

@@ -1,6 +1,7 @@
 import {
   ChatInputCommandInteraction,
   Colors,
+  EmbedBuilder,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
@@ -19,21 +20,25 @@ export const handler = async function (
   const queue = player.queues.get(interaction);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to stop", color: Colors.Red }],
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("Error: Nothing to stop")
+          .setColor(Colors.Red),
+      ],
     });
   }
 
   await queue.stop();
   return interaction.reply({
     embeds: [
-      {
-        description: queue.playing
+      new EmbedBuilder().setDescription(
+        queue.playing
           ? `Stopped ${hyperlink(
               queue.songs[0].name || queue.songs[0].url,
               queue.songs[0].url
             )} at ${queue.formattedCurrentTime}`
-          : "Stopped",
-      },
+          : "Stopped"
+      ),
     ],
   });
 };

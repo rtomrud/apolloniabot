@@ -1,14 +1,12 @@
 import {
   ActionRowBuilder,
   ButtonBuilder,
+  ButtonInteraction,
   ButtonStyle,
   ChatInputCommandInteraction,
   Colors,
-  Interaction,
-  InteractionReplyOptions,
+  EmbedBuilder,
   InteractionType,
-  InteractionUpdateOptions,
-  MessageComponentInteraction,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
@@ -56,13 +54,17 @@ export const data = new SlashCommandBuilder()
   );
 
 export const handler = async function (
-  interaction: ChatInputCommandInteraction | MessageComponentInteraction,
+  interaction: ChatInputCommandInteraction | ButtonInteraction,
   player: Player
 ) {
-  const queue = player.queues.get(interaction as Interaction);
+  const queue = player.queues.get(interaction);
   if (!queue || !queue.playing) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to seek on", color: Colors.Red }],
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("Error: Nothing to seek on")
+          .setColor(Colors.Red),
+      ],
     });
   }
 
@@ -89,38 +91,34 @@ export const handler = async function (
       ? queue.currentTime + seconds
       : seconds;
   queue.seek(Math.max(0, Math.min(newTime, queue.songs[0].duration)));
-  const options = {
-    embeds: [
-      {
-        description: `Seeked to ${queue.formattedCurrentTime} in ${hyperlink(
-          queue.songs[0].name || queue.songs[0].url,
-          queue.songs[0].url
-        )}`,
-      },
-    ],
-    components: [
-      new ActionRowBuilder<ButtonBuilder>().addComponents(
-        new ButtonBuilder()
-          .setCustomId("/seek to time:0")
-          .setLabel("00:00")
-          .setStyle(ButtonStyle.Secondary)
-          .setDisabled(queue.currentTime === 0),
-        new ButtonBuilder()
-          .setCustomId(`/seek backward time:${defaultTime}`)
-          .setLabel(`-${defaultTime}s`)
-          .setStyle(ButtonStyle.Secondary)
-          .setDisabled(queue.currentTime - defaultTime < 0),
-        new ButtonBuilder()
-          .setCustomId(`/seek forward time:${defaultTime}`)
-          .setLabel(`+${defaultTime}s`)
-          .setStyle(ButtonStyle.Secondary)
-          .setDisabled(
-            queue.currentTime + defaultTime >= queue.songs[0].duration
-          )
-      ),
-    ],
-  } as InteractionReplyOptions & InteractionUpdateOptions;
+  const embeds = [
+    new EmbedBuilder().setDescription(
+      `Seeked to ${queue.formattedCurrentTime} in ${hyperlink(
+        queue.songs[0].name || queue.songs[0].url,
+        queue.songs[0].url
+      )}`
+    ),
+  ];
+  const components = [
+    new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId("/seek to time:0")
+        .setLabel("00:00")
+        .setStyle(ButtonStyle.Secondary)
+        .setDisabled(queue.currentTime === 0),
+      new ButtonBuilder()
+        .setCustomId(`/seek backward time:${defaultTime}`)
+        .setLabel(`-${defaultTime}s`)
+        .setStyle(ButtonStyle.Secondary)
+        .setDisabled(queue.currentTime - defaultTime < 0),
+      new ButtonBuilder()
+        .setCustomId(`/seek forward time:${defaultTime}`)
+        .setLabel(`+${defaultTime}s`)
+        .setStyle(ButtonStyle.Secondary)
+        .setDisabled(queue.currentTime + defaultTime >= queue.songs[0].duration)
+    ),
+  ];
   return interaction.type === InteractionType.ApplicationCommand
-    ? interaction.reply(options)
-    : interaction.update(options);
+    ? interaction.reply({ embeds, components })
+    : interaction.update({ embeds, components });
 };

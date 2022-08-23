@@ -1,6 +1,7 @@
 import {
   ChatInputCommandInteraction,
   Colors,
+  EmbedBuilder,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
@@ -17,16 +18,20 @@ export const handler = async function (
   const queue = player.queues.get(interaction);
   if (!queue || (queue.songs.length <= 1 && !queue.autoplay)) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to skip", color: Colors.Red }],
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("Error: Nothing to skip")
+          .setColor(Colors.Red),
+      ],
     });
   }
 
   const song = await queue.skip();
   return interaction.reply({
     embeds: [
-      {
-        description: `Skipped to ${hyperlink(song.name || song.url, song.url)}`,
-      },
+      new EmbedBuilder().setDescription(
+        `Skipped to ${hyperlink(song.name || song.url, song.url)}`
+      ),
     ],
   });
 };

@@ -1,6 +1,7 @@
 import {
   ChatInputCommandInteraction,
   Colors,
+  EmbedBuilder,
   SlashCommandBuilder,
 } from "discord.js";
 import { DisTube as Player } from "distube";
@@ -16,10 +17,16 @@ export const handler = async function (
   const queue = player.queues.get(interaction);
   if (!queue || queue.songs.length <= 1) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to shuffle", color: Colors.Red }],
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("Error: Nothing to shuffle")
+          .setColor(Colors.Red),
+      ],
     });
   }
 
   await queue.shuffle();
-  return interaction.reply({ embeds: [{ description: "Shuffled the queue" }] });
+  return interaction.reply({
+    embeds: [new EmbedBuilder().setDescription("Shuffled the queue")],
+  });
 };

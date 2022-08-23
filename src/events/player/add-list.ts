@@ -1,4 +1,9 @@
-import { ChatInputCommandInteraction, Message, hyperlink } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  EmbedBuilder,
+  Message,
+  hyperlink,
+} from "discord.js";
 import { Events, Playlist, Queue } from "distube";
 
 export const event = Events.ADD_LIST;
@@ -11,8 +16,8 @@ export const listener = async function (queue: Queue, playlist: Playlist) {
   await metadata.interactionResponse;
   await metadata.interaction.followUp({
     embeds: [
-      {
-        description: `${
+      new EmbedBuilder().setDescription(
+        `${
           queue.songs[0] === playlist.songs[0] ? "Playing" : "Queued"
         } ${hyperlink(
           `${playlist.songs[0].name || playlist.songs[0].url}${
@@ -23,8 +28,8 @@ export const listener = async function (queue: Queue, playlist: Playlist) {
               : ""
           }`,
           playlist.url || playlist.songs[0].url
-        )}`,
-      },
+        )}`
+      ),
     ],
   });
 };

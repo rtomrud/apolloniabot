@@ -3,10 +3,8 @@ import {
   ActionRowBuilder,
   ChatInputCommandInteraction,
   Colors,
-  Interaction,
-  InteractionReplyOptions,
+  EmbedBuilder,
   InteractionType,
-  InteractionUpdateOptions,
   SlashCommandBuilder,
   SelectMenuBuilder,
   SelectMenuInteraction,
@@ -41,10 +39,14 @@ export const handler = async function (
   interaction: ChatInputCommandInteraction | SelectMenuInteraction,
   player: Player
 ) {
-  const queue = player.queues.get(interaction as Interaction);
+  const queue = player.queues.get(interaction);
   if (!queue || !queue.playing) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing is playing", color: Colors.Red }],
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("Error: Nothing is playing")
+          .setColor(Colors.Red),
+      ],
     });
   }
 
@@ -59,7 +61,9 @@ export const handler = async function (
   if (filters == null && enable != null) {
     return interaction.reply({
       embeds: [
-        { description: "Error: No effect specified", color: Colors.Red },
+        new EmbedBuilder()
+          .setDescription("Error: No effect specified")
+          .setColor(Colors.Red),
       ],
     });
   }
@@ -72,25 +76,23 @@ export const handler = async function (
     queue.filters.remove(filters);
   }
 
-  const options = {
-    components: [
-      new ActionRowBuilder<SelectMenuBuilder>().addComponents(
-        new SelectMenuBuilder()
-          .setCustomId("/effects")
-          .setPlaceholder("No effects")
-          .setMaxValues(effectChoices.length)
-          .setMinValues(0)
-          .addOptions(
-            effectChoices.map(({ name, value }) => ({
-              default: queue.filters.has(value),
-              label: name,
-              value,
-            }))
-          )
-      ),
-    ],
-  } as InteractionReplyOptions & InteractionUpdateOptions;
+  const components = [
+    new ActionRowBuilder<SelectMenuBuilder>().addComponents(
+      new SelectMenuBuilder()
+        .setCustomId("/effects")
+        .setPlaceholder("No effects")
+        .setMaxValues(effectChoices.length)
+        .setMinValues(0)
+        .addOptions(
+          effectChoices.map(({ name, value }) => ({
+            default: queue.filters.has(value),
+            label: name,
+            value,
+          }))
+        )
+    ),
+  ];
   return interaction.type === InteractionType.ApplicationCommand
-    ? interaction.reply(options)
-    : interaction.update(options);
+    ? interaction.reply({ components })
+    : interaction.update({ components });
 };

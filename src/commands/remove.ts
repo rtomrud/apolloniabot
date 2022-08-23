@@ -1,6 +1,7 @@
 import {
   ChatInputCommandInteraction,
   Colors,
+  EmbedBuilder,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
@@ -23,14 +24,22 @@ export const handler = async function (
   const queue = player.queues.get(interaction);
   if (!queue) {
     return interaction.reply({
-      embeds: [{ description: "Error: Nothing to remove", color: Colors.Red }],
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("Error: Nothing to remove")
+          .setColor(Colors.Red),
+      ],
     });
   }
 
   const track = interaction.options.getInteger("track", true);
   if (!(track !== 0 && track <= queue.songs.length)) {
     return interaction.reply({
-      embeds: [{ description: "Error: No such track", color: Colors.Red }],
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("Error: No such track")
+          .setColor(Colors.Red),
+      ],
     });
   }
 
@@ -48,7 +57,9 @@ export const handler = async function (
 
   return interaction.reply({
     embeds: [
-      { description: `Removed ${hyperlink(song.name || song.url, song.url)}` },
+      new EmbedBuilder().setDescription(
+        `Removed ${hyperlink(song.name || song.url, song.url)}`
+      ),
     ],
   });
 };

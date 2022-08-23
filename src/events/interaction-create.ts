@@ -5,9 +5,9 @@ import {
   Colors,
   DiscordjsError,
   DiscordjsErrorCodes,
+  EmbedBuilder,
   Events,
   Interaction,
-  InteractionReplyOptions,
   InteractionType,
 } from "discord.js";
 import { DisTube as Player, DisTubeError } from "distube";
@@ -52,17 +52,14 @@ const handleError =
       console.error(error);
     }
 
-    const options = {
-      embeds: [
-        {
-          description: errorMessages[errorCode] || defaultErrorMessage,
-          color: Colors.Red,
-        },
-      ],
-    } as InteractionReplyOptions;
-    await interaction.reply(options).catch(async (error: DiscordjsError) => {
+    const embeds = [
+      new EmbedBuilder()
+        .setDescription(errorMessages[errorCode] || defaultErrorMessage)
+        .setColor(Colors.Red),
+    ];
+    await interaction.reply({ embeds }).catch(async (error: DiscordjsError) => {
       if (error.code === DiscordjsErrorCodes.InteractionAlreadyReplied) {
-        await interaction.followUp(options);
+        await interaction.followUp({ embeds });
       }
     });
   };
@@ -104,7 +101,9 @@ export const listener = async function (interaction: Interaction) {
   if (!command) {
     await interaction.reply({
       embeds: [
-        { description: "Error: I can't do that yet, sorry", color: Colors.Red },
+        new EmbedBuilder()
+          .setDescription("Error: I can't do that yet, sorry")
+          .setColor(Colors.Red),
       ],
     });
     return;
