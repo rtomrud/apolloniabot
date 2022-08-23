@@ -72,6 +72,28 @@ export const listener = async function (interaction: Interaction) {
     return;
   }
 
+  if (interaction.type === InteractionType.MessageComponent) {
+    if (interaction.user.id !== interaction.message.interaction?.user.id) {
+      await interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `Error: Sorry ${interaction.user.toString()}, you can't interact with the command of another user`
+            )
+            .setFooter({
+              text: `Run the ${
+                interaction.message.interaction
+                  ? `/${interaction.message.interaction.commandName}`
+                  : ""
+              } command yourself to interact with it`,
+            })
+            .setColor(Colors.Red),
+        ],
+      });
+      return;
+    }
+  }
+
   console.log(
     JSON.stringify({
       event: "INTERACTION_CREATE",
