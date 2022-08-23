@@ -1,12 +1,13 @@
 import {
   ActionRowBuilder,
-  APIEmbed,
   ButtonBuilder,
   ButtonStyle,
   ChatInputCommandInteraction,
   Colors,
   Interaction,
+  InteractionReplyOptions,
   InteractionType,
+  InteractionUpdateOptions,
   MessageComponentInteraction,
   SlashCommandBuilder,
   hyperlink,
@@ -34,9 +35,9 @@ export const handler = async function (
   }
 
   const page =
-    interaction.type === InteractionType.MessageComponent
-      ? Number(interaction.customId.match(/page:(-?\d+)/)?.[1]) || 1
-      : interaction.options.getInteger("page") || 1;
+    interaction.type === InteractionType.ApplicationCommand
+      ? interaction.options.getInteger("page") || 1
+      : Number(interaction.customId.match(/queue page:(-?\d+)/)?.[1]) || 1;
   const pageSize = 10;
   const pageCount = Math.ceil(queue.songs.length / pageSize);
   if (!(page !== 0 && page <= pageCount)) {
@@ -64,7 +65,7 @@ export const handler = async function (
           }`,
         })),
         footer: { text: `Page ${pageIndex + 1} of ${pageCount}` },
-      } as APIEmbed,
+      },
     ],
     components:
       pageCount === 1
@@ -93,7 +94,7 @@ export const handler = async function (
                 .setDisabled(pageIndex === pageCount - 1)
             ),
           ],
-  };
+  } as InteractionReplyOptions & InteractionUpdateOptions;
   return interaction.type === InteractionType.ApplicationCommand
     ? interaction.reply(options)
     : interaction.update(options);
