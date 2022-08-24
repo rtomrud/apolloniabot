@@ -11,10 +11,18 @@ import {
 import { DisTube as Player, RepeatMode } from "distube";
 
 const repeatModes = {
-  [RepeatMode.DISABLED]: "off",
-  [RepeatMode.QUEUE]: "queue",
-  [RepeatMode.SONG]: "track",
-};
+  off: RepeatMode.DISABLED,
+  track: RepeatMode.SONG,
+  queue: RepeatMode.QUEUE,
+} as const;
+
+type RepeatModes = keyof typeof repeatModes;
+
+const repeatChoices: { name: string; value: RepeatModes }[] = [
+  { name: "off", value: "off" },
+  { name: "queue", value: "queue" },
+  { name: "track", value: "track" },
+];
 
 export const data = new SlashCommandBuilder()
   .setName("repeat")
@@ -23,9 +31,7 @@ export const data = new SlashCommandBuilder()
     option
       .setName("repeat")
       .setDescription("The repeat mode")
-      .addChoices(
-        ...Object.entries(repeatModes).map(([value, name]) => ({ name, value }))
-      )
+      .addChoices(...repeatChoices)
   );
 
 export const handler = async function (
@@ -43,20 +49,20 @@ export const handler = async function (
     });
   }
 
-  const mode =
+  const repeatMode =
     interaction.type === InteractionType.ApplicationCommand
       ? interaction.options.getString("repeat")
       : interaction.values[0];
-  if (mode) {
-    queue.setRepeatMode(Number(mode));
+  if (repeatMode) {
+    queue.setRepeatMode(repeatModes[repeatMode as RepeatModes]);
   }
 
   const components = [
     new ActionRowBuilder<SelectMenuBuilder>().addComponents(
       new SelectMenuBuilder().setCustomId("/repeat").addOptions(
-        Object.entries(repeatModes).map(([value, label]) => ({
-          default: queue.repeatMode === Number(value),
-          label: `Repeat: ${label}`,
+        repeatChoices.map(({ name, value }) => ({
+          default: queue.repeatMode === repeatModes[value],
+          label: `Repeat: ${name}`,
           value,
         }))
       )

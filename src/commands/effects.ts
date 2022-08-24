@@ -1,5 +1,4 @@
 import {
-  APIApplicationCommandOptionChoice,
   ActionRowBuilder,
   ChatInputCommandInteraction,
   Colors,
@@ -18,7 +17,7 @@ const effectChoices = [
   { name: "karaoke", value: "karaoke" },
   { name: "nightcore", value: "nightcore" },
   { name: "vaporwave", value: "vaporwave" },
-] as APIApplicationCommandOptionChoice<string>[];
+];
 
 export const data = new SlashCommandBuilder()
   .setName("effects")
