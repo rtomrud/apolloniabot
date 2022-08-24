@@ -47,7 +47,7 @@ export const handler = async function (
   const components = [
     new ActionRowBuilder<SelectMenuBuilder>().addComponents(
       new SelectMenuBuilder()
-        .setCustomId("/volume")
+        .setCustomId("/volume volume:")
         .setPlaceholder(`Volume: ${queue.volume}`)
         .addOptions(
           ["0", "25", "50", "75", "100"].map((value) => ({

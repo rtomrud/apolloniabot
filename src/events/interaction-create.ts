@@ -3,6 +3,7 @@ import {
   ChatInputCommandInteraction,
   Client,
   Colors,
+  ComponentType,
   DiscordjsError,
   DiscordjsErrorCodes,
   EmbedBuilder,
@@ -98,16 +99,18 @@ export const listener = async function (interaction: Interaction) {
     JSON.stringify({
       event: "INTERACTION_CREATE",
       data:
-        interaction.type === InteractionType.MessageComponent
-          ? interaction.customId
-          : interaction.toString(),
+        interaction.type === InteractionType.ApplicationCommand
+          ? interaction.toString()
+          : interaction.componentType === ComponentType.SelectMenu
+          ? `${interaction.customId}${interaction.values.join()}`
+          : interaction.customId,
       user: interaction.user.tag,
       userId: interaction.user.id,
       guild: interaction.guild?.name,
       guildId: interaction.guild?.id,
       channel:
         interaction.channel?.type === ChannelType.DM
-          ? interaction.channel.recipient?.tag
+          ? interaction.channel.recipient?.tag || ""
           : interaction.channel?.name || "",
       channelId: interaction.channel?.id,
       date: interaction.createdAt.toISOString(),

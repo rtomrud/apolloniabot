@@ -59,7 +59,7 @@ export const handler = async function (
 
   const components = [
     new ActionRowBuilder<SelectMenuBuilder>().addComponents(
-      new SelectMenuBuilder().setCustomId("/repeat").addOptions(
+      new SelectMenuBuilder().setCustomId("/repeat repeat:").addOptions(
         repeatChoices.map(({ name, value }) => ({
           default: queue.repeatMode === repeatModes[value],
           label: `Repeat: ${name}`,

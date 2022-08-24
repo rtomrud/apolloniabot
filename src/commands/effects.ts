@@ -78,7 +78,7 @@ export const handler = async function (
   const components = [
     new ActionRowBuilder<SelectMenuBuilder>().addComponents(
       new SelectMenuBuilder()
-        .setCustomId("/effects")
+        .setCustomId("/effects effect:")
         .setPlaceholder("No effects")
         .setMaxValues(effectChoices.length)
         .setMinValues(0)
