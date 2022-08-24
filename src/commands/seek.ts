@@ -17,6 +17,7 @@ const defaultTime = 15;
 export const data = new SlashCommandBuilder()
   .setName("seek")
   .setDescription("Seek the current track to the specified time")
+  .setDMPermission(false)
   .addSubcommand((subcommand) =>
     subcommand
       .setName("backward")

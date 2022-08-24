@@ -8,7 +8,8 @@ import { DisTube as Player } from "distube";
 
 export const data = new SlashCommandBuilder()
   .setName("shuffle")
-  .setDescription("Shuffle the queue");
+  .setDescription("Shuffle the queue")
+  .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,

@@ -32,7 +32,8 @@ export const data = new SlashCommandBuilder()
       .setName("repeat")
       .setDescription("The repeat mode")
       .addChoices(...repeatChoices)
-  );
+  )
+  .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction | SelectMenuInteraction,

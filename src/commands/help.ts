@@ -9,7 +9,8 @@ import scopes from "../scopes.js";
 
 export const data = new SlashCommandBuilder()
   .setName("help")
-  .setDescription("Show help");
+  .setDescription("Show help")
+  .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,

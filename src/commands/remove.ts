@@ -15,7 +15,8 @@ export const data = new SlashCommandBuilder()
       .setName("track")
       .setDescription("The position of the track to remove")
       .setRequired(true)
-  );
+  )
+  .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,

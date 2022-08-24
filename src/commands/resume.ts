@@ -9,7 +9,8 @@ import { DisTube as Player } from "distube";
 
 export const data = new SlashCommandBuilder()
   .setName("resume")
-  .setDescription("Resume the playback");
+  .setDescription("Resume the playback")
+  .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,

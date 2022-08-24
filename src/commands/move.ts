@@ -20,7 +20,8 @@ export const data = new SlashCommandBuilder()
       .setName("position")
       .setDescription("The position to move the track to")
       .setRequired(true)
-  );
+  )
+  .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,

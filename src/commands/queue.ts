@@ -19,7 +19,8 @@ export const data = new SlashCommandBuilder()
     option
       .setName("page")
       .setDescription("The page of the queue to show (1 by default)")
-  );
+  )
+  .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction | ButtonInteraction,

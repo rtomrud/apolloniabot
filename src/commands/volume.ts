@@ -19,7 +19,8 @@ export const data = new SlashCommandBuilder()
       .setDescription("The volume to set (between 0 and 100)")
       .setMaxValue(100)
       .setMinValue(0)
-  );
+  )
+  .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction | SelectMenuInteraction,

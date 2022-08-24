@@ -11,7 +11,8 @@ export const data = new SlashCommandBuilder()
   .setName("stop")
   .setDescription(
     "Stop the playback, clear the queue and leave the voice channel"
-  );
+  )
+  .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,

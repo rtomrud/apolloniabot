@@ -9,7 +9,8 @@ import { DisTube as Player } from "distube";
 
 export const data = new SlashCommandBuilder()
   .setName("next")
-  .setDescription("Play the next track in the queue");
+  .setDescription("Play the next track in the queue")
+  .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,

@@ -32,7 +32,8 @@ export const data = new SlashCommandBuilder()
     option
       .setName("enable")
       .setDescription("Whether to turn on the effect or not (default: True)")
-  );
+  )
+  .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction | SelectMenuInteraction,

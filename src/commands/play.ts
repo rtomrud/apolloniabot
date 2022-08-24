@@ -19,7 +19,8 @@ export const data = new SlashCommandBuilder()
         "The URL of a track, or the URL of a playlist on YouTube or Spotify, or a query to search on YouTube"
       )
       .setRequired(true)
-  );
+  )
+  .setDMPermission(false);
 
 const isHttpUrl = (string: string) => {
   try {
