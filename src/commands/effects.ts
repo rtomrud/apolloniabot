@@ -11,10 +11,8 @@ import {
 import { DisTube as Player } from "distube";
 
 const effectChoices = [
-  { name: "3d", value: "3d" },
   { name: "bassboost", value: "bassboost" },
   { name: "echo", value: "echo" },
-  { name: "karaoke", value: "karaoke" },
   { name: "nightcore", value: "nightcore" },
   { name: "vaporwave", value: "vaporwave" },
 ];
