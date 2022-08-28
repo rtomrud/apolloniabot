@@ -89,3 +89,31 @@ test("play with an URL query", async () => {
     expect.objectContaining({ member, textChannel: interaction.channel })
   );
 });
+
+test("play with a failed reply", async () => {
+  const interaction = mockInteraction({
+    id: "1",
+    name: "play",
+    type: ApplicationCommandType.ChatInput,
+    options: [
+      {
+        type: ApplicationCommandOptionType.String,
+        name: "query",
+        value: "titi me pregunto",
+      },
+    ],
+  });
+  interaction.reply = jest
+    .fn<() => Promise<never>>()
+    .mockRejectedValue(new Error());
+  mockVoiceState(interaction.guild as NonNullable<Guild>, interaction.user);
+  const player = new Player(interaction.client);
+  await handler(interaction, player);
+  expect(interaction.reply).toHaveBeenCalledTimes(1);
+  const member = interaction.member as GuildMember;
+  expect(player.play).toHaveBeenCalledWith(
+    member.voice.channel,
+    "titi me pregunto",
+    expect.objectContaining({ member, textChannel: interaction.channel })
+  );
+});
