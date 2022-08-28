@@ -30,8 +30,8 @@ export const data = new SlashCommandBuilder()
   )
   .addBooleanOption((option) =>
     option
-      .setName("enable")
-      .setDescription("Whether to turn on the effect or not (default: True)")
+      .setName("disable")
+      .setDescription("Whether to turn off the effect or not (default: False)")
   )
   .setDMPermission(false);
 
@@ -54,11 +54,11 @@ export const handler = async function (
     interaction.type === InteractionType.ApplicationCommand
       ? interaction.options.getString("effect")
       : interaction.values;
-  const enable =
+  const disable =
     interaction.type === InteractionType.ApplicationCommand
-      ? interaction.options.getBoolean("enable")
+      ? interaction.options.getBoolean("disable")
       : null;
-  if (filters == null && enable != null) {
+  if (filters == null && disable != null) {
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
@@ -70,9 +70,9 @@ export const handler = async function (
 
   if (interaction.type !== InteractionType.ApplicationCommand) {
     queue.filters.set(filters as string[]);
-  } else if (filters && (enable || enable == null)) {
+  } else if (filters && !disable) {
     queue.filters.add(filters);
-  } else if (filters && enable === false) {
+  } else if (filters && disable) {
     queue.filters.remove(filters);
   }
 
