@@ -1,55 +1,52 @@
-import { jest } from "@jest/globals";
 import {
   APIChatInputApplicationCommandInteraction,
   APIChatInputApplicationCommandInteractionData,
   APIGuild,
   APIGuildMember,
-  APIMessage,
   APITextChannel,
   APIUser,
   APIVoiceChannelBase,
-  BaseGuildVoiceChannel,
   ChannelType,
   ChatInputCommandInteraction,
   Client,
+  ClientOptions,
   GatewayIntentBits,
   GatewayVoiceState,
   Guild,
-  GuildBasedChannel,
   GuildMember,
-  InteractionResponse,
   InteractionType,
-  Message,
-  MessageType,
+  SnowflakeUtil,
   TextChannel,
   User,
+  VoiceChannel,
   VoiceState,
 } from "discord.js";
 
-export const mockInteraction = (
-  data: APIChatInputApplicationCommandInteractionData
-) => {
-  const client = new Client({
+const mockClient = (
+  clientOptions: ClientOptions = {
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
-  });
+  }
+) => new Client(clientOptions);
 
-  const apiGuild: APIGuild = {
-    id: "1",
+const mockGuild = (
+  client: Client,
+  apiGuild: APIGuild = {
+    id: SnowflakeUtil.generate().toString(),
     name: "",
     icon: null,
     splash: null,
     discovery_splash: null,
-    owner_id: "1",
+    owner_id: SnowflakeUtil.generate().toString(),
     region: "eu-west",
     afk_channel_id: null,
     afk_timeout: 0,
-    verification_level: 1,
-    default_message_notifications: 1,
-    explicit_content_filter: 3,
+    verification_level: 0,
+    default_message_notifications: 0,
+    explicit_content_filter: 0,
     roles: [],
     emojis: [],
     features: [],
-    mfa_level: 1,
+    mfa_level: 0,
     application_id: null,
     system_channel_id: null,
     system_channel_flags: 0,
@@ -57,57 +54,98 @@ export const mockInteraction = (
     vanity_url_code: null,
     description: null,
     banner: null,
-    premium_tier: 1,
+    premium_tier: 0,
     preferred_locale: "en-US",
     public_updates_channel_id: null,
     nsfw_level: 0,
     stickers: [],
     premium_progress_bar_enabled: false,
     hub_type: null,
-  };
-  const guild = Reflect.construct(Guild, [client, apiGuild]) as Guild;
-  client.guilds.cache.set(guild.id, guild);
+  }
+) => Reflect.construct(Guild, [client, apiGuild]) as Guild;
 
-  const apiUser: APIUser = {
-    id: "1",
-    username: "",
-    discriminator: "",
-    avatar: "",
-  };
-  Reflect.construct(User, [client, apiUser]) as User;
-
-  const apiGuildMember: APIGuildMember = {
-    user: apiUser,
+const mockGuildMember = (
+  client: Client,
+  guild: Guild,
+  user: User,
+  apiGuildMember: APIGuildMember = {
+    user: {
+      id: user.id,
+      username: user.username,
+      discriminator: user.discriminator,
+      avatar: user.avatar,
+    },
     roles: [],
-    joined_at: "",
+    joined_at: "1970-01-01T00:00:00",
     deaf: false,
     mute: false,
-  };
+  }
+) =>
   Reflect.construct(GuildMember, [
     client,
     apiGuildMember,
     guild,
   ]) as GuildMember;
 
-  const apiTextChannel: APITextChannel = {
-    id: "1",
+const mockTextChannel = (
+  guild: Guild,
+  apiTextChannel: APITextChannel = {
+    id: SnowflakeUtil.generate().toString(),
     type: ChannelType.GuildText,
     guild_id: guild.id,
-  };
-  const textChannel = Reflect.construct(TextChannel, [
-    guild,
-    apiTextChannel,
-  ]) as GuildBasedChannel;
-  guild.channels.cache.set(textChannel.id, textChannel);
+  }
+) => Reflect.construct(TextChannel, [guild, apiTextChannel]) as TextChannel;
 
+const mockUser = (
+  client: Client,
+  apiUser: APIUser = {
+    id: SnowflakeUtil.generate().toString(),
+    username: "",
+    discriminator: "",
+    avatar: "",
+  }
+) => Reflect.construct(User, [client, apiUser]) as User;
+
+const mockVoiceChannel = (
+  guild: Guild,
+  apiVoiceChannelBase: APIVoiceChannelBase<ChannelType.GuildVoice> = {
+    id: SnowflakeUtil.generate().toString(),
+    type: ChannelType.GuildVoice,
+    guild_id: guild.id,
+  }
+) =>
+  Reflect.construct(VoiceChannel, [guild, apiVoiceChannelBase]) as VoiceChannel;
+
+export const mockInteraction = (
+  data: APIChatInputApplicationCommandInteractionData
+) => {
+  const client = mockClient();
+  const guild = mockGuild(client);
+  client.guilds.cache.set(guild.id, guild);
+  const textChannel = mockTextChannel(guild);
+  guild.channels.cache.set(textChannel.id, textChannel);
+  const user = mockUser(client);
+  const guildMember = mockGuildMember(client, guild, user);
   const apiInteraction: APIChatInputApplicationCommandInteraction = {
-    id: "1",
-    application_id: "1",
+    id: SnowflakeUtil.generate().toString(),
+    application_id: "",
     type: InteractionType.ApplicationCommand,
     data,
     channel_id: textChannel.id,
     guild_id: guild.id,
-    member: { ...apiGuildMember, user: apiUser, permissions: "" },
+    member: {
+      user: {
+        id: guildMember.user.id,
+        username: guildMember.user.username,
+        discriminator: guildMember.user.discriminator,
+        avatar: guildMember.user.avatar,
+      },
+      roles: [],
+      joined_at: (guildMember.joinedAt as Date).toISOString(),
+      deaf: false,
+      mute: false,
+      permissions: "",
+    },
     token: "",
     version: 1,
     locale: "en-US",
@@ -116,50 +154,16 @@ export const mockInteraction = (
     client,
     apiInteraction,
   ]) as ChatInputCommandInteraction;
-
-  interaction.reply = jest.fn(() =>
-    Promise.resolve(Reflect.construct(InteractionResponse, [interaction]))
-  );
-
-  interaction.followUp = jest.fn(() => {
-    const message: APIMessage = {
-      id: "1",
-      channel_id: textChannel.id,
-      author: apiUser,
-      content: "",
-      timestamp: "",
-      edited_timestamp: null,
-      tts: false,
-      mention_everyone: false,
-      mentions: [],
-      mention_roles: [],
-      attachments: [],
-      embeds: [],
-      pinned: false,
-      type: MessageType.Reply,
-    };
-    return Promise.resolve(Reflect.construct(Message, [client, message]));
-  });
-
   return interaction;
 };
 
 export const mockVoiceState = (guild: Guild, user: User) => {
-  const apiVoiceChannel: APIVoiceChannelBase<ChannelType.GuildVoice> = {
-    id: "1",
-    type: ChannelType.GuildVoice,
-    guild_id: guild.id,
-  };
-  const voiceChannel = Reflect.construct(BaseGuildVoiceChannel, [
-    guild,
-    apiVoiceChannel,
-  ]) as GuildBasedChannel;
+  const voiceChannel: VoiceChannel = mockVoiceChannel(guild);
   guild.channels.cache.set(voiceChannel.id, voiceChannel);
-
   const gatewayVoiceState: GatewayVoiceState = {
     channel_id: voiceChannel.id,
     user_id: user.id,
-    session_id: "1",
+    session_id: "",
     deaf: false,
     mute: false,
     self_deaf: false,
@@ -173,6 +177,5 @@ export const mockVoiceState = (guild: Guild, user: User) => {
     gatewayVoiceState,
   ]) as VoiceState;
   guild.voiceStates.cache.set(voiceState.id, voiceState);
-
   return voiceState;
 };

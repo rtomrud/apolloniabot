@@ -4,6 +4,7 @@ import {
   ApplicationCommandType,
   Guild,
   GuildMember,
+  InteractionResponse,
 } from "discord.js";
 import { DisTube as Player } from "distube";
 import { handler } from "../../src/commands/play.js";
@@ -24,6 +25,9 @@ test("play when not in a voice channel", async () => {
       },
     ],
   });
+  interaction.reply = jest.fn(() =>
+    Promise.resolve(Reflect.construct(InteractionResponse, [interaction]))
+  );
   const player = new Player(interaction.client);
   await handler(interaction, player);
   expect(interaction.reply).toHaveBeenCalledTimes(1);
@@ -43,6 +47,9 @@ test("play with a text query", async () => {
       },
     ],
   });
+  interaction.reply = jest.fn(() =>
+    Promise.resolve(Reflect.construct(InteractionResponse, [interaction]))
+  );
   mockVoiceState(interaction.guild as NonNullable<Guild>, interaction.user);
   const player = new Player(interaction.client);
   await handler(interaction, player);
@@ -68,6 +75,9 @@ test("play with an URL query", async () => {
       },
     ],
   });
+  interaction.reply = jest.fn(() =>
+    Promise.resolve(Reflect.construct(InteractionResponse, [interaction]))
+  );
   mockVoiceState(interaction.guild as NonNullable<Guild>, interaction.user);
   const player = new Player(interaction.client);
   await handler(interaction, player);
