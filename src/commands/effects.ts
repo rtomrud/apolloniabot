@@ -4,9 +4,9 @@ import {
   Colors,
   EmbedBuilder,
   InteractionType,
-  SlashCommandBuilder,
   SelectMenuBuilder,
   SelectMenuInteraction,
+  SlashCommandBuilder,
 } from "discord.js";
 import { DisTube as Player } from "distube";
 

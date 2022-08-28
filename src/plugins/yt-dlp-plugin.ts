@@ -1,4 +1,4 @@
-import { execFile as execFileCallback, ExecFileOptions } from "child_process";
+import { ExecFileOptions, execFile as execFileCallback } from "child_process";
 import { promisify } from "util";
 import { GuildMember } from "discord.js";
 import {

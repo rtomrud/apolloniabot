@@ -11,7 +11,7 @@ import {
   Interaction,
   InteractionType,
 } from "discord.js";
-import { DisTube as Player, DisTubeError } from "distube";
+import { DisTubeError, DisTube as Player } from "distube";
 import commands from "../commands/index.js";
 
 export const event = Events.InteractionCreate;

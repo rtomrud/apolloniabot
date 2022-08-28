@@ -1,4 +1,4 @@
-import { Events, Queue, Song, DisTube } from "distube";
+import { DisTube, Events, Queue, Song } from "distube";
 
 export const event = Events.PLAY_SONG;
 
