@@ -26,10 +26,14 @@ export const handler = async function (
         .addFields(
           !commands
             ? []
-            : Array.from(commands).map(([, command]) => ({
-                name: `/${command.name}`,
-                value: command.description,
-              }))
+            : Array.from(commands)
+                .sort(([, a], [, b]) =>
+                  a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+                )
+                .map(([, command]) => ({
+                  name: `/${command.name}`,
+                  value: command.description,
+                }))
         ),
     ],
   });
