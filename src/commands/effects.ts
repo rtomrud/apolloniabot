@@ -66,8 +66,16 @@ export const handler = async function (
     });
   }
 
-  if (interaction.type !== InteractionType.ApplicationCommand) {
-    queue.filters.set(filters as string[]);
+  if (
+    interaction.type !== InteractionType.ApplicationCommand &&
+    Array.isArray(filters)
+  ) {
+    queue.filters.names.forEach((filter) => {
+      if (!effectChoices.some(({ value }) => filter === value)) {
+        filters.push(filter);
+      }
+    });
+    queue.filters.set(filters);
   } else if (filters && !disable) {
     queue.filters.add(filters);
   } else if (filters && disable) {

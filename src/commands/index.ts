@@ -10,6 +10,7 @@ import * as repeat from "./repeat.js";
 import * as resume from "./resume.js";
 import * as seek from "./seek.js";
 import * as shuffle from "./shuffle.js";
+import * as speed from "./speed.js";
 import * as stop from "./stop.js";
 import * as volume from "./volume.js";
 import * as what from "./what.js";
@@ -27,6 +28,7 @@ export default {
   resume,
   seek,
   shuffle,
+  speed,
   stop,
   volume,
   what,
