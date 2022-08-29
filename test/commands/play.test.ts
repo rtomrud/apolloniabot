@@ -10,8 +10,6 @@ import { DisTube as Player } from "distube";
 import { handler } from "../../src/commands/play.js";
 import { mockInteraction, mockVoiceState } from "../mock-discordjs.js";
 
-jest.mock("distube");
-
 test("play when not in a voice channel", async () => {
   const interaction = mockInteraction({
     id: "1",
@@ -29,6 +27,7 @@ test("play when not in a voice channel", async () => {
     Promise.resolve(Reflect.construct(InteractionResponse, [interaction]))
   );
   const player = new Player(interaction.client);
+  player.play = jest.fn(() => Promise.resolve());
   await handler(interaction, player);
   expect(interaction.reply).toHaveBeenCalledTimes(1);
   expect(player.play).toHaveBeenCalledTimes(0);
@@ -52,6 +51,7 @@ test("play with a text query", async () => {
   );
   mockVoiceState(interaction.guild as NonNullable<Guild>, interaction.user);
   const player = new Player(interaction.client);
+  player.play = jest.fn(() => Promise.resolve());
   await handler(interaction, player);
   expect(interaction.reply).toHaveBeenCalledTimes(1);
   const member = interaction.member as GuildMember;
@@ -80,6 +80,7 @@ test("play with an URL query", async () => {
   );
   mockVoiceState(interaction.guild as NonNullable<Guild>, interaction.user);
   const player = new Player(interaction.client);
+  player.play = jest.fn(() => Promise.resolve());
   await handler(interaction, player);
   expect(interaction.reply).toHaveBeenCalledTimes(1);
   const member = interaction.member as GuildMember;
@@ -108,6 +109,7 @@ test("play with a failed reply", async () => {
     .mockRejectedValue(new Error());
   mockVoiceState(interaction.guild as NonNullable<Guild>, interaction.user);
   const player = new Player(interaction.client);
+  player.play = jest.fn(() => Promise.resolve());
   await handler(interaction, player);
   expect(interaction.reply).toHaveBeenCalledTimes(1);
   const member = interaction.member as GuildMember;
