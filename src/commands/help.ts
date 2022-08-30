@@ -21,7 +21,6 @@ export const handler = async function (
     embeds: [
       new EmbedBuilder()
         .setTitle(player.client.user?.username || null)
-        .setDescription("I play music. These are the commands you can give me:")
         .setURL(player.client.generateInvite({ permissions, scopes }))
         .addFields(
           !commands
