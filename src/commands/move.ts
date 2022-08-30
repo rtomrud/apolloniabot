@@ -63,11 +63,9 @@ export const handler = async function (
   const from = track < 0 ? Math.max(0, queue.songs.length + track) : track - 1;
   const to =
     position < 0 ? Math.max(0, queue.songs.length + position) : position - 1;
-  const [song] = queue.songs;
   queue.songs.splice(to, 0, queue.songs.splice(from, 1)[0]);
   if (from === 0 || to === 0) {
-    queue.songs.unshift(song);
-    await queue.jump(1);
+    await queue.jump(0);
   }
 
   return interaction.reply({
