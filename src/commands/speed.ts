@@ -4,8 +4,8 @@ import {
   Colors,
   EmbedBuilder,
   InteractionType,
-  SelectMenuBuilder,
-  SelectMenuInteraction,
+  StringSelectMenuBuilder,
+  StringSelectMenuInteraction,
   SlashCommandBuilder,
 } from "discord.js";
 import { DisTube as Player } from "distube";
@@ -32,7 +32,7 @@ export const data = new SlashCommandBuilder()
   .setDMPermission(false);
 
 export const handler = async function (
-  interaction: ChatInputCommandInteraction | SelectMenuInteraction,
+  interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
   player: Player
 ) {
   const queue = player.queues.get(interaction);
@@ -62,8 +62,8 @@ export const handler = async function (
   }
 
   const components = [
-    new ActionRowBuilder<SelectMenuBuilder>().addComponents(
-      new SelectMenuBuilder()
+    new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+      new StringSelectMenuBuilder()
         .setCustomId("/speed speed:")
         .setPlaceholder("1.0")
         .addOptions(

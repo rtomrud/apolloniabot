@@ -4,8 +4,8 @@ import {
   Colors,
   EmbedBuilder,
   InteractionType,
-  SelectMenuBuilder,
-  SelectMenuInteraction,
+  StringSelectMenuBuilder,
+  StringSelectMenuInteraction,
   SlashCommandBuilder,
 } from "discord.js";
 import { DisTube as Player, RepeatMode } from "distube";
@@ -36,7 +36,7 @@ export const data = new SlashCommandBuilder()
   .setDMPermission(false);
 
 export const handler = async function (
-  interaction: ChatInputCommandInteraction | SelectMenuInteraction,
+  interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
   player: Player
 ) {
   const queue = player.queues.get(interaction);
@@ -59,8 +59,8 @@ export const handler = async function (
   }
 
   const components = [
-    new ActionRowBuilder<SelectMenuBuilder>().addComponents(
-      new SelectMenuBuilder().setCustomId("/repeat repeat:").addOptions(
+    new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+      new StringSelectMenuBuilder().setCustomId("/repeat repeat:").addOptions(
         repeatChoices.map(({ name, value }) => ({
           default: queue.repeatMode === repeatModes[value],
           label: `Repeat: ${name}`,
