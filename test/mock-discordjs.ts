@@ -113,8 +113,7 @@ const mockVoiceChannel = (
     type: ChannelType.GuildVoice,
     guild_id: guild.id,
   }
-) =>
-  Reflect.construct(VoiceChannel, [guild, apiVoiceChannelBase]) as VoiceChannel;
+) => Reflect.construct(VoiceChannel, [guild, apiVoiceChannelBase]);
 
 export const mockInteraction = (
   data: APIChatInputApplicationCommandInteractionData
