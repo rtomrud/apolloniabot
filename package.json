@@ -19,7 +19,7 @@
     "scrape-youtube": "2.3.2",
     "sodium-native": "3.4.1",
     "spotify-uri": "3.0.3",
-    "spotify-url-info": "3.1.9"
+    "spotify-url-info": "3.1.10"
   },
   "devDependencies": {
     "@swc/cli": "0.1.57",
