@@ -2,15 +2,48 @@ import { GuildMember } from "discord.js";
 import { DisTubeError, ExtractorPlugin, Playlist, Song } from "distube";
 import fetch from "node-fetch";
 import { parse } from "spotify-uri";
-import spotifyUrlInfo, { Tracks } from "spotify-url-info";
+import spotifyUrlInfo from "spotify-url-info";
 import { SearchOptions, search } from "scrape-youtube";
+
+type SpotifyData =
+  | {
+      type: "episode";
+      title: string;
+      subtitle: string;
+    }
+  | {
+      type: "track";
+      title: string;
+      artists: { name: string }[];
+    }
+  | {
+      type: "artist" | "playlist";
+      trackList: {
+        title: string;
+        subtitle: string;
+      }[];
+    };
 
 const spotify = spotifyUrlInfo(fetch);
 
-interface Track extends Tracks {
-  podcast?: { name: string };
-  showOrAudiobook?: { name: string };
-}
+const getTracks = async (url: string, options?: object) => {
+  const data = (await spotify.getData(url, options)) as SpotifyData;
+  switch (data.type) {
+    case "track":
+      return [
+        {
+          title: data.title,
+          subtitle: data.artists.map(({ name }) => name).join(" "),
+        },
+      ];
+    case "episode":
+      return [{ title: data.title, subtitle: data.subtitle }];
+    case "playlist":
+    case "artist":
+    default:
+      return data.trackList;
+  }
+};
 
 export class SpotifyPlugin extends ExtractorPlugin {
   regExp: RegExp;
@@ -38,17 +71,12 @@ export class SpotifyPlugin extends ExtractorPlugin {
     url: string,
     { member, metadata }: { member?: GuildMember; metadata?: T }
   ) {
-    const tracks = await spotify.getTracks(url).catch((error: Error) => {
+    const tracks = await getTracks(url).catch((error: Error) => {
       throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
     });
     const songs = await Promise.all(
-      tracks.map(async (track: Track) => {
-        const query = `${
-          track.artists?.map(({ name }) => name).join(" ") ||
-          track.podcast?.name ||
-          track.showOrAudiobook?.name ||
-          ""
-        } ${track.name}`;
+      tracks.map(async (track) => {
+        const query = `${track.title} ${track.subtitle}`;
         const results = await search(query, this.searchOptions).catch(
           (error: Error) => {
             throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
