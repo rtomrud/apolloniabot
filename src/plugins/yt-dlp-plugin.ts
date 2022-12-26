@@ -12,6 +12,7 @@ import {
 interface YtDlpInfo {
   entries?: OtherSongInfo[];
   extractor: string;
+  src?: string;
   url: string;
 }
 
@@ -110,6 +111,6 @@ export class YtDlpPlugin extends ExtractorPlugin {
           ),
           { member, properties: { url }, metadata }
         )
-      : new Song(info, { member, source, metadata });
+      : new Song(info as OtherSongInfo, { member, source, metadata });
   }
 }

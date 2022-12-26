@@ -1,5 +1,11 @@
 import { GuildMember } from "discord.js";
-import { DisTubeError, ExtractorPlugin, Playlist, Song } from "distube";
+import {
+  DisTubeError,
+  ExtractorPlugin,
+  OtherSongInfo,
+  Playlist,
+  Song,
+} from "distube";
 import fetch from "node-fetch";
 import { parse } from "spotify-uri";
 import spotifyUrlInfo from "spotify-url-info";
@@ -83,15 +89,17 @@ export class SpotifyPlugin extends ExtractorPlugin {
           }
         );
         const [video] = results.videos;
-        return new Song(
-          {
-            id: video.id,
-            url: video.link,
-            name: video.title,
-            duration: video.duration,
-          },
-          { member, source: "youtube (spotify)", metadata }
-        );
+        const songInfo = {
+          id: video.id,
+          url: video.link,
+          name: video.title,
+          duration: video.duration,
+        } as OtherSongInfo;
+        return new Song(songInfo, {
+          member,
+          source: "youtube (spotify)",
+          metadata,
+        });
       })
     );
     return songs.length > 1

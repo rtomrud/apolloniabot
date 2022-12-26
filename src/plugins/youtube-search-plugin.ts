@@ -1,5 +1,11 @@
 import { VoiceBasedChannel } from "discord.js";
-import { CustomPlugin, DisTubeError, PlayOptions, Song } from "distube";
+import {
+  CustomPlugin,
+  DisTubeError,
+  OtherSongInfo,
+  PlayOptions,
+  Song,
+} from "distube";
 import { SearchOptions, search } from "scrape-youtube";
 
 export class YouTubeSearchPlugin extends CustomPlugin {
@@ -34,19 +40,17 @@ export class YouTubeSearchPlugin extends CustomPlugin {
       throw new DisTubeError("NO_RESULT");
     });
     const [video] = results.videos;
-    const resolvedSong = new Song(
-      {
-        id: video.id,
-        url: video.link,
-        name: video.title,
-        duration: video.duration,
-      },
-      {
-        member: options.member,
-        source: "youtube (youtube-search)",
-        metadata: options.metadata as unknown,
-      }
-    );
+    const songInfo = {
+      id: video.id,
+      url: video.link,
+      name: video.title,
+      duration: video.duration,
+    } as OtherSongInfo;
+    const resolvedSong = new Song(songInfo, {
+      member: options.member,
+      source: "youtube (youtube-search)",
+      metadata: options.metadata as unknown,
+    });
     return this.distube.play(voiceChannel, resolvedSong, options);
   }
 }
