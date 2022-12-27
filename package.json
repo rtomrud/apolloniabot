@@ -14,12 +14,13 @@
     "@discordjs/voice": "0.14.0",
     "discord.js": "14.7.1",
     "distube": "4.0.4",
+    "domutils": "3.0.1",
     "dotenv": "16.0.3",
+    "htmlparser2": "8.0.1",
     "node-fetch": "3.3.0",
     "scrape-youtube": "2.3.2",
     "sodium-native": "3.4.1",
-    "spotify-uri": "3.0.3",
-    "spotify-url-info": "3.1.10"
+    "spotify-uri": "3.0.3"
   },
   "devDependencies": {
     "@swc/cli": "0.1.58",

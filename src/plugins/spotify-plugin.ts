@@ -6,48 +6,64 @@ import {
   Playlist,
   Song,
 } from "distube";
+import { find, textContent } from "domutils";
+import { parseDocument } from "htmlparser2";
 import fetch from "node-fetch";
-import { parse } from "spotify-uri";
-import spotifyUrlInfo from "spotify-url-info";
+import { formatEmbedURL, parse } from "spotify-uri";
 import { SearchOptions, search } from "scrape-youtube";
 
-type SpotifyData =
-  | {
-      type: "episode";
-      title: string;
-      subtitle: string;
-    }
-  | {
-      type: "track";
-      title: string;
-      artists: { name: string }[];
-    }
-  | {
-      type: "artist" | "playlist";
-      trackList: {
-        title: string;
-        subtitle: string;
-      }[];
-    };
+type Metadata = {
+  data: {
+    entity:
+      | {
+          type: "episode";
+          title: string;
+          subtitle: string;
+        }
+      | {
+          type: "track";
+          title: string;
+          artists: { name: string }[];
+        }
+      | {
+          type: "artist" | "playlist";
+          title: string;
+          trackList: {
+            title: string;
+            subtitle: string;
+          }[];
+        };
+  };
+};
 
-const spotify = spotifyUrlInfo(fetch);
-
-const getTracks = async (url: string, options?: object) => {
-  const data = (await spotify.getData(url, options)) as SpotifyData;
-  switch (data.type) {
+const getTracks = async (url: string) => {
+  const embedUrl = formatEmbedURL(parse(url));
+  console.log(embedUrl);
+  const response = await fetch(embedUrl);
+  const text = await response.text();
+  const node = find(
+    (elem) => elem.type === "script" && elem.attribs.id === "initial-state",
+    parseDocument(text).children,
+    true,
+    1
+  );
+  const jsonString = Buffer.from(textContent(node), "base64").toString();
+  const metadata = JSON.parse(jsonString) as Metadata;
+  const { entity } = metadata.data;
+  switch (entity.type) {
     case "track":
       return [
         {
-          title: data.title,
-          subtitle: data.artists.map(({ name }) => name).join(" "),
+          title: entity.title,
+          subtitle: entity.artists.map(({ name }) => name).join(" "),
         },
       ];
     case "episode":
-      return [{ title: data.title, subtitle: data.subtitle }];
+      return [{ title: entity.title, subtitle: entity.subtitle }];
     case "playlist":
     case "artist":
     default:
-      return data.trackList;
+      return entity.trackList;
   }
 };
 
