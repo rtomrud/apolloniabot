@@ -9,20 +9,19 @@ import {
 import { findOne, textContent } from "domutils";
 import { parseDocument } from "htmlparser2";
 import fetch from "node-fetch";
-import { SearchOptions, search } from "scrape-youtube";
 
 export class SpotifyPlugin extends ExtractorPlugin {
   regExp: RegExp;
 
-  searchOptions: SearchOptions;
+  fetchOptions: object;
 
   constructor({
     regExp = /^https?:\/\/(open|play)\.spotify\.com\/(?<type>album|artist|episode|playlist|show|track)\/(?<id>[a-zA-Z0-9]+)\??.*$/,
-    searchOptions = { type: "video" } as SearchOptions,
+    fetchOptions = {},
   } = {}) {
     super();
     this.regExp = regExp;
-    this.searchOptions = searchOptions;
+    this.fetchOptions = fetchOptions;
   }
 
   override validate(url: string) {
@@ -33,25 +32,16 @@ export class SpotifyPlugin extends ExtractorPlugin {
     url: string,
     { member, metadata }: { member?: GuildMember; metadata?: T }
   ) {
-    const tracks = await SpotifyPlugin.getTracks(url).catch((error: Error) => {
+    const tracks = await this.getTracks(url).catch((error: Error) => {
       throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
     });
     const songs = await Promise.all(
       tracks.map(async (track) => {
         const query = `${track.title} ${track.subtitle}`;
-        const results = await search(query, this.searchOptions).catch(
-          (error: Error) => {
-            throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
-          }
-        );
-        const [video] = results.videos;
-        const songInfo = {
-          id: video.id,
-          url: video.link,
-          name: video.title,
-          duration: video.duration,
-        } as OtherSongInfo;
-        return new Song(songInfo, {
+        const songInfo = await this.search(query).catch((error: Error) => {
+          throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
+        });
+        return new Song(songInfo as OtherSongInfo, {
           member,
           source: "youtube (spotify)",
           metadata,
@@ -63,10 +53,10 @@ export class SpotifyPlugin extends ExtractorPlugin {
       : songs[0];
   }
 
-  static async getTracks(url: string) {
+  async getTracks(url: string) {
     const [, type, id] = new URL(url).pathname.split("/");
     const embedUrl = `https://embed.spotify.com/?uri=spotify:${type}:${id}`;
-    const response = await fetch(embedUrl);
+    const response = await fetch(embedUrl, this.fetchOptions);
     const text = await response.text();
     const node = findOne(
       (elem) => elem.type === "script" && elem.attribs.id === "initial-state",
@@ -105,5 +95,59 @@ export class SpotifyPlugin extends ExtractorPlugin {
       default:
         return entity.trackList;
     }
+  }
+
+  async search(query: string) {
+    const url = `https://www.youtube.com/results?${new URLSearchParams({
+      search_query: query,
+    }).toString()}`;
+    const response = await fetch(url, this.fetchOptions);
+    const text = await response.text();
+    const node = findOne(
+      (elem) =>
+        elem.type === "script" && textContent(elem).includes("ytInitialData"),
+      parseDocument(text).children
+    );
+    if (!node) {
+      return null;
+    }
+
+    const data = JSON.parse(textContent(node).slice(20, -1)) as {
+      contents: {
+        twoColumnSearchResultsRenderer: {
+          primaryContents: {
+            sectionListRenderer: {
+              contents: [
+                {
+                  itemSectionRenderer: {
+                    contents: {
+                      videoRenderer: {
+                        lengthText: { simpleText: string };
+                        title: { runs: { text: string }[] };
+                        videoId: string;
+                      };
+                    }[];
+                  };
+                }
+              ];
+            };
+          };
+        };
+      };
+    };
+    const { contents } =
+      data.contents.twoColumnSearchResultsRenderer.primaryContents
+        .sectionListRenderer.contents[0].itemSectionRenderer;
+    const content = contents.find((content) => content.videoRenderer != null);
+    if (content == null) {
+      return null;
+    }
+
+    return {
+      duration: content.videoRenderer.lengthText.simpleText,
+      id: content.videoRenderer.videoId,
+      name: content.videoRenderer.title.runs.map(({ text }) => text).join(""),
+      url: `https://www.youtube.com/watch?v=${content.videoRenderer.videoId}`,
+    };
   }
 }
