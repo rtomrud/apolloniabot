@@ -9,24 +9,20 @@ import {
   Song,
 } from "distube";
 
-interface YtDlpInfo {
-  entries?: OtherSongInfo[];
-  extractor: string;
-  src?: string;
-  url: string;
-}
-
 const execFile = promisify(execFileCallback);
 
 const cache: Map<string, string> = new Map();
 const timeouts: Map<string, NodeJS.Timeout> = new Map();
 
 export class YtDlpPlugin extends ExtractorPlugin {
+  regExp: RegExp;
+
   binaryPath: string;
 
   execFileOptions: ExecFileOptions;
 
   constructor({
+    regExp = /.+/,
     binaryPath = "yt-dlp",
     execFileOptions = {
       windowsHide: true,
@@ -34,18 +30,13 @@ export class YtDlpPlugin extends ExtractorPlugin {
     } as ExecFileOptions,
   } = {}) {
     super();
+    this.regExp = regExp;
     this.binaryPath = binaryPath;
     this.execFileOptions = execFileOptions;
   }
 
   override validate(url: string) {
-    try {
-      return (
-        Boolean(this.binaryPath) && new URL(url).protocol.startsWith("http")
-      );
-    } catch {
-      return false;
-    }
+    return Boolean(this.binaryPath) && this.regExp.test(url);
   }
 
   override async getStreamURL(url: string) {
@@ -84,6 +75,7 @@ export class YtDlpPlugin extends ExtractorPlugin {
       [
         url,
         "--format=ba[acodec=opus]/ba/b[acodec=opus]/b",
+        "--default-search=auto",
         "--dump-single-json",
         "--no-warnings",
         "--prefer-free-formats",
@@ -95,22 +87,30 @@ export class YtDlpPlugin extends ExtractorPlugin {
     ).catch(({ stdout, stderr }: { stdout: string; stderr: string }) => {
       throw new DisTubeError("YTDLP_ERROR", stderr || stdout);
     });
-    const info = JSON.parse(stdout) as YtDlpInfo;
-    if (info.url) {
-      cache.set(url, info.url);
+    const info = JSON.parse(stdout) as {
+      entries?: OtherSongInfo[];
+      extractor: string;
+      src?: string;
+      url: string;
+    };
+    const source = `${info.extractor} (yt-dlp)`;
+    if (info.entries && !info.extractor.includes("search")) {
+      return new Playlist(
+        info.entries.map(
+          (entry) => new Song(entry, { member, source, metadata })
+        ),
+        { member, properties: { url }, metadata }
+      );
+    }
+
+    const songInfo = info.entries ? info.entries[0] : info;
+    if (songInfo.url) {
+      cache.set(url, songInfo.url);
       const timeout = setTimeout(() => cache.delete(url), 60000);
       clearTimeout(timeouts.get(url));
       timeouts.set(url, timeout);
     }
 
-    const source = `${info.extractor} (yt-dlp)`;
-    return Array.isArray(info.entries)
-      ? new Playlist(
-          info.entries.map(
-            (entry) => new Song(entry, { member, source, metadata })
-          ),
-          { member, properties: { url }, metadata }
-        )
-      : new Song(info as OtherSongInfo, { member, source, metadata });
+    return new Song(songInfo as OtherSongInfo, { member, source, metadata });
   }
 }

@@ -5,7 +5,6 @@ import playerEvents from "./events/player/index.js";
 import events from "./events/index.js";
 import { ResolverPlugin } from "./plugins/resolver-plugin.js";
 import { SpotifyPlugin } from "./plugins/spotify-plugin.js";
-import { YouTubeSearchPlugin } from "./plugins/youtube-search-plugin.js";
 import { YtDlpPlugin } from "./plugins/yt-dlp-plugin.js";
 import intents from "./intents.js";
 
@@ -15,12 +14,7 @@ const client = new Client({
 }) as Client & { player: Player };
 
 const player = new Player(client, {
-  plugins: [
-    new ResolverPlugin(),
-    new YouTubeSearchPlugin(),
-    new SpotifyPlugin(),
-    new YtDlpPlugin(),
-  ],
+  plugins: [new ResolverPlugin(), new SpotifyPlugin(), new YtDlpPlugin()],
   leaveOnFinish: true,
   savePreviousSongs: false,
   customFilters: {

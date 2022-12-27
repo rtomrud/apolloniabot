@@ -2,20 +2,15 @@ import { VoiceBasedChannel } from "discord.js";
 import { CustomPlugin, PlayOptions } from "distube";
 
 export class ResolverPlugin extends CustomPlugin {
-  separator: string | RegExp;
+  regExp: RegExp;
 
-  constructor({ separator = " " as string | RegExp } = {}) {
+  constructor({ regExp = /.+/ } = {}) {
     super();
-    this.separator = separator;
+    this.regExp = regExp;
   }
 
   override validate(string: string) {
-    try {
-      const [url] = string.split(this.separator);
-      return new URL(url).protocol.startsWith("http");
-    } catch {
-      return false;
-    }
+    return this.regExp.test(string);
   }
 
   override async play(
