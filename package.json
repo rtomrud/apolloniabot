@@ -19,8 +19,7 @@
     "htmlparser2": "8.0.1",
     "node-fetch": "3.3.0",
     "scrape-youtube": "2.3.2",
-    "sodium-native": "3.4.1",
-    "spotify-uri": "3.0.3"
+    "sodium-native": "3.4.1"
   },
   "devDependencies": {
     "@swc/cli": "0.1.58",

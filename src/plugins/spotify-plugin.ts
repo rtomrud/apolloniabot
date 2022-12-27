@@ -9,7 +9,6 @@ import {
 import { find, textContent } from "domutils";
 import { parseDocument } from "htmlparser2";
 import fetch from "node-fetch";
-import { formatEmbedURL, parse } from "spotify-uri";
 import { SearchOptions, search } from "scrape-youtube";
 
 type Metadata = {
@@ -36,9 +35,12 @@ type Metadata = {
   };
 };
 
+const spotifyUrlRegExp =
+  /^https?:\/\/(open|play)\.spotify\.com\/(?<type>album|artist|episode|playlist|show|track)\/(?<id>[a-zA-Z0-9]+)\??.*$/;
+
 const getTracks = async (url: string) => {
-  const embedUrl = formatEmbedURL(parse(url));
-  console.log(embedUrl);
+  const { type, id } = spotifyUrlRegExp.exec(url)?.groups || {};
+  const embedUrl = `https://embed.spotify.com/?uri=spotify:${type}:${id}`;
   const response = await fetch(embedUrl);
   const text = await response.text();
   const node = find(
@@ -73,7 +75,7 @@ export class SpotifyPlugin extends ExtractorPlugin {
   searchOptions: SearchOptions;
 
   constructor({
-    regExp = /spotify/,
+    regExp = spotifyUrlRegExp,
     searchOptions = { type: "video" } as SearchOptions,
   } = {}) {
     super();
@@ -82,11 +84,7 @@ export class SpotifyPlugin extends ExtractorPlugin {
   }
 
   override validate(url: string) {
-    try {
-      return this.regExp.test(url) && Boolean(parse(url).type);
-    } catch {
-      return false;
-    }
+    return this.regExp.test(url);
   }
 
   override async resolve<T>(
