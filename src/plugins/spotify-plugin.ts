@@ -6,7 +6,7 @@ import {
   Playlist,
   Song,
 } from "distube";
-import { find, textContent } from "domutils";
+import { findOne, textContent } from "domutils";
 import { parseDocument } from "htmlparser2";
 import fetch from "node-fetch";
 import { SearchOptions, search } from "scrape-youtube";
@@ -43,12 +43,14 @@ const getTracks = async (url: string) => {
   const embedUrl = `https://embed.spotify.com/?uri=spotify:${type}:${id}`;
   const response = await fetch(embedUrl);
   const text = await response.text();
-  const node = find(
+  const node = findOne(
     (elem) => elem.type === "script" && elem.attribs.id === "initial-state",
-    parseDocument(text).children,
-    true,
-    1
+    parseDocument(text).children
   );
+  if (!node) {
+    return [];
+  }
+
   const jsonString = Buffer.from(textContent(node), "base64").toString();
   const metadata = JSON.parse(jsonString) as Metadata;
   const { entity } = metadata.data;
