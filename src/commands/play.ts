@@ -22,18 +22,14 @@ export const data = new SlashCommandBuilder()
   )
   .setDMPermission(false);
 
-const isHttpUrl = (string: string) => {
+const canParse = (url: string) => {
   try {
-    return new URL(string).protocol.startsWith("http");
+    new URL(url);
+    return true;
   } catch {
     return false;
   }
 };
-
-const resultsUrl = (search_query: string) =>
-  `https://www.youtube.com/results?${new URLSearchParams({
-    search_query,
-  }).toString()}`;
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
@@ -54,7 +50,15 @@ export const handler = async function (
   }
 
   const [url] = query.split(" ");
-  const searchUrl = isHttpUrl(url) ? url : hyperlink(query, resultsUrl(query));
+  const searchUrl =
+    canParse(url) && url.startsWith("http")
+      ? url
+      : hyperlink(
+          query,
+          `https://www.youtube.com/results?${new URLSearchParams({
+            search_query: query,
+          })}`
+        );
   const interactionResponse = interaction
     .reply({
       embeds: [new EmbedBuilder().setDescription(`Searching "${searchUrl}"`)],
