@@ -19,20 +19,10 @@ export class YtDlpPlugin extends ExtractorPlugin {
 
   binaryPath: string;
 
-  execFileOptions: ExecFileOptions;
-
-  constructor({
-    regExp = /.+/,
-    binaryPath = "yt-dlp",
-    execFileOptions = {
-      windowsHide: true,
-      maxBuffer: 1024 * 1024 * 10,
-    } as ExecFileOptions,
-  } = {}) {
+  constructor({ regExp = /.+/, binaryPath = "yt-dlp" } = {}) {
     super();
     this.regExp = regExp;
     this.binaryPath = binaryPath;
-    this.execFileOptions = execFileOptions;
   }
 
   override validate(url: string) {
@@ -54,7 +44,7 @@ export class YtDlpPlugin extends ExtractorPlugin {
         "--no-warnings",
         "--prefer-free-formats",
       ],
-      this.execFileOptions
+      { windowsHide: true, maxBuffer: 1024 * 1024 * 10 }
     ).catch(({ stdout, stderr }: { stdout: string; stderr: string }) => {
       throw new DisTubeError("YTDLP_ERROR", stderr || stdout);
     });
@@ -83,7 +73,7 @@ export class YtDlpPlugin extends ExtractorPlugin {
           ? ["--flat-playlist"]
           : []),
       ],
-      this.execFileOptions
+      { windowsHide: true, maxBuffer: 1024 * 1024 * 10 }
     ).catch(({ stdout, stderr }: { stdout: string; stderr: string }) => {
       throw new DisTubeError("YTDLP_ERROR", stderr || stdout);
     });
