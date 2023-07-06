@@ -13,15 +13,11 @@ import fetch from "node-fetch";
 export class SpotifyPlugin extends ExtractorPlugin {
   regExp: RegExp;
 
-  fetchOptions: object;
-
   constructor({
     regExp = /^https?:\/\/(open|play)\.spotify\.com\/(?<type>album|artist|episode|playlist|show|track)\/(?<id>[a-zA-Z0-9]+)\??.*$/,
-    fetchOptions = {},
   } = {}) {
     super();
     this.regExp = regExp;
-    this.fetchOptions = fetchOptions;
   }
 
   override validate(url: string) {
@@ -32,15 +28,17 @@ export class SpotifyPlugin extends ExtractorPlugin {
     url: string,
     { member, metadata }: { member?: GuildMember; metadata?: T }
   ) {
-    const tracks = await this.getTracks(url).catch((error: Error) => {
+    const tracks = await SpotifyPlugin.getTracks(url).catch((error: Error) => {
       throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
     });
     const songs = await Promise.all(
       tracks.map(async (track) => {
         const query = `${track.title} ${track.subtitle}`;
-        const songInfo = await this.search(query).catch((error: Error) => {
-          throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
-        });
+        const songInfo = await SpotifyPlugin.search(query).catch(
+          (error: Error) => {
+            throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
+          }
+        );
         return new Song(songInfo as OtherSongInfo, {
           member,
           source: "youtube (spotify)",
@@ -53,10 +51,10 @@ export class SpotifyPlugin extends ExtractorPlugin {
       : songs[0];
   }
 
-  async getTracks(url: string) {
+  private static async getTracks(url: string) {
     const [, type, id] = new URL(url).pathname.split("/");
     const embedUrl = `https://embed.spotify.com/?uri=spotify:${type}:${id}`;
-    const response = await fetch(embedUrl, this.fetchOptions);
+    const response = await fetch(embedUrl);
     const text = await response.text();
     const node = findOne(
       (elem) => elem.type === "script" && elem.attribs.id === "initial-state",
@@ -97,11 +95,11 @@ export class SpotifyPlugin extends ExtractorPlugin {
     }
   }
 
-  async search(query: string) {
+  private static async search(query: string) {
     const url = `https://www.youtube.com/results?${new URLSearchParams({
       search_query: query,
     }).toString()}`;
-    const response = await fetch(url, this.fetchOptions);
+    const response = await fetch(url);
     const text = await response.text();
     const node = findOne(
       (elem) =>
