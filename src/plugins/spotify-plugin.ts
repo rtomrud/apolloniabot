@@ -1,14 +1,17 @@
 import { GuildMember } from "discord.js";
-import {
-  DisTubeError,
-  ExtractorPlugin,
-  OtherSongInfo,
-  Playlist,
-  Song,
-} from "distube";
-import { findOne, textContent } from "domutils";
-import { ElementType, parseDocument } from "htmlparser2";
-import fetch from "node-fetch";
+import { DisTubeError, ExtractorPlugin, Playlist, Song } from "distube";
+import spotifyUrlInfo from "spotify-url-info";
+import { fetch } from "undici";
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+const { getTracks } = spotifyUrlInfo(fetch) as {
+  getTracks: (url: string) => Promise<
+    Array<{
+      name: string;
+      artist: string;
+    }>
+  >;
+};
 
 export class SpotifyPlugin extends ExtractorPlugin {
   regExp: RegExp;
@@ -24,23 +27,22 @@ export class SpotifyPlugin extends ExtractorPlugin {
     return this.regExp.test(url);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   override async resolve<T>(
     url: string,
     { member, metadata }: { member?: GuildMember; metadata?: T },
   ) {
-    const tracks = await SpotifyPlugin.getTracks(url).catch((error: Error) => {
+    const tracks = await getTracks(url).catch((error: Error) => {
       throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
     });
     const songs = await Promise.all(
       tracks.map(async (track) => {
-        const query = `${track.title} ${track.subtitle}`;
-        const songInfo = await SpotifyPlugin.search(query).catch(
-          (error: Error) => {
+        const query = `${track.name} ${track.artist}`;
+        const songInfo = await this.distube
+          .search(query, { limit: 1 })
+          .catch((error: Error) => {
             throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
-          },
-        );
-        return new Song(songInfo as OtherSongInfo, {
+          });
+        return new Song(songInfo[0], {
           member,
           source: "youtube (spotify)",
           metadata,
@@ -50,105 +52,5 @@ export class SpotifyPlugin extends ExtractorPlugin {
     return songs.length > 1
       ? new Playlist(songs, { member, properties: { url }, metadata })
       : songs[0];
-  }
-
-  private static async getTracks(url: string) {
-    const [, type, id] = new URL(url).pathname.split("/");
-    const embedUrl = `https://embed.spotify.com/?uri=spotify:${type}:${id}`;
-    const response = await fetch(embedUrl);
-    const text = await response.text();
-    const node = findOne(
-      (elem) =>
-        elem.type === ElementType.Script && elem.attribs.id === "initial-state",
-      parseDocument(text).children,
-    );
-    if (!node) {
-      return [];
-    }
-
-    const metadata = JSON.parse(
-      Buffer.from(textContent(node), "base64").toString(),
-    ) as {
-      data: {
-        entity:
-          | { type: "episode"; title: string; subtitle: string }
-          | { type: "track"; title: string; artists: { name: string }[] }
-          | {
-              type: "artist" | "playlist";
-              trackList: { title: string; subtitle: string }[];
-            };
-      };
-    };
-    const { entity } = metadata.data;
-    switch (entity.type) {
-      case "track":
-        return [
-          {
-            title: entity.title,
-            subtitle: entity.artists.map(({ name }) => name).join(" "),
-          },
-        ];
-      case "episode":
-        return [{ title: entity.title, subtitle: entity.subtitle }];
-      case "playlist":
-      case "artist":
-      default:
-        return entity.trackList;
-    }
-  }
-
-  private static async search(query: string) {
-    const url = `https://www.youtube.com/results?${new URLSearchParams({
-      search_query: query,
-    }).toString()}`;
-    const response = await fetch(url);
-    const text = await response.text();
-    const node = findOne(
-      (elem) =>
-        elem.type === ElementType.Script &&
-        textContent(elem).includes("ytInitialData"),
-      parseDocument(text).children,
-    );
-    if (!node) {
-      return null;
-    }
-
-    const data = JSON.parse(textContent(node).slice(20, -1)) as {
-      contents: {
-        twoColumnSearchResultsRenderer: {
-          primaryContents: {
-            sectionListRenderer: {
-              contents: [
-                {
-                  itemSectionRenderer: {
-                    contents: {
-                      videoRenderer: {
-                        lengthText: { simpleText: string };
-                        title: { runs: { text: string }[] };
-                        videoId: string;
-                      };
-                    }[];
-                  };
-                },
-              ];
-            };
-          };
-        };
-      };
-    };
-    const { contents } =
-      data.contents.twoColumnSearchResultsRenderer.primaryContents
-        .sectionListRenderer.contents[0].itemSectionRenderer;
-    const content = contents.find((content) => content.videoRenderer != null);
-    if (content == null) {
-      return null;
-    }
-
-    return {
-      duration: content.videoRenderer.lengthText.simpleText,
-      id: content.videoRenderer.videoId,
-      name: content.videoRenderer.title.runs.map(({ text }) => text).join(""),
-      url: `https://www.youtube.com/watch?v=${content.videoRenderer.videoId}`,
-    };
   }
 }
