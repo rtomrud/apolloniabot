@@ -24,8 +24,7 @@ export const data = new SlashCommandBuilder()
 
 const canParse = (url: string) => {
   try {
-    new URL(url);
-    return true;
+    return Boolean(new URL(url));
   } catch {
     return false;
   }

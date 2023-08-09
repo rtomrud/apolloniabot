@@ -24,6 +24,7 @@ export class SpotifyPlugin extends ExtractorPlugin {
     return this.regExp.test(url);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   override async resolve<T>(
     url: string,
     { member, metadata }: { member?: GuildMember; metadata?: T },
