@@ -13,7 +13,7 @@ export const data = new SlashCommandBuilder()
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
-  player: Player
+  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue) {
@@ -50,7 +50,7 @@ export const handler = async function (
             name: "Requester",
             value: String(queue.songs[0].user || "Unknown"),
             inline: true,
-          }
+          },
         ),
     ],
   });

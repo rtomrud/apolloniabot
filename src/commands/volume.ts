@@ -18,13 +18,13 @@ export const data = new SlashCommandBuilder()
       .setName("volume")
       .setDescription("The volume to set (between 0 and 100)")
       .setMaxValue(100)
-      .setMinValue(0)
+      .setMinValue(0),
   )
   .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
-  player: Player
+  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue) {
@@ -55,8 +55,8 @@ export const handler = async function (
             default: queue.volume === Number(value),
             label: `Volume: ${value}`,
             value,
-          }))
-        )
+          })),
+        ),
     ),
   ];
   return interaction.type === InteractionType.ApplicationCommand

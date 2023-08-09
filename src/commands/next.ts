@@ -14,7 +14,7 @@ export const data = new SlashCommandBuilder()
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
-  player: Player
+  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue || (queue.songs.length <= 1 && !queue.autoplay)) {
@@ -31,7 +31,7 @@ export const handler = async function (
   return interaction.reply({
     embeds: [
       new EmbedBuilder().setDescription(
-        `Skipped to ${hyperlink(song.name || song.url, song.url)}`
+        `Skipped to ${hyperlink(song.name || song.url, song.url)}`,
       ),
     ],
   });

@@ -24,18 +24,18 @@ export const data = new SlashCommandBuilder()
     option
       .setName("effect")
       .setDescription("The effect to enable or disable")
-      .addChoices(...effectChoices)
+      .addChoices(...effectChoices),
   )
   .addBooleanOption((option) =>
     option
       .setName("disable")
-      .setDescription("Whether to turn off the effect or not (default: False)")
+      .setDescription("Whether to turn off the effect or not (default: False)"),
   )
   .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
-  player: Player
+  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue || !queue.playing) {
@@ -94,8 +94,8 @@ export const handler = async function (
             default: queue.filters.has(value),
             label: name,
             value,
-          }))
-        )
+          })),
+        ),
     ),
   ];
   return interaction.type === InteractionType.ApplicationCommand

@@ -14,7 +14,7 @@ export const data = new SlashCommandBuilder()
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
-  player: Player
+  player: Player,
 ) {
   const commands = await player.client.application?.commands.fetch();
   return interaction.reply({
@@ -27,12 +27,12 @@ export const handler = async function (
             ? []
             : Array.from(commands)
                 .sort(([, a], [, b]) =>
-                  a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+                  a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
                 )
                 .map(([, command]) => ({
                   name: `/${command.name}`,
                   value: command.description,
-                }))
+                })),
         ),
     ],
   });

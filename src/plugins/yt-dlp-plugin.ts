@@ -44,7 +44,7 @@ export class YtDlpPlugin extends ExtractorPlugin {
         "--no-warnings",
         "--prefer-free-formats",
       ],
-      { windowsHide: true, maxBuffer: 1024 * 1024 * 10 }
+      { windowsHide: true, maxBuffer: 1024 * 1024 * 10 },
     ).catch(({ stdout, stderr }: { stdout: string; stderr: string }) => {
       throw new DisTubeError("YTDLP_ERROR", stderr || stdout);
     });
@@ -58,7 +58,7 @@ export class YtDlpPlugin extends ExtractorPlugin {
 
   override async resolve<T>(
     url: string,
-    { member, metadata }: { member?: GuildMember; metadata?: T }
+    { member, metadata }: { member?: GuildMember; metadata?: T },
   ) {
     const { stdout } = await execFile(
       this.binaryPath,
@@ -73,7 +73,7 @@ export class YtDlpPlugin extends ExtractorPlugin {
           ? ["--flat-playlist"]
           : []),
       ],
-      { windowsHide: true, maxBuffer: 1024 * 1024 * 10 }
+      { windowsHide: true, maxBuffer: 1024 * 1024 * 10 },
     ).catch(({ stdout, stderr }: { stdout: string; stderr: string }) => {
       throw new DisTubeError("YTDLP_ERROR", stderr || stdout);
     });
@@ -87,9 +87,9 @@ export class YtDlpPlugin extends ExtractorPlugin {
     if (info.entries && !info.extractor.includes("search")) {
       return new Playlist(
         info.entries.map(
-          (entry) => new Song(entry, { member, source, metadata })
+          (entry) => new Song(entry, { member, source, metadata }),
         ),
-        { member, properties: { url }, metadata }
+        { member, properties: { url }, metadata },
       );
     }
 

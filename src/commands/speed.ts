@@ -27,13 +27,13 @@ export const data = new SlashCommandBuilder()
     option
       .setName("speed")
       .setDescription("The playback speed")
-      .addChoices(...speedChoices)
+      .addChoices(...speedChoices),
   )
   .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
-  player: Player
+  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue || !queue.playing) {
@@ -52,7 +52,7 @@ export const handler = async function (
       : interaction.values[0];
   if (filter != null) {
     const filters = queue.filters.names.filter(
-      (filter) => !speedChoices.some(({ value }) => filter === value)
+      (filter) => !speedChoices.some(({ value }) => filter === value),
     );
     if (filter !== "1.0") {
       filters.push(filter);
@@ -77,8 +77,8 @@ export const handler = async function (
                   .length === 0),
             label: name,
             value,
-          }))
-        )
+          })),
+        ),
     ),
   ];
   return interaction.type === InteractionType.ApplicationCommand

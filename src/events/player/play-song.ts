@@ -12,6 +12,6 @@ export const listener = function (this: DisTube, queue: Queue, song: Song) {
       channel: queue.voiceChannel?.name,
       channelId: queue.voiceChannel?.id,
       date: new Date().toISOString(),
-    })
+    }),
   );
 };

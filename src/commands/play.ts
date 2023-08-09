@@ -16,9 +16,9 @@ export const data = new SlashCommandBuilder()
     option
       .setName("query")
       .setDescription(
-        "The URL of a track, or the URL of a playlist on YouTube or Spotify, or a query to search on YouTube"
+        "The URL of a track, or the URL of a playlist on YouTube or Spotify, or a query to search on YouTube",
       )
-      .setRequired(true)
+      .setRequired(true),
   )
   .setDMPermission(false);
 
@@ -33,7 +33,7 @@ const canParse = (url: string) => {
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
-  player: Player
+  player: Player,
 ) {
   const query = interaction.options.getString("query", true);
   const member = interaction.member as GuildMember;
@@ -42,7 +42,7 @@ export const handler = async function (
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            "Error: I can't join you because you're not in a voice channel"
+            "Error: I can't join you because you're not in a voice channel",
           )
           .setColor(Colors.Red),
       ],
@@ -57,7 +57,7 @@ export const handler = async function (
           query,
           `https://www.youtube.com/results?${new URLSearchParams({
             search_query: query,
-          })}`
+          })}`,
         );
   const interactionResponse = interaction
     .reply({

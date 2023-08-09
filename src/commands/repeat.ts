@@ -31,13 +31,13 @@ export const data = new SlashCommandBuilder()
     option
       .setName("repeat")
       .setDescription("The repeat mode")
-      .addChoices(...repeatChoices)
+      .addChoices(...repeatChoices),
   )
   .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
-  player: Player
+  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue) {
@@ -65,8 +65,8 @@ export const handler = async function (
           default: queue.repeatMode === repeatModes[value],
           label: `Repeat: ${name}`,
           value,
-        }))
-      )
+        })),
+      ),
     ),
   ];
   return interaction.type === InteractionType.ApplicationCommand

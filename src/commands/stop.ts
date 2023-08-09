@@ -10,13 +10,13 @@ import { DisTube as Player } from "distube";
 export const data = new SlashCommandBuilder()
   .setName("stop")
   .setDescription(
-    "Stop the playback, clear the queue and leave the voice channel"
+    "Stop the playback, clear the queue and leave the voice channel",
   )
   .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
-  player: Player
+  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue) {
@@ -36,9 +36,9 @@ export const handler = async function (
         queue.playing
           ? `Stopped ${hyperlink(
               queue.songs[0].name || queue.songs[0].url,
-              queue.songs[0].url
+              queue.songs[0].url,
             )} at ${queue.formattedCurrentTime}`
-          : "Stopped"
+          : "Stopped",
       ),
     ],
   });

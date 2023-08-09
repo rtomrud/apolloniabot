@@ -14,7 +14,7 @@ export const data = new SlashCommandBuilder()
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
-  player: Player
+  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue || queue.playing) {
@@ -33,8 +33,8 @@ export const handler = async function (
       new EmbedBuilder().setDescription(
         `Resumed ${hyperlink(
           queue.songs[0].name || queue.songs[0].url,
-          queue.songs[0].url
-        )} at ${queue.formattedCurrentTime}`
+          queue.songs[0].url,
+        )} at ${queue.formattedCurrentTime}`,
       ),
     ],
   });

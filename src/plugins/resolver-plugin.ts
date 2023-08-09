@@ -16,10 +16,10 @@ export class ResolverPlugin extends CustomPlugin {
   override async play(
     voiceChannel: VoiceBasedChannel,
     song: string,
-    options: PlayOptions
+    options: PlayOptions,
   ) {
     const plugin = this.distube.extractorPlugins.find((plugin) =>
-      plugin.validate(song)
+      plugin.validate(song),
     );
     const resolvedSong = plugin ? await plugin.resolve(song, options) : song;
     return this.distube.play(voiceChannel, resolvedSong, options);

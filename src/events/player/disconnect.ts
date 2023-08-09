@@ -11,6 +11,6 @@ export const listener = function (queue: Queue) {
       channel: queue.voiceChannel?.name,
       channelId: queue.voiceChannel?.id,
       date: new Date().toISOString(),
-    })
+    }),
   );
 };

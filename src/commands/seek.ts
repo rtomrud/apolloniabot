@@ -26,9 +26,9 @@ export const data = new SlashCommandBuilder()
         option
           .setName("time")
           .setDescription(
-            `The time to seek backward by, in seconds or in HH:MM:SS format (${defaultTime}s by default)`
-          )
-      )
+            `The time to seek backward by, in seconds or in HH:MM:SS format (${defaultTime}s by default)`,
+          ),
+      ),
   )
   .addSubcommand((subcommand) =>
     subcommand
@@ -38,9 +38,9 @@ export const data = new SlashCommandBuilder()
         option
           .setName("time")
           .setDescription(
-            `The time to seek forward by, in seconds or in HH:MM:SS format (${defaultTime}s by default)`
-          )
-      )
+            `The time to seek forward by, in seconds or in HH:MM:SS format (${defaultTime}s by default)`,
+          ),
+      ),
   )
   .addSubcommand((subcommand) =>
     subcommand
@@ -50,13 +50,13 @@ export const data = new SlashCommandBuilder()
         option
           .setName("time")
           .setDescription("The time to seek, in seconds or in HH:MM:SS format")
-          .setRequired(true)
-      )
+          .setRequired(true),
+      ),
   );
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction | ButtonInteraction,
-  player: Player
+  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue || !queue.playing) {
@@ -79,7 +79,7 @@ export const handler = async function (
     .reduce(
       (seconds, component, i, { length }) =>
         seconds + Number(component) * 60 ** (length - i - 1),
-      0
+      0,
     );
   const subcommand =
     interaction.type === InteractionType.ApplicationCommand
@@ -96,8 +96,8 @@ export const handler = async function (
     new EmbedBuilder().setDescription(
       `Seeked to ${queue.formattedCurrentTime} in ${hyperlink(
         queue.songs[0].name || queue.songs[0].url,
-        queue.songs[0].url
-      )}`
+        queue.songs[0].url,
+      )}`,
     ),
   ];
   const components = [
@@ -116,7 +116,9 @@ export const handler = async function (
         .setCustomId(`/seek forward time:${defaultTime}`)
         .setLabel(`+${defaultTime}s`)
         .setStyle(ButtonStyle.Secondary)
-        .setDisabled(queue.currentTime + defaultTime >= queue.songs[0].duration)
+        .setDisabled(
+          queue.currentTime + defaultTime >= queue.songs[0].duration,
+        ),
     ),
   ];
   return interaction.type === InteractionType.ApplicationCommand

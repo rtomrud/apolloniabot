@@ -31,8 +31,8 @@ export const listener = async function (queue: Queue, playlist: Playlist) {
                 }`
               : ""
           }`,
-          playlist.url || playlist.songs[0].url
-        )}`
+          playlist.url || playlist.songs[0].url,
+        )}`,
       ),
     ],
   });

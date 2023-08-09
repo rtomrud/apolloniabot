@@ -13,6 +13,6 @@ export const listener = function (guild: Guild) {
       guild: guild.name,
       guildId: guild.id,
       date: guild.joinedAt.toISOString(),
-    })
+    }),
   );
 };

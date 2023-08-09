@@ -79,7 +79,7 @@ export const listener = async function (interaction: Interaction) {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `Error: Sorry ${interaction.user.toString()}, you can't interact with the command of another user`
+              `Error: Sorry ${interaction.user.toString()}, you can't interact with the command of another user`,
             )
             .setFooter({
               text: `Run the ${
@@ -114,7 +114,7 @@ export const listener = async function (interaction: Interaction) {
           : interaction.channel?.name || "",
       channelId: interaction.channel?.id,
       date: interaction.createdAt.toISOString(),
-    })
+    }),
   );
 
   const commandName = (

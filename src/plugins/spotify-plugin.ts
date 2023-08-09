@@ -26,7 +26,7 @@ export class SpotifyPlugin extends ExtractorPlugin {
 
   override async resolve<T>(
     url: string,
-    { member, metadata }: { member?: GuildMember; metadata?: T }
+    { member, metadata }: { member?: GuildMember; metadata?: T },
   ) {
     const tracks = await SpotifyPlugin.getTracks(url).catch((error: Error) => {
       throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
@@ -37,14 +37,14 @@ export class SpotifyPlugin extends ExtractorPlugin {
         const songInfo = await SpotifyPlugin.search(query).catch(
           (error: Error) => {
             throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
-          }
+          },
         );
         return new Song(songInfo as OtherSongInfo, {
           member,
           source: "youtube (spotify)",
           metadata,
         });
-      })
+      }),
     );
     return songs.length > 1
       ? new Playlist(songs, { member, properties: { url }, metadata })
@@ -58,14 +58,14 @@ export class SpotifyPlugin extends ExtractorPlugin {
     const text = await response.text();
     const node = findOne(
       (elem) => elem.type === "script" && elem.attribs.id === "initial-state",
-      parseDocument(text).children
+      parseDocument(text).children,
     );
     if (!node) {
       return [];
     }
 
     const metadata = JSON.parse(
-      Buffer.from(textContent(node), "base64").toString()
+      Buffer.from(textContent(node), "base64").toString(),
     ) as {
       data: {
         entity:
@@ -104,7 +104,7 @@ export class SpotifyPlugin extends ExtractorPlugin {
     const node = findOne(
       (elem) =>
         elem.type === "script" && textContent(elem).includes("ytInitialData"),
-      parseDocument(text).children
+      parseDocument(text).children,
     );
     if (!node) {
       return null;
@@ -126,7 +126,7 @@ export class SpotifyPlugin extends ExtractorPlugin {
                       };
                     }[];
                   };
-                }
+                },
               ];
             };
           };

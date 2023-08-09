@@ -8,7 +8,7 @@ export const listener = async function (this: Client, client: Client<true>) {
     JSON.stringify({
       event: "READY",
       date: client.readyAt.toISOString(),
-    })
+    }),
   );
 
   await client.application.commands

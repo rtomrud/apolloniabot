@@ -13,19 +13,19 @@ export const data = new SlashCommandBuilder()
     option
       .setName("track")
       .setDescription("The position of the track to move")
-      .setRequired(true)
+      .setRequired(true),
   )
   .addIntegerOption((option) =>
     option
       .setName("position")
       .setDescription("The position to move the track to")
-      .setRequired(true)
+      .setRequired(true),
   )
   .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
-  player: Player
+  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue || queue.songs.length <= 1) {
@@ -71,7 +71,7 @@ export const handler = async function (
   return interaction.reply({
     embeds: [
       new EmbedBuilder().setDescription(
-        `Moved track ${from + 1} to position ${to + 1}`
+        `Moved track ${from + 1} to position ${to + 1}`,
       ),
     ],
   });

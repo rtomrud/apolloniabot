@@ -14,13 +14,13 @@ export const data = new SlashCommandBuilder()
     option
       .setName("track")
       .setDescription("The position of the track to remove")
-      .setRequired(true)
+      .setRequired(true),
   )
   .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
-  player: Player
+  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue) {
@@ -59,7 +59,7 @@ export const handler = async function (
   return interaction.reply({
     embeds: [
       new EmbedBuilder().setDescription(
-        `Removed ${hyperlink(song.name || song.url, song.url)}`
+        `Removed ${hyperlink(song.name || song.url, song.url)}`,
       ),
     ],
   });

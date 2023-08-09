@@ -18,13 +18,13 @@ export const data = new SlashCommandBuilder()
   .addIntegerOption((option) =>
     option
       .setName("page")
-      .setDescription("The page of the queue to show (1 by default)")
+      .setDescription("The page of the queue to show (1 by default)"),
   )
   .setDMPermission(false);
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction | ButtonInteraction,
-  player: Player
+  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue) {
@@ -62,7 +62,7 @@ export const handler = async function (
       .setDescription(
         `${queue.songs.length} ${
           queue.songs.length === 1 ? "track" : "tracks"
-        } • ${queue.formattedDuration}`
+        } • ${queue.formattedDuration}`,
       )
       .addFields(
         queue.songs.slice(start, end).map((song, i) => ({
@@ -70,7 +70,7 @@ export const handler = async function (
           value: `${hyperlink(song.name || song.url, song.url)} • ${
             song.formattedDuration || "--:--"
           }`,
-        }))
+        })),
       )
       .setFooter({ text: `Page ${pageIndex + 1} of ${pageCount}` }),
   ];
@@ -98,7 +98,7 @@ export const handler = async function (
               .setCustomId(`/queue page:-1`)
               .setLabel("Last >>")
               .setStyle(ButtonStyle.Secondary)
-              .setDisabled(pageIndex === pageCount - 1)
+              .setDisabled(pageIndex === pageCount - 1),
           ),
         ];
   return interaction.type === InteractionType.ApplicationCommand
