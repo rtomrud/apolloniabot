@@ -7,7 +7,7 @@ import {
   Song,
 } from "distube";
 import { findOne, textContent } from "domutils";
-import { parseDocument } from "htmlparser2";
+import { ElementType, parseDocument } from "htmlparser2";
 import fetch from "node-fetch";
 
 export class SpotifyPlugin extends ExtractorPlugin {
@@ -58,7 +58,8 @@ export class SpotifyPlugin extends ExtractorPlugin {
     const response = await fetch(embedUrl);
     const text = await response.text();
     const node = findOne(
-      (elem) => elem.type === "script" && elem.attribs.id === "initial-state",
+      (elem) =>
+        elem.type === ElementType.Script && elem.attribs.id === "initial-state",
       parseDocument(text).children,
     );
     if (!node) {
@@ -104,7 +105,8 @@ export class SpotifyPlugin extends ExtractorPlugin {
     const text = await response.text();
     const node = findOne(
       (elem) =>
-        elem.type === "script" && textContent(elem).includes("ytInitialData"),
+        elem.type === ElementType.Script &&
+        textContent(elem).includes("ytInitialData"),
       parseDocument(text).children,
     );
     if (!node) {

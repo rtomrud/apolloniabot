@@ -54,9 +54,9 @@ export const handler = async function (
       ? url
       : hyperlink(
           query,
-          `https://www.youtube.com/results?${new URLSearchParams({
-            search_query: query,
-          })}`,
+          `https://www.youtube.com/results?${String(
+            new URLSearchParams({ search_query: query }),
+          )}`,
         );
   const interactionResponse = interaction
     .reply({

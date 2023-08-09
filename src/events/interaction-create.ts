@@ -100,8 +100,8 @@ export const listener = async function (interaction: Interaction) {
       event: "INTERACTION_CREATE",
       data:
         interaction.type === InteractionType.ApplicationCommand
-          ? interaction.toString()
-          : interaction.componentType === ComponentType.SelectMenu
+          ? String(interaction)
+          : interaction.componentType === ComponentType.StringSelect
           ? `${interaction.customId}${interaction.values.join()}`
           : interaction.customId,
       user: interaction.user.tag,
