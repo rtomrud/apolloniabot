@@ -12,12 +12,12 @@
   "dependencies": {
     "@discordjs/opus": "0.9.0",
     "@discordjs/voice": "0.16.0",
-    "discord.js": "14.12.1",
-    "distube": "4.0.6",
+    "discord.js": "^14.12.1",
+    "distube": "4.1.0",
     "dotenv": "16.3.1",
     "sodium-native": "4.0.4",
-    "spotify-url-info": "3.2.6",
-    "undici": "5.23.0"
+    "spotify-url-info": "3.2.9",
+    "undici": "5.26.5"
   },
   "devDependencies": {
     "@swc/cli": "0.1.62",
