@@ -18,7 +18,7 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          username: ${{ vars.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build and push
@@ -26,7 +26,7 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.IMAGE }}:latest,${{ secrets.IMAGE }}:${{ github.sha }}
+          tags: ${{ vars.IMAGE }}:latest,${{ vars.IMAGE }}:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -35,25 +35,25 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-access-key-id: ${{ vars.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Fetch task definition
-        run: aws ecs describe-task-definition --task-definition ${{ secrets.SERVICE }} --query taskDefinition > task-definition.json
+        run: aws ecs describe-task-definition --task-definition ${{ vars.SERVICE }} --query taskDefinition > task-definition.json
 
       - name: Render task definition
         id: render-task
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           container-name: app
-          image: ${{ secrets.IMAGE }}:${{ github.sha }}
+          image: ${{ vars.IMAGE }}:${{ github.sha }}
           task-definition: task-definition.json
 
       - name: Deploy task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          cluster: ${{ secrets.CLUSTER }}
-          service: ${{ secrets.SERVICE }}
+          cluster: ${{ vars.CLUSTER }}
+          service: ${{ vars.SERVICE }}
           task-definition: ${{ steps.render-task.outputs.task-definition }}
           wait-for-service-stability: true
