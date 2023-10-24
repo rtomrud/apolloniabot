@@ -61,7 +61,7 @@ resource "aws_ecs_service" "this" {
   task_definition = aws_ecs_task_definition.this.arn
 
   network_configuration {
-    assign_public_ip = false
+    assign_public_ip = true
     security_groups  = [aws_security_group.this.id]
     subnets          = aws_subnet.this.*.id
   }
