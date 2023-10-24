@@ -1,5 +1,7 @@
 # Apollonia Bot
 
+![Logo](/assets/icon-256x256.png)
+
 Listen to any song or podcast together with your friends or colleagues on a Discord voice call.
 
 ## Inspiration
