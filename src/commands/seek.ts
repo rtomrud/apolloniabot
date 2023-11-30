@@ -89,8 +89,8 @@ export const handler = async function (
     subcommand === "backward"
       ? queue.currentTime - seconds
       : subcommand === "forward"
-      ? queue.currentTime + seconds
-      : seconds;
+        ? queue.currentTime + seconds
+        : seconds;
   queue.seek(Math.max(0, Math.min(newTime, queue.songs[0].duration)));
   const embeds = [
     new EmbedBuilder().setDescription(

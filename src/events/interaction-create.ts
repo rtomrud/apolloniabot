@@ -102,8 +102,8 @@ export const listener = async function (interaction: Interaction) {
         interaction.type === InteractionType.ApplicationCommand
           ? String(interaction)
           : interaction.componentType === ComponentType.StringSelect
-          ? `${interaction.customId}${interaction.values.join()}`
-          : interaction.customId,
+            ? `${interaction.customId}${interaction.values.join()}`
+            : interaction.customId,
       user: interaction.user.tag,
       userId: interaction.user.id,
       guild: interaction.guild?.name,
