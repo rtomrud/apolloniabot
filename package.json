@@ -1,7 +1,7 @@
 {
   "name": "apolloniabot",
   "version": "0.1.0",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "swc src -d dist -C jsc.target=es2021",
     "lint": "eslint .",
