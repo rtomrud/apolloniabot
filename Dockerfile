@@ -1,4 +1,4 @@
-FROM node:18-alpine as build
+FROM node:20-alpine as build
 RUN apk add --no-cache g++ make python3
 COPY . ./
 
@@ -8,7 +8,7 @@ RUN NODE_ENV=production npm ci
 FROM build as build_dist
 RUN npm ci && npm run build
 
-FROM node:18-alpine
+FROM node:20-alpine
 RUN apk add --no-cache ffmpeg libtool yt-dlp
 WORKDIR /usr/src/app
 COPY package*.json ./
