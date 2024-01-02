@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "build": "swc src -d dist -C jsc.target=es2021",
+    "build": "swc src -d dist",
     "lint": "eslint .",
     "start": "nodemon --exec \"npm run build && node dist/index.js\" --ext ts --watch src",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
