@@ -16,8 +16,8 @@
     "distube": "4.1.1",
     "dotenv": "16.3.1",
     "sodium-native": "4.0.4",
-    "spotify-url-info": "3.2.9",
-    "undici": "5.28.1"
+    "spotify-url-info": "3.2.10",
+    "undici": "6.2.1"
   },
   "devDependencies": {
     "@swc/cli": "0.1.63",
