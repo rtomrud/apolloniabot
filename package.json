@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "build": "swc src -d dist",
+    "build": "esbuild src/index.ts --bundle --outdir=dist --format=esm --platform=node --packages=external",
     "lint": "eslint .",
     "start": "nodemon --exec \"npm run build && node dist/index.js\" --ext ts --watch src",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
@@ -20,11 +20,10 @@
     "undici": "6.2.1"
   },
   "devDependencies": {
-    "@swc/cli": "0.1.63",
-    "@swc/core": "1.3.102",
-    "@swc/jest": "0.2.29",
     "@typescript-eslint/eslint-plugin": "6.17.0",
     "@typescript-eslint/parser": "6.17.0",
+    "esbuild": "0.19.11",
+    "esbuild-jest": "0.5.0",
     "eslint": "8.56.0",
     "eslint-config-pretty-strict": "8.1.2",
     "eslint-plugin-jest": "27.6.1",
