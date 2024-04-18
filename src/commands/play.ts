@@ -22,14 +22,6 @@ export const data = new SlashCommandBuilder()
   )
   .setDMPermission(false);
 
-const canParse = (url: string) => {
-  try {
-    return Boolean(new URL(url));
-  } catch {
-    return false;
-  }
-};
-
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
   player: Player,
@@ -50,7 +42,7 @@ export const handler = async function (
 
   const [url] = query.split(" ");
   const searchUrl =
-    canParse(url) && url.startsWith("http")
+    URL.canParse(url) && url.startsWith("http")
       ? url
       : hyperlink(
           query,
