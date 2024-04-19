@@ -1,11 +1,11 @@
 import {
   ChatInputCommandInteraction,
   EmbedBuilder,
+  OAuth2Scopes,
+  PermissionsBitField,
   SlashCommandBuilder,
 } from "discord.js";
 import { DisTube as Player } from "distube";
-import permissions from "../permissions.js";
-import scopes from "../scopes.js";
 
 export const data = new SlashCommandBuilder()
   .setName("help")
@@ -21,7 +21,18 @@ export const handler = async function (
     embeds: [
       new EmbedBuilder()
         .setTitle(player.client.user?.username || null)
-        .setURL(player.client.generateInvite({ permissions, scopes }))
+        .setURL(
+          player.client.generateInvite({
+            permissions: new PermissionsBitField()
+              .add([
+                PermissionsBitField.Flags.Connect,
+                PermissionsBitField.Flags.Speak,
+                PermissionsBitField.Flags.UseApplicationCommands,
+              ])
+              .toArray(),
+            scopes: [OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot],
+          }),
+        )
         .addFields(
           !commands
             ? []

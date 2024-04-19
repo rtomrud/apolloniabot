@@ -1,15 +1,14 @@
 import "dotenv/config";
-import { Client } from "discord.js";
+import { Client, GatewayIntentBits } from "discord.js";
 import { DisTube as Player } from "distube";
 import playerEvents from "./events/player/index.js";
 import events from "./events/index.js";
 import { ResolverPlugin } from "./plugins/resolver-plugin.js";
 import { SpotifyPlugin } from "./plugins/spotify-plugin.js";
 import { YtDlpPlugin } from "./plugins/yt-dlp-plugin.js";
-import intents from "./intents.js";
 
 const client = new Client({
-  intents,
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
   shards: "auto",
 }) as Client & { player: Player };
 
