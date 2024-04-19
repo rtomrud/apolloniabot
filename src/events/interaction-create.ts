@@ -1,6 +1,5 @@
 import {
   AutocompleteInteraction,
-  ChannelType,
   ChatInputCommandInteraction,
   Client,
   Colors,
@@ -117,10 +116,7 @@ export const listener = async function (interaction: Interaction) {
         userId: interaction.user.id,
         guild: interaction.guild?.name,
         guildId: interaction.guild?.id,
-        channel:
-          interaction.channel?.type === ChannelType.DM
-            ? interaction.channel.recipient?.tag || ""
-            : interaction.channel?.name || "",
+        channel: interaction.channel?.name,
         channelId: interaction.channel?.id,
         date: interaction.createdAt.toISOString(),
       }),
