@@ -116,7 +116,7 @@ export const listener = async function (interaction: Interaction) {
         userId: interaction.user.id,
         guild: interaction.guild?.name,
         guildId: interaction.guild?.id,
-        channel: interaction.channel?.name,
+        channel: interaction.channel?.toString(),
         channelId: interaction.channel?.id,
         date: interaction.createdAt.toISOString(),
       }),

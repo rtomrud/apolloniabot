@@ -1,5 +1,6 @@
 import { GuildMember } from "discord.js";
 import { DisTubeError, ExtractorPlugin, Playlist, Song } from "distube";
+// @ts-expect-error No typings
 import spotifyUrlInfo from "spotify-url-info";
 import { fetch } from "undici";
 
