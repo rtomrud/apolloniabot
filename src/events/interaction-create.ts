@@ -1,15 +1,15 @@
 import {
+  AutocompleteInteraction,
   ChannelType,
   ChatInputCommandInteraction,
   Client,
   Colors,
-  ComponentType,
   DiscordjsError,
   DiscordjsErrorCodes,
   EmbedBuilder,
   Events,
   Interaction,
-  InteractionType,
+  MessageComponentInteraction,
 } from "discord.js";
 import { DisTubeError, DisTube as Player } from "distube";
 import commands from "../commands/index.js";
@@ -42,7 +42,7 @@ const errorMessages = {
 const defaultErrorMessage = "Error: Something went wrong, sorry";
 
 const handleError =
-  (interaction: ChatInputCommandInteraction) =>
+  (interaction: ChatInputCommandInteraction | MessageComponentInteraction) =>
   async (error: DisTubeError<string>) => {
     const errorCode = error.errorCode as keyof typeof errorMessages;
     if (
@@ -66,14 +66,23 @@ const handleError =
   };
 
 export const listener = async function (interaction: Interaction) {
-  if (
-    interaction.type !== InteractionType.ApplicationCommand &&
-    interaction.type !== InteractionType.MessageComponent
-  ) {
+  const { player } = interaction.client as Client & { player: Player };
+
+  if (interaction.isAutocomplete()) {
+    const { commandName } = interaction;
+    const command = commands[commandName as keyof typeof commands] as {
+      autocomplete(
+        interaction: AutocompleteInteraction,
+        player: Player,
+      ): Promise<void>;
+    };
+    command
+      .autocomplete(interaction, player)
+      .catch(() => interaction.respond([]));
     return;
   }
 
-  if (interaction.type === InteractionType.MessageComponent) {
+  if (interaction.isMessageComponent()) {
     if (interaction.user.id !== interaction.message.interaction?.user.id) {
       await interaction.reply({
         embeds: [
@@ -95,47 +104,45 @@ export const listener = async function (interaction: Interaction) {
     }
   }
 
-  console.log(
-    JSON.stringify({
-      event: "INTERACTION_CREATE",
-      data:
-        interaction.type === InteractionType.ApplicationCommand
-          ? String(interaction)
-          : interaction.componentType === ComponentType.StringSelect
+  if (interaction.isChatInputCommand() || interaction.isMessageComponent()) {
+    console.log(
+      JSON.stringify({
+        event: "INTERACTION_CREATE",
+        data: interaction.isChatInputCommand()
+          ? interaction.toString()
+          : interaction.isAnySelectMenu()
             ? `${interaction.customId}${interaction.values.join()}`
             : interaction.customId,
-      user: interaction.user.tag,
-      userId: interaction.user.id,
-      guild: interaction.guild?.name,
-      guildId: interaction.guild?.id,
-      channel:
-        interaction.channel?.type === ChannelType.DM
-          ? interaction.channel.recipient?.tag || ""
-          : interaction.channel?.name || "",
-      channelId: interaction.channel?.id,
-      date: interaction.createdAt.toISOString(),
-    }),
-  );
+        user: interaction.user.tag,
+        userId: interaction.user.id,
+        guild: interaction.guild?.name,
+        guildId: interaction.guild?.id,
+        channel:
+          interaction.channel?.type === ChannelType.DM
+            ? interaction.channel.recipient?.tag || ""
+            : interaction.channel?.name || "",
+        channelId: interaction.channel?.id,
+        date: interaction.createdAt.toISOString(),
+      }),
+    );
 
-  const commandName = (
-    interaction.type === InteractionType.MessageComponent
-      ? interaction.customId.split(" ")[0].replace("/", "")
-      : interaction.commandName
-  ) as keyof typeof commands;
-  const command = commands[commandName];
-  if (!command) {
-    await interaction.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription("Error: I can't do that yet, sorry")
-          .setColor(Colors.Red),
-      ],
-    });
-    return;
+    const commandName = interaction.isChatInputCommand()
+      ? interaction.commandName
+      : interaction.customId.split(" ")[0].replace("/", "");
+    const command = commands[commandName as keyof typeof commands];
+    if (!command) {
+      await interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription("Error: I can't do that yet, sorry")
+            .setColor(Colors.Red),
+        ],
+      });
+      return;
+    }
+
+    command
+      .handler(interaction as ChatInputCommandInteraction, player)
+      .catch(handleError(interaction));
   }
-
-  const { player } = interaction.client as Client & { player: Player };
-  command
-    .handler(interaction as ChatInputCommandInteraction, player)
-    .catch(handleError(interaction as ChatInputCommandInteraction));
 };

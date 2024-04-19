@@ -1,4 +1,5 @@
 import {
+  AutocompleteInteraction,
   ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
@@ -18,9 +19,25 @@ export const data = new SlashCommandBuilder()
       .setDescription(
         "The URL of a track, or the URL of a playlist on YouTube or Spotify, or a query to search on YouTube",
       )
+      .setAutocomplete(true)
       .setRequired(true),
   )
   .setDMPermission(false);
+
+export const autocomplete = async function (
+  interaction: AutocompleteInteraction,
+  player: Player,
+) {
+  const query = interaction.options.getFocused();
+  if (query.length === 0) {
+    return interaction.respond([]);
+  }
+
+  const searchResults = await player.search(query);
+  return interaction.respond(
+    searchResults.map(({ name, url }) => ({ name, value: url })),
+  );
+};
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
