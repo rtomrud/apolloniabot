@@ -27,4 +27,3 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ vars.IMAGE }}:latest,${{ vars.IMAGE }}:${{ github.sha }}
-

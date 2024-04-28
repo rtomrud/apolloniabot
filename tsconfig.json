@@ -1,20 +1,11 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["es2021"],
+    "lib": ["es2023"],
     "module": "node16",
     "moduleResolution": "node16",
-    "outDir": "dist",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2021"
-  },
-  "exclude": [
-    "node_modules",
-    "test/**/*.ts"
-  ],
-  "include": [
-    "src/**/*.ts"
-  ]
+    "target": "es2022"
+  }
 }
