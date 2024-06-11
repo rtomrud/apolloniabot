@@ -22,8 +22,8 @@ export const listener = async function (queue: Queue, song: Song) {
     embeds: [
       new EmbedBuilder().setDescription(
         `${queue.songs[0] === song ? "Playing" : "Queued"} ${hyperlink(
-          song.name || song.url,
-          song.url,
+          song.name || song.url || "",
+          song.url || "",
         )}`,
       ),
     ],

@@ -105,7 +105,7 @@ export const handler = async function (
   return interaction.reply({
     embeds: [
       new EmbedBuilder().setDescription(
-        `Removed ${hyperlink(song.name || song.url, song.url)}`,
+        `Removed ${hyperlink(song.name || song.url || "", song.url || "")}`,
       ),
     ],
   });

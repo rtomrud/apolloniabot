@@ -1,20 +1,29 @@
-import { GuildMember } from "discord.js";
-import { DisTubeError, ExtractorPlugin, Playlist, Song } from "distube";
+import {
+  DisTubeError,
+  InfoExtractorPlugin,
+  Playlist,
+  ResolveOptions,
+  Song,
+} from "distube";
 // @ts-expect-error No typings
 import spotifyUrlInfo from "spotify-url-info";
+
+import { parse, formatOpenURL } from "spotify-uri";
 import { fetch } from "undici";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 const { getTracks } = spotifyUrlInfo(fetch) as {
   getTracks: (url: string) => Promise<
     Array<{
-      name: string;
       artist: string;
+      duration: number;
+      name: string;
+      uri: string;
     }>
   >;
 };
 
-export class SpotifyPlugin extends ExtractorPlugin {
+export class SpotifyPlugin extends InfoExtractorPlugin {
   regExp: RegExp;
 
   constructor({
@@ -24,34 +33,44 @@ export class SpotifyPlugin extends ExtractorPlugin {
     this.regExp = regExp;
   }
 
-  override validate(url: string) {
+  override validate(url: string): boolean {
     return this.regExp.test(url);
   }
 
   override async resolve<T>(
     url: string,
-    { member, metadata }: { member?: GuildMember; metadata?: T },
-  ) {
+    options: ResolveOptions<T>,
+  ): Promise<Song<T> | Playlist<T>> {
     const tracks = await getTracks(url).catch((error: Error) => {
       throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
     });
-    const songs = await Promise.all(
-      tracks.map(async (track) => {
-        const query = `${track.name} ${track.artist}`;
-        const songInfo = await this.distube
-          .search(query, { limit: 1 })
-          .catch((error: Error) => {
-            throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
-          });
-        return new Song(songInfo[0], {
-          member,
-          source: "youtube (spotify)",
-          metadata,
-        });
-      }),
+    const songs = tracks.map(
+      (track) =>
+        new Song(
+          {
+            plugin: this,
+            source: "spotify",
+            playFromSource: false,
+            name: track.name,
+            uploader: {
+              name: track.artist,
+            },
+            url: formatOpenURL(parse(track.uri)),
+            duration: track.duration / 1000,
+          },
+          options,
+        ),
     );
     return songs.length > 1
-      ? new Playlist(songs, { member, properties: { url }, metadata })
+      ? new Playlist({ source: "spotify", url, songs }, options)
       : songs[0];
+  }
+
+  override createSearchQuery<T>(song: Song<T>): string {
+    return `${song.name} ${song.uploader.name}`;
+  }
+
+  override getRelatedSongs(): Song[] {
+    return [];
   }
 }

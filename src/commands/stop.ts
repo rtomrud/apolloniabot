@@ -30,13 +30,14 @@ export const handler = async function (
   }
 
   await queue.stop();
+  queue.voice.leave();
   return interaction.reply({
     embeds: [
       new EmbedBuilder().setDescription(
         queue.playing
           ? `Stopped ${hyperlink(
-              queue.songs[0].name || queue.songs[0].url,
-              queue.songs[0].url,
+              queue.songs[0].name || queue.songs[0].url || "",
+              queue.songs[0].url || "",
             )} at ${queue.formattedCurrentTime}`
           : "Stopped",
       ),

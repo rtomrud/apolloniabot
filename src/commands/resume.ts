@@ -32,8 +32,8 @@ export const handler = async function (
     embeds: [
       new EmbedBuilder().setDescription(
         `Resumed ${hyperlink(
-          queue.songs[0].name || queue.songs[0].url,
-          queue.songs[0].url,
+          queue.songs[0].name || queue.songs[0].url || "",
+          queue.songs[0].url || "",
         )} at ${queue.formattedCurrentTime}`,
       ),
     ],

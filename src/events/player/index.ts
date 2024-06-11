@@ -1,7 +1,6 @@
 import * as addList from "./add-list.js";
 import * as addSong from "./add-song.js";
 import * as disconnect from "./disconnect.js";
-import * as empty from "./empty.js";
 import * as error from "./error.js";
 import * as finishSong from "./finish-song.js";
 import * as finish from "./finish.js";
@@ -11,7 +10,6 @@ export default {
   addList,
   addSong,
   disconnect,
-  empty,
   error,
   finishSong,
   finish,

@@ -6,7 +6,7 @@ export const listener = function (queue: Queue, song: Song) {
   console.log(
     JSON.stringify({
       event: "FINISH_SONG",
-      data: `${song.name || song.url} <${song.url}>`,
+      data: `${song?.name || song?.url || ""} <${song?.url || ""}>`,
       guild: queue.voiceChannel?.guild.name,
       guildId: queue.voiceChannel?.guildId,
       channel: queue.voiceChannel?.name,

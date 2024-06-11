@@ -1,3 +1,4 @@
+import ytsr from "@distube/ytsr";
 import {
   AutocompleteInteraction,
   ChatInputCommandInteraction,
@@ -26,16 +27,15 @@ export const data = new SlashCommandBuilder()
 
 export const autocomplete = async function (
   interaction: AutocompleteInteraction,
-  player: Player,
 ) {
   const query = interaction.options.getFocused();
   if (query.length === 0) {
     return interaction.respond([]);
   }
 
-  const searchResults = await player.search(query);
+  const { items } = await ytsr(query, { type: "video", limit: 10 });
   return interaction.respond(
-    searchResults.map(({ name, url }) => ({ name, value: url })),
+    items.map(({ name, url }) => ({ name, value: url })),
   );
 };
 

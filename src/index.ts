@@ -3,7 +3,6 @@ import { Client, GatewayIntentBits } from "discord.js";
 import { DisTube as Player } from "distube";
 import playerEvents from "./events/player/index.js";
 import events from "./events/index.js";
-import { ResolverPlugin } from "./plugins/resolver-plugin.js";
 import { SpotifyPlugin } from "./plugins/spotify-plugin.js";
 import { YtDlpPlugin } from "./plugins/yt-dlp-plugin.js";
 
@@ -13,8 +12,7 @@ const client = new Client({
 }) as Client & { player: Player };
 
 const player = new Player(client, {
-  plugins: [new ResolverPlugin(), new SpotifyPlugin(), new YtDlpPlugin()],
-  leaveOnFinish: true,
+  plugins: [new SpotifyPlugin(), new YtDlpPlugin()],
   savePreviousSongs: false,
   customFilters: {
     0.5: "atempo=0.5",

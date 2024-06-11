@@ -3,6 +3,7 @@ import { Events, Queue } from "distube";
 export const event = Events.FINISH;
 
 export const listener = function (queue: Queue) {
+  queue.voice.leave();
   console.log(
     JSON.stringify({
       event: "FINISH",

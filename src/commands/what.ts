@@ -30,7 +30,7 @@ export const handler = async function (
     embeds: [
       new EmbedBuilder()
         .setTitle(queue.songs[0].name || null)
-        .setURL(queue.songs[0].url)
+        .setURL(queue.songs[0].url || "")
         .addFields(
           {
             name: "Duration",

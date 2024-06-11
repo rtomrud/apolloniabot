@@ -95,8 +95,8 @@ export const handler = async function (
   const embeds = [
     new EmbedBuilder().setDescription(
       `Seeked to ${queue.formattedCurrentTime} in ${hyperlink(
-        queue.songs[0].name || queue.songs[0].url,
-        queue.songs[0].url,
+        queue.songs[0].name || queue.songs[0].url || "",
+        queue.songs[0].url || "",
       )}`,
     ),
   ];

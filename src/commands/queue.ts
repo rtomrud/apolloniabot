@@ -67,7 +67,7 @@ export const handler = async function (
       .addFields(
         queue.songs.slice(start, end).map((song, i) => ({
           name: String(i + start + 1),
-          value: `${hyperlink(song.name || song.url, song.url)} • ${
+          value: `${hyperlink(song.name || song.url || "", song.url || "")} • ${
             song.formattedDuration || "--:--"
           }`,
         })),

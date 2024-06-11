@@ -1,13 +1,28 @@
 import { execFile as execFileCallback } from "child_process";
 import { promisify } from "util";
-import { GuildMember } from "discord.js";
 import {
   DisTubeError,
   ExtractorPlugin,
-  OtherSongInfo,
   Playlist,
+  ResolveOptions,
   Song,
 } from "distube";
+import ytsr from "@distube/ytsr";
+
+type YtDlpVideo = {
+  duration: number;
+  extractor: string;
+  is_live: boolean;
+  original_url: string;
+  title: string;
+  webpage_url: string;
+};
+
+type YtDlpPlaylist = {
+  entries: YtDlpVideo[];
+  extractor: string;
+  url: string;
+};
 
 const execFile = promisify(execFileCallback);
 
@@ -25,41 +40,14 @@ export class YtDlpPlugin extends ExtractorPlugin {
     this.binaryPath = binaryPath;
   }
 
-  override validate(url: string) {
-    return Boolean(this.binaryPath) && this.regExp.test(url);
-  }
-
-  override async getStreamURL(url: string) {
-    const cachedUrl = cache.get(url);
-    if (cachedUrl) {
-      return cachedUrl;
-    }
-
-    const { stdout } = await execFile(
-      this.binaryPath,
-      [
-        url,
-        "--format=ba[acodec=opus]/ba/b[acodec=opus]/b",
-        "--dump-single-json",
-        "--no-warnings",
-        "--prefer-free-formats",
-      ],
-      { windowsHide: true, maxBuffer: 1024 * 1024 * 10 },
-    ).catch(({ stdout, stderr }: { stdout: string; stderr: string }) => {
-      throw new DisTubeError("YTDLP_ERROR", stderr || stdout);
-    });
-    const info = JSON.parse(stdout) as { url: string };
-    if (!info.url) {
-      throw new DisTubeError("YTDLP_ERROR", `Can't get stream URL of "${url}"`);
-    }
-
-    return info.url;
+  override validate(url: string): boolean {
+    return this.regExp.test(url);
   }
 
   override async resolve<T>(
     url: string,
-    { member, metadata }: { member?: GuildMember; metadata?: T },
-  ) {
+    options: ResolveOptions<T>,
+  ): Promise<Song<T> | Playlist<T>> {
     const { stdout } = await execFile(
       this.binaryPath,
       [
@@ -77,30 +65,120 @@ export class YtDlpPlugin extends ExtractorPlugin {
     ).catch(({ stdout, stderr }: { stdout: string; stderr: string }) => {
       throw new DisTubeError("YTDLP_ERROR", stderr || stdout);
     });
-    const info = JSON.parse(stdout) as {
-      entries?: OtherSongInfo[];
-      extractor: string;
-      src?: string;
-      url: string;
-    };
-    const source = `${info.extractor} (yt-dlp)`;
-    if (info.entries && !info.extractor.includes("search")) {
+    const info = JSON.parse(stdout) as YtDlpPlaylist;
+    if (Array.isArray(info.entries) && !info.extractor.includes("search")) {
       return new Playlist(
-        info.entries.map(
-          (entry) => new Song(entry, { member, source, metadata }),
-        ),
-        { member, properties: { url }, metadata },
+        {
+          source: info.extractor,
+          songs: info.entries.map(
+            (ytDlpVideo) =>
+              new Song(
+                {
+                  plugin: this,
+                  source: ytDlpVideo.extractor,
+                  playFromSource: true,
+                  name: ytDlpVideo.title,
+                  url: ytDlpVideo.webpage_url || ytDlpVideo.original_url,
+                  isLive: ytDlpVideo.is_live,
+                  duration: ytDlpVideo.is_live ? 0 : ytDlpVideo.duration,
+                },
+                options,
+              ),
+          ),
+        },
+        options,
       );
     }
 
-    const songInfo = info.entries ? info.entries[0] : info;
-    if (songInfo.url) {
-      cache.set(url, songInfo.url);
-      const timeout = setTimeout(() => cache.delete(url), 60000);
-      clearTimeout(timeouts.get(url));
-      timeouts.set(url, timeout);
+    const ytDlpVideo = (
+      Array.isArray(info.entries) ? info.entries[0] : info
+    ) as YtDlpVideo;
+    const song = new Song(
+      {
+        plugin: this,
+        source: ytDlpVideo.extractor,
+        playFromSource: true,
+        name: ytDlpVideo.title,
+        url: ytDlpVideo.webpage_url || ytDlpVideo.original_url,
+        isLive: ytDlpVideo.is_live,
+        duration: ytDlpVideo.is_live ? 0 : ytDlpVideo.duration,
+      },
+      options,
+    );
+
+    if (song.url && info.url) {
+      cache.set(song.url, info.url);
+      const timeout = setTimeout(() => cache.delete(song.url || ""), 60000);
+      clearTimeout(timeouts.get(song.url));
+      timeouts.set(song.url, timeout);
     }
 
-    return new Song(songInfo as OtherSongInfo, { member, source, metadata });
+    return song;
+  }
+
+  override async searchSong<T>(
+    query: string,
+    options: ResolveOptions<T>,
+  ): Promise<Song<T> | null> {
+    const { items } = await ytsr(query, { type: "video", limit: 1 });
+    if (items.length == 0) {
+      return null;
+    }
+
+    const [info] = items;
+    return new Song(
+      {
+        plugin: this,
+        source: "youtube",
+        playFromSource: true,
+        name: info.name,
+        url: info.url,
+        isLive: info.isLive,
+        duration: info.isLive
+          ? 0
+          : info.duration
+              .split(":")
+              .reduce(
+                (seconds, part, i, { length }) =>
+                  seconds + Number(part) * Math.pow(60, length - i - 1),
+                0,
+              ),
+      },
+      options,
+    );
+  }
+
+  override async getStreamURL<T>(song: Song<T>): Promise<string> {
+    const cachedUrl = cache.get(song.url || "");
+    if (cachedUrl) {
+      return cachedUrl;
+    }
+
+    const { stdout } = await execFile(
+      this.binaryPath,
+      [
+        song.url || "",
+        "--format=ba[acodec=opus]/ba/b[acodec=opus]/b",
+        "--dump-single-json",
+        "--no-warnings",
+        "--prefer-free-formats",
+      ],
+      { windowsHide: true, maxBuffer: 1024 * 1024 * 10 },
+    ).catch(({ stdout, stderr }: { stdout: string; stderr: string }) => {
+      throw new DisTubeError("YTDLP_ERROR", stderr || stdout);
+    });
+    const info = JSON.parse(stdout) as { url: string };
+    if (!info.url) {
+      throw new DisTubeError(
+        "YTDLP_ERROR",
+        `Can't get stream URL of "${song.url}"`,
+      );
+    }
+
+    return info.url;
+  }
+
+  override getRelatedSongs(): Song[] {
+    return [];
   }
 }
