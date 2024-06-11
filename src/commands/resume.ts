@@ -17,7 +17,7 @@ export const handler = async function (
   player: Player,
 ) {
   const queue = player.queues.get(interaction);
-  if (!queue || queue.playing) {
+  if (!queue || !queue.paused) {
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
@@ -27,6 +27,10 @@ export const handler = async function (
     });
   }
 
+  queue.resume();
+
+  // Workaround for resume() not working
+  queue.pause();
   queue.resume();
   return interaction.reply({
     embeds: [
