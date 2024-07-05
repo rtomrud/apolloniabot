@@ -6,8 +6,8 @@
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --check .",
     "lint": "eslint .",
-    "start": "node --watch --loader ts-node/esm -r ts-node/register src/index.ts",
-    "test": "node --test --loader ts-node/esm -r ts-node/register --experimental-test-coverage **/*.test.ts",
+    "start": "node --watch --experimental-modules --import tsx/esm src/index.ts",
+    "test": "node --test --experimental-test-coverage --import tsx/esm **/*.test.ts",
     "posttest": "npm run lint && npm run format"
   },
   "dependencies": {
@@ -26,7 +26,7 @@
     "@eslint/js": "9.6.0",
     "eslint": "8.57.0",
     "prettier": "3.3.2",
-    "ts-node": "10.9.2",
+    "tsx": "4.16.2",
     "typescript": "5.5.3",
     "typescript-eslint": "7.15.0"
   },
