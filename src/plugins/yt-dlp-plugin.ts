@@ -10,6 +10,7 @@ import {
 import ytsr from "@distube/ytsr";
 
 type YtDlpVideo = {
+  id: string;
   duration: number;
   extractor: string;
   is_live: boolean;
@@ -77,6 +78,7 @@ export class YtDlpPlugin extends ExtractorPlugin {
                   plugin: this,
                   source: ytDlpVideo.extractor,
                   playFromSource: true,
+                  id: ytDlpVideo.id,
                   name: ytDlpVideo.title,
                   url: ytDlpVideo.webpage_url || ytDlpVideo.original_url,
                   isLive: ytDlpVideo.is_live,
@@ -98,6 +100,7 @@ export class YtDlpPlugin extends ExtractorPlugin {
         plugin: this,
         source: ytDlpVideo.extractor,
         playFromSource: true,
+        id: ytDlpVideo.id,
         name: ytDlpVideo.title,
         url: ytDlpVideo.webpage_url || ytDlpVideo.original_url,
         isLive: ytDlpVideo.is_live,
@@ -131,6 +134,7 @@ export class YtDlpPlugin extends ExtractorPlugin {
         plugin: this,
         source: "youtube",
         playFromSource: true,
+        id: info.id,
         name: info.name,
         url: info.url,
         isLive: info.isLive,

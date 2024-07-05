@@ -44,23 +44,24 @@ export class SpotifyPlugin extends InfoExtractorPlugin {
     const tracks = await getTracks(url).catch((error: Error) => {
       throw new DisTubeError("SPOTIFY_PLUGIN_NO_RESULT", String(error));
     });
-    const songs = tracks.map(
-      (track) =>
-        new Song(
-          {
-            plugin: this,
-            source: "spotify",
-            playFromSource: false,
-            name: track.name,
-            uploader: {
-              name: track.artist,
-            },
-            url: formatOpenURL(parse(track.uri)),
-            duration: track.duration / 1000,
+    const songs = tracks.map((track) => {
+      const parsedSpotifyUri = parse(track.uri);
+      return new Song(
+        {
+          plugin: this,
+          source: "spotify",
+          playFromSource: false,
+          id: parsedSpotifyUri.id,
+          name: track.name,
+          uploader: {
+            name: track.artist,
           },
-          options,
-        ),
-    );
+          url: formatOpenURL(parsedSpotifyUri),
+          duration: track.duration / 1000,
+        },
+        options,
+      );
+    });
     return songs.length > 1
       ? new Playlist({ source: "spotify", url, songs }, options)
       : songs[0];
