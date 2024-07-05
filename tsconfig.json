@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "lib": ["es2023"],
-    "module": "node16",
-    "moduleResolution": "node16",
+    "isolatedModules": true,
+    "lib": ["ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "nodenext",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2022"
+    "target": "ESNext"
   }
 }
