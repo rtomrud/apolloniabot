@@ -5,7 +5,7 @@ import {
   PermissionsBitField,
   SlashCommandBuilder,
 } from "discord.js";
-import { DisTube as Player } from "distube";
+import player from "../player.js";
 
 export const data = new SlashCommandBuilder()
   .setName("help")
@@ -14,7 +14,6 @@ export const data = new SlashCommandBuilder()
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
-  player: Player,
 ) {
   const commands = await player.client.application?.commands.fetch();
   return interaction.reply({

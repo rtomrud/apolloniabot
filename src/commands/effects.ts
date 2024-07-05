@@ -8,7 +8,7 @@ import {
   StringSelectMenuInteraction,
   SlashCommandBuilder,
 } from "discord.js";
-import { DisTube as Player } from "distube";
+import player from "../player.js";
 
 const effectChoices = [
   { name: "bassboost", value: "bassboost" },
@@ -35,7 +35,6 @@ export const data = new SlashCommandBuilder()
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
-  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue || !queue.playing) {

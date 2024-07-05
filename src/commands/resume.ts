@@ -5,7 +5,7 @@ import {
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
-import { DisTube as Player } from "distube";
+import player from "../player.js";
 
 export const data = new SlashCommandBuilder()
   .setName("resume")
@@ -14,7 +14,6 @@ export const data = new SlashCommandBuilder()
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
-  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue || !queue.paused) {

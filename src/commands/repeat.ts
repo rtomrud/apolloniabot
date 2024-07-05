@@ -8,7 +8,8 @@ import {
   StringSelectMenuInteraction,
   SlashCommandBuilder,
 } from "discord.js";
-import { DisTube as Player, RepeatMode } from "distube";
+import { RepeatMode } from "distube";
+import player from "../player.js";
 
 const repeatModes = {
   off: RepeatMode.DISABLED,
@@ -37,7 +38,6 @@ export const data = new SlashCommandBuilder()
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
-  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue) {

@@ -9,7 +9,7 @@ import {
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
-import { DisTube as Player } from "distube";
+import player from "../player.js";
 
 export const data = new SlashCommandBuilder()
   .setName("play")
@@ -41,7 +41,6 @@ export const autocomplete = async function (
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
-  player: Player,
 ) {
   const query = interaction.options.getString("query", true);
   const member = interaction.member as GuildMember;

@@ -1,7 +1,6 @@
 import {
   AutocompleteInteraction,
   ChatInputCommandInteraction,
-  Client,
   Colors,
   DiscordjsError,
   DiscordjsErrorCodes,
@@ -10,7 +9,7 @@ import {
   Interaction,
   MessageComponentInteraction,
 } from "discord.js";
-import { DisTubeError, DisTube as Player } from "distube";
+import { DisTubeError } from "distube";
 import commands from "../commands/index.js";
 
 export const event = Events.InteractionCreate;
@@ -65,19 +64,12 @@ const handleError =
   };
 
 export const listener = async function (interaction: Interaction) {
-  const { player } = interaction.client as Client & { player: Player };
-
   if (interaction.isAutocomplete()) {
     const { commandName } = interaction;
     const command = commands[commandName as keyof typeof commands] as {
-      autocomplete(
-        interaction: AutocompleteInteraction,
-        player: Player,
-      ): Promise<void>;
+      autocomplete(interaction: AutocompleteInteraction): Promise<void>;
     };
-    command
-      .autocomplete(interaction, player)
-      .catch(() => interaction.respond([]));
+    command.autocomplete(interaction).catch(() => interaction.respond([]));
     return;
   }
 
@@ -138,7 +130,7 @@ export const listener = async function (interaction: Interaction) {
     }
 
     command
-      .handler(interaction as ChatInputCommandInteraction, player)
+      .handler(interaction as ChatInputCommandInteraction)
       .catch(handleError(interaction));
   }
 };

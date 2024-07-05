@@ -5,7 +5,7 @@ import {
   EmbedBuilder,
   SlashCommandBuilder,
 } from "discord.js";
-import { DisTube as Player } from "distube";
+import player from "../player.js";
 
 export const data = new SlashCommandBuilder()
   .setName("move")
@@ -27,7 +27,6 @@ export const data = new SlashCommandBuilder()
 
 export const autocomplete = async function (
   interaction: AutocompleteInteraction,
-  player: Player,
 ) {
   const track = interaction.options.getFocused();
   const queue = player.queues.get(interaction);
@@ -71,7 +70,6 @@ export const autocomplete = async function (
 
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
-  player: Player,
 ) {
   const queue = player.queues.get(interaction);
   if (!queue || queue.songs.length <= 1) {

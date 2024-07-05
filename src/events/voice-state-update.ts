@@ -1,5 +1,6 @@
-import { Client, Events, VoiceState } from "discord.js";
-import { DisTube as Player, isVoiceChannelEmpty } from "distube";
+import { Events, VoiceState } from "discord.js";
+import { isVoiceChannelEmpty } from "distube";
+import player from "../player.js";
 
 export const event = Events.VoiceStateUpdate;
 
@@ -8,10 +9,7 @@ export const listener = function (oldState: VoiceState) {
     return;
   }
 
-  // @ts-expect-error client must have a player property
-  const client = this as Client & { player: Player };
-
-  const voice = client.player.voices.get(oldState);
+  const voice = player.voices.get(oldState);
   if (voice && isVoiceChannelEmpty(oldState)) {
     voice.leave();
   }
