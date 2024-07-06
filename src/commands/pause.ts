@@ -15,7 +15,7 @@ export const data = new SlashCommandBuilder()
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
 ) {
-  const queue = player.queues.get(interaction);
+  const queue = player.queues.get(interaction.guildId as string);
   if (!queue || queue.paused || queue.stopped) {
     return interaction.reply({
       embeds: [

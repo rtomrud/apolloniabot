@@ -9,11 +9,9 @@ import { Events, Queue, Song } from "distube";
 export const event = Events.ADD_SONG;
 
 export const listener = async function (queue: Queue, song: Song) {
-  const metadata = song.metadata as {
-    interactionResponse: Promise<InteractionResponse | null>;
-  };
-  const response = await metadata.interactionResponse;
-  if (response == null) {
+  const interactionResponse = song.metadata as Promise<InteractionResponse>;
+  const response = await interactionResponse;
+  if (!response || !response.interaction) {
     return;
   }
 

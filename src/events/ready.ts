@@ -3,7 +3,7 @@ import commands from "../commands/index.js";
 
 export const event = Events.ClientReady;
 
-export const listener = async function (this: Client, client: Client<true>) {
+export const listener = function (this: Client, client: Client<true>) {
   console.log(
     JSON.stringify({
       event: "READY",
@@ -11,7 +11,7 @@ export const listener = async function (this: Client, client: Client<true>) {
     }),
   );
 
-  await client.application.commands
+  client.application.commands
     .set(Object.values(commands).map(({ data }) => data.toJSON()))
     .catch(console.error);
 };

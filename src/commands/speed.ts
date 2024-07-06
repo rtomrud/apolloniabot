@@ -34,7 +34,7 @@ export const data = new SlashCommandBuilder()
 export const handler = async function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
 ) {
-  const queue = player.queues.get(interaction);
+  const queue = player.queues.get(interaction.guildId as string);
   if (!queue || !queue.playing) {
     return interaction.reply({
       embeds: [

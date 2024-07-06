@@ -29,7 +29,7 @@ export const autocomplete = async function (
   interaction: AutocompleteInteraction,
 ) {
   const track = interaction.options.getFocused();
-  const queue = player.queues.get(interaction);
+  const queue = player.queues.get(interaction.guildId as string);
   if (!queue || queue.songs.length === 0) {
     return interaction.respond([]);
   }
@@ -71,7 +71,7 @@ export const autocomplete = async function (
 export const handler = async function (
   interaction: ChatInputCommandInteraction,
 ) {
-  const queue = player.queues.get(interaction);
+  const queue = player.queues.get(interaction.guildId as string);
   if (!queue || queue.songs.length <= 1) {
     return interaction.reply({
       embeds: [

@@ -5,7 +5,6 @@ import {
   Colors,
   EmbedBuilder,
   GuildMember,
-  GuildTextBasedChannel,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
@@ -71,10 +70,12 @@ export const handler = async function (
       embeds: [new EmbedBuilder().setDescription(`Searching "${searchUrl}"`)],
     })
     .catch(() => null);
+
+  // @ts-expect-error Wrong typings in lib
   await player.play(member.voice.channel, query, {
     member,
-    textChannel: interaction.channel as GuildTextBasedChannel,
-    metadata: { interactionResponse },
+    textChannel: interaction.channel,
+    metadata: interactionResponse,
   });
   return interactionResponse;
 };

@@ -9,7 +9,9 @@ export const listener = function (oldState: VoiceState) {
     return;
   }
 
-  const voice = player.voices.get(oldState);
+  const voice = player.voices.get(oldState.guild.id);
+
+  // @ts-expect-error Wrong typings in lib
   if (voice && isVoiceChannelEmpty(oldState)) {
     voice.leave();
   }

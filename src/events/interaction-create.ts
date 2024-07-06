@@ -63,7 +63,7 @@ const handleError =
     });
   };
 
-export const listener = async function (interaction: Interaction) {
+export const listener = function (interaction: Interaction) {
   if (interaction.isAutocomplete()) {
     const { commandName } = interaction;
     const command = commands[commandName as keyof typeof commands] as {
@@ -75,22 +75,24 @@ export const listener = async function (interaction: Interaction) {
 
   if (interaction.isMessageComponent()) {
     if (interaction.user.id !== interaction.message.interaction?.user.id) {
-      await interaction.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `Error: Sorry ${interaction.user.toString()}, you can't interact with the command of another user`,
-            )
-            .setFooter({
-              text: `Run the ${
-                interaction.message.interaction
-                  ? `/${interaction.message.interaction.commandName}`
-                  : ""
-              } command yourself to interact with it`,
-            })
-            .setColor(Colors.Red),
-        ],
-      });
+      interaction
+        .reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `Error: Sorry ${interaction.user.toString()}, you can't interact with the command of another user`,
+              )
+              .setFooter({
+                text: `Run the ${
+                  interaction.message.interaction
+                    ? `/${interaction.message.interaction.commandName}`
+                    : ""
+                } command yourself to interact with it`,
+              })
+              .setColor(Colors.Red),
+          ],
+        })
+        .catch(console.error);
       return;
     }
   }
@@ -119,13 +121,15 @@ export const listener = async function (interaction: Interaction) {
       : interaction.customId.split(" ")[0].replace("/", "");
     const command = commands[commandName as keyof typeof commands];
     if (!command) {
-      await interaction.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription("Error: I can't do that yet, sorry")
-            .setColor(Colors.Red),
-        ],
-      });
+      interaction
+        .reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription("Error: I can't do that yet, sorry")
+              .setColor(Colors.Red),
+          ],
+        })
+        .catch(console.error);
       return;
     }
 
