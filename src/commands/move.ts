@@ -68,7 +68,7 @@ export const autocomplete = async function (
   return interaction.respond(songs);
 };
 
-export const handler = async function (
+export const execute = async function (
   interaction: ChatInputCommandInteraction,
 ) {
   const queue = player.queues.get(interaction.guildId as string);

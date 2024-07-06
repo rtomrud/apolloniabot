@@ -12,7 +12,7 @@ export const data = new SlashCommandBuilder()
   .setDescription("Pause the playback")
   .setDMPermission(false);
 
-export const handler = async function (
+export const execute = async function (
   interaction: ChatInputCommandInteraction,
 ) {
   const queue = player.queues.get(interaction.guildId as string);

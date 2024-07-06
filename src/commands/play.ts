@@ -38,7 +38,7 @@ export const autocomplete = async function (
   );
 };
 
-export const handler = async function (
+export const execute = async function (
   interaction: ChatInputCommandInteraction,
 ) {
   const query = interaction.options.getString("query", true);

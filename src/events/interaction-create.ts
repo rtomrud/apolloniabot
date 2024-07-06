@@ -134,7 +134,7 @@ export const listener = function (interaction: Interaction) {
     }
 
     command
-      .handler(interaction as ChatInputCommandInteraction)
+      .execute(interaction as ChatInputCommandInteraction)
       .catch(handleError(interaction));
   }
 };

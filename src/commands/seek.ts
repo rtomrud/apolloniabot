@@ -54,7 +54,7 @@ export const data = new SlashCommandBuilder()
       ),
   );
 
-export const handler = async function (
+export const execute = async function (
   interaction: ChatInputCommandInteraction | ButtonInteraction,
 ) {
   const queue = player.queues.get(interaction.guildId as string);

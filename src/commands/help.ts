@@ -12,7 +12,7 @@ export const data = new SlashCommandBuilder()
   .setDescription("Show help")
   .setDMPermission(false);
 
-export const handler = async function (
+export const execute = async function (
   interaction: ChatInputCommandInteraction,
 ) {
   const commands = await player.client.application?.commands.fetch();

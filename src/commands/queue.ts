@@ -22,7 +22,7 @@ export const data = new SlashCommandBuilder()
   )
   .setDMPermission(false);
 
-export const handler = async function (
+export const execute = async function (
   interaction: ChatInputCommandInteraction | ButtonInteraction,
 ) {
   const queue = player.queues.get(interaction.guildId as string);
