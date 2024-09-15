@@ -1,11 +1,11 @@
-FROM node:20-alpine as build
+FROM node:20-alpine AS build
 RUN apk add --no-cache g++ make python3
 COPY . ./
 
-FROM build as build_node_modules
+FROM build AS build_node_modules
 RUN NODE_ENV=production npm ci
 
-FROM build as build_dist
+FROM build AS build_dist
 RUN npm ci && npm run build
 
 FROM node:20-alpine
