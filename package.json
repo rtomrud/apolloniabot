@@ -14,13 +14,13 @@
     "@discordjs/voice": "0.18.0",
     "@distube/ytsr": "2.0.4",
     "discord.js": "14.18.0",
-    "distube": "^5.0.6",
-    "dotenv": "16.4.7",
+    "distube": "5.0.7",
+    "dotenv": "16.5.0",
     "libsodium-wrappers": "0.7.15",
     "opusscript": "0.1.1",
     "spotify-uri": "4.1.0",
     "spotify-url-info": "3.2.18",
-    "undici": "7.5.0"
+    "undici": "7.10.0"
   },
   "devDependencies": {
     "@eslint/js": "9.29.0",
