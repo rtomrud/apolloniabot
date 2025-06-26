@@ -18,18 +18,20 @@ const effectChoices = [
 ];
 
 export const data = new SlashCommandBuilder()
-  .setName("effects")
-  .setDescription("Enable or disable an effect")
+  .setName("fx")
+  .setDescription("Enable or disable an audio effect")
   .addStringOption((option) =>
     option
       .setName("effect")
-      .setDescription("The effect to enable or disable")
+      .setDescription("The audio effect to enable or disable")
       .addChoices(...effectChoices),
   )
   .addBooleanOption((option) =>
     option
       .setName("disable")
-      .setDescription("Whether to turn off the effect or not (default: False)"),
+      .setDescription(
+        "Whether to turn off the audio effect or not (default: False)",
+      ),
   )
   .setDMPermission(false);
 
@@ -59,7 +61,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: No effect specified")
+          .setDescription("Error: No audio effect specified")
           .setColor(Colors.Red),
       ],
     });
@@ -84,8 +86,8 @@ export const execute = async function (
   const components = [
     new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
       new StringSelectMenuBuilder()
-        .setCustomId("/effects effect:")
-        .setPlaceholder("No effects")
+        .setCustomId("/fx effect:")
+        .setPlaceholder("No FX")
         .setMaxValues(effectChoices.length)
         .setMinValues(0)
         .addOptions(

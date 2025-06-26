@@ -1,4 +1,4 @@
-import * as effects from "./effects.js";
+import * as fx from "./fx.js";
 import * as help from "./help.js";
 import * as move from "./move.js";
 import * as next from "./next.js";
@@ -16,7 +16,7 @@ import * as stop from "./stop.js";
 import * as volume from "./volume.js";
 
 export default {
-  effects,
+  fx,
   help,
   move,
   next,
