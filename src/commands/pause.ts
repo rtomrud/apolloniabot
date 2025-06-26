@@ -2,6 +2,7 @@ import {
   ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  InteractionContextType,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
@@ -10,7 +11,7 @@ import player from "../player.js";
 export const data = new SlashCommandBuilder()
   .setName("pause")
   .setDescription("Pause the playback")
-  .setDMPermission(false);
+  .setContexts(InteractionContextType.Guild);
 
 export const execute = async function (
   interaction: ChatInputCommandInteraction,

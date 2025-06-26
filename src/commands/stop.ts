@@ -2,6 +2,7 @@ import {
   ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  InteractionContextType,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
@@ -12,7 +13,7 @@ export const data = new SlashCommandBuilder()
   .setDescription(
     "Stop the playback, clear the queue and leave the voice channel",
   )
-  .setDMPermission(false);
+  .setContexts(InteractionContextType.Guild);
 
 export const execute = async function (
   interaction: ChatInputCommandInteraction,

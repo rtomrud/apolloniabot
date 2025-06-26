@@ -7,6 +7,7 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
   SlashCommandBuilder,
+  InteractionContextType,
 } from "discord.js";
 import { RepeatMode } from "distube";
 import player from "../player.js";
@@ -34,7 +35,7 @@ export const data = new SlashCommandBuilder()
       .setDescription("The repeat mode")
       .addChoices(...repeatChoices),
   )
-  .setDMPermission(false);
+  .setContexts(InteractionContextType.Guild);
 
 export const execute = async function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,

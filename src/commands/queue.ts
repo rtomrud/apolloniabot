@@ -6,6 +6,7 @@ import {
   ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  InteractionContextType,
   InteractionType,
   SlashCommandBuilder,
   hyperlink,
@@ -20,7 +21,7 @@ export const data = new SlashCommandBuilder()
       .setName("page")
       .setDescription("The page of the queue to show (1 by default)"),
   )
-  .setDMPermission(false);
+  .setContexts(InteractionContextType.Guild);
 
 export const execute = async function (
   interaction: ChatInputCommandInteraction | ButtonInteraction,

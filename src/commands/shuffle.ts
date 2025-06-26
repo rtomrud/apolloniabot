@@ -2,6 +2,7 @@ import {
   ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  InteractionContextType,
   SlashCommandBuilder,
 } from "discord.js";
 import player from "../player.js";
@@ -9,7 +10,7 @@ import player from "../player.js";
 export const data = new SlashCommandBuilder()
   .setName("shuffle")
   .setDescription("Shuffle the queue")
-  .setDMPermission(false);
+  .setContexts(InteractionContextType.Guild);
 
 export const execute = async function (
   interaction: ChatInputCommandInteraction,

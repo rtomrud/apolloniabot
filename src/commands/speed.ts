@@ -7,6 +7,7 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
   SlashCommandBuilder,
+  InteractionContextType,
 } from "discord.js";
 import player from "../player.js";
 
@@ -29,7 +30,7 @@ export const data = new SlashCommandBuilder()
       .setDescription("The playback speed")
       .addChoices(...speedChoices),
   )
-  .setDMPermission(false);
+  .setContexts(InteractionContextType.Guild);
 
 export const execute = async function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,

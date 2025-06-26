@@ -7,6 +7,7 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
   SlashCommandBuilder,
+  InteractionContextType,
 } from "discord.js";
 import player from "../player.js";
 
@@ -20,7 +21,7 @@ export const data = new SlashCommandBuilder()
       .setMaxValue(100)
       .setMinValue(0),
   )
-  .setDMPermission(false);
+  .setContexts(InteractionContextType.Guild);
 
 export const execute = async function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,

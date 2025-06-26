@@ -1,6 +1,7 @@
 import {
   ChatInputCommandInteraction,
   EmbedBuilder,
+  InteractionContextType,
   OAuth2Scopes,
   PermissionsBitField,
   SlashCommandBuilder,
@@ -10,7 +11,7 @@ import player from "../player.js";
 export const data = new SlashCommandBuilder()
   .setName("help")
   .setDescription("Show help")
-  .setDMPermission(false);
+  .setContexts(InteractionContextType.Guild);
 
 export const execute = async function (
   interaction: ChatInputCommandInteraction,

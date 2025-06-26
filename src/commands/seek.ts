@@ -6,6 +6,7 @@ import {
   ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  InteractionContextType,
   InteractionType,
   SlashCommandBuilder,
   hyperlink,
@@ -17,7 +18,7 @@ const defaultTime = 15;
 export const data = new SlashCommandBuilder()
   .setName("seek")
   .setDescription("Seek the current track to the specified time")
-  .setDMPermission(false)
+  .setContexts(InteractionContextType.Guild)
   .addSubcommand((subcommand) =>
     subcommand
       .setName("backward")

@@ -6,6 +6,7 @@ import {
   EmbedBuilder,
   GuildMember,
   GuildTextBasedChannel,
+  InteractionContextType,
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
@@ -23,7 +24,7 @@ export const data = new SlashCommandBuilder()
       .setAutocomplete(true)
       .setRequired(true),
   )
-  .setDMPermission(false);
+  .setContexts(InteractionContextType.Guild);
 
 export const autocomplete = async function (
   interaction: AutocompleteInteraction,

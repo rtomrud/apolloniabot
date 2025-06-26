@@ -3,6 +3,7 @@ import {
   ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  InteractionContextType,
   SlashCommandBuilder,
 } from "discord.js";
 import player from "../player.js";
@@ -23,7 +24,7 @@ export const data = new SlashCommandBuilder()
       .setDescription("The position to move the track to")
       .setRequired(true),
   )
-  .setDMPermission(false);
+  .setContexts(InteractionContextType.Guild);
 
 export const autocomplete = async function (
   interaction: AutocompleteInteraction,

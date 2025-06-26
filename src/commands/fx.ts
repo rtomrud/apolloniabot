@@ -7,6 +7,7 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
   SlashCommandBuilder,
+  InteractionContextType,
 } from "discord.js";
 import player from "../player.js";
 
@@ -33,7 +34,7 @@ export const data = new SlashCommandBuilder()
         "Whether to turn off the audio effect or not (default: False)",
       ),
   )
-  .setDMPermission(false);
+  .setContexts(InteractionContextType.Guild);
 
 export const execute = async function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
