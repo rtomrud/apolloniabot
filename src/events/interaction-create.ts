@@ -8,6 +8,7 @@ import {
   Events,
   Interaction,
   MessageComponentInteraction,
+  MessageFlags,
 } from "discord.js";
 import { DisTubeError } from "distube";
 import commands from "../commands/index.js";
@@ -86,6 +87,7 @@ export const listener = function (interaction: Interaction) {
               )
               .setColor(Colors.Red),
           ],
+          flags: MessageFlags.Ephemeral,
         })
         .catch(console.error);
       return;
