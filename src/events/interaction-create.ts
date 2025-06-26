@@ -74,21 +74,16 @@ export const listener = function (interaction: Interaction) {
   }
 
   if (interaction.isMessageComponent()) {
-    if (interaction.user.id !== interaction.message.interaction?.user.id) {
+    if (
+      interaction.user.id !== interaction.message.interactionMetadata?.user.id
+    ) {
       interaction
         .reply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `Error: Sorry ${interaction.user.toString()}, you can't interact with the command of another user`,
+                `Error: Sorry, you can't interact with the command of another user.`,
               )
-              .setFooter({
-                text: `Run the ${
-                  interaction.message.interaction
-                    ? `/${interaction.message.interaction.commandName}`
-                    : ""
-                } command yourself to interact with it`,
-              })
               .setColor(Colors.Red),
           ],
         })
