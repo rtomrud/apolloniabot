@@ -16,7 +16,6 @@
     "discord.js": "14.18.0",
     "distube": "5.0.7",
     "dotenv": "16.5.0",
-    "libsodium-wrappers": "0.7.15",
     "opusscript": "0.1.1",
     "spotify-uri": "4.1.0",
     "spotify-url-info": "3.2.18",
