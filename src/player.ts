@@ -3,7 +3,6 @@ import { SpotifyPlugin } from "./plugins/spotify-plugin.js";
 import { YtDlpPlugin } from "./plugins/yt-dlp-plugin.js";
 import client from "./client.js";
 
-// @ts-expect-error Wrong typings in lib
 export default new DisTube(client, {
   plugins: [new SpotifyPlugin(), new YtDlpPlugin()],
   savePreviousSongs: false,

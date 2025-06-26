@@ -26,11 +26,11 @@ export const execute = async function (
     });
   }
 
-  queue.resume();
+  await queue.resume();
 
   // Workaround for resume() not working
-  queue.pause();
-  queue.resume();
+  await queue.pause();
+  await queue.resume();
   return interaction.reply({
     embeds: [
       new EmbedBuilder().setDescription(

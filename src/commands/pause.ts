@@ -26,7 +26,7 @@ export const execute = async function (
     });
   }
 
-  queue.pause();
+  await queue.pause();
   return interaction.reply({
     embeds: [
       new EmbedBuilder().setDescription(
