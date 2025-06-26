@@ -7,7 +7,7 @@ import {
 import player from "../player.js";
 
 export const data = new SlashCommandBuilder()
-  .setName("what")
+  .setName("now")
   .setDescription("Show what's playing now")
   .setDMPermission(false);
 
