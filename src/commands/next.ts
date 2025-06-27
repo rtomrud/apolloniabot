@@ -21,7 +21,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: Nothing to skip")
+          .setDescription("No more songs in the queue")
           .setColor(Colors.Red),
       ],
     });

@@ -40,7 +40,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: Nothing is playing")
+          .setDescription("Nothing is playing")
           .setColor(Colors.Red),
       ],
     });

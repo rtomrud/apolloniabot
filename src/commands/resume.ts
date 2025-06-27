@@ -21,7 +21,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: Nothing to resume")
+          .setDescription("Nothing to resume")
           .setColor(Colors.Red),
       ],
     });

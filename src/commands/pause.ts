@@ -21,7 +21,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: Nothing to pause")
+          .setDescription("Nothing to pause")
           .setColor(Colors.Red),
       ],
     });

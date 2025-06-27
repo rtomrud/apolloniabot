@@ -77,7 +77,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: Nothing to move")
+          .setDescription("Nothing to move")
           .setColor(Colors.Red),
       ],
     });
@@ -89,7 +89,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: No such track")
+          .setDescription("No such track")
           .setColor(Colors.Red),
       ],
     });
@@ -99,7 +99,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: No such position")
+          .setDescription("No such position")
           .setColor(Colors.Red),
       ],
     });

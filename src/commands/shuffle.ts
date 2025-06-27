@@ -20,7 +20,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: Nothing to shuffle")
+          .setDescription("Nothing to shuffle")
           .setColor(Colors.Red),
       ],
     });

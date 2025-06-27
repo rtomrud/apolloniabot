@@ -31,7 +31,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: Nothing in queue")
+          .setDescription("No songs in the queue")
           .setColor(Colors.Red),
       ],
     });
@@ -47,7 +47,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: No such page in the queue")
+          .setDescription("No such page in the queue")
           .setColor(Colors.Red),
       ],
     });

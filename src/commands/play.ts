@@ -50,7 +50,7 @@ export const execute = async function (
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            "Error: I can't join you because you're not in a voice channel",
+            "I can't join you because you're not in a voice channel",
           )
           .setColor(Colors.Red),
       ],

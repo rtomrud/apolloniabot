@@ -72,7 +72,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: Nothing to remove")
+          .setDescription("Nothing to remove")
           .setColor(Colors.Red),
       ],
     });
@@ -83,7 +83,7 @@ export const execute = async function (
     return interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Error: No such track")
+          .setDescription("No such track")
           .setColor(Colors.Red),
       ],
     });
