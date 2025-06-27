@@ -28,10 +28,6 @@ export const execute = async function (
   }
 
   await queue.resume();
-
-  // Workaround for resume() not working
-  await queue.pause();
-  await queue.resume();
   return interaction.reply({
     embeds: [
       new EmbedBuilder().setDescription(
