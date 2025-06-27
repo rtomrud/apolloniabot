@@ -22,7 +22,7 @@ const handleError =
     const errorCode = error.errorCode as keyof typeof errors;
     if (
       !errors[errorCode] ||
-      errorCode === "SPOTIFY_PLUGIN_NO_RESULT" ||
+      errorCode === "SPOTIFY_API_ERROR" ||
       errorCode === "YTDLP_ERROR"
     ) {
       console.error(error);

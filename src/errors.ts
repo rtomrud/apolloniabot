@@ -15,6 +15,6 @@ export default {
     "I can't play that because there's no valid track or there's only age-restricted content and this is a SFW channel",
   EMPTY_PLAYLIST: "I can't play that because there's no valid track",
 
-  SPOTIFY_PLUGIN_NO_RESULT: "I can't find that",
+  SPOTIFY_API_ERROR: "I can't find that",
   YTDLP_ERROR: "I can't play that",
 };
