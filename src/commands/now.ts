@@ -2,6 +2,7 @@ import {
   ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  hyperlink,
   InteractionContextType,
   SlashCommandBuilder,
 } from "discord.js";
@@ -29,8 +30,13 @@ export const execute = async function (
   return interaction.reply({
     embeds: [
       new EmbedBuilder()
-        .setTitle(queue.songs[0].name || null)
-        .setURL(queue.songs[0].url || "")
+        .setTitle("Now playing")
+        .setDescription(
+          hyperlink(
+            queue.songs[0].name || queue.songs[0].url || "",
+            queue.songs[0].url || "",
+          ),
+        )
         .addFields(
           {
             name: "Duration",
