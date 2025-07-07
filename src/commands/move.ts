@@ -3,6 +3,7 @@ import {
   ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  hyperlink,
   InteractionContextType,
   SlashCommandBuilder,
 } from "discord.js";
@@ -117,10 +118,11 @@ export const execute = async function (
     await queue.skip();
   }
 
+  const song = queue.songs[to];
   return interaction.reply({
     embeds: [
       new EmbedBuilder().setDescription(
-        `Moved song ${from + 1} to position ${to + 1}`,
+        `Moved ${hyperlink(song.name || song.url || "", song.url || "")} to position ${to + 1}`,
       ),
     ],
   });
