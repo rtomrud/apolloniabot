@@ -61,7 +61,7 @@ export const execute = async function (
       .setTitle("Queue")
       .setDescription(
         `${queue.songs.length} ${
-          queue.songs.length === 1 ? "track" : "tracks"
+          queue.songs.length === 1 ? "song" : "songs"
         } • ${queue.formattedDuration}`,
       )
       .addFields(

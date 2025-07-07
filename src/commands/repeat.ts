@@ -14,7 +14,7 @@ import player from "../player.js";
 
 const repeatModes = {
   off: RepeatMode.DISABLED,
-  track: RepeatMode.SONG,
+  song: RepeatMode.SONG,
   queue: RepeatMode.QUEUE,
 } as const;
 
@@ -23,12 +23,12 @@ type RepeatModes = keyof typeof repeatModes;
 const repeatChoices: { name: string; value: RepeatModes }[] = [
   { name: "off", value: "off" },
   { name: "queue", value: "queue" },
-  { name: "track", value: "track" },
+  { name: "song", value: "song" },
 ];
 
 export const data = new SlashCommandBuilder()
   .setName("repeat")
-  .setDescription("Repeat the queue or current track")
+  .setDescription("Repeat the queue or current song")
   .addStringOption((option) =>
     option
       .setName("repeat")

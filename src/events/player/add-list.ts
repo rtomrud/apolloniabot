@@ -25,7 +25,7 @@ export const listener = async function (queue: Queue, playlist: Playlist) {
           `${playlist.songs[0].name || playlist.songs[0].url}${
             playlist.songs.length > 1
               ? ` and ${playlist.songs.length - 1} more ${
-                  playlist.songs.length - 1 === 1 ? "track" : "tracks"
+                  playlist.songs.length - 1 === 1 ? "song" : "songs"
                 }`
               : ""
           }`,

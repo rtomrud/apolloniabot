@@ -14,12 +14,12 @@ import player from "../player.js";
 
 export const data = new SlashCommandBuilder()
   .setName("play")
-  .setDescription("Play a track or playlist")
+  .setDescription("Play a song or playlist")
   .addStringOption((option) =>
     option
       .setName("query")
       .setDescription(
-        "The URL of a track, or the URL of a playlist on YouTube or Spotify, or a query to search on YouTube",
+        "The URL of a song, or the URL of a playlist on YouTube or Spotify, or a query to search on YouTube",
       )
       .setAutocomplete(true)
       .setRequired(true),

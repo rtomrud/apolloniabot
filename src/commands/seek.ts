@@ -17,7 +17,7 @@ const defaultTime = 15;
 
 export const data = new SlashCommandBuilder()
   .setName("seek")
-  .setDescription("Seek the current track to the specified time")
+  .setDescription("Seek the current song to the specified time")
   .setContexts(InteractionContextType.Guild)
   .addSubcommand((subcommand) =>
     subcommand

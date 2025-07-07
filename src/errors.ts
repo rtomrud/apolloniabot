@@ -10,10 +10,10 @@ export default {
   NON_NSFW:
     "I can't play that because it's age-restricted content and this is a SFW channel",
   NOT_SUPPORTED_URL: "I can't play that because the website is unsupported",
-  CANNOT_RESOLVE_SONG: "I can't play that because the track is unresolved",
+  CANNOT_RESOLVE_SONG: "I can't play that because the song is unresolved",
   EMPTY_FILTERED_PLAYLIST:
-    "I can't play that because there's no valid track or there's only age-restricted content and this is a SFW channel",
-  EMPTY_PLAYLIST: "I can't play that because there's no valid track",
+    "I can't play that because there's no valid songs or there's only age-restricted content and this is a SFW channel",
+  EMPTY_PLAYLIST: "I can't play that because there's no valid songs",
 
   SPOTIFY_API_ERROR: "I can't find that",
   YTDLP_ERROR: "I can't play that",
