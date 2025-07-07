@@ -52,7 +52,7 @@ export class SpotifyPlugin extends InfoExtractorPlugin {
           source: "spotify",
           playFromSource: false,
           id: parsedSpotifyUri.id,
-          name: track.name,
+          name: `${track.name} - ${track.artist}`,
           uploader: {
             name: track.artist,
           },
