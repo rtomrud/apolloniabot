@@ -10,7 +10,7 @@ import player from "../player.js";
 
 export const data = new SlashCommandBuilder()
   .setName("next")
-  .setDescription("Play the next track in the queue")
+  .setDescription("Skip to the next track in the queue")
   .setContexts(InteractionContextType.Guild);
 
 export const execute = async function (
