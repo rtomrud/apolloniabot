@@ -16,7 +16,7 @@
     "@distube/ytsr": "2.0.4",
     "discord.js": "14.21.0",
     "distube": "5.0.7",
-    "dotenv": "16.6.0",
+    "dotenv": "17.0.1",
     "spotify-uri": "4.1.0",
     "spotify-url-info": "3.2.18",
     "undici": "7.11.0"
