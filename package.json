@@ -16,10 +16,10 @@
     "@distube/ytsr": "2.0.4",
     "discord.js": "14.21.0",
     "distube": "5.0.7",
-    "dotenv": "17.0.1",
+    "dotenv": "17.2.0",
     "spotify-uri": "4.1.0",
     "spotify-url-info": "3.2.18",
-    "undici": "7.11.0"
+    "undici": "7.12.0"
   },
   "devDependencies": {
     "@eslint/js": "9.31.0",
