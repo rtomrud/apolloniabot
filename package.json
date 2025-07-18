@@ -4,6 +4,8 @@
   "license": "MIT",
   "scripts": {
     "build": "esbuild --platform=node --packages=external --outdir=dist \"src/**/*.ts\"",
+    "delete-commands": "node --import tsx/esm scripts/delete-commands.ts",
+    "deploy-commands": "node --import tsx/esm scripts/deploy-commands.ts",
     "format": "prettier --check .",
     "lint": "eslint .",
     "start": "node --watch --experimental-modules --import tsx/esm src/index.ts",
