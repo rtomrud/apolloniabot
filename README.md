@@ -15,6 +15,10 @@ A music bot to listen to any song or podcast together with your friends on Disco
 
 The bot needs at least the "Connect", "Embed Links", "Speak", and "Use Application Commands" permissions.
 
+We respect your privacy, so our bot only requests the bare minimum permissions needed for its essential features. Unlike many other Discord bots, it **cannot** access the content of your messages (no _Message Content_ intent and no _Read Messages_ permission), **cannot** monitor who the members of a server are (no _Server Members_ intent), and **cannot** track who is online or offline (no _Presence_ intent). Instead, it interacts with you solely through [Slash Commands](https://discord.com/blog/welcome-to-the-new-era-of-discord-apps) and has no access to any additional data.
+
+We do not collect, store or share your data; see our [Privacy Policy](./PRIVACY.md) for details.
+
 ## Commands
 
 - [/fx](#fx)
