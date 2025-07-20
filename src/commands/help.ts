@@ -27,7 +27,6 @@ export const execute = async function (
               .add([
                 PermissionsBitField.Flags.Connect,
                 PermissionsBitField.Flags.Speak,
-                PermissionsBitField.Flags.UseApplicationCommands,
               ])
               .toArray(),
             scopes: [OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot],

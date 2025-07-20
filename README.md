@@ -11,7 +11,7 @@ A music bot to listen to any song or podcast together with your friends on Disco
 
 ## Invite the bot to your server
 
-[Discord invite link](https://discord.com/oauth2/authorize?client_id=802551830324183062&permissions=2150647808&scope=applications.commands%20bot).
+[Discord invite link](https://discord.com/oauth2/authorize?client_id=802551830324183062).
 
 You have to grant the bot at least the "Connect" and "Speak" permissions so that it can work.
 
