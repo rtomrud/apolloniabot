@@ -36,6 +36,7 @@ We do not collect, store or share your data; see our [Privacy Policy](./PRIVACY.
 - [/shuffle](#shuffle)
 - [/speed](#speed)
 - [/stop](#stop)
+- [/version](#version)
 - [/volume](#volume)
 
 ### /fx
@@ -151,6 +152,10 @@ Options:
 ### /stop
 
 Stop the playback, clear the queue and leave the voice channel.
+
+### /version
+
+Show the version of the bot.
 
 ### /volume
 

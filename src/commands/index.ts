@@ -13,6 +13,7 @@ import * as seek from "./seek.js";
 import * as shuffle from "./shuffle.js";
 import * as speed from "./speed.js";
 import * as stop from "./stop.js";
+import * as version from "./version.js";
 import * as volume from "./volume.js";
 
 export default {
@@ -31,5 +32,6 @@ export default {
   shuffle,
   speed,
   stop,
+  version,
   volume,
 };
