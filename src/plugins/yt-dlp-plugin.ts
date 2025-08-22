@@ -7,7 +7,9 @@ import {
   ResolveOptions,
   Song,
 } from "distube";
-import ytsr from "@distube/ytsr";
+import youtubeSr from "youtube-sr";
+
+const { default: yt } = youtubeSr;
 
 type YtDlpVideo = {
   id: string;
@@ -123,30 +125,22 @@ export class YtDlpPlugin extends ExtractorPlugin {
     query: string,
     options: ResolveOptions<T>,
   ): Promise<Song<T> | null> {
-    const { items } = await ytsr(query, { type: "video", limit: 1 });
-    if (items.length == 0) {
+    const videos = await yt.search(query, { type: "video", limit: 1 });
+    if (videos.length == 0) {
       return null;
     }
 
-    const [info] = items;
+    const [video] = videos;
     return new Song(
       {
         plugin: this,
         source: "youtube",
         playFromSource: true,
-        id: info.id,
-        name: info.name,
-        url: info.url,
-        isLive: info.isLive,
-        duration: info.isLive
-          ? 0
-          : info.duration
-              .split(":")
-              .reduce(
-                (seconds, part, i, { length }) =>
-                  seconds + Number(part) * Math.pow(60, length - i - 1),
-                0,
-              ),
+        id: video.id || "",
+        name: video.title || "",
+        url: video.url,
+        isLive: video.live,
+        duration: video.duration,
       },
       options,
     );

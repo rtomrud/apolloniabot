@@ -1,4 +1,3 @@
-import ytsr from "@distube/ytsr";
 import {
   AutocompleteInteraction,
   ChatInputCommandInteraction,
@@ -10,7 +9,10 @@ import {
   SlashCommandBuilder,
   hyperlink,
 } from "discord.js";
+import youtubeSr from "youtube-sr";
 import player from "../player.js";
+
+const { default: yt } = youtubeSr;
 
 export const data = new SlashCommandBuilder()
   .setName("play")
@@ -34,9 +36,9 @@ export const autocomplete = async function (
     return interaction.respond([]);
   }
 
-  const { items } = await ytsr(query, { type: "video", limit: 10 });
+  const videos = await yt.search(query, { type: "video", limit: 10 });
   return interaction.respond(
-    items.map(({ name, url }) => ({ name, value: url })),
+    videos.map(({ title, url }) => ({ name: title || "", value: url })),
   );
 };
 
