@@ -15,6 +15,7 @@
   "dependencies": {
     "@discordjs/opus": "0.10.0",
     "@discordjs/voice": "0.19.0",
+    "@snazzah/davey": "0.1.6",
     "discord.js": "14.22.1",
     "distube": "5.0.7",
     "dotenv": "17.2.1",
