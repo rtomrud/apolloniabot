@@ -42,7 +42,10 @@ export class SpotifyPlugin extends InfoExtractorPlugin {
     options: ResolveOptions<T>,
   ): Promise<Song<T> | Playlist<T>> {
     const tracks = await getTracks(url).catch((error: Error) => {
-      throw new DisTubeError("SPOTIFY_API_ERROR", `${error.name}: ${error.message}`);
+      throw new DisTubeError(
+        "SPOTIFY_API_ERROR",
+        `${error.name}: ${error.message}`,
+      );
     });
     const songs = tracks.map((track) => {
       const parsedSpotifyUri = parse(track.uri);

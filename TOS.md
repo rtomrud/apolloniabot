@@ -49,4 +49,3 @@ These Terms are governed by Spanish law. Any disputes shall be resolved in the c
 For questions, contact us at <apolloniabot@gmail.com>.
 
 Last updated: 19 July, 2025.
-

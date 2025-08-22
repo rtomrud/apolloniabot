@@ -47,4 +47,3 @@ We do not do any automated decision-making or profiling based on your Discord ID
 ## Changes to this Policy
 
 This policy was last updated on July 19, 2025. We will notify you of changes to this policy via our website, app updates and our Discord support server.
-

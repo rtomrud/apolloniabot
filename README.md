@@ -195,7 +195,6 @@ npm run deploy-commands
 
 _Note that you only have to do this step once._
 
-
 To start the bot, run:
 
 ```bash
@@ -214,4 +213,3 @@ docker compose up -d
 ## Featured in
 
 [Winner of the Best Technical Implementation](https://devpost.com/software/apollonia-bot) prize ($1,500 USD) at the [AWS Graviton Hackathon](https://awsgraviton.devpost.com/).
-
