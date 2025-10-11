@@ -15,13 +15,13 @@
   "dependencies": {
     "@discordjs/opus": "0.10.0",
     "@discordjs/voice": "0.19.0",
-    "@snazzah/davey": "0.1.6",
-    "discord.js": "14.22.1",
+    "@snazzah/davey": "0.1.7",
+    "discord.js": "14.23.2",
     "distube": "5.0.7",
-    "dotenv": "17.2.1",
+    "dotenv": "17.2.3",
     "spotify-uri": "4.1.0",
     "spotify-url-info": "3.2.18",
-    "undici": "7.15.0",
+    "undici": "7.16.0",
     "youtube-sr": "4.3.12"
   },
   "devDependencies": {
