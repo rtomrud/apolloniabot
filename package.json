@@ -19,6 +19,8 @@
     "discord.js": "14.23.2",
     "distube": "5.0.7",
     "dotenv": "17.2.3",
+    "duration-to-seconds": "2.0.0",
+    "node-html-parser": "^7.0.1",
     "spotify-uri": "4.1.0",
     "spotify-url-info": "3.2.18",
     "undici": "7.16.0",
