@@ -91,7 +91,7 @@ export const execute = async function (
       : subcommand === "forward"
         ? queue.currentTime + seconds
         : seconds;
-  queue.seek(Math.max(0, Math.min(newTime, queue.songs[0].duration)));
+  await queue.seek(Math.max(0, Math.min(newTime, queue.songs[0].duration)));
   const embeds = [
     new EmbedBuilder().setDescription(
       `Seeked to ${queue.formattedCurrentTime} in ${hyperlink(
