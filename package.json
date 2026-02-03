@@ -20,10 +20,10 @@
     "distube": "5.2.3",
     "dotenv": "17.2.3",
     "duration-to-seconds": "2.0.0",
-    "node-html-parser": "^7.0.1",
+    "node-html-parser": "7.0.2",
     "spotify-uri": "4.1.0",
     "spotify-url-info": "3.2.18",
-    "undici": "7.16.0",
+    "undici": "7.20.0",
     "youtube-sr": "4.3.12"
   },
   "devDependencies": {
