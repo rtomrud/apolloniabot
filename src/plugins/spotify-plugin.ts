@@ -5,23 +5,13 @@ import {
   ResolveOptions,
   Song,
 } from "distube";
-// @ts-expect-error No typings
 import spotifyUrlInfo from "spotify-url-info";
-
 import { parse, formatOpenURL } from "spotify-uri";
 import { fetch } from "undici";
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-const { getTracks } = spotifyUrlInfo(fetch) as {
-  getTracks: (url: string) => Promise<
-    Array<{
-      artist: string;
-      duration: number;
-      name: string;
-      uri: string;
-    }>
-  >;
-};
+import type { SpotifyUrlInfoModule } from "spotify-url-info";
+
+const { getTracks } = (spotifyUrlInfo as SpotifyUrlInfoModule)(fetch);
 
 export class SpotifyPlugin extends InfoExtractorPlugin {
   regExp: RegExp;
@@ -60,7 +50,7 @@ export class SpotifyPlugin extends InfoExtractorPlugin {
             name: track.artist,
           },
           url: formatOpenURL(parsedSpotifyUri),
-          duration: track.duration / 1000,
+          duration: (track.duration || 0) / 1000,
         },
         options,
       );
