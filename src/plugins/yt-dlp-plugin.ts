@@ -1,10 +1,8 @@
-import { execFile as execFileCallback } from "child_process";
-import { promisify } from "util";
 import {
   DisTubeError,
   ExtractorPlugin,
   Playlist,
-  ResolveOptions,
+  type ResolveOptions,
   Song,
 } from "distube";
 import youtubeSr from "youtube-sr";
@@ -27,10 +25,8 @@ type YtDlpPlaylist = {
   url: string;
 };
 
-const execFile = promisify(execFileCallback);
-
 const cache: Map<string, string> = new Map();
-const timeouts: Map<string, NodeJS.Timeout> = new Map();
+const timeouts: Map<string, number> = new Map();
 
 export class YtDlpPlugin extends ExtractorPlugin {
   regExp: RegExp;
@@ -43,6 +39,20 @@ export class YtDlpPlugin extends ExtractorPlugin {
     this.binaryPath = binaryPath;
   }
 
+  private async runYtDlp(args: string[]): Promise<string> {
+    const result = await new Deno.Command(this.binaryPath, {
+      args,
+      stdout: "piped",
+      stderr: "piped",
+    }).output();
+    if (!result.success) {
+      const stdout = new TextDecoder().decode(result.stdout);
+      const stderr = new TextDecoder().decode(result.stderr);
+      throw new DisTubeError("YTDLP_ERROR", stderr || stdout);
+    }
+    return new TextDecoder().decode(result.stdout);
+  }
+
   override validate(url: string): boolean {
     return this.regExp.test(url);
   }
@@ -51,23 +61,17 @@ export class YtDlpPlugin extends ExtractorPlugin {
     url: string,
     options: ResolveOptions<T>,
   ): Promise<Song<T> | Playlist<T>> {
-    const { stdout } = await execFile(
-      this.binaryPath,
-      [
-        url,
-        "--format=ba[acodec=opus]/ba/b[acodec=opus]/b",
-        "--default-search=auto",
-        "--dump-single-json",
-        "--no-warnings",
-        "--prefer-free-formats",
-        ...(/^https?:\/\/(((www|music|m)\.youtube\.com)|youtu\.be)/.test(url)
-          ? ["--flat-playlist"]
-          : []),
-      ],
-      { windowsHide: true, maxBuffer: 1024 * 1024 * 10 },
-    ).catch(({ stdout, stderr }: { stdout: string; stderr: string }) => {
-      throw new DisTubeError("YTDLP_ERROR", stderr || stdout);
-    });
+    const stdout = await this.runYtDlp([
+      url,
+      "--format=ba[acodec=opus]/ba/b[acodec=opus]/b",
+      "--default-search=auto",
+      "--dump-single-json",
+      "--no-warnings",
+      "--prefer-free-formats",
+      ...(/^https?:\/\/(((www|music|m)\.youtube\.com)|youtu\.be)/.test(url)
+        ? ["--flat-playlist"]
+        : []),
+    ]);
     const info = JSON.parse(stdout) as YtDlpPlaylist;
     if (Array.isArray(info.entries) && !info.extractor.includes("search")) {
       return new Playlist(
@@ -152,19 +156,13 @@ export class YtDlpPlugin extends ExtractorPlugin {
       return cachedUrl;
     }
 
-    const { stdout } = await execFile(
-      this.binaryPath,
-      [
-        song.url || "",
-        "--format=ba[acodec=opus]/ba/b[acodec=opus]/b",
-        "--dump-single-json",
-        "--no-warnings",
-        "--prefer-free-formats",
-      ],
-      { windowsHide: true, maxBuffer: 1024 * 1024 * 10 },
-    ).catch(({ stdout, stderr }: { stdout: string; stderr: string }) => {
-      throw new DisTubeError("YTDLP_ERROR", stderr || stdout);
-    });
+    const stdout = await this.runYtDlp([
+      song.url || "",
+      "--format=ba[acodec=opus]/ba/b[acodec=opus]/b",
+      "--dump-single-json",
+      "--no-warnings",
+      "--prefer-free-formats",
+    ]);
     const info = JSON.parse(stdout) as { url: string };
     if (!info.url) {
       throw new DisTubeError(

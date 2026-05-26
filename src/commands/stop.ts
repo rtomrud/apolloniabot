@@ -1,12 +1,12 @@
 import {
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  hyperlink,
   InteractionContextType,
   SlashCommandBuilder,
-  hyperlink,
 } from "discord.js";
-import player from "../player.js";
+import player from "../player.ts";
 
 export const data = new SlashCommandBuilder()
   .setName("stop")
@@ -35,10 +35,12 @@ export const execute = async function (
     embeds: [
       new EmbedBuilder().setDescription(
         queue.playing
-          ? `Stopped ${hyperlink(
+          ? `Stopped ${
+            hyperlink(
               queue.songs[0].name || queue.songs[0].url || "",
               queue.songs[0].url || "",
-            )} at ${queue.formattedCurrentTime}`
+            )
+          } at ${queue.formattedCurrentTime}`
           : "Stopped",
       ),
     ],

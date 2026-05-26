@@ -1,16 +1,16 @@
 import {
-  AutocompleteInteraction,
-  ChatInputCommandInteraction,
+  type AutocompleteInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
-  GuildMember,
-  GuildTextBasedChannel,
+  type GuildMember,
+  type GuildTextBasedChannel,
+  hyperlink,
   InteractionContextType,
   SlashCommandBuilder,
-  hyperlink,
 } from "discord.js";
 import youtubeSr from "youtube-sr";
-import player from "../player.js";
+import player from "../player.ts";
 
 const { default: yt } = youtubeSr;
 
@@ -24,7 +24,7 @@ export const data = new SlashCommandBuilder()
         "The URL of a song, or the URL of a playlist on YouTube or Spotify, or a query to search on YouTube",
       )
       .setAutocomplete(true)
-      .setRequired(true),
+      .setRequired(true)
   )
   .setContexts(InteractionContextType.Guild);
 
@@ -60,15 +60,16 @@ export const execute = async function (
   }
 
   const [url] = query.split(" ");
-  const searchUrl =
-    URL.canParse(url) && url.startsWith("http")
-      ? url
-      : hyperlink(
-          query,
-          `https://www.youtube.com/results?${String(
-            new URLSearchParams({ search_query: query }),
-          )}`,
-        );
+  const searchUrl = URL.canParse(url) && url.startsWith("http")
+    ? url
+    : hyperlink(
+      query,
+      `https://www.youtube.com/results?${
+        String(
+          new URLSearchParams({ search_query: query }),
+        )
+      }`,
+    );
   const interactionResponse = interaction
     .reply({
       embeds: [new EmbedBuilder().setDescription(`Searching "${searchUrl}"`)],

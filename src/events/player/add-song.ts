@@ -1,10 +1,10 @@
 import {
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   EmbedBuilder,
-  InteractionResponse,
   hyperlink,
+  type InteractionResponse,
 } from "discord.js";
-import { Events, Queue, Song } from "distube";
+import { Events, type Queue, type Song } from "distube";
 
 export const event = Events.ADD_SONG;
 
@@ -19,10 +19,12 @@ export const listener = async function (queue: Queue, song: Song) {
   await interaction.followUp({
     embeds: [
       new EmbedBuilder().setDescription(
-        `${queue.songs[0] === song ? "Playing" : "Queued"} ${hyperlink(
-          song.name || song.url || "",
-          song.url || "",
-        )}`,
+        `${queue.songs[0] === song ? "Playing" : "Queued"} ${
+          hyperlink(
+            song.name || song.url || "",
+            song.url || "",
+          )
+        }`,
       ),
     ],
   });

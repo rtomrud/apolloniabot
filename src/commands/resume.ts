@@ -1,12 +1,12 @@
 import {
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  hyperlink,
   InteractionContextType,
   SlashCommandBuilder,
-  hyperlink,
 } from "discord.js";
-import player from "../player.js";
+import player from "../player.ts";
 
 export const data = new SlashCommandBuilder()
   .setName("resume")
@@ -31,10 +31,12 @@ export const execute = async function (
   return interaction.reply({
     embeds: [
       new EmbedBuilder().setDescription(
-        `Resumed ${hyperlink(
-          queue.songs[0].name || queue.songs[0].url || "",
-          queue.songs[0].url || "",
-        )} at ${queue.formattedCurrentTime}`,
+        `Resumed ${
+          hyperlink(
+            queue.songs[0].name || queue.songs[0].url || "",
+            queue.songs[0].url || "",
+          )
+        } at ${queue.formattedCurrentTime}`,
       ),
     ],
   });

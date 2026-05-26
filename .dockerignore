@@ -1,4 +1,4 @@
 **
-!package*.json
+!deno.json
+!deno.lock
 !src
-!tsconfig*.json

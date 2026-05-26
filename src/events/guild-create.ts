@@ -1,4 +1,4 @@
-import { Events, Guild } from "discord.js";
+import { Events, type Guild } from "discord.js";
 
 export const event = Events.GuildCreate;
 

@@ -1,5 +1,5 @@
-import { describe, it } from "node:test";
-
-void describe("apolloniabot", () => {
-  void it.todo("should connect", () => {});
+Deno.test({
+  name: "apolloniabot should connect",
+  ignore: true,
+  fn: () => {},
 });

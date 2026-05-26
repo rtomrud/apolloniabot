@@ -1,6 +1,8 @@
 import { Client, GatewayIntentBits } from "discord.js";
 
-export default new Client({
+const client: Client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
   shards: "auto",
 });
+
+export default client;

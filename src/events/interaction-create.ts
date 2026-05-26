@@ -1,18 +1,18 @@
 import {
-  AutocompleteInteraction,
-  ChatInputCommandInteraction,
+  type AutocompleteInteraction,
+  type ChatInputCommandInteraction,
   Colors,
-  DiscordjsError,
+  type DiscordjsError,
   DiscordjsErrorCodes,
   EmbedBuilder,
   Events,
-  Interaction,
-  MessageComponentInteraction,
+  type Interaction,
+  type MessageComponentInteraction,
   MessageFlags,
 } from "discord.js";
-import { DisTubeError } from "distube";
-import commands from "../commands/index.js";
-import errors from "../errors.js";
+import type { DisTubeError } from "distube";
+import commands from "../commands/index.ts";
+import errors from "../errors.ts";
 
 export const event = Events.InteractionCreate;
 
@@ -77,8 +77,8 @@ export const listener = function (interaction: Interaction) {
         data: interaction.isChatInputCommand()
           ? interaction.toString()
           : interaction.isAnySelectMenu()
-            ? `${interaction.customId}${interaction.values.join()}`
-            : interaction.customId,
+          ? `${interaction.customId}${interaction.values.join()}`
+          : interaction.customId,
         user: interaction.user.tag,
         userId: interaction.user.id,
         guild: interaction.guild?.name,

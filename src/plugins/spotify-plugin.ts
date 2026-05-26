@@ -2,12 +2,11 @@ import {
   DisTubeError,
   InfoExtractorPlugin,
   Playlist,
-  ResolveOptions,
+  type ResolveOptions,
   Song,
 } from "distube";
 import spotifyUrlInfo from "spotify-url-info";
-import { parse, formatOpenURL } from "spotify-uri";
-import { fetch } from "undici";
+import { formatOpenURL, parse } from "spotify-uri";
 
 import type { SpotifyUrlInfoModule } from "spotify-url-info";
 
@@ -17,7 +16,8 @@ export class SpotifyPlugin extends InfoExtractorPlugin {
   regExp: RegExp;
 
   constructor({
-    regExp = /^https?:\/\/(open|play)\.spotify\.com\/(?<type>album|artist|episode|playlist|show|track)\/(?<id>[a-zA-Z0-9]+)\??.*$/,
+    regExp =
+      /^https?:\/\/(open|play)\.spotify\.com\/(?<type>album|artist|episode|playlist|show|track)\/(?<id>[a-zA-Z0-9]+)\??.*$/,
   } = {}) {
     super();
     this.regExp = regExp;

@@ -1,16 +1,11 @@
-import { execFile as execFileCallback } from "child_process";
-import { readFile } from "fs/promises";
-import { promisify } from "util";
 import {
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
   InteractionContextType,
   SlashCommandBuilder,
 } from "discord.js";
-import player from "../player.js";
-
-const execFile = promisify(execFileCallback);
+import player from "../player.ts";
 
 const versions = { package: "", ytDlp: "", ffmpeg: "" };
 
@@ -23,14 +18,17 @@ export const execute = async function (
   interaction: ChatInputCommandInteraction,
 ) {
   if (!versions.package) {
-    const [packageJson, ytDlp, ffmpeg] = await Promise.all([
-      readFile("package.json", "utf8"),
-      execFile("yt-dlp", ["--version"], { windowsHide: true }),
-      execFile("ffmpeg", ["-version"], { windowsHide: true }),
+    const dec = new TextDecoder();
+    const [denoJson, ytDlpOutput, ffmpegOutput] = await Promise.all([
+      Deno.readTextFile("deno.json"),
+      new Deno.Command("yt-dlp", { args: ["--version"], stdout: "piped" })
+        .output(),
+      new Deno.Command("ffmpeg", { args: ["-version"], stdout: "piped" })
+        .output(),
     ]);
-    versions.package = (JSON.parse(packageJson) as { version: string }).version;
-    versions.ytDlp = ytDlp.stdout;
-    versions.ffmpeg = ffmpeg.stdout;
+    versions.package = (JSON.parse(denoJson) as { version: string }).version;
+    versions.ytDlp = dec.decode(ytDlpOutput.stdout);
+    versions.ffmpeg = dec.decode(ffmpegOutput.stdout);
   }
 
   return interaction.reply({

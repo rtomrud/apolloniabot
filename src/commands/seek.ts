@@ -1,17 +1,17 @@
 import {
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonInteraction,
+  type ButtonInteraction,
   ButtonStyle,
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  hyperlink,
   InteractionContextType,
   InteractionType,
   SlashCommandBuilder,
-  hyperlink,
 } from "discord.js";
-import player from "../player.js";
+import player from "../player.ts";
 
 const defaultTime = 15;
 
@@ -28,8 +28,8 @@ export const data = new SlashCommandBuilder()
           .setName("time")
           .setDescription(
             `The time to seek backward by, in seconds or in HH:MM:SS format (${defaultTime}s by default)`,
-          ),
-      ),
+          )
+      )
   )
   .addSubcommand((subcommand) =>
     subcommand
@@ -40,8 +40,8 @@ export const data = new SlashCommandBuilder()
           .setName("time")
           .setDescription(
             `The time to seek forward by, in seconds or in HH:MM:SS format (${defaultTime}s by default)`,
-          ),
-      ),
+          )
+      )
   )
   .addSubcommand((subcommand) =>
     subcommand
@@ -51,8 +51,8 @@ export const data = new SlashCommandBuilder()
         option
           .setName("time")
           .setDescription("The time to seek, in seconds or in HH:MM:SS format")
-          .setRequired(true),
-      ),
+          .setRequired(true)
+      )
   );
 
 export const execute = async function (
@@ -69,11 +69,10 @@ export const execute = async function (
     });
   }
 
-  const time =
-    interaction.type === InteractionType.ApplicationCommand
-      ? interaction.options.getString("time") || String(defaultTime)
-      : interaction.customId.match(/seek .*time:(-?\d+)/)?.[1] ||
-        String(defaultTime);
+  const time = interaction.type === InteractionType.ApplicationCommand
+    ? interaction.options.getString("time") || String(defaultTime)
+    : interaction.customId.match(/seek .*time:(-?\d+)/)?.[1] ||
+      String(defaultTime);
   const seconds = time
     .split(":")
     .reduce(
@@ -81,23 +80,23 @@ export const execute = async function (
         seconds + Number(component) * 60 ** (length - i - 1),
       0,
     );
-  const subcommand =
-    interaction.type === InteractionType.ApplicationCommand
-      ? interaction.options.getSubcommand(true)
-      : interaction.customId.match(/seek (backward|forward|to)/)?.[1];
-  const newTime =
-    subcommand === "backward"
-      ? queue.currentTime - seconds
-      : subcommand === "forward"
-        ? queue.currentTime + seconds
-        : seconds;
+  const subcommand = interaction.type === InteractionType.ApplicationCommand
+    ? interaction.options.getSubcommand(true)
+    : interaction.customId.match(/seek (backward|forward|to)/)?.[1];
+  const newTime = subcommand === "backward"
+    ? queue.currentTime - seconds
+    : subcommand === "forward"
+    ? queue.currentTime + seconds
+    : seconds;
   await queue.seek(Math.max(0, Math.min(newTime, queue.songs[0].duration)));
   const embeds = [
     new EmbedBuilder().setDescription(
-      `Seeked to ${queue.formattedCurrentTime} in ${hyperlink(
-        queue.songs[0].name || queue.songs[0].url || "",
-        queue.songs[0].url || "",
-      )}`,
+      `Seeked to ${queue.formattedCurrentTime} in ${
+        hyperlink(
+          queue.songs[0].name || queue.songs[0].url || "",
+          queue.songs[0].url || "",
+        )
+      }`,
     ),
   ];
   const components = [

@@ -1,20 +1,20 @@
-import * as fx from "./fx.js";
-import * as help from "./help.js";
-import * as move from "./move.js";
-import * as next from "./next.js";
-import * as now from "./now.js";
-import * as pause from "./pause.js";
-import * as play from "./play.js";
-import * as queue from "./queue.js";
-import * as remove from "./remove.js";
-import * as repeat from "./repeat.js";
-import * as resume from "./resume.js";
-import * as seek from "./seek.js";
-import * as shuffle from "./shuffle.js";
-import * as speed from "./speed.js";
-import * as stop from "./stop.js";
-import * as version from "./version.js";
-import * as volume from "./volume.js";
+import * as fx from "./fx.ts";
+import * as help from "./help.ts";
+import * as move from "./move.ts";
+import * as next from "./next.ts";
+import * as now from "./now.ts";
+import * as pause from "./pause.ts";
+import * as play from "./play.ts";
+import * as queue from "./queue.ts";
+import * as remove from "./remove.ts";
+import * as repeat from "./repeat.ts";
+import * as resume from "./resume.ts";
+import * as seek from "./seek.ts";
+import * as shuffle from "./shuffle.ts";
+import * as speed from "./speed.ts";
+import * as stop from "./stop.ts";
+import * as version from "./version.ts";
+import * as volume from "./volume.ts";
 
 export default {
   fx,

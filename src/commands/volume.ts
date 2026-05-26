@@ -1,15 +1,15 @@
 import {
   ActionRowBuilder,
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
-  InteractionType,
-  StringSelectMenuBuilder,
-  StringSelectMenuInteraction,
-  SlashCommandBuilder,
   InteractionContextType,
+  InteractionType,
+  SlashCommandBuilder,
+  StringSelectMenuBuilder,
+  type StringSelectMenuInteraction,
 } from "discord.js";
-import player from "../player.js";
+import player from "../player.ts";
 
 export const data = new SlashCommandBuilder()
   .setName("volume")
@@ -19,11 +19,11 @@ export const data = new SlashCommandBuilder()
       .setName("volume")
       .setDescription("The volume to set (between 0 and 100)")
       .setMaxValue(100)
-      .setMinValue(0),
+      .setMinValue(0)
   )
   .setContexts(InteractionContextType.Guild);
 
-export const execute = async function (
+export const execute = function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
 ) {
   const queue = player.queues.get(interaction.guildId as string);
@@ -37,10 +37,9 @@ export const execute = async function (
     });
   }
 
-  const volume =
-    interaction.type === InteractionType.ApplicationCommand
-      ? interaction.options.getInteger("volume")
-      : Number(interaction.values[0]);
+  const volume = interaction.type === InteractionType.ApplicationCommand
+    ? interaction.options.getInteger("volume")
+    : Number(interaction.values[0]);
   if (volume != null) {
     queue.setVolume(volume);
   }

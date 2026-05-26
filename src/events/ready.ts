@@ -1,4 +1,4 @@
-import { Client, Events } from "discord.js";
+import { type Client, Events } from "discord.js";
 
 export const event = Events.ClientReady;
 

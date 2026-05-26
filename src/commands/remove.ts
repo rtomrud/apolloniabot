@@ -1,13 +1,13 @@
 import {
-  AutocompleteInteraction,
-  ChatInputCommandInteraction,
+  type AutocompleteInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  hyperlink,
   InteractionContextType,
   SlashCommandBuilder,
-  hyperlink,
 } from "discord.js";
-import player from "../player.js";
+import player from "../player.ts";
 
 export const data = new SlashCommandBuilder()
   .setName("remove")
@@ -17,11 +17,11 @@ export const data = new SlashCommandBuilder()
       .setName("song")
       .setDescription("The position of the song to remove")
       .setAutocomplete(true)
-      .setRequired(true),
+      .setRequired(true)
   )
   .setContexts(InteractionContextType.Guild);
 
-export const autocomplete = async function (
+export const autocomplete = function (
   interaction: AutocompleteInteraction,
 ) {
   const songOption = interaction.options.getFocused();
@@ -41,10 +41,9 @@ export const autocomplete = async function (
 
   const songNumber = Number(songOption);
   if (Number.isInteger(songNumber)) {
-    const index =
-      songNumber < 0
-        ? Math.max(0, queue.songs.length + songNumber)
-        : songNumber - 1;
+    const index = songNumber < 0
+      ? Math.max(0, queue.songs.length + songNumber)
+      : songNumber - 1;
     const song = queue.songs[index];
     return interaction.respond([
       { name: `${index + 1}. ${song.name || ""}`, value: String(index + 1) },
@@ -53,7 +52,7 @@ export const autocomplete = async function (
 
   const songs = queue.songs
     .filter((song) =>
-      song.name?.toLowerCase().includes(songOption.toLowerCase()),
+      song.name?.toLowerCase().includes(songOption.toLowerCase())
     )
     .slice(0, 10)
     .map((song) => {
@@ -89,10 +88,9 @@ export const execute = async function (
     });
   }
 
-  const start =
-    songNumber < 0
-      ? Math.max(0, queue.songs.length + songNumber)
-      : songNumber - 1;
+  const start = songNumber < 0
+    ? Math.max(0, queue.songs.length + songNumber)
+    : songNumber - 1;
   const song = queue.songs[start];
   if (start === 0) {
     if (queue.songs.length <= 1 && !queue.autoplay) {

@@ -2,7 +2,7 @@ import {
   DisTubeError,
   InfoExtractorPlugin,
   Playlist,
-  ResolveOptions,
+  type ResolveOptions,
   Song,
 } from "distube";
 import durationToSeconds from "duration-to-seconds";

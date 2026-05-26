@@ -1,4 +1,4 @@
-import { Events, Queue } from "distube";
+import { Events, type Queue } from "distube";
 
 export const event = Events.DISCONNECT;
 

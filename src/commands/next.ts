@@ -1,12 +1,12 @@
 import {
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  hyperlink,
   InteractionContextType,
   SlashCommandBuilder,
-  hyperlink,
 } from "discord.js";
-import player from "../player.js";
+import player from "../player.ts";
 
 export const data = new SlashCommandBuilder()
   .setName("next")

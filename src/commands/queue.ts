@@ -1,17 +1,17 @@
 import {
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonInteraction,
+  type ButtonInteraction,
   ButtonStyle,
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
+  hyperlink,
   InteractionContextType,
   InteractionType,
   SlashCommandBuilder,
-  hyperlink,
 } from "discord.js";
-import player from "../player.js";
+import player from "../player.ts";
 
 export const data = new SlashCommandBuilder()
   .setName("queue")
@@ -19,11 +19,11 @@ export const data = new SlashCommandBuilder()
   .addIntegerOption((option) =>
     option
       .setName("page")
-      .setDescription("The page of the queue to show (1 by default)"),
+      .setDescription("The page of the queue to show (1 by default)")
   )
   .setContexts(InteractionContextType.Guild);
 
-export const execute = async function (
+export const execute = function (
   interaction: ChatInputCommandInteraction | ButtonInteraction,
 ) {
   const queue = player.queues.get(interaction.guildId as string);
@@ -37,10 +37,9 @@ export const execute = async function (
     });
   }
 
-  const page =
-    interaction.type === InteractionType.ApplicationCommand
-      ? interaction.options.getInteger("page") || 1
-      : Number(interaction.customId.match(/queue page:(-?\d+)/)?.[1]) || 1;
+  const page = interaction.type === InteractionType.ApplicationCommand
+    ? interaction.options.getInteger("page") || 1
+    : Number(interaction.customId.match(/queue page:(-?\d+)/)?.[1]) || 1;
   const pageSize = 10;
   const pageCount = Math.ceil(queue.songs.length / pageSize);
   if (!(page !== 0 && page <= pageCount)) {
@@ -74,33 +73,30 @@ export const execute = async function (
       )
       .setFooter({ text: `Page ${pageIndex + 1} of ${pageCount}` }),
   ];
-  const components =
-    pageCount === 1
-      ? []
-      : [
-          new ActionRowBuilder<ButtonBuilder>().addComponents(
-            new ButtonBuilder()
-              .setCustomId("/queue")
-              .setLabel("<< First")
-              .setStyle(ButtonStyle.Secondary)
-              .setDisabled(pageIndex === 0),
-            new ButtonBuilder()
-              .setCustomId(`/queue page:${pageIndex}`)
-              .setLabel("< Prev")
-              .setStyle(ButtonStyle.Secondary)
-              .setDisabled(pageIndex === 0),
-            new ButtonBuilder()
-              .setCustomId(`/queue page:${pageIndex + 2}`)
-              .setLabel("Next >")
-              .setStyle(ButtonStyle.Secondary)
-              .setDisabled(pageIndex === pageCount - 1),
-            new ButtonBuilder()
-              .setCustomId(`/queue page:-1`)
-              .setLabel("Last >>")
-              .setStyle(ButtonStyle.Secondary)
-              .setDisabled(pageIndex === pageCount - 1),
-          ),
-        ];
+  const components = pageCount === 1 ? [] : [
+    new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId("/queue")
+        .setLabel("<< First")
+        .setStyle(ButtonStyle.Secondary)
+        .setDisabled(pageIndex === 0),
+      new ButtonBuilder()
+        .setCustomId(`/queue page:${pageIndex}`)
+        .setLabel("< Prev")
+        .setStyle(ButtonStyle.Secondary)
+        .setDisabled(pageIndex === 0),
+      new ButtonBuilder()
+        .setCustomId(`/queue page:${pageIndex + 2}`)
+        .setLabel("Next >")
+        .setStyle(ButtonStyle.Secondary)
+        .setDisabled(pageIndex === pageCount - 1),
+      new ButtonBuilder()
+        .setCustomId(`/queue page:-1`)
+        .setLabel("Last >>")
+        .setStyle(ButtonStyle.Secondary)
+        .setDisabled(pageIndex === pageCount - 1),
+    ),
+  ];
   return interaction.type === InteractionType.ApplicationCommand
     ? interaction.reply({ embeds, components })
     : interaction.update({ embeds, components });

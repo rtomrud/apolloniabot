@@ -1,12 +1,12 @@
 import {
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   EmbedBuilder,
   InteractionContextType,
   OAuth2Scopes,
   PermissionsBitField,
   SlashCommandBuilder,
 } from "discord.js";
-import player from "../player.js";
+import player from "../player.ts";
 
 export const data = new SlashCommandBuilder()
   .setName("help")
@@ -35,7 +35,7 @@ export const execute = async function (
         .addFields(
           Array.from(commands || [])
             .sort(([, a], [, b]) =>
-              a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
+              a.name < b.name ? -1 : a.name > b.name ? 1 : 0
             )
             .map(([, command]) => ({
               name: `/${command.name}`,

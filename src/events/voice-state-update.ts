@@ -1,6 +1,6 @@
-import { Events, VoiceState } from "discord.js";
+import { Events, type VoiceState } from "discord.js";
 import { isVoiceChannelEmpty } from "distube";
-import player from "../player.js";
+import player from "../player.ts";
 
 export const event = Events.VoiceStateUpdate;
 

@@ -1,10 +1,10 @@
 import { DisTube } from "distube";
-import { AppleMusicPlugin } from "./plugins/apple-music-plugin.js";
-import { SpotifyPlugin } from "./plugins/spotify-plugin.js";
-import { YtDlpPlugin } from "./plugins/yt-dlp-plugin.js";
-import client from "./client.js";
+import { AppleMusicPlugin } from "./plugins/apple-music-plugin.ts";
+import { SpotifyPlugin } from "./plugins/spotify-plugin.ts";
+import { YtDlpPlugin } from "./plugins/yt-dlp-plugin.ts";
+import client from "./client.ts";
 
-export default new DisTube(client, {
+const player: DisTube = new DisTube(client, {
   plugins: [new AppleMusicPlugin(), new SpotifyPlugin(), new YtDlpPlugin()],
   savePreviousSongs: false,
   customFilters: {
@@ -17,3 +17,5 @@ export default new DisTube(client, {
   },
   nsfw: true,
 });
+
+export default player;

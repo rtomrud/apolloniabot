@@ -1,0 +1,26 @@
+{
+  "name": "apolloniabot",
+  "version": "0.1.0",
+  "license": "MIT",
+  "exports": "./src/index.ts",
+  "tasks": {
+    "start": "deno run --watch --env-file --allow-env --allow-ffi --allow-net --allow-read --allow-run src/index.ts",
+    "delete-commands": "deno run --env-file --allow-env --allow-net --allow-read scripts/delete-commands.ts",
+    "deploy-commands": "deno run --env-file --allow-env --allow-ffi --allow-net --allow-read scripts/deploy-commands.ts",
+    "test": "deno test --allow-env --coverage"
+  },
+  "imports": {
+    "@discordjs/voice": "npm:@discordjs/voice@0.19.2",
+    "opusscript": "npm:opusscript@0.1.1",
+    "@snazzah/davey": "npm:@snazzah/davey@0.1.11",
+    "discord.js": "npm:discord.js@14.26.4",
+    "distube": "npm:distube@5.2.3",
+    "duration-to-seconds": "npm:duration-to-seconds@2.0.0",
+    "node-html-parser": "npm:node-html-parser@7.1.0",
+    "spotify-uri": "npm:spotify-uri@4.1.0",
+    "spotify-url-info": "npm:spotify-url-info@3.3.0",
+    "youtube-sr": "npm:youtube-sr@4.3.12"
+  },
+  "nodeModulesDir": "auto",
+  "exclude": ["dist/"]
+}

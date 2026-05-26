@@ -1,16 +1,16 @@
 import {
   ActionRowBuilder,
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
-  InteractionType,
-  StringSelectMenuBuilder,
-  StringSelectMenuInteraction,
-  SlashCommandBuilder,
   InteractionContextType,
+  InteractionType,
+  SlashCommandBuilder,
+  StringSelectMenuBuilder,
+  type StringSelectMenuInteraction,
 } from "discord.js";
 import { RepeatMode } from "distube";
-import player from "../player.js";
+import player from "../player.ts";
 
 const repeatModes = {
   off: RepeatMode.DISABLED,
@@ -33,11 +33,11 @@ export const data = new SlashCommandBuilder()
     option
       .setName("repeat")
       .setDescription("The repeat mode")
-      .addChoices(...repeatChoices),
+      .addChoices(...repeatChoices)
   )
   .setContexts(InteractionContextType.Guild);
 
-export const execute = async function (
+export const execute = function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
 ) {
   const queue = player.queues.get(interaction.guildId as string);
@@ -51,10 +51,9 @@ export const execute = async function (
     });
   }
 
-  const repeatMode =
-    interaction.type === InteractionType.ApplicationCommand
-      ? interaction.options.getString("repeat")
-      : interaction.values[0];
+  const repeatMode = interaction.type === InteractionType.ApplicationCommand
+    ? interaction.options.getString("repeat")
+    : interaction.values[0];
   if (repeatMode) {
     queue.setRepeatMode(repeatModes[repeatMode as RepeatModes]);
   }

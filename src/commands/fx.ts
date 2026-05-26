@@ -1,15 +1,15 @@
 import {
   ActionRowBuilder,
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
-  InteractionType,
-  StringSelectMenuBuilder,
-  StringSelectMenuInteraction,
-  SlashCommandBuilder,
   InteractionContextType,
+  InteractionType,
+  SlashCommandBuilder,
+  StringSelectMenuBuilder,
+  type StringSelectMenuInteraction,
 } from "discord.js";
-import player from "../player.js";
+import player from "../player.ts";
 
 const effectChoices = [
   { name: "bassboost", value: "bassboost" },
@@ -25,18 +25,18 @@ export const data = new SlashCommandBuilder()
     option
       .setName("effect")
       .setDescription("The audio effect to enable or disable")
-      .addChoices(...effectChoices),
+      .addChoices(...effectChoices)
   )
   .addBooleanOption((option) =>
     option
       .setName("disable")
       .setDescription(
         "Whether to turn off the audio effect or not (default: False)",
-      ),
+      )
   )
   .setContexts(InteractionContextType.Guild);
 
-export const execute = async function (
+export const execute = function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
 ) {
   const queue = player.queues.get(interaction.guildId as string);
@@ -50,14 +50,12 @@ export const execute = async function (
     });
   }
 
-  const filters =
-    interaction.type === InteractionType.ApplicationCommand
-      ? interaction.options.getString("effect")
-      : interaction.values;
-  const disable =
-    interaction.type === InteractionType.ApplicationCommand
-      ? interaction.options.getBoolean("disable")
-      : null;
+  const filters = interaction.type === InteractionType.ApplicationCommand
+    ? interaction.options.getString("effect")
+    : interaction.values;
+  const disable = interaction.type === InteractionType.ApplicationCommand
+    ? interaction.options.getBoolean("disable")
+    : null;
   if (filters == null && disable != null) {
     return interaction.reply({
       embeds: [

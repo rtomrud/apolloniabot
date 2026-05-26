@@ -1,19 +1,19 @@
 import {
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
   hyperlink,
   InteractionContextType,
   SlashCommandBuilder,
 } from "discord.js";
-import player from "../player.js";
+import player from "../player.ts";
 
 export const data = new SlashCommandBuilder()
   .setName("now")
   .setDescription("Show what's playing now")
   .setContexts(InteractionContextType.Guild);
 
-export const execute = async function (
+export const execute = function (
   interaction: ChatInputCommandInteraction,
 ) {
   const queue = player.queues.get(interaction.guildId as string);

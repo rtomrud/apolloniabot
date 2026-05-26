@@ -1,15 +1,15 @@
 import {
   ActionRowBuilder,
-  ChatInputCommandInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
-  InteractionType,
-  StringSelectMenuBuilder,
-  StringSelectMenuInteraction,
-  SlashCommandBuilder,
   InteractionContextType,
+  InteractionType,
+  SlashCommandBuilder,
+  StringSelectMenuBuilder,
+  type StringSelectMenuInteraction,
 } from "discord.js";
-import player from "../player.js";
+import player from "../player.ts";
 
 const speedChoices = [
   { name: "0.5", value: "0.5" },
@@ -28,11 +28,11 @@ export const data = new SlashCommandBuilder()
     option
       .setName("speed")
       .setDescription("The playback speed")
-      .addChoices(...speedChoices),
+      .addChoices(...speedChoices)
   )
   .setContexts(InteractionContextType.Guild);
 
-export const execute = async function (
+export const execute = function (
   interaction: ChatInputCommandInteraction | StringSelectMenuInteraction,
 ) {
   const queue = player.queues.get(interaction.guildId as string);
@@ -46,10 +46,9 @@ export const execute = async function (
     });
   }
 
-  const filter =
-    interaction.type === InteractionType.ApplicationCommand
-      ? interaction.options.getString("speed")
-      : interaction.values[0];
+  const filter = interaction.type === InteractionType.ApplicationCommand
+    ? interaction.options.getString("speed")
+    : interaction.values[0];
   if (filter != null) {
     const filters = queue.filters.names.filter(
       (filter) => !speedChoices.some(({ value }) => filter === value),
@@ -68,13 +67,12 @@ export const execute = async function (
         .setPlaceholder("1.0")
         .addOptions(
           speedChoices.map(({ name, value }) => ({
-            default:
-              queue.filters.has(value) ||
+            default: queue.filters.has(value) ||
               (value === "1.0" &&
                 speedChoices
-                  .map(({ value }) => value)
-                  .filter((speedFilter) => queue.filters.has(speedFilter))
-                  .length === 0),
+                    .map(({ value }) => value)
+                    .filter((speedFilter) => queue.filters.has(speedFilter))
+                    .length === 0),
             label: name,
             value,
           })),

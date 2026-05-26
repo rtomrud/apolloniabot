@@ -1,13 +1,13 @@
 import {
-  AutocompleteInteraction,
-  ChatInputCommandInteraction,
+  type AutocompleteInteraction,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
   hyperlink,
   InteractionContextType,
   SlashCommandBuilder,
 } from "discord.js";
-import player from "../player.js";
+import player from "../player.ts";
 
 export const data = new SlashCommandBuilder()
   .setName("move")
@@ -17,17 +17,17 @@ export const data = new SlashCommandBuilder()
       .setName("song")
       .setDescription("The name or position of the song to move")
       .setAutocomplete(true)
-      .setRequired(true),
+      .setRequired(true)
   )
   .addIntegerOption((option) =>
     option
       .setName("position")
       .setDescription("The position to move the song to")
-      .setRequired(true),
+      .setRequired(true)
   )
   .setContexts(InteractionContextType.Guild);
 
-export const autocomplete = async function (
+export const autocomplete = function (
   interaction: AutocompleteInteraction,
 ) {
   const songOption = interaction.options.getFocused();
@@ -47,10 +47,9 @@ export const autocomplete = async function (
 
   const songNumber = Number(songOption);
   if (Number.isInteger(songNumber)) {
-    const index =
-      songNumber < 0
-        ? Math.max(0, queue.songs.length + songNumber)
-        : songNumber - 1;
+    const index = songNumber < 0
+      ? Math.max(0, queue.songs.length + songNumber)
+      : songNumber - 1;
     const song = queue.songs[index];
     return interaction.respond([
       { name: `${index + 1}. ${song.name || ""}`, value: String(index + 1) },
@@ -59,7 +58,7 @@ export const autocomplete = async function (
 
   const songs = queue.songs
     .filter((song) =>
-      song.name?.toLowerCase().includes(songOption.toLowerCase()),
+      song.name?.toLowerCase().includes(songOption.toLowerCase())
     )
     .slice(0, 10)
     .map((song) => {
@@ -106,12 +105,12 @@ export const execute = async function (
     });
   }
 
-  const from =
-    songNumber < 0
-      ? Math.max(0, queue.songs.length + songNumber)
-      : songNumber - 1;
-  const to =
-    position < 0 ? Math.max(0, queue.songs.length + position) : position - 1;
+  const from = songNumber < 0
+    ? Math.max(0, queue.songs.length + songNumber)
+    : songNumber - 1;
+  const to = position < 0
+    ? Math.max(0, queue.songs.length + position)
+    : position - 1;
   queue.songs.splice(to, 0, queue.songs.splice(from, 1)[0]);
   if (from === 0 || to === 0) {
     queue.songs.unshift(queue.songs[0]);
@@ -122,7 +121,9 @@ export const execute = async function (
   return interaction.reply({
     embeds: [
       new EmbedBuilder().setDescription(
-        `Moved ${hyperlink(song.name || song.url || "", song.url || "")} to position ${to + 1}`,
+        `Moved ${
+          hyperlink(song.name || song.url || "", song.url || "")
+        } to position ${to + 1}`,
       ),
     ],
   });
